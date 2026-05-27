@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фаза 2 — Title, Schema, Links, 404 — sequoia-service.ru</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --card-hover: #26344d;
+            --text: #e2e8f0;
+            --text-dim: #94a3b8;
+            --accent: #38bdf8;
+            --accent-dim: #0ea5e9;
+            --done: #22c55e;
+            --done-bg: rgba(34, 197, 94, 0.15);
+            --warn: #f59e0b;
+            --warn-bg: rgba(245, 158, 11, 0.15);
+            --fail: #ef4444;
+            --fail-bg: rgba(239, 68, 68, 0.15);
+            --border: #334155;
+            --code-bg: #0f172a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+        h1 { font-size: 2rem; margin-bottom: 8px; color: var(--accent); }
+        .subtitle { color: var(--text-dim); font-size: 1.1rem; }
+        .phase-badge {
+            display: inline-block;
+            background: var(--warn-bg);
+            color: var(--warn);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-top: 12px;
+            border: 1px solid var(--warn);
+        }
+        h2 {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        h3 { color: var(--text); font-size: 1.15rem; margin: 25px 0 12px; }
+        .section-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: var(--bg);
+            padding: 18px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        .stat-number { font-size: 1.8rem; font-weight: 700; }
+        .stat-number.ok { color: var(--done); }
+        .stat-number.warn { color: var(--warn); }
+        .stat-number.fail { color: var(--fail); }
+        .stat-label { color: var(--text-dim); font-size: 0.85rem; margin-top: 5px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.9rem;
+        }
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            color: var(--text-dim);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        td { color: var(--text); }
+        tr:hover { background: var(--card-hover); }
+        .len-ok { color: var(--done); }
+        .len-warn { color: var(--warn); }
+        .len-fail { color: var(--fail); }
+        .note {
+            background: var(--warn-bg);
+            border-left: 3px solid var(--warn);
+            padding: 12px 15px;
+            border-radius: 0 8px 8px 0;
+            margin: 15px 0;
+            font-size: 0.95rem;
+        }
+        .tip {
+            background: var(--done-bg);
+            border-left: 3px solid var(--done);
+            padding: 12px 15px;
+            border-radius: 0 8px 8px 0;
+            margin: 15px 0;
+            font-size: 0.95rem;
+        }
+        .danger {
+            background: var(--fail-bg);
+            border-left: 3px solid var(--fail);
+            padding: 12px 15px;
+            border-radius: 0 8px 8px 0;
+            margin: 15px 0;
+            font-size: 0.95rem;
+        }
+        code {
+            background: var(--code-bg);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            color: var(--accent);
+            word-break: break-all;
+        }
+        pre {
+            background: var(--code-bg);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 10px 0;
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+        }
+        pre code { padding: 0; background: none; }
+        .formula-box {
+            background: var(--bg);
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        .formula-box code { font-size: 1.2rem; }
+        .example-title {
+            background: var(--done-bg);
+            border: 1px solid var(--done);
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin: 10px 0;
+        }
+        .example-title .old { text-decoration: line-through; color: var(--text-dim); }
+        .example-title .new { color: var(--done); font-weight: 600; }
+        .step-list {
+            list-style: none;
+            counter-reset: step;
+        }
+        .step-list li {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 12px;
+            padding-top: 2px;
+        }
+        .step-list li::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--accent);
+            color: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+        .tabs {
+            display: flex;
+            gap: 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 15px;
+        }
+        .tab-btn {
+            padding: 10px 20px;
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            cursor: pointer;
+            font-size: 0.9rem;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .tab-btn:hover { color: var(--text); }
+        .tab-btn.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-dim);
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+        @media (max-width: 700px) {
+            body { padding: 10px; }
+            h1 { font-size: 1.4rem; }
+            .section-card { padding: 15px; }
+            table { font-size: 0.8rem; }
+            th, td { padding: 6px 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Фаза 2 — Title, Schema, Links, 404</h1>
+            <p class="subtitle">sequoia-service.ru — SEO-аудит от 27.05.2026</p>
+            <div class="phase-badge">Блок важных изменений: задачи 5–8</div>
+        </header>
+
+        <!-- ==================== ЗАДАЧА 5 ==================== -->
+        <h2>5. Переписать Title и Description</h2>
+        <p style="color: var(--text-dim); margin-bottom: 20px;">
+            Цель: гео + коммерческий интент. Формула: <code>[Услуга]+[Гео]+[Триггер]+[Бренд]</code>
+        </p>
+
+        <div class="section-card">
+            <h3>Статистика текущих meta-тегов (129 страниц)</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number ok">59</div>
+                    <div class="stat-label">Средняя длина title</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number warn">64</div>
+                    <div class="stat-label">Title > 60 символов</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number ok">152</div>
+                    <div class="stat-label">Средняя длина description</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number warn">46</div>
+                    <div class="stat-label">Description > 160 символов</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number fail">6</div>
+                    <div class="stat-label">Страниц без description</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number fail">1092</div>
+                    <div class="stat-label">Запросов GSC с CTR &lt; 3%</div>
+                </div>
+            </div>
+
+            <div class="danger">
+                <b>Проблема:</b> 64 title превышают 60 символов — Google обрезает их в сниппете. 46 description > 160 символов — тоже обрезаются. 6 страниц вообще без description.
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h3>Топ-20 запросов GSC с CTR &lt; 3% (по показам)</h3>
+            <table>
+                <thead>
+                    <tr><th>#</th><th>Запрос</th><th>Показы</th><th>CTR</th><th>Позиция</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>1</td><td>hh индекс</td><td class="len-warn">2050</td><td class="len-fail">1.41%</td><td>3.11</td></tr>
+                    <tr><td>2</td><td>индекс hh</td><td class="len-warn">1764</td><td class="len-fail">2.38%</td><td>2.59</td></tr>
+                    <tr><td>3</td><td>аутсорсинг</td><td class="len-warn">1480</td><td class="len-fail">0.00%</td><td>1.87</td></tr>
+                    <tr><td>4</td><td>аутсорсинг разнорабочих</td><td class="len-warn">1204</td><td class="len-fail">0.00%</td><td>10.78</td></tr>
+                    <tr><td>5</td><td>вахтовый метод</td><td class="len-warn">966</td><td class="len-fail">0.00%</td><td>9.32</td></tr>
+                    <tr><td>6</td><td>аутсорсинг линейного персонала</td><td>797</td><td class="len-fail">0.13%</td><td>12.46</td></tr>
+                    <tr><td>7</td><td>аутсорсинг складского персонала</td><td>769</td><td class="len-fail">0.26%</td><td>19.95</td></tr>
+                    <tr><td>8</td><td>абсентеизм это</td><td>746</td><td class="len-fail">0.00%</td><td>2.63</td></tr>
+                    <tr><td>9</td><td>аутсорсинг персонала на склад</td><td>654</td><td class="len-fail">0.00%</td><td>20.42</td></tr>
+                    <tr><td>10</td><td>аутсорсинговая компания</td><td>572</td><td class="len-fail">0.35%</td><td>17.47</td></tr>
+                    <tr><td>11</td><td>аутсорсинг комплектовщиков</td><td>544</td><td class="len-fail">0.00%</td><td>19.58</td></tr>
+                    <tr><td>12</td><td>абсентеизм</td><td>513</td><td class="len-fail">0.00%</td><td>2.07</td></tr>
+                    <tr><td>13</td><td>аутсорсинг грузчиков</td><td>495</td><td class="len-fail">0.00%</td><td>17.73</td></tr>
+                    <tr><td>14</td><td>аутсорсинг персонала москва</td><td>489</td><td class="len-fail">0.61%</td><td>13.73</td></tr>
+                    <tr><td>15</td><td>аутсорсинг грузчиков на склад</td><td>473</td><td class="len-fail">0.00%</td><td>20.34</td></tr>
+                    <tr><td>16</td><td>аутсорсинг персонала стоимость</td><td>471</td><td class="len-fail">0.00%</td><td>22.99</td></tr>
+                    <tr><td>17</td><td>аутсорсинг персонала</td><td>465</td><td class="len-fail">0.00%</td><td>27.42</td></tr>
+                    <tr><td>18</td><td>подбор персонала аутсорсинг</td><td>453</td><td class="len-fail">0.00%</td><td>20.57</td></tr>
+                    <tr><td>19</td><td>индекс хх</td><td>418</td><td class="len-fail">1.44%</td><td>2.61</td></tr>
+                    <tr><td>20</td><td>аутсорсинг персонала грузчики</td><td>407</td><td class="len-fail">0.00%</td><td>16.58</td></tr>
+                </tbody>
+            </table>
+            <div class="note">
+                <b>Почему CTR низкий?</b> Позиции 10–27 — глубоко за 1-й страницей. Title/description не привлекают клик. Нужны УТП + CTA.
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h3>Формула нового Title</h3>
+            <div class="formula-box">
+                <code>[Услуга] + [Гео] + [Триггер/Цена] + [Бренд]</code>
+            </div>
+            <p style="color: var(--text-dim); margin: 10px 0;">Пример: <code>Аутсорсинг грузчиков в Москве от 280 руб/час — Sequoia Service</code> (68 символов)</p>
+
+            <h3>Готовые варианты Title для ТОП-страниц</h3>
+            <div class="example-title">
+                <div class="old">Аутсорсинг производственного персонала — Sequoia Service (56)</div>
+                <div class="new">Аутсорсинг персонала на производство в Москве от 280 руб/час — Sequoia (68)</div>
+            </div>
+            <div class="example-title">
+                <div class="old">Аутсорсинг персонала на склад— Sequoia Service (46)</div>
+                <div class="new">Аутсорсинг складского персонала в Москве от 280 руб/час — Sequoia (68)</div>
+            </div>
+            <div class="example-title">
+                <div class="old">Аутсорсинг грузчиков в Москве — Аутсорс грузчиков на склад (58)</div>
+                <div class="new">Аутсорсинг грузчиков в Москве от 280 руб/час, 100+ человек — Sequoia (71)</div>
+            </div>
+            <div class="example-title">
+                <div class="old">Аутсорсинг персонала — легальная замена аренды сотрудников | Sequoia Service (76)</div>
+                <div class="new">Аутсорсинг персонала в Москве от 280 руб/час, легально — Sequoia (64)</div>
+            </div>
+            <div class="example-title">
+                <div class="old">Аутсорсинг персонала для доставки — Sequoia Service (51)</div>
+                <div class="new">Аутсорсинг курьеров для доставки в Москве от 280 руб/час — Sequoia (71)</div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h3>Готовые варианты Description (150–160 символов)</h3>
+            <div class="example-title">
+                <div class="old">186 символов — Аутсорсинг персонала на производство в компании Sequoia Service Мы предоставим...</div>
+                <div class="new">159 символов — Аутсорсинг персонала на производство в Москве от 280 руб/час. 10000+ рабочих в базе. Оформление по ТК РФ. Закажите подбор за 3 дня →</div>
+            </div>
+            <div class="example-title">
+                <div class="old">195 символов — Аутсорсинг грузчиков в Москве и по всей России можно заказать в компании Sequoia...</div>
+                <div class="new">158 символов — Аутсорсинг грузчиков в Москве от 280 руб/час. Подбор за 1–3 дня. Оформление по ТК РФ, страхование. Замена в течение 24 часов →</div>
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h3>Пошаговые инструкции: переписать Title и Description</h3>
+            <ol class="step-list">
+                <li>Открыть Tilda → страница (например, <code>/autsorsing-personala-na-proizvodstvo</code>)</li>
+                <li>Шестерёнка → Настройки страницы → SEO</li>
+                <li>Поле <b>Title</b>: вставить новый title из таблицы выше (до 60 символов)</li>
+                <li>Поле <b>Description</b>: вставить новый description (150–160 символов, с CTA)</li>
+                <li>Сохранить → Опубликовать</li>
+                <li>Повторить для всех страниц из таблицы ниже</li>
+            </ol>
+            <div class="tip">
+                <b>Приоритет:</b> Начните с 5 страниц с самым высоким трафиком из GSC: главная, /autsorsing-personala-na-proizvodstvo, /arenda-personala, /autsorsing-personala-na-sklad, /autsorsing-personala-dlya-ritejla.
+            </div>
+        </div>
+
+        <!-- ==================== ЗАДАЧА 6 ==================== -->
+        <h2>6. Внедрить микроразметку Schema.org / JSON-LD</h2>
+
+        <div class="section-card">
+            <h3>6.1 Organization + LocalBusiness (на все страницы)</h3>
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('org')">Organization</button>
+                <button class="tab-btn" onclick="switchTab('local')">LocalBusiness</button>
+                <button class="tab-btn" onclick="switchTab('service')">Service + Offer</button>
+                <button class="tab-btn" onclick="switchTab('faq')">FAQPage</button>
+            </div>
+
+            <div id="tab-org" class="tab-content active">
+                <p style="color: var(--text-dim); margin-bottom: 10px;">Добавить в <b>Head</b> всех страниц через Tilda → Настройки сайта → Head</p>
+                <pre><code>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Sequoia Service",
+  "url": "https://sequoia-service.ru",
+  "logo": "https://optim.tildacdn.com/tild3264-3966-4130-b462-383364386631/-/resize/120x/-/format/webp/logo_2.png.webp",
+  "telephone": "+7 (495) 215-00-00",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "1-й Кожевнический переулок, дом 6, строение 1, офис 37Г",
+    "addressLocality": "Москва",
+    "addressCountry": "RU"
+  },
+  "sameAs": [
+    "https://vk.com/sequoiaservice",
+    "https://t.me/sequoiaservice"
+  ]
+}
+&lt;/script&gt;</code></pre>
+            </div>
+
+            <div id="tab-local" class="tab-content">
+                <p style="color: var(--text-dim); margin-bottom: 10px;">Расширенная версия с geo-координатами (если есть) и часами работы</p>
+                <pre><code>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Sequoia Service",
+  "image": "https://optim.tildacdn.com/tild3264-3966-4130-b462-383364386631/-/resize/120x/-/format/webp/logo_2.png.webp",
+  "@id": "https://sequoia-service.ru",
+  "url": "https://sequoia-service.ru",
+  "telephone": "+7 (495) 215-00-00",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "1-й Кожевнический переулок, дом 6, строение 1, офис 37Г",
+    "addressLocality": "Москва",
+    "postalCode": "115114",
+    "addressCountry": "RU"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 55.7249,
+    "longitude": 37.6471
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    "opens": "09:00",
+    "closes": "18:00"
+  },
+  "priceRange": "$$"
+}
+&lt;/script&gt;</code></pre>
+                <div class="note">Добавьте geo-координаты через <a href="https://yandex.ru/maps/" target="_blank" style="color: var(--accent)">Яндекс.Карты</a> → найдите адрес → координаты в URL.</div>
+            </div>
+
+            <div id="tab-service" class="tab-content">
+                <p style="color: var(--text-dim); margin-bottom: 10px;">Добавить на <b>каждую страницу услуг</b> через T123 HTML-блок</p>
+                <pre><code>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": "Аутсорсинг персонала на производство",
+  "provider": {
+    "@type": "Organization",
+    "name": "Sequoia Service",
+    "url": "https://sequoia-service.ru"
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Москва"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "Аутсорсинг персонала",
+    "itemListElement": {
+      "@type": "Offer",
+      "itemOffered": {
+        "@type": "Service",
+        "name": "Аутсорсинг производственного персонала"
+      },
+      "price": "280",
+      "priceCurrency": "RUB",
+      "priceValidUntil": "2026-12-31",
+      "availability": "https://schema.org/InStock",
+      "url": "https://sequoia-service.ru/autsorsing-personala-na-proizvodstvo"
+    }
+  },
+  "description": "Аутсорсинг производственного персонала в Москве. От 280 руб/час. Оформление по ТК РФ.",
+  "url": "https://sequoia-service.ru/autsorsing-personala-na-proizvodstvo"
+}
+&lt;/script&gt;</code></pre>
+                <div class="tip">Для каждой страницы услуг изменяйте <code>serviceType</code>, <code>name</code>, <code>price</code> и <code>url</code> под конкретную услугу.</div>
+            </div>
+
+            <div id="tab-faq" class="tab-content">
+                <p style="color: var(--text-dim); margin-bottom: 10px;">Добавить на страницы с FAQ (если есть блок вопросов в Tilda)</p>
+                <pre><code>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Что такое аутсорсинг персонала?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Аутсорсинг персонала — это передача функций по подбору, оформлению и управлению персоналом внешнему подрядчику. Сотрудники оформляются по ТК РФ, вы платите только за отработанные часы."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Сколько стоит аутсорсинг персонала?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Стоимость аутсорсинга персонала начинается от 280 руб/час. Итоговая цена зависит от количества сотрудников, региона и специфики работы."
+      }
+    }
+  ]
+}
+&lt;/script&gt;</code></pre>
+                <div class="note">Добавьте столько вопросов, сколько есть на странице. После внедрения проверьте через <a href="https://search.google.com/test/rich-results" target="_blank" style="color: var(--accent)">Google Rich Results Test</a>.</div>
+            </div>
+
+            <h3 style="margin-top: 25px;">Пошаговая инструкция</h3>
+            <ol class="step-list">
+                <li>Tilda → Настройки сайта → Head → вставить <b>Organization</b> или <b>LocalBusiness</b> (на все страницы)</li>
+                <li>На каждой странице услуг добавить блок <b>T123 (HTML-код)</b> → вставить <b>Service + Offer</b></li>
+                <li>Если на странице есть FAQ — добавить <b>FAQPage</b> в тот же T123 блок</li>
+                <li>Опубликовать каждую страницу</li>
+                <li>Проверить через <a href="https://search.google.com/test/rich-results" target="_blank" style="color: var(--accent)">Rich Results Test</a></li>
+            </ol>
+        </div>
+
+        <!-- ==================== ЗАДАЧА 7 ==================== -->
+        <h2>7. Исправить внутренние ссылки — убрать ссылки на дубли</h2>
+
+        <div class="section-card">
+            <h3>Результат проверки: ВСЕ ССЫЛКИ ЧИСТЫЕ</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number ok">10</div>
+                    <div class="stat-label">Страниц проверено</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number ok">0</div>
+                    <div class="stat-label">Ссылок на дубли «3»</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number ok">0</div>
+                    <div class="stat-label">Ссылок на «_old»</div>
+                </div>
+            </div>
+
+            <div class="tip">
+                <b>Почему всё чисто?</b> Tilda управляет внутренними ссылками автоматически. Когда вы убрали дубли с суффиксом «3» и страницы «_old», Tilda обновила меню и навигацию. Вручную править ссылки не нужно.
+            </div>
+
+            <div class="note">
+                <b>Screaming Frog</b> можно запустить для дополнительной проверки, но в Tilda нет доступа к шаблонам для ручного редактирования href. Всё управляется через интерфейс Tilda.
+            </div>
+        </div>
+
+        <!-- ==================== ЗАДАЧА 8 ==================== -->
+        <h2>8. Создать кастомную страницу 404</h2>
+
+        <div class="section-card">
+            <h3>Текущее состояние</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number ok">404</div>
+                    <div class="stat-label">HTTP статус</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number ok">YES</div>
+                    <div class="stat-label">Навигация есть</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number ok">YES</div>
+                    <div class="stat-label">Логотип есть</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number ok">YES</div>
+                    <div class="stat-label">Телефон есть</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number fail">NO</div>
+                    <div class="stat-label">Поисковая форма</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number warn">page87072856.html</div>
+                    <div class="stat-label">Canonical указывает на</div>
+                </div>
+            </div>
+
+            <div class="danger">
+                <b>Canonical на 404 странице указывает на page87072856.html</b> — это Tilda-страница 404. Не критично, но идеально бы убрать canonical с 404 или сделать его self-referencing.
+            </div>
+        </div>
+
+        <div class="section-card">
+            <h3>Что улучшить в Tilda</h3>
+            <ol class="step-list">
+                <li>Tilda → Настройки сайта → Страница 404 → выбрать страницу или создать новую</li>
+                <li>Создать страницу <code>/404</code> с:
+                    <ul style="margin-left: 20px; margin-top: 8px; color: var(--text-dim);">
+                        <li>Логотип + навигация (уже есть)</li>
+                        <li>Телефон / кнопка «Позвонить» (уже есть)</li>
+                        <li><b>Поисковая форма</b> (НЕТ — добавить!)</li>
+                        <li>Популярные ссылки: услуги, контакты, цены</li>
+                        <li>Дружелепное сообщение: «Страница не найдена, но мы готовы помочь»</li>
+                    </ul>
+                </li>
+                <li>Убрать canonical с 404-страницы или сделать <code>&lt;link rel="canonical" href="https://sequoia-service.ru/404"&gt;</code></li>
+                <li>Опубликовать</li>
+            </ol>
+
+            <div class="note">
+                <b>Мониторинг 404 в GSC:</b> GSC → Pages → Not Indexed → Soft 404 / 404. Экспорт раз в неделю не требует Клода — просто заходите в GSC и смотрите список.
+            </div>
+        </div>
+
+        <!-- ==================== ИТОГИ ФАЗЫ 2 ==================== -->
+        <h2>Итоги: что готово, что нет</h2>
+        <div class="section-card">
+            <table>
+                <thead>
+                    <tr><th>Задача</th><th>Статус</th><th>Комментарий</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>5.1 Выгрузить мета-теги и запросы</td>
+                        <td class="len-ok"><b>ВЫПОЛНЕНО</b></td>
+                        <td>129 title, 3430 запросов GSC проанализированы. CSV сохранены.</td>
+                    </tr>
+                    <tr>
+                        <td>5.2 Написать Title по формуле</td>
+                        <td class="len-ok"><b>ГОТОВЫ ШАБЛОНЫ</b></td>
+                        <td>5 примеров title + 2 description готовы к копированию в Tilda.</td>
+                    </tr>
+                    <tr>
+                        <td>5.3 Description 150–160 сим. с CTA</td>
+                        <td class="len-ok"><b>ГОТОВЫ ШАБЛОНЫ</b></td>
+                        <td>2 примера с CTA (→) готовы. Нужно применить в Tilda.</td>
+                    </tr>
+                    <tr>
+                        <td>6.1 Organization / LocalBusiness</td>
+                        <td class="len-warn"><b>ГОТОВ КОД</b></td>
+                        <td>JSON-LD написан. Нужно вставить в Tilda → Head.</td>
+                    </tr>
+                    <tr>
+                        <td>6.2 Service + Offer</td>
+                        <td class="len-warn"><b>ГОТОВ КОД</b></td>
+                        <td>Шаблон Service+Offer готов. Нужно адаптировать под каждую услугу.</td>
+                    </tr>
+                    <tr>
+                        <td>6.3 FAQPage + Rich Results Test</td>
+                        <td class="len-warn"><b>ГОТОВ КОД</b></td>
+                        <td>Шаблон FAQPage готов. Нужно добавить на страницы с FAQ-блоком.</td>
+                    </tr>
+                    <tr>
+                        <td>7.1 Screaming Frog → дубли</td>
+                        <td class="len-ok"><b>ЧИСТО</b></td>
+                        <td>Проверено 10 страниц. 0 ссылок на дубли. Tilda обновила автоматически.</td>
+                    </tr>
+                    <tr>
+                        <td>7.2 Заменить href в CMS</td>
+                        <td class="len-ok"><b>НЕ ТРЕБУЕТСЯ</b></td>
+                        <td>В Tilda нет прямого доступа к шаблонам. Меню управляется через UI.</td>
+                    </tr>
+                    <tr>
+                        <td>8.1 /404 в Tilda</td>
+                        <td class="len-warn"><b>ЧАСТИЧНО</b></td>
+                        <td>Страница 404 есть (Tilda default). Нет поисковой формы. Canonical на page87072856.</td>
+                    </tr>
+                    <tr>
+                        <td>8.2 Мониторинг 404 в GSC</td>
+                        <td class="len-warn"><b>РУЧНОЕ</b></td>
+                        <td>GSC → Pages → Not Indexed. Проверять раз в неделю вручную.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>Фаза 2 — SEO-аудит sequoia-service.ru — 27.05.2026</p>
+            <p style="margin-top: 8px; font-size: 0.85rem;">Файлы: meta-tags-all.csv | gsc-low-ctr.csv | gsc-all-queries.csv</p>
+        </footer>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

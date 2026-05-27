@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Action Plan v2 — sequoia-service.ru — 27.05.2026</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --card-hover: #26344d;
+            --text: #e2e8f0;
+            --text-dim: #94a3b8;
+            --accent: #38bdf8;
+            --accent-dim: #0ea5e9;
+            --done: #22c55e;
+            --done-bg: rgba(34, 197, 94, 0.15);
+            --fail: #ef4444;
+            --fail-bg: rgba(239, 68, 68, 0.15);
+            --warn: #f59e0b;
+            --warn-bg: rgba(245, 158, 11, 0.15);
+            --border: #334155;
+            --code-bg: #0f172a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+        header {
+            text-align: center;
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 30px;
+        }
+        h1 { font-size: 2rem; margin-bottom: 8px; color: var(--accent); }
+        .subtitle { color: var(--text-dim); font-size: 1.1rem; }
+        .badge-verified {
+            display: inline-block;
+            background: var(--done-bg);
+            color: var(--done);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 10px;
+            border: 1px solid var(--done);
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-dim));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .stat-card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border);
+        }
+        .stat-number { font-size: 2rem; font-weight: 700; color: var(--accent); }
+        .stat-label { color: var(--text-dim); font-size: 0.9rem; margin-top: 5px; }
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+            justify-content: center;
+        }
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            background: var(--card);
+            color: var(--text);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--accent);
+            color: var(--bg);
+            border-color: var(--accent);
+        }
+        .task-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .task-card:hover { border-color: var(--accent); }
+        .task-card.done { border-left: 4px solid var(--done); }
+        .task-card.partial { border-left: 4px solid var(--warn); }
+        .task-card.fail { border-left: 4px solid var(--fail); }
+        .task-header {
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            cursor: pointer;
+        }
+        .status-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-top: 2px;
+        }
+        .status-icon.done { background: var(--done); color: var(--bg); }
+        .status-icon.partial { background: var(--warn); color: var(--bg); }
+        .status-icon.fail { background: var(--fail); color: white; }
+        .task-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+            align-items: center;
+        }
+        .badge {
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .badge-urgent { background: var(--fail-bg); color: var(--fail); border: 1px solid var(--fail); }
+        .badge-high { background: var(--warn-bg); color: var(--warn); border: 1px solid var(--warn); }
+        .badge-medium { background: var(--done-bg); color: var(--done); border: 1px solid var(--done); }
+        .badge-phase { background: var(--card-hover); color: var(--text-dim); border: 1px solid var(--border); }
+        .badge-status-done { background: var(--done-bg); color: var(--done); border: 1px solid var(--done); }
+        .badge-status-partial { background: var(--warn-bg); color: var(--warn); border: 1px solid var(--warn); }
+        .badge-status-fail { background: var(--fail-bg); color: var(--fail); border: 1px solid var(--fail); }
+        .task-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .task-content.open { max-height: 2000px; }
+        .task-body {
+            padding: 0 20px 20px 63px;
+        }
+        .step-list {
+            list-style: none;
+            counter-reset: step;
+        }
+        .step-list li {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 12px;
+            padding-top: 2px;
+        }
+        .step-list li::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 28px;
+            height: 28px;
+            background: var(--accent);
+            color: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+        .note { background: var(--fail-bg); border-left: 3px solid var(--fail); padding: 12px 15px; border-radius: 0 8px 8px 0; margin: 15px 0; font-size: 0.95rem; }
+        .tip { background: var(--done-bg); border-left: 3px solid var(--done); padding: 12px 15px; border-radius: 0 8px 8px 0; margin: 15px 0; font-size: 0.95rem; }
+        .warn { background: var(--warn-bg); border-left: 3px solid var(--warn); padding: 12px 15px; border-radius: 0 8px 8px 0; margin: 15px 0; font-size: 0.95rem; }
+        code {
+            background: var(--code-bg);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'Fira Code', 'Consolas', monospace;
+            font-size: 0.9rem;
+            color: var(--accent);
+            word-break: break-all;
+        }
+        pre {
+            background: var(--code-bg);
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 10px 0;
+            border: 1px solid var(--border);
+        }
+        pre code { padding: 0; background: none; }
+        .expand-icon {
+            margin-left: auto;
+            transition: transform 0.2s;
+            color: var(--text-dim);
+            font-size: 1.2rem;
+        }
+        .expand-icon.open { transform: rotate(180deg); }
+        .delta-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        .delta-box h3 { color: var(--accent); margin-bottom: 12px; }
+        .delta-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); }
+        .delta-row:last-child { border-bottom: none; }
+        .delta-label { color: var(--text-dim); }
+        .delta-value { font-weight: 600; }
+        .delta-value.good { color: var(--done); }
+        .delta-value.bad { color: var(--fail); }
+        .delta-value.warn { color: var(--warn); }
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-dim);
+            border-top: 1px solid var(--border);
+            margin-top: 40px;
+        }
+        @media (max-width: 600px) {
+            body { padding: 10px; }
+            h1 { font-size: 1.5rem; }
+            .task-header { padding: 15px; }
+            .task-body { padding: 0 15px 15px 58px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Action Plan v2 — sequoia-service.ru</h1>
+            <p class="subtitle">Delta-чекап от 27.05.2026. Повторный аудит через 1–2 часа.</p>
+            <div class="badge-verified">Все проверки — прямые HTTP-запросы, без кеша</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 9%"></div>
+            </div>
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" style="color: var(--done);">1</div>
+                    <div class="stat-label">Выполнено</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="color: var(--warn);">1</div>
+                    <div class="stat-label">Частично</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="color: var(--fail);">6</div>
+                    <div class="stat-label">Не готово</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="color: var(--text-dim);">3</div>
+                    <div class="stat-label">Непроверяемо</div>
+                </div>
+            </div>
+        </header>
+
+        <div class="delta-box">
+            <h3>Что изменилось (факт)</h3>
+            <div class="delta-row">
+                <span class="delta-label">Canonical /cases</span>
+                <span class="delta-value good">Исправлен (был текст keywords → стал URL)</span>
+            </div>
+            <div class="delta-row">
+                <span class="delta-label">sitemap-store.xml</span>
+                <span class="delta-value good">Пустой (товары убраны)</span>
+            </div>
+            <div class="delta-row">
+                <span class="delta-label">robots.txt</span>
+                <span class="delta-value warn">Всё ещё ссылается на sitemap-store.xml</span>
+            </div>
+            <div class="delta-row">
+                <span class="delta-label">Все 129 canonical</span>
+                <span class="delta-value good">129/129 OK (self-referencing)</span>
+            </div>
+            <div class="delta-row">
+                <span class="delta-label">Мусорные URL</span>
+                <span class="delta-value good">Все 404 (9/9 проверено)</span>
+            </div>
+            <div class="delta-row">
+                <span class="delta-label">spb JSON-LD</span>
+                <span class="delta-value bad">Не добавлен (0 скриптов)</span>
+            </div>
+            <div class="delta-row">
+                <span class="delta-label">spb служебные page*.html</span>
+                <span class="delta-value bad">Всё ещё в sitemap</span>
+            </div>
+        </div>
+
+        <div class="filters">
+            <button class="filter-btn active" data-filter="all" onclick="filterTasks('all')">Все</button>
+            <button class="filter-btn" data-filter="done" onclick="filterTasks('done')">Готово</button>
+            <button class="filter-btn" data-filter="fail" onclick="filterTasks('fail')">Не готово</button>
+            <button class="filter-btn" data-filter="manual" onclick="filterTasks('manual')">Ручное</button>
+        </div>
+
+        <div id="tasksContainer"></div>
+
+        <footer>
+            <p>Delta-чекап выполнен 27.05.2026. Файл: <code>SEO-CHECKUP-27.05.2026.md</code></p>
+            <p style="margin-top: 8px; font-size: 0.85rem;">Ключевое открытие: canonical полностью исправлен — 129/129 OK.</p>
+        </footer>
+    </div>
+
+    <script>
+        const tasks = [
+            {
+                id: 1,
+                title: "Исправить canonical на /cases",
+                phase: "Сегодня",
+                priority: "urgent",
+                status: "done",
+                statusText: "ВЫПОЛНЕНО — проверено",
+                desc: "Пользователь исправил canonical в Tilda. Повторная проверка подтвердила: теперь canonical = корректный URL.",
+                steps: [
+                    "<b>Проверка:</b> curl → <code>https://sequoia-service.ru/cases</code>",
+                    "<b>Результат:</b> <code>rel=\"canonical\" href=\"https://sequoia-service.ru/cases\"</code>",
+                    "<b>До:</b> <code>кейсы аутсорсинга персонала, примеры...</code> (текст keywords)",
+                    "<b>После:</b> <code>https://sequoia-service.ru/cases</code> (нормальный URL)"
+                ],
+                tip: "Задача закрыта. Никаких дополнительных действий не требуется."
+            },
+            {
+                id: 2,
+                title: "Убрать sitemap-store.xml из robots.txt",
+                phase: "Сегодня",
+                priority: "urgent",
+                status: "partial",
+                statusText: "ЧАСТИЧНО — файл пустой, но строка в robots.txt осталась",
+                desc: "sitemap-store.xml теперь пустой (тестовые товары убраны), но в robots.txt всё ещё указана ссылка на него.",
+                steps: [
+                    "<b>Проверка sitemap-store.xml:</b> curl → пустой <code>&lt;urlset&gt;&lt;/urlset&gt;</code>",
+                    "<b>Проверка robots.txt:</b> строка <code>Sitemap: https://sequoia-service.ru/sitemap-store.xml</code> ВСЁ ЕЩЁ там",
+                    "<b>Действие:</b> Tilda → Настройки сайта → SEO → robots.txt → удалить эту строку"
+                ],
+                warn: "Файл пустой — мусора нет. Но для чистоты лучше убрать строку из robots.txt."
+            },
+            {
+                id: 3,
+                title: "Переотправить sitemap в GSC",
+                phase: "Сегодня",
+                priority: "urgent",
+                status: "manual",
+                statusText: "НЕПРОВЕРЯЕМО — ручное действие в GSC",
+                desc: "Требуется зайти в Google Search Console и нажать \"Повторно отправить\" для sitemap.xml.",
+                steps: [
+                    "Открыть <a href=\"https://search.google.com/search-console\" target=\"_blank\" style=\"color: var(--accent)\">GSC</a>",
+                    "Выбрать <code>sc-domain:sequoia-service.ru</code>",
+                    "Sitemaps → ввести <code>sitemap.xml</code> → Отправить / Повторно отправить",
+                    "Дождаться статуса \"Успешно\" (1–3 дня)"
+                ],
+                note: "Это действие нельзя проверить автоматически. Только пользователь знает, сделал ли он это."
+            },
+            {
+                id: 4,
+                title: "Запросить удаление 6 мусорных URL из индекса Google",
+                phase: "Сегодня",
+                priority: "urgent",
+                status: "manual",
+                statusText: "НЕПРОВЕРЯЕМО — ручное действие в GSC",
+                desc: "Все 6 URL + 3 служебных page630*.html отдают 404. Но для ускорения удаления из индекса нужно запросить Removals.",
+                steps: [
+                    "GSC → Удаление → Новый запрос для каждого URL:",
+                    "  • <code>/autsorsing-personala-dlya-dostavki3</code>",
+                    "  • <code>/page120678826.html</code>",
+                    "  • <code>/page120678836.html</code>",
+                    "  • <code>/page120678846.html</code>",
+                    "  • <code>/page120678896.html</code>",
+                    "  • <code>/page121636816.html</code>",
+                    "Выбрать \"Удалить только этот URL\" → Подтвердить"
+                ],
+                note: "Автоматическая проверка: все URL отдают 404. Но Removals — это ручное действие в GSC."
+            },
+            {
+                id: 5,
+                title: "Добавить spb.sequoia-service.ru в GSC",
+                phase: "Неделя",
+                priority: "high",
+                status: "fail",
+                statusText: "НЕ ВЫПОЛНЕНО — проверено",
+                desc: "Повторная проверка через GSC API вернула ошибку: User does not have sufficient permission. Поддомен не добавлен.",
+                steps: [
+                    "<b>Проверка:</b> GSC API → <code>https://spb.sequoia-service.ru</code>",
+                    "<b>Результат:</b> <code>Error: User does not have sufficient permission for site</code>",
+                    "<b>Вывод:</b> Поддомен не добавлен в GSC",
+                    "<b>Действие:</b> GSC → Добавить ресурс → Префикс URL → <code>https://spb.sequoia-service.ru</code>"
+                ],
+                note: "Google видит поддомен (80 кликов в данных основного домена), но он не добавлен как отдельный ресурс."
+            },
+            {
+                id: 6,
+                title: "Убрать служебные страницы из sitemap spb",
+                phase: "Неделя",
+                priority: "high",
+                status: "fail",
+                statusText: "НЕ ВЫПОЛНЕНО — проверено",
+                desc: "В sitemap поддомена всё ещё присутствуют служебные страницы.",
+                steps: [
+                    "<b>Проверка:</b> curl → <code>https://spb.sequoia-service.ru/sitemap.xml</code>",
+                    "<b>Результат:</b> <code>page63120101.html</code> (Футер) и <code>page63120127.html</code> (Меню) ВСЁ ЕЩЁ в sitemap",
+                    "<b>Действие:</b> Tilda → проект spb → Страницы → Настройки → SEO → \"Не индексировать\""
+                ],
+                note: "Страницы <code>page121917206.html</code> и <code>page122205596.html</code> — нормальные услуги, их НЕ трогать."
+            },
+            {
+                id: 7,
+                title: "Добавить JSON-LD Organization schema на spb",
+                phase: "Неделя",
+                priority: "high",
+                status: "fail",
+                statusText: "НЕ ВЫПОЛНЕНО — проверено",
+                desc: "Проверка главной страницы spb: 0 скриптов application/ld+json.",
+                steps: [
+                    "<b>Проверка:</b> curl → <code>https://spb.sequoia-service.ru/</code> → grep JSON-LD",
+                    "<b>Результат:</b> 0 скриптов <code>application/ld+json</code>",
+                    "<b>Действие:</b> Tilda → spb → Настройки сайта → Head → вставить Organization schema"
+                ],
+                note: "Основной домен имеет Organization schema (Tilda добавляет автоматически). Поддомен — отдельный сайт."
+            },
+            {
+                id: 8,
+                title: "Расследовать падение \"секвойя сервис\"",
+                phase: "Неделя",
+                priority: "high",
+                status: "fail",
+                statusText: "НЕ ВЫПОЛНЕНО — данные не изменились",
+                desc: "Позиция по брендовому запросу продолжает падать: 3.06 (90 дн.) → 5.37 (30 дн.).",
+                steps: [
+                    "<b>GSC данные:</b> 30 дней = позиция 5.37, 44 клика",
+                    "<b>GSC данные:</b> 90 дней = позиция 3.06, 111 кликов",
+                    "<b>Тренд:</b> ухудшение. Нужно действовать.",
+                    "<b>Шаг 1:</b> GSC → Security & Manual Actions — проверить санкции",
+                    "<b>Шаг 2:</b> Поискать в Google <code>секвойя сервис</code> — кто на позициях 1–5?",
+                    "<b>Шаг 3:</b> Проверить PageSpeed Insights для главной"
+                ],
+                warn: "Запрос с опечаткой <code>секвоя сервис</code> ранжируется на 1.66 — домен авторитетен. Проблема только с точным написанием."
+            },
+            {
+                id: 9,
+                title: "Добавить Service schema на ключевые страницы услуг",
+                phase: "Месяц",
+                priority: "medium",
+                status: "fail",
+                statusText: "НЕ ВЫПОЛНЕНО",
+                desc: "На страницах услуг по-прежнему только Organization schema, без Service schema.",
+                steps: [
+                    "<b>Проверка:</b> curl → <code>/autsorsing-personala-na-proizvodstvo</code> → JSON-LD",
+                    "<b>Результат:</b> только Organization schema, Service отсутствует",
+                    "<b>Действие:</b> Добавить JSON-LD Service через T123 HTML-блок"
+                ],
+                note: "Коды для вставки — в файле <code>jsonld-service-schema-for-tilda.md</code>"
+            },
+            {
+                id: 10,
+                title: "Оптимизировать title/description",
+                phase: "Месяц",
+                priority: "medium",
+                status: "fail",
+                statusText: "НЕ ВЫПОЛНЕНО",
+                desc: "Desktop CTR 0.76% при 108,682 показах. Title/description не изменились.",
+                steps: [
+                    "Проанализировать текущие title — длина до 60 символов",
+                    "Добавить УТП: <code>от 280 руб/час</code>, <code>за 3 дня</code>",
+                    "Добавить CTA в description",
+                    "A/B тестировать через GSC"
+                ],
+                note: "Desktop позиция 11.77 — граница 1-й и 2-й страницы. Улучшение сниппета даст рост кликов."
+            },
+            {
+                id: 11,
+                title: "Добавить sameAs в Organization schema",
+                phase: "Месяц",
+                priority: "medium",
+                status: "fail",
+                statusText: "НЕ ВЫПОЛНЕНО",
+                desc: "sameAs всё ещё пустой массив [].",
+                steps: [
+                    "Проверить/создать соцсети: ВК, Telegram, LinkedIn",
+                    "Добавить sameAs в JSON-LD Organization schema",
+                    "Вставить через Tilda → Настройки сайта → Head"
+                ],
+                note: "sameAs помогает Google связать профили компании и может улучшить Knowledge Panel."
+            }
+        ];
+
+        function getStatusFilter(status) {
+            if (status === 'done') return 'done';
+            if (status === 'partial') return 'done';
+            if (status === 'fail') return 'fail';
+            if (status === 'manual') return 'manual';
+            return 'all';
+        }
+
+        function renderTasks(filter = 'all') {
+            const container = document.getElementById('tasksContainer');
+            container.innerHTML = '';
+
+            tasks.forEach(task => {
+                const taskFilter = getStatusFilter(task.status);
+                const shouldShow = filter === 'all' ||
+                    (filter === 'done' && (task.status === 'done' || task.status === 'partial')) ||
+                    (filter === 'fail' && task.status === 'fail') ||
+                    (filter === 'manual' && task.status === 'manual');
+
+                if (!shouldShow) return;
+
+                const cardClass = task.status === 'done' ? 'done' :
+                    task.status === 'partial' ? 'partial' : 'fail';
+                const icon = task.status === 'done' ? '✓' :
+                    task.status === 'partial' ? '◐' : '✕';
+
+                const priorityClass = task.priority === 'urgent' ? 'badge-urgent' :
+                    task.priority === 'high' ? 'badge-high' : 'badge-medium';
+                const priorityText = task.priority === 'urgent' ? 'Срочно' :
+                    task.priority === 'high' ? 'Высокий' : 'Средний';
+
+                const statusBadgeClass = task.status === 'done' ? 'badge-status-done' :
+                    task.status === 'partial' ? 'badge-status-partial' :
+                    task.status === 'manual' ? 'badge-status-partial' : 'badge-status-fail';
+
+                const card = document.createElement('div');
+                card.className = `task-card ${cardClass}`;
+                card.innerHTML = `
+                    <div class="task-header" onclick="toggleTask(${task.id})">
+                        <div class="status-icon ${cardClass}">${icon}</div>
+                        <div style="flex: 1;">
+                            <div style="font-weight: 600; font-size: 1.05rem; margin-bottom: 4px;">${task.title}</div>
+                            <div class="task-meta">
+                                <span class="badge ${priorityClass}">${priorityText}</span>
+                                <span class="badge badge-phase">${task.phase}</span>
+                                <span class="badge ${statusBadgeClass}">${task.statusText}</span>
+                            </div>
+                        </div>
+                        <span class="expand-icon" id="expand-${task.id}">&#9662;</span>
+                    </div>
+                    <div class="task-content" id="content-${task.id}">
+                        <div class="task-body">
+                            <p style="color: var(--text-dim); margin-bottom: 15px;">${task.desc}</p>
+                            ${task.note ? `<div class="note">${task.note}</div>` : ''}
+                            ${task.warn ? `<div class="warn">${task.warn}</div>` : ''}
+                            ${task.tip ? `<div class="tip">${task.tip}</div>` : ''}
+                            <ol class="step-list">
+                                ${task.steps.map(s => `<li>${s}</li>`).join('')}
+                            </ol>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleTask(id) {
+            const content = document.getElementById(`content-${id}`);
+            const expand = document.getElementById(`expand-${id}`);
+            content.classList.toggle('open');
+            expand.classList.toggle('open');
+        }
+
+        function filterTasks(filter) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === filter);
+            });
+            renderTasks(filter);
+        }
+
+        renderTasks();
+    </script>
+</body>
+</html>
