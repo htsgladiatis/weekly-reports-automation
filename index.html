@@ -382,6 +382,8 @@ let currentPeriod = 'all';
 
 function renderKPI(data) {
     const grid = document.getElementById('kpiGrid');
+    const isAll = data.length > 1;
+
     const totals = data.reduce((acc, w) => {
         acc.impressions += w.impressions;
         acc.clicks += w.clicks;
@@ -396,62 +398,49 @@ function renderKPI(data) {
     const avgCpc = totals.spend / totals.clicks;
     const avgCpa = totals.leads > 0 ? totals.spend / totals.leads : null;
     const avgCpl = totals.target > 0 ? totals.spend / totals.target : null;
-    const convLead = totals.leads / totals.clicks * 100;
-    const convTarget = totals.leads > 0 ? totals.target / totals.leads * 100 : 0;
 
-    const prevWeek = data.length > 1 ? data[data.length - 2] : null;
-    const currWeek = data[data.length - 1];
-
-    function change(curr, prev, inverse = false) {
-        if (!prev || prev === 0) return '<span class="kpi-change neutral">—</span>';
-        const diff = ((curr - prev) / prev * 100).toFixed(1);
-        const isUp = diff > 0;
-        const cls = inverse ? (isUp ? 'down' : 'up') : (isUp ? 'up' : 'down');
-        return `<span class="kpi-change ${cls}">${isUp ? '↑' : '↓'} ${Math.abs(diff)}%</span>`;
+    // For single week: compare with previous week
+    let prevWeek = null;
+    if (!isAll) {
+        const idx = weeks.findIndex(w => w.id === data[0].id);
+        if (idx > 0) prevWeek = weeks[idx - 1];
     }
+    const curr = data[data.length - 1];
 
-    grid.innerHTML = `
-        <div class="kpi-card">
-            <div class="kpi-label">Показы (всего)</div>
-            <div class="kpi-value">${fmt(totals.impressions)}</div>
-            ${data.length > 1 ? change(currWeek.impressions, prevWeek.impressions) : ''}
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Клики (всего)</div>
-            <div class="kpi-value">${fmt(totals.clicks)}</div>
-            ${data.length > 1 ? change(currWeek.clicks, prevWeek.clicks) : ''}
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Расход (всего)</div>
-            <div class="kpi-value">${rub(totals.spend)}</div>
-            ${data.length > 1 ? change(currWeek.spend, prevWeek.spend, true) : ''}
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Лиды (всего)</div>
-            <div class="kpi-value">${totals.leads}</div>
-            ${data.length > 1 ? change(currWeek.leads, prevWeek.leads) : ''}
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Целевые лиды</div>
-            <div class="kpi-value" style="color: var(--green)">${totals.target}</div>
-            ${data.length > 1 ? change(currWeek.target, prevWeek.target) : ''}
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Средний CTR</div>
-            <div class="kpi-value">${pct(avgCtr)}</div>
-            ${data.length > 1 ? change(currWeek.ctr, prevWeek.ctr) : ''}
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Средний CPA</div>
-            <div class="kpi-value">${avgCpa ? rub(avgCpa) : '—'}</div>
-            ${data.length > 1 && avgCpa ? change(currWeek.cpa, prevWeek.cpa, true) : ''}
-        </div>
-        <div class="kpi-card">
-            <div class="kpi-label">Средний CPL</div>
-            <div class="kpi-value">${avgCpl ? rub(avgCpl) : '—'}</div>
-            ${data.length > 1 && currWeek.cpl && prevWeek.cpl ? change(currWeek.cpl, prevWeek.cpl, true) : ''}
-        </div>
-    `;
+    // Build cards
+    const cards = [
+        { label: 'Показы', value: fmt(totals.impressions), curr: curr.impressions, prev: prevWeek ? prevWeek.impressions : null, inverse: false },
+        { label: 'Клики', value: fmt(totals.clicks), curr: curr.clicks, prev: prevWeek ? prevWeek.clicks : null, inverse: false },
+        { label: 'Расход', value: rub(totals.spend), curr: curr.spend, prev: prevWeek ? prevWeek.spend : null, inverse: true },
+        { label: 'Лиды', value: totals.leads, curr: curr.leads, prev: prevWeek ? prevWeek.leads : null, inverse: false },
+        { label: 'Целевые лиды', value: totals.target, curr: curr.target, prev: prevWeek ? prevWeek.target : null, inverse: false, color: 'var(--green)' },
+        { label: 'CTR', value: pct(avgCtr), curr: curr.ctr, prev: prevWeek ? prevWeek.ctr : null, inverse: false },
+        { label: 'CPA', value: avgCpa ? rub(avgCpa) : '—', curr: curr.cpa, prev: prevWeek ? prevWeek.cpa : null, inverse: true },
+        { label: 'CPL', value: avgCpl ? rub(avgCpl) : '—', curr: curr.cpl, prev: prevWeek ? prevWeek.cpl : null, inverse: true },
+    ];
+
+    grid.innerHTML = cards.map(c => {
+        let changeHtml = '';
+        if (c.prev && c.prev !== 0 && !isAll) {
+            const diff = ((c.curr - c.prev) / c.prev * 100).toFixed(1);
+            const isUp = diff > 0;
+            // Для CPA/CPL: рост = плохо (red), снижение = хорошо (green)
+            // Для остальных: рост = хорошо (green), снижение = плохо (red)
+            let cls;
+            if (c.inverse) {
+                cls = isUp ? 'down' : 'up';
+            } else {
+                cls = isUp ? 'up' : 'down';
+            }
+            changeHtml = `<span class="kpi-change ${cls}">${isUp ? '↑' : '↓'} ${Math.abs(diff)}%</span>`;
+        }
+        const colorStyle = c.color ? `style="color: ${c.color}"` : '';
+        return `<div class="kpi-card">
+            <div class="kpi-label">${c.label}</div>
+            <div class="kpi-value" ${colorStyle}>${c.value}</div>
+            ${changeHtml}
+        </div>`;
+    }).join('');
 }
 
 // ===== CHARTS =====
