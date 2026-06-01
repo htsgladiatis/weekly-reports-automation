@@ -331,7 +331,7 @@ ROWS = [
 ## 🔗 Ссылки
 
 - **Google Sheets**: https://docs.google.com/spreadsheets/d/1TMa7NMknshntaQE-Dgmr-Trjk3pQxvY_K1IyAYfjZ4A/
-- **Репозиторий**: https://github.com/[username]/weekly-reports-automation
+- **Репозиторий**: https://github.com/htsgladiatis/weekly-reports-automation
 
 ## 📄 Лицензия
 
