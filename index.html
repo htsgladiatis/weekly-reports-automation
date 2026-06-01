@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dune Group — Дашборд рекламы</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --bg: #0f1117;
+            --card: #1a1d27;
+            --border: #2a2d3a;
+            --text: #e4e4e7;
+            --muted: #71717a;
+            --accent: #6366f1;
+            --green: #22c55e;
+            --red: #ef4444;
+            --yellow: #eab308;
+            --blue: #3b82f6;
+            --purple: #a855f7;
+            --orange: #f97316;
+            --cyan: #06b6d4;
+        }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            padding: 24px;
+            min-height: 100vh;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .header .subtitle {
+            color: var(--muted);
+            font-size: 14px;
+        }
+        .period-selector {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .period-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: var(--card);
+            color: var(--text);
+            cursor: pointer;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .period-btn:hover { border-color: var(--accent); }
+        .period-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .kpi-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+        .kpi-label {
+            font-size: 12px;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .kpi-change {
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .kpi-change.up { color: var(--green); }
+        .kpi-change.down { color: var(--red); }
+        .kpi-change.neutral { color: var(--muted); }
+
+        /* Charts Grid */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+        .chart-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        .chart-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text);
+        }
+        .chart-container {
+            position: relative;
+            height: 280px;
+        }
+
+        /* Table */
+        .table-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            overflow-x: auto;
+            margin-bottom: 32px;
+        }
+        .table-card h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        th {
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 2px solid var(--border);
+            color: var(--muted);
+            font-weight: 600;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+        td {
+            padding: 10px 12px;
+            border-bottom: 1px solid var(--border);
+            white-space: nowrap;
+        }
+        tr:hover td { background: rgba(99, 102, 241, 0.05); }
+        .row-account td {
+            font-weight: 600;
+            background: rgba(99, 102, 241, 0.08);
+        }
+        .row-campaign td { color: var(--muted); }
+        .row-total td {
+            font-weight: 700;
+            font-size: 14px;
+            border-top: 2px solid var(--accent);
+        }
+        .row-channel td { font-weight: 600; }
+        .positive { color: var(--green); }
+        .negative { color: var(--red); }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            color: var(--muted);
+            font-size: 12px;
+            padding: 24px 0;
+            border-top: 1px solid var(--border);
+        }
+        .footer a { color: var(--accent); text-decoration: none; }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body { padding: 16px; }
+            .charts-grid { grid-template-columns: 1fr; }
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .kpi-value { font-size: 22px; }
+            .header h1 { font-size: 22px; }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .kpi-card, .chart-card, .table-card {
+            animation: fadeIn 0.4s ease-out both;
+        }
+        .kpi-card:nth-child(1) { animation-delay: 0.05s; }
+        .kpi-card:nth-child(2) { animation-delay: 0.1s; }
+        .kpi-card:nth-child(3) { animation-delay: 0.15s; }
+        .kpi-card:nth-child(4) { animation-delay: 0.2s; }
+        .kpi-card:nth-child(5) { animation-delay: 0.25s; }
+        .kpi-card:nth-child(6) { animation-delay: 0.3s; }
+        .kpi-card:nth-child(7) { animation-delay: 0.35s; }
+        .kpi-card:nth-child(8) { animation-delay: 0.4s; }
+
+        /* Tab content */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div>
+            <h1>📊 Dune Group — Рекламный дашборд</h1>
+            <div class="subtitle">Яндекс.Директ · 4 кабинета · Еженедельная аналитика</div>
+        </div>
+        <div class="period-selector">
+            <button class="period-btn active" onclick="showPeriod('all')">Все недели</button>
+            <button class="period-btn" onclick="showPeriod('w1')">04.05–10.05</button>
+            <button class="period-btn" onclick="showPeriod('w2')">11.05–17.05</button>
+            <button class="period-btn" onclick="showPeriod('w3')">18.05–24.05</button>
+            <button class="period-btn" onclick="showPeriod('w4')">25.05–31.05</button>
+        </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid" id="kpiGrid"></div>
+
+    <!-- Charts -->
+    <div class="charts-grid">
+        <div class="chart-card">
+            <h3>💰 Расход и лиды по неделям</h3>
+            <div class="chart-container"><canvas id="spendLeadsChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+            <h3>📈 Показы и клики по неделям</h3>
+            <div class="chart-container"><canvas id="impressionsClicksChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+            <h3>🎯 Эффективность: CTR и конверсия</h3>
+            <div class="chart-container"><canvas id="efficiencyChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+            <h3>💵 Стоимость лида (CPA / CPL)</h3>
+            <div class="chart-container"><canvas id="costChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+            <h3>🏢 Расход по кабинетам (всего)</h3>
+            <div class="chart-container"><canvas id="accountSpendChart"></canvas></div>
+        </div>
+        <div class="chart-card">
+            <h3>👥 Лиды по каналам (всего)</h3>
+            <div class="chart-container"><canvas id="channelLeadsChart"></canvas></div>
+        </div>
+    </div>
+
+    <!-- Data Table: Latest Week -->
+    <div class="table-card">
+        <h3>📋 Детализация за последнюю неделю (25.05–31.05)</h3>
+        <table id="detailTable"></table>
+    </div>
+
+    <!-- All Weeks Summary Table -->
+    <div class="table-card">
+        <h3>📊 Сводка по неделям</h3>
+        <table id="summaryTable"></table>
+    </div>
+
+    <div class="footer">
+        Dune Group · Автоматизация отчётов ·
+        <a href="https://github.com/htsgladiatis/weekly-reports-automation" target="_blank">GitHub</a> ·
+        <a href="https://docs.google.com/spreadsheets/d/1TMa7NMknshntaQE-Dgmr-Trjk3pQxvY_K1IyAYfjZ4A/" target="_blank">Google Sheets</a>
+    </div>
+
+<script>
+// ===== DATA =====
+const weeks = [
+    { id: 'w1', label: '04.05–10.05', short: '04.05',
+      impressions: 130701, clicks: 922, spend: 12486, leads: 5, target: 0,
+      ctr: 0.71, cpc: 14, cpa: 2497, cpl: null, convLead: 0.54, convTarget: 0,
+      seo: 39,
+      accounts: {
+        'e-20010227': { imp: 48704, clicks: 475, spend: 12242, leads: 5, target: 0 },
+        'e-17228851': { imp: 68377, clicks: 110, spend: 0, leads: 0, target: 0 },
+        'dune-group': { imp: 8095, clicks: 216, spend: 244, leads: 0, target: 0 },
+        'porg-3uieikjn': { imp: 5525, clicks: 121, spend: 0, leads: 0, target: 0 }
+      }
+    },
+    { id: 'w2', label: '11.05–17.05', short: '11.05',
+      impressions: 160986, clicks: 1531, spend: 20204, leads: 10, target: 6,
+      ctr: 0.95, cpc: 13, cpa: 2020, cpl: 3367, convLead: 0.65, convTarget: 60.0,
+      seo: 35,
+      accounts: {
+        'e-20010227': { imp: 68900, clicks: 1230, spend: 20204, leads: 9, target: 5 },
+        'e-17228851': { imp: 84570, clicks: 120, spend: 0, leads: 1, target: 1 },
+        'dune-group': { imp: 2933, clicks: 73, spend: 0, leads: 0, target: 0 },
+        'porg-3uieikjn': { imp: 4583, clicks: 108, spend: 0, leads: 0, target: 0 }
+      }
+    },
+    { id: 'w3', label: '18.05–24.05', short: '18.05',
+      impressions: 163328, clicks: 5927, spend: 35844, leads: 11, target: 11,
+      ctr: 3.63, cpc: 6, cpa: 3259, cpl: 3259, convLead: 0.19, convTarget: 100.0,
+      seo: 50,
+      accounts: {
+        'e-20010227': { imp: 55587, clicks: 1568, spend: 19179, leads: 6, target: 6 },
+        'e-17228851': { imp: 97059, clicks: 4032, spend: 16665, leads: 0, target: 0 },
+        'dune-group': { imp: 3491, clicks: 168, spend: 0, leads: 0, target: 0 },
+        'porg-3uieikjn': { imp: 7191, clicks: 159, spend: 0, leads: 0, target: 0 }
+      }
+    },
+    { id: 'w4', label: '25.05–31.05', short: '25.05',
+      impressions: 150146, clicks: 4465, spend: 28757, leads: 5, target: 2,
+      ctr: 2.97, cpc: 6, cpa: 5751, cpl: 14379, convLead: 0.11, convTarget: 40.0,
+      seo: 44,
+      accounts: {
+        'e-20010227': { imp: 67151, clicks: 2654, spend: 23022, leads: 5, target: 2 },
+        'e-17228851': { imp: 72942, clicks: 1463, spend: 5735, leads: 0, target: 0 },
+        'dune-group': { imp: 4350, clicks: 234, spend: 0, leads: 0, target: 0 },
+        'porg-3uieikjn': { imp: 5703, clicks: 114, spend: 0, leads: 0, target: 0 }
+      }
+    }
+];
+
+// Latest week detail data
+const latestDetail = [
+    { name: 'Итого', level: 'total', imp: null, clicks: null, ctr: null, cpc: null, leads: 5, conv: null, cpa: '5 751', target: 2, convT: null, cpl: '14 379', spend: '28 757' },
+    { name: 'Яндекс Директ', level: 'channel', imp: 150146, clicks: 4465, ctr: '2,97%', cpc: '6', leads: 5, conv: '0,11%', cpa: '5 751', target: 2, convT: '40,00%', cpl: '14 379', spend: '28 757' },
+    { name: 'e-20010227', level: 'account', imp: 67151, clicks: 2654, ctr: '3,95%', cpc: '9', leads: 5, conv: '0,19%', cpa: '4 604', target: 2, convT: '40,00%', cpl: '11 511', spend: '23 022' },
+    { name: '  МК ТК // Ремонт // remont.dune-group.ru', level: 'campaign', imp: 62073, clicks: 2213, ctr: '3,56%', cpc: '10', leads: 5, conv: '0,23%', cpa: '4 604', target: 2, convT: '40,00%', cpl: '11 511', spend: '23 022' },
+    { name: '  Поиск/РСЯ Главная // Март // CPA ЦЕЛЬ', level: 'campaign', imp: 2058, clicks: 146, ctr: '7,09%', cpc: '0', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '0' },
+    { name: '  Поиск/РСЯ доп.домен // Март // CPA ЦЕЛЬ', level: 'campaign', imp: 1921, clicks: 53, ctr: '2,76%', cpc: '0', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '0' },
+    { name: '  РСЯ // типовой ремонт // Синяя кухня', level: 'campaign', imp: 188, clicks: 14, ctr: '7,45%', cpc: '0', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '0' },
+    { name: '  Поиск/РСЯ Главная // Март // CPA ЦЕЛЬ (копия)', level: 'campaign', imp: 911, clicks: 28, ctr: '3,07%', cpc: '0', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '0' },
+    { name: '  Поиск // строительство (конкуренты)', level: 'campaign', imp: 0, clicks: 0, ctr: '0,00%', cpc: '0', leads: 0, conv: '—', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '0' },
+    { name: 'e-17228851', level: 'account', imp: 72942, clicks: 1463, ctr: '2,01%', cpc: '4', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '5 735' },
+    { name: '  МК // Строительство // CPA->в платку', level: 'campaign', imp: 34878, clicks: 1346, ctr: '3,86%', cpc: '4', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '5 735' },
+    { name: '  ЕПК // Ремонт // ФЦ remont.dune-group.ru', level: 'campaign', imp: 25241, clicks: 13, ctr: '0,05%', cpc: '0', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '0' },
+    { name: 'dune-group', level: 'account', imp: 4350, clicks: 234, ctr: '5,38%', cpc: '0', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '0' },
+    { name: '  ЕПК РСЯ Риелторы (сегмент+)', level: 'campaign', imp: 2674, clicks: 182, ctr: '6,81%', cpc: '0', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '0' },
+    { name: '  ЕПК РСЯ Риелторы (сегмент)', level: 'campaign', imp: 1686, clicks: 52, ctr: '3,08%', cpc: '0', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '0' },
+    { name: 'porg-3uieikjn', level: 'account', imp: 5703, clicks: 114, ctr: '2,00%', cpc: '0', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '0' },
+    { name: '  МК // Строительство // CPA (Ф)', level: 'campaign', imp: 4347, clicks: 64, ctr: '1,47%', cpc: '0', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '0' },
+    { name: '  МК // Строительство // CPA (Ф+ТГ)', level: 'campaign', imp: 1436, clicks: 50, ctr: '3,48%', cpc: '0', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '0' },
+    { name: 'SEO', level: 'channel', imp: null, clicks: 44, ctr: null, cpc: null, leads: 0, conv: null, cpa: '—', target: 0, convT: '—', cpl: '—', spend: '—' },
+    { name: 'Рекомендации', level: 'channel', imp: null, clicks: null, ctr: null, cpc: null, leads: 0, conv: null, cpa: '—', target: 0, convT: '—', cpl: '—', spend: '—' },
+];
+
+// ===== HELPERS =====
+function fmt(n) {
+    if (n === null || n === undefined) return '—';
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+function pct(n) {
+    if (n === null || n === undefined) return '—';
+    return n.toFixed(2) + '%';
+}
+function rub(n) {
+    if (n === null || n === undefined) return '—';
+    return 'р. ' + fmt(Math.round(n));
+}
+
+// ===== KPI =====
+let currentPeriod = 'all';
+
+function renderKPI(data) {
+    const grid = document.getElementById('kpiGrid');
+    const totals = data.reduce((acc, w) => {
+        acc.impressions += w.impressions;
+        acc.clicks += w.clicks;
+        acc.spend += w.spend;
+        acc.leads += w.leads;
+        acc.target += w.target;
+        acc.seo += w.seo;
+        return acc;
+    }, { impressions: 0, clicks: 0, spend: 0, leads: 0, target: 0, seo: 0 });
+
+    const avgCtr = totals.clicks / totals.impressions * 100;
+    const avgCpc = totals.spend / totals.clicks;
+    const avgCpa = totals.leads > 0 ? totals.spend / totals.leads : null;
+    const avgCpl = totals.target > 0 ? totals.spend / totals.target : null;
+    const convLead = totals.leads / totals.clicks * 100;
+    const convTarget = totals.leads > 0 ? totals.target / totals.leads * 100 : 0;
+
+    const prevWeek = data.length > 1 ? data[data.length - 2] : null;
+    const currWeek = data[data.length - 1];
+
+    function change(curr, prev, inverse = false) {
+        if (!prev || prev === 0) return '<span class="kpi-change neutral">—</span>';
+        const diff = ((curr - prev) / prev * 100).toFixed(1);
+        const isUp = diff > 0;
+        const cls = inverse ? (isUp ? 'down' : 'up') : (isUp ? 'up' : 'down');
+        return `<span class="kpi-change ${cls}">${isUp ? '↑' : '↓'} ${Math.abs(diff)}%</span>`;
+    }
+
+    grid.innerHTML = `
+        <div class="kpi-card">
+            <div class="kpi-label">Показы (всего)</div>
+            <div class="kpi-value">${fmt(totals.impressions)}</div>
+            ${data.length > 1 ? change(currWeek.impressions, prevWeek.impressions) : ''}
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Клики (всего)</div>
+            <div class="kpi-value">${fmt(totals.clicks)}</div>
+            ${data.length > 1 ? change(currWeek.clicks, prevWeek.clicks) : ''}
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Расход (всего)</div>
+            <div class="kpi-value">${rub(totals.spend)}</div>
+            ${data.length > 1 ? change(currWeek.spend, prevWeek.spend, true) : ''}
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Лиды (всего)</div>
+            <div class="kpi-value">${totals.leads}</div>
+            ${data.length > 1 ? change(currWeek.leads, prevWeek.leads) : ''}
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Целевые лиды</div>
+            <div class="kpi-value" style="color: var(--green)">${totals.target}</div>
+            ${data.length > 1 ? change(currWeek.target, prevWeek.target) : ''}
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Средний CTR</div>
+            <div class="kpi-value">${pct(avgCtr)}</div>
+            ${data.length > 1 ? change(currWeek.ctr, prevWeek.ctr) : ''}
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Средний CPA</div>
+            <div class="kpi-value">${avgCpa ? rub(avgCpa) : '—'}</div>
+            ${data.length > 1 && avgCpa ? change(currWeek.cpa, prevWeek.cpa, true) : ''}
+        </div>
+        <div class="kpi-card">
+            <div class="kpi-label">Средний CPL</div>
+            <div class="kpi-value">${avgCpl ? rub(avgCpl) : '—'}</div>
+            ${data.length > 1 && currWeek.cpl && prevWeek.cpl ? change(currWeek.cpl, prevWeek.cpl, true) : ''}
+        </div>
+    `;
+}
+
+// ===== CHARTS =====
+const chartDefaults = {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+        legend: { labels: { color: '#e4e4e7', font: { size: 12 } } },
+        tooltip: {
+            backgroundColor: '#1a1d27',
+            titleColor: '#e4e4e7',
+            bodyColor: '#e4e4e7',
+            borderColor: '#2a2d3a',
+            borderWidth: 1,
+            padding: 12,
+            cornerRadius: 8
+        }
+    },
+    scales: {
+        x: { ticks: { color: '#71717a' }, grid: { color: 'rgba(42,45,58,0.5)' } },
+        y: { ticks: { color: '#71717a' }, grid: { color: 'rgba(42,45,58,0.5)' } }
+    }
+};
+
+function initCharts(data) {
+    const labels = data.map(w => w.short);
+
+    // Spend & Leads
+    new Chart(document.getElementById('spendLeadsChart'), {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [
+                { label: 'Расход (₽)', data: data.map(w => w.spend), backgroundColor: 'rgba(99,102,241,0.7)', borderRadius: 6, yAxisID: 'y' },
+                { label: 'Лиды', data: data.map(w => w.leads), type: 'line', borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,0.1)', tension: 0.3, pointRadius: 6, pointBackgroundColor: '#22c55e', yAxisID: 'y1' },
+                { label: 'Целевые лиды', data: data.map(w => w.target), type: 'line', borderColor: '#eab308', backgroundColor: 'rgba(234,179,8,0.1)', tension: 0.3, pointRadius: 6, pointBackgroundColor: '#eab308', yAxisID: 'y1' }
+            ]
+        },
+        options: {
+            ...chartDefaults,
+            scales: {
+                ...chartDefaults.scales,
+                y: { ...chartDefaults.scales.y, position: 'left', title: { display: true, text: 'Расход (₽)', color: '#71717a' } },
+                y1: { ...chartDefaults.scales.y, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Лиды', color: '#71717a' } }
+            }
+        }
+    });
+
+    // Impressions & Clicks
+    new Chart(document.getElementById('impressionsClicksChart'), {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [
+                { label: 'Показы', data: data.map(w => w.impressions), backgroundColor: 'rgba(59,130,246,0.7)', borderRadius: 6, yAxisID: 'y' },
+                { label: 'Клики', data: data.map(w => w.clicks), type: 'line', borderColor: '#f97316', backgroundColor: 'rgba(249,115,22,0.1)', tension: 0.3, pointRadius: 6, pointBackgroundColor: '#f97316', yAxisID: 'y1' }
+            ]
+        },
+        options: {
+            ...chartDefaults,
+            scales: {
+                ...chartDefaults.scales,
+                y: { ...chartDefaults.scales.y, position: 'left', title: { display: true, text: 'Показы', color: '#71717a' } },
+                y1: { ...chartDefaults.scales.y, position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Клики', color: '#71717a' } }
+            }
+        }
+    });
+
+    // Efficiency: CTR & Conv
+    new Chart(document.getElementById('efficiencyChart'), {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [
+                { label: 'CTR %', data: data.map(w => w.ctr), borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,0.1)', tension: 0.3, pointRadius: 6, pointBackgroundColor: '#6366f1', fill: true },
+                { label: 'Конверсия в лид %', data: data.map(w => w.convLead), borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,0.1)', tension: 0.3, pointRadius: 6, pointBackgroundColor: '#22c55e', fill: true }
+            ]
+        },
+        options: chartDefaults
+    });
+
+    // Cost: CPA & CPL
+    new Chart(document.getElementById('costChart'), {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [
+                { label: 'CPA (₽)', data: data.map(w => w.cpa), borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', tension: 0.3, pointRadius: 6, pointBackgroundColor: '#ef4444', fill: true },
+                { label: 'CPL (₽)', data: data.map(w => w.cpl), borderColor: '#a855f7', backgroundColor: 'rgba(168,85,247,0.1)', tension: 0.3, pointRadius: 6, pointBackgroundColor: '#a855f7', fill: true }
+            ]
+        },
+        options: chartDefaults
+    });
+
+    // Account Spend (doughnut)
+    const totalByAccount = {};
+    data.forEach(w => {
+        Object.entries(w.accounts).forEach(([name, a]) => {
+            totalByAccount[name] = (totalByAccount[name] || 0) + a.spend;
+        });
+    });
+    new Chart(document.getElementById('accountSpendChart'), {
+        type: 'doughnut',
+        data: {
+            labels: Object.keys(totalByAccount),
+            datasets: [{
+                data: Object.values(totalByAccount),
+                backgroundColor: ['#6366f1', '#3b82f6', '#22c55e', '#f97316'],
+                borderColor: '#1a1d27',
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom', labels: { color: '#e4e4e7', padding: 16, font: { size: 12 } } },
+                tooltip: {
+                    backgroundColor: '#1a1d27',
+                    titleColor: '#e4e4e7',
+                    bodyColor: '#e4e4e7',
+                    borderColor: '#2a2d3a',
+                    borderWidth: 1,
+                    callbacks: { label: ctx => `${ctx.label}: ${rub(ctx.raw)}` }
+                }
+            }
+        }
+    });
+
+    // Channel Leads (doughnut)
+    const totalLeads = data.reduce((s, w) => s + w.leads, 0);
+    const seoLeads = data.reduce((s, w) => s + w.seo, 0);
+    const directLeads = totalLeads;
+    new Chart(document.getElementById('channelLeadsChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Яндекс.Директ', 'SEO', 'Рекомендации'],
+            datasets: [{
+                data: [directLeads, 0, 0],
+                backgroundColor: ['#6366f1', '#22c55e', '#f97316'],
+                borderColor: '#1a1d27',
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom', labels: { color: '#e4e4e7', padding: 16, font: { size: 12 } } },
+                tooltip: {
+                    backgroundColor: '#1a1d27',
+                    titleColor: '#e4e4e7',
+                    bodyColor: '#e4e4e7',
+                    borderColor: '#2a2d3a',
+                    borderWidth: 1
+                }
+            }
+        }
+    });
+}
+
+// ===== DETAIL TABLE =====
+function renderDetailTable() {
+    const table = document.getElementById('detailTable');
+    let html = `<thead><tr>
+        <th>Канал / Кампания</th><th>Показы</th><th>Клики</th><th>CTR</th><th>CPC</th>
+        <th>Лиды</th><th>Конв.</th><th>CPA</th><th>Ц.Лиды</th><th>Конв.ЦЛ</th><th>CPL</th><th>Расход</th>
+    </tr></thead><tbody>`;
+
+    latestDetail.forEach(r => {
+        const cls = r.level === 'total' ? 'row-total' : r.level === 'channel' ? 'row-channel' : r.level === 'account' ? 'row-account' : 'row-campaign';
+        html += `<tr class="${cls}">
+            <td>${r.name}</td><td>${fmt(r.imp)}</td><td>${fmt(r.clicks)}</td><td>${r.ctr || '—'}</td><td>${r.cpc || '—'}</td>
+            <td>${r.leads}</td><td>${r.conv || '—'}</td><td>${r.cpa}</td><td>${r.target}</td><td>${r.convT || '—'}</td><td>${r.cpl}</td><td>${r.spend}</td>
+        </tr>`;
+    });
+
+    html += '</tbody>';
+    table.innerHTML = html;
+}
+
+// ===== SUMMARY TABLE =====
+function renderSummaryTable() {
+    const table = document.getElementById('summaryTable');
+    let html = `<thead><tr>
+        <th>Неделя</th><th>Показы</th><th>Клики</th><th>CTR</th><th>CPC</th>
+        <th>Лиды</th><th>Ц.Лиды</th><th>CPA</th><th>CPL</th><th>Расход</th><th>SEO</th>
+    </tr></thead><tbody>`;
+
+    weeks.forEach(w => {
+        html += `<tr>
+            <td><strong>${w.label}</strong></td><td>${fmt(w.impressions)}</td><td>${fmt(w.clicks)}</td>
+            <td>${pct(w.ctr)}</td><td>${rub(w.cpc)}</td><td>${w.leads}</td><td style="color:var(--green)">${w.target}</td>
+            <td>${rub(w.cpa)}</td><td>${w.cpl ? rub(w.cpl) : '—'}</td><td>${rub(w.spend)}</td><td>${w.seo}</td>
+        </tr>`;
+    });
+
+    // Totals row
+    const t = weeks.reduce((a, w) => {
+        a.imp += w.impressions; a.clk += w.clicks; a.spend += w.spend;
+        a.leads += w.leads; a.target += w.target; a.seo += w.seo; return a;
+    }, { imp: 0, clk: 0, spend: 0, leads: 0, target: 0, seo: 0 });
+
+    html += `<tr class="row-total">
+        <td>ИТОГО</td><td>${fmt(t.imp)}</td><td>${fmt(t.clk)}</td>
+        <td>${pct(t.clk/t.imp*100)}</td><td>${rub(t.spend/t.clk)}</td><td>${t.leads}</td><td style="color:var(--green)">${t.target}</td>
+        <td>${rub(t.spend/t.leads)}</td><td>${t.target > 0 ? rub(t.spend/t.target) : '—'}</td><td>${rub(t.spend)}</td><td>${t.seo}</td>
+    </tr>`;
+
+    html += '</tbody>';
+    table.innerHTML = html;
+}
+
+// ===== PERIOD SELECTOR =====
+function showPeriod(period) {
+    document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+
+    const data = period === 'all' ? weeks : [weeks.find(w => w.id === period)];
+    renderKPI(data);
+}
+
+// ===== INIT =====
+renderKPI(weeks);
+initCharts(weeks);
+renderDetailTable();
+renderSummaryTable();
+</script>
+</body>
+</html>
