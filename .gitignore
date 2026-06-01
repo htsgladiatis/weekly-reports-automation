@@ -1,0 +1,41 @@
+# Credentials and sensitive data
+credentials.json
+sa_creds.json
+gsc-service-account.json
+oauth_client.json
+oauth_client_gsc.json
+oauth_token.json
+gsc_oauth_token.json
+.env*
+
+# Node modules
+node_modules/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/
+.devin/
+
+# Temporary files
+*.log
+*.txt
+*.csv
+*.html
+!README.html
+
+# Other projects
+leak_scanner/
+omniroute-new/
+openclaw/
+openclaw-setup/
+rieltor-scout/
+salescontrol-dashboard/
+seo-project/
+docs/
+
+# Misc
+*.docx
+~$*
