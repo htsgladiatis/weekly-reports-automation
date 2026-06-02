@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Контент-система Dune Group</title>
+
+	<style>
+		:root {
+			--bg: #f4f1eb;
+			--card: #ffffff;
+			--text: #1f1f1f;
+			--muted: #6d6a64;
+			--accent: #b48a5a;
+			--accent-dark: #7a5734;
+			--line: #e1d8cc;
+			--green: #3f6f57;
+			--orange: #b66a3c;
+			--blue: #405f7a;
+			--black: #111111;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			font-family: Inter, Arial, sans-serif;
+			background: var(--bg);
+			color: var(--text);
+			line-height: 1.55;
+		}
+
+		.page {
+			max-width: 1180px;
+			margin: 0 auto;
+			padding: 48px 24px 64px;
+		}
+
+		.header {
+			margin-bottom: 36px;
+		}
+
+		.label {
+			display: inline-block;
+			padding: 7px 12px;
+			border: 1px solid var(--line);
+			border-radius: 999px;
+			color: var(--accent-dark);
+			background: rgba(255,255,255,0.55);
+			font-size: 13px;
+			font-weight: 600;
+			letter-spacing: 0.02em;
+			margin-bottom: 16px;
+		}
+
+		h1 {
+			font-size: clamp(34px, 5vw, 62px);
+			line-height: 1.05;
+			letter-spacing: -0.04em;
+			margin: 0 0 18px;
+			max-width: 900px;
+		}
+
+		.subtitle {
+			font-size: 19px;
+			color: var(--muted);
+			max-width: 760px;
+			margin: 0;
+		}
+
+		.summary {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 14px;
+			margin: 34px 0 42px;
+		}
+
+		.summary-card {
+			background: rgba(255,255,255,0.7);
+			border: 1px solid var(--line);
+			border-radius: 18px;
+			padding: 18px;
+		}
+
+		.summary-card strong {
+			display: block;
+			font-size: 22px;
+			margin-bottom: 4px;
+		}
+
+		.summary-card span {
+			color: var(--muted);
+			font-size: 14px;
+		}
+
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 22px;
+		}
+
+		.card {
+			background: var(--card);
+			border: 1px solid var(--line);
+			border-radius: 26px;
+			padding: 28px;
+			box-shadow: 0 18px 45px rgba(49, 40, 29, 0.06);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.card::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 6px;
+			background: var(--accent);
+		}
+
+		.card.reach::before {
+			background: var(--orange);
+		}
+
+		.card.warm::before {
+			background: var(--blue);
+		}
+
+		.card.sales::before {
+			background: var(--green);
+		}
+
+		.card.expert::before {
+			background: var(--black);
+		}
+
+		.card-top {
+			display: flex;
+			justify-content: space-between;
+			gap: 16px;
+			align-items: flex-start;
+			margin-bottom: 18px;
+		}
+
+		.number {
+			width: 42px;
+			height: 42px;
+			min-width: 42px;
+			border-radius: 50%;
+			background: var(--bg);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: 800;
+			color: var(--accent-dark);
+		}
+
+		.badges {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 7px;
+			justify-content: flex-end;
+		}
+
+		.badge {
+			padding: 6px 9px;
+			border-radius: 999px;
+			background: #f4f1eb;
+			font-size: 12px;
+			color: var(--muted);
+			font-weight: 600;
+		}
+
+		h2 {
+			font-size: 28px;
+			line-height: 1.15;
+			letter-spacing: -0.03em;
+			margin: 0 0 10px;
+		}
+
+		.description {
+			color: var(--muted);
+			font-size: 16px;
+			margin: 0 0 20px;
+		}
+
+		.section-title {
+			font-size: 13px;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			font-weight: 800;
+			color: var(--accent-dark);
+			margin: 22px 0 10px;
+		}
+
+		ul {
+			margin: 0;
+			padding-left: 18px;
+		}
+
+		li {
+			margin-bottom: 7px;
+		}
+
+		.hook {
+			background: #f7f3ee;
+			border: 1px solid var(--line);
+			border-radius: 16px;
+			padding: 16px;
+			font-size: 17px;
+			font-weight: 700;
+			line-height: 1.4;
+			margin-top: 12px;
+		}
+
+		.format {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 8px;
+			margin-top: 12px;
+		}
+
+		.format-item {
+			padding: 10px 12px;
+			border-radius: 12px;
+			background: #f7f3ee;
+			font-size: 14px;
+			color: var(--muted);
+		}
+
+		.week {
+			margin-top: 42px;
+			background: #181716;
+			color: #fff;
+			border-radius: 28px;
+			padding: 30px;
+		}
+
+		.week h2 {
+			margin-bottom: 8px;
+		}
+
+		.week p {
+			color: rgba(255,255,255,0.7);
+			margin-top: 0;
+			max-width: 760px;
+		}
+
+		.plan-toolbar {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 10px;
+			margin-top: 22px;
+			margin-bottom: 16px;
+		}
+
+		.plan-chip {
+			border: 1px solid rgba(255,255,255,0.14);
+			background: rgba(255,255,255,0.08);
+			color: rgba(255,255,255,0.86);
+			border-radius: 999px;
+			padding: 9px 12px;
+			font-size: 13px;
+			font-weight: 700;
+		}
+
+		.plan-table-wrap {
+			overflow-x: auto;
+			border: 1px solid rgba(255,255,255,0.12);
+			border-radius: 20px;
+			background: rgba(255,255,255,0.05);
+		}
+
+		.plan-table {
+			width: 100%;
+			min-width: 980px;
+			border-collapse: collapse;
+		}
+
+		.plan-table th,
+		.plan-table td {
+			padding: 16px;
+			text-align: left;
+			vertical-align: top;
+			border-bottom: 1px solid rgba(255,255,255,0.1);
+		}
+
+		.plan-table th {
+			position: sticky;
+			top: 0;
+			background: #181716;
+			color: #d7b98a;
+			font-size: 12px;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			z-index: 1;
+		}
+
+		.plan-table tr:hover td {
+			background: rgba(255,255,255,0.06);
+		}
+
+		.plan-table tr:last-child td {
+			border-bottom: 0;
+		}
+
+		.day-name {
+			font-weight: 800;
+			color: #fff;
+			white-space: nowrap;
+		}
+
+		.plan-tag {
+			display: inline-flex;
+			align-items: center;
+			padding: 6px 9px;
+			border-radius: 999px;
+			background: rgba(215,185,138,0.14);
+			color: #d7b98a;
+			font-size: 12px;
+			font-weight: 800;
+			white-space: nowrap;
+		}
+
+		.reels-topic {
+			font-size: 16px;
+			font-weight: 800;
+			color: #fff;
+			line-height: 1.35;
+		}
+
+		.reels-hook {
+			color: rgba(255,255,255,0.86);
+			font-size: 14px;
+			line-height: 1.45;
+		}
+
+		.plan-goal {
+			color: rgba(255,255,255,0.72);
+			font-size: 14px;
+			line-height: 1.45;
+		}
+
+		.plan-details summary {
+			cursor: pointer;
+			color: #d7b98a;
+			font-weight: 800;
+			font-size: 14px;
+			list-style: none;
+		}
+
+		.plan-details summary::-webkit-details-marker {
+			display: none;
+		}
+
+		.plan-details summary::after {
+			content: " +";
+		}
+
+		.plan-details[open] summary::after {
+			content: " -";
+		}
+
+		.plan-details ul {
+			margin-top: 10px;
+			color: rgba(255,255,255,0.78);
+			font-size: 14px;
+		}
+
+		.footer-note {
+			margin-top: 28px;
+			padding: 18px 20px;
+			background: rgba(255,255,255,0.08);
+			border-radius: 18px;
+			color: rgba(255,255,255,0.78);
+			font-size: 15px;
+		}
+
+		@media (max-width: 900px) {
+			.summary {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			.grid {
+				grid-template-columns: 1fr;
+			}
+		}
+
+		@media (max-width: 560px) {
+			.page {
+				padding: 32px 16px 48px;
+			}
+
+			.summary {
+				grid-template-columns: 1fr;
+			}
+
+			.card {
+				padding: 22px;
+			}
+
+			.card-top {
+				flex-direction: column;
+			}
+
+			.badges {
+				justify-content: flex-start;
+			}
+
+			.format {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<main class="page">
+
+		<header class="header">
+			<div class="label">Dune Group - контент-система</div>
+			<h1>Рубрики для Instagram / Reels</h1>
+			<p class="subtitle">
+				4 основные рубрики, которые закрывают охваты, экспертный прогрев, доверие и продажи.
+				Фокус - ремонт под ключ в Ростове-на-Дону, реальные ошибки, инженерная логика и спокойная экспертность.
+			</p>
+		</header>
+
+		<section class="summary">
+			<div class="summary-card">
+				<strong>4</strong>
+				<span>ключевые рубрики</span>
+			</div>
+			<div class="summary-card">
+				<strong>2</strong>
+				<span>охватных направления</span>
+			</div>
+			<div class="summary-card">
+				<strong>1</strong>
+				<span>прогревающая система</span>
+			</div>
+			<div class="summary-card">
+				<strong>1</strong>
+				<span>продающая рубрика</span>
+			</div>
+		</section>
+
+		<section class="grid">
+
+			<article class="card reach">
+				<div class="card-top">
+					<div class="number">01</div>
+					<div class="badges">
+						<span class="badge">Охваты</span>
+						<span class="badge">Экспертность</span>
+						<span class="badge">Reels</span>
+					</div>
+				</div>
+
+				<h2>Ошибки ремонта, которые видно слишком поздно</h2>
+				<p class="description">
+					Рубрика строится на страхе реальных ошибок: сначала всё кажется нормальным,
+					а потом появляются зазоры, трещины, перекосы и лишние расходы.
+				</p>
+
+				<div class="section-title">Темы</div>
+				<ul>
+					<li>Кривые стены, которые ломают мебель и кухню.</li>
+					<li>Плохая штукатурка от застройщика.</li>
+					<li>Трещины после ремонта.</li>
+					<li>Розетки не там, где нужна техника.</li>
+					<li>Щели у плинтусов и неровные примыкания.</li>
+					<li>Стяжка, которая портит напольное покрытие.</li>
+					<li>Экономия на черновых, из-за которой переделывают чистовые.</li>
+				</ul>
+
+				<div class="section-title">Пример hook</div>
+				<div class="hook">
+					Пока квартира пустая - кривые стены почти не видно. Потом приезжает кухня.
+				</div>
+			</article>
+
+			<article class="card warm">
+				<div class="card-top">
+					<div class="number">02</div>
+					<div class="badges">
+						<span class="badge">Прогрев</span>
+						<span class="badge">Доверие</span>
+						<span class="badge">Система</span>
+					</div>
+				</div>
+
+				<h2>Ремонт как система, а не набор мастеров</h2>
+				<p class="description">
+					Рубрика объясняет, почему ремонт под ключ - это не просто нанять рабочих,
+					а заранее связать проект, материалы, сроки, мебель, электрику и ответственность.
+				</p>
+
+				<div class="section-title">Темы</div>
+				<ul>
+					<li>Почему ремонт начинается не с мастеров, а с проекта.</li>
+					<li>Зачем фиксировать цену до старта.</li>
+					<li>Почему смета растет у других подрядчиков.</li>
+					<li>Как связаны электрика, мебель, свет и отделка.</li>
+					<li>Что входит в ремонт под ключ.</li>
+					<li>Почему клиенту не нужно самому закупать материалы.</li>
+					<li>Как контролируются этапы и скрытые работы.</li>
+				</ul>
+
+				<div class="section-title">Пример hook</div>
+				<div class="hook">
+					Если в ремонте нет системы, клиент становится прорабом.
+				</div>
+			</article>
+
+			<article class="card sales">
+				<div class="card-top">
+					<div class="number">03</div>
+					<div class="badges">
+						<span class="badge">Продажи</span>
+						<span class="badge">Кейсы</span>
+						<span class="badge">Доказательства</span>
+					</div>
+				</div>
+
+				<h2>Разборы реальных объектов Dune Group</h2>
+				<p class="description">
+					Главная продающая рубрика. Не обещаем абстрактный результат, а показываем реальные квартиры,
+					цифры, задачи, проблемы и решения.
+				</p>
+
+				<div class="section-title">Темы</div>
+				<ul>
+					<li>Квартира 35 м² - что вошло в бюджет.</li>
+					<li>Ремонт 93 м² - почему черновые материалы стоили дорого.</li>
+					<li>Объект в стройварианте - что сделали с нуля.</li>
+					<li>Ремонт для клиента из другого города.</li>
+					<li>Маленькая квартира - как выжали функциональность.</li>
+					<li>Почему на объекте выбрали конкретный пол.</li>
+					<li>Что скрыто за красивым финальным интерьером.</li>
+				</ul>
+
+				<div class="section-title">Пример hook</div>
+				<div class="hook">
+					10 миллионов стоил этот ремонт. Но главное - не сумма.
+				</div>
+			</article>
+
+			<article class="card expert">
+				<div class="card-top">
+					<div class="number">04</div>
+					<div class="badges">
+						<span class="badge">Охваты</span>
+						<span class="badge">Сохранения</span>
+						<span class="badge">Экспертность</span>
+					</div>
+				</div>
+
+				<h2>Материалы и решения без иллюзий</h2>
+				<p class="description">
+					Рубрика про выбор материалов через эксплуатацию, а не через “нравится / не нравится”.
+					Здесь Dune Group звучит как компания, которая думает о том, как ремонт будет жить.
+				</p>
+
+				<div class="section-title">Темы</div>
+				<ul>
+					<li>Какой пол выбрать для квартиры.</li>
+					<li>Ламинат, кварцвинил, инженерная доска - где что уместно.</li>
+					<li>Почему цвет пола меняет интерьер.</li>
+					<li>Краска или обои.</li>
+					<li>Какой плинтус выглядит аккуратно.</li>
+					<li>Почему дешевые двери портят ремонт.</li>
+					<li>Матовая плитка или глянец.</li>
+					<li>Что видно на солнце и сложно обслуживать.</li>
+				</ul>
+
+				<div class="section-title">Пример hook</div>
+				<div class="hook">
+					Пол выбирают не по картинке. Его выбирают под жизнь.
+				</div>
+			</article>
+
+		</section>
+
+		<section class="week">
+			<h2>Интерактивный план Reels на будни</h2>
+			<p>
+				Каждый будний день закрывает отдельную задачу воронки: охват, сохранения,
+				доверие, прогрев и заявку. В колонке “Детали” можно раскрыть сценарную логику.
+			</p>
+
+			<div class="plan-toolbar">
+				<div class="plan-chip">5 Reels в неделю</div>
+				<div class="plan-chip">2 охватных</div>
+				<div class="plan-chip">2 прогревающих</div>
+				<div class="plan-chip">1 продающий</div>
+			</div>
+
+			<div class="plan-table-wrap">
+				<table class="plan-table">
+					<thead>
+						<tr>
+							<th>День</th>
+							<th>Рубрика</th>
+							<th>Тема Reels</th>
+							<th>Hook</th>
+							<th>Задача</th>
+							<th>Детали</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<tr>
+							<td><div class="day-name">Понедельник</div></td>
+							<td><span class="plan-tag">Ошибки ремонта</span></td>
+							<td>
+								<div class="reels-topic">
+									Кривые стены, которые становятся проблемой только после установки кухни
+								</div>
+							</td>
+							<td>
+								<div class="reels-hook">
+									Пока квартира пустая - кривые стены почти не видно. Потом приезжает кухня.
+								</div>
+							</td>
+							<td>
+								<div class="plan-goal">
+									Охват через боль, страх переделок и понятные последствия.
+								</div>
+							</td>
+							<td>
+								<details class="plan-details">
+									<summary>Раскрыть</summary>
+									<ul>
+										<li>Кадр 1: пустая стена и лазерный уровень.</li>
+										<li>Кадр 2: объяснить, где появляются зазоры.</li>
+										<li>Кадр 3: показать кухню, шкаф или примыкание.</li>
+										<li>Финал: геометрию проверяют до чистовой отделки.</li>
+									</ul>
+								</details>
+							</td>
+						</tr>
+
+						<tr>
+							<td><div class="day-name">Вторник</div></td>
+							<td><span class="plan-tag">Материалы</span></td>
+							<td>
+								<div class="reels-topic">
+									Как выбрать пол не по картинке, а под реальную жизнь в квартире
+								</div>
+							</td>
+							<td>
+								<div class="reels-hook">
+									Пол выбирают не в салоне. Его выбирают под свет, грязь, мебель и сценарий жизни.
+								</div>
+							</td>
+							<td>
+								<div class="plan-goal">
+									Сохранения, экспертность, мягкий прогрев через практику.
+								</div>
+							</td>
+							<td>
+								<details class="plan-details">
+									<summary>Раскрыть</summary>
+									<ul>
+										<li>Сравнить ламинат, кварцвинил и инженерную доску.</li>
+										<li>Показать, что важно: влажность, питомцы, дети, солнце.</li>
+										<li>Отдельно сказать про цвет пола и визуальный шум.</li>
+										<li>Финал: материал должен работать, а не только красиво выглядеть.</li>
+									</ul>
+								</details>
+							</td>
+						</tr>
+
+						<tr>
+							<td><div class="day-name">Среда</div></td>
+							<td><span class="plan-tag">Кейс объекта</span></td>
+							<td>
+								<div class="reels-topic">
+									Ремонт квартиры в стройварианте: что скрывается за финальной красивой картинкой
+								</div>
+							</td>
+							<td>
+								<div class="reels-hook">
+									Красивый интерьер начинается не с мебели. Он начинается с черновых решений, которые потом не видно.
+								</div>
+							</td>
+							<td>
+								<div class="plan-goal">
+									Доверие через реальный объект, процесс и доказательства.
+								</div>
+							</td>
+							<td>
+								<details class="plan-details">
+									<summary>Раскрыть</summary>
+									<ul>
+										<li>Показать объект “до”: голые стены, трассы, черновой этап.</li>
+										<li>Назвать 3 главные задачи на объекте.</li>
+										<li>Показать 2-3 инженерных решения.</li>
+										<li>Финал: итоговый интерьер как результат системы, а не случайной отделки.</li>
+									</ul>
+								</details>
+							</td>
+						</tr>
+
+						<tr>
+							<td><div class="day-name">Четверг</div></td>
+							<td><span class="plan-tag">Система ремонта</span></td>
+							<td>
+								<div class="reels-topic">
+									Почему ремонт дорожает, если проект, материалы и мебель не связаны заранее
+								</div>
+							</td>
+							<td>
+								<div class="reels-hook">
+									Ремонт дорожает не из-за одного мешка смеси. Он дорожает из-за решений, которые не приняли вовремя.
+								</div>
+							</td>
+							<td>
+								<div class="plan-goal">
+									Прогрев к ремонту под ключ и объяснение ценности фиксированной цены.
+								</div>
+							</td>
+							<td>
+								<details class="plan-details">
+									<summary>Раскрыть</summary>
+									<ul>
+										<li>Объяснить цепочку: проект - электрика - мебель - свет - отделка.</li>
+										<li>Показать, где обычно появляются доплаты.</li>
+										<li>Сравнить “набор мастеров” и управляемый процесс.</li>
+										<li>Финал: цена фиксируется только тогда, когда заранее понятен объем.</li>
+									</ul>
+								</details>
+							</td>
+						</tr>
+
+						<tr>
+							<td><div class="day-name">Пятница</div></td>
+							<td><span class="plan-tag">Продажа</span></td>
+							<td>
+								<div class="reels-topic">
+									Что входит в ремонт под ключ от Dune Group и почему клиент не становится прорабом
+								</div>
+							</td>
+							<td>
+								<div class="reels-hook">
+									Если клиент сам ищет материалы, принимает доставки и спорит с мастерами - это уже не ремонт под ключ.
+								</div>
+							</td>
+							<td>
+								<div class="plan-goal">
+									Прямой продающий прогрев без давления и шаблонных обещаний.
+								</div>
+							</td>
+							<td>
+								<details class="plan-details">
+									<summary>Раскрыть</summary>
+									<ul>
+										<li>Перечислить: проект, закуп, доставка, работы, контроль, чистовая отделка.</li>
+										<li>Показать, что снимается с клиента.</li>
+										<li>Подчеркнуть фиксированную цену до договора.</li>
+										<li>CTA: напишите “РЕМОНТ”, если хотите понять стоимость до старта работ.</li>
+									</ul>
+								</details>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<div class="footer-note">
+				Главная линия недели: сначала цепляем ошибкой, потом даём практическую пользу,
+				доказываем опытом объекта, объясняем систему и в конце спокойно продаём ремонт под ключ.
+			</div>
+		</section>
+
+	</main>
+</body>
+</html>

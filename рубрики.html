@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Контент-рубрики Dune Group</title>
+
+	<style>
+		:root {
+			--bg: #f4f1eb;
+			--card: #ffffff;
+			--text: #1f1f1f;
+			--muted: #6d6a64;
+			--accent: #b48a5a;
+			--accent-dark: #7a5734;
+			--line: #e1d8cc;
+			--green: #3f6f57;
+			--orange: #b66a3c;
+			--blue: #405f7a;
+			--black: #111111;
+		}
+
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			margin: 0;
+			font-family: Inter, Arial, sans-serif;
+			background: var(--bg);
+			color: var(--text);
+			line-height: 1.55;
+		}
+
+		.page {
+			max-width: 1180px;
+			margin: 0 auto;
+			padding: 48px 24px 64px;
+		}
+
+		.header {
+			margin-bottom: 36px;
+		}
+
+		.label {
+			display: inline-block;
+			padding: 7px 12px;
+			border: 1px solid var(--line);
+			border-radius: 999px;
+			color: var(--accent-dark);
+			background: rgba(255,255,255,0.55);
+			font-size: 13px;
+			font-weight: 600;
+			letter-spacing: 0.02em;
+			margin-bottom: 16px;
+		}
+
+		h1 {
+			font-size: clamp(34px, 5vw, 62px);
+			line-height: 1.05;
+			letter-spacing: -0.04em;
+			margin: 0 0 18px;
+			max-width: 900px;
+		}
+
+		.subtitle {
+			font-size: 19px;
+			color: var(--muted);
+			max-width: 760px;
+			margin: 0;
+		}
+
+		.summary {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 14px;
+			margin: 34px 0 42px;
+		}
+
+		.summary-card {
+			background: rgba(255,255,255,0.7);
+			border: 1px solid var(--line);
+			border-radius: 18px;
+			padding: 18px;
+		}
+
+		.summary-card strong {
+			display: block;
+			font-size: 22px;
+			margin-bottom: 4px;
+		}
+
+		.summary-card span {
+			color: var(--muted);
+			font-size: 14px;
+		}
+
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 22px;
+		}
+
+		.card {
+			background: var(--card);
+			border: 1px solid var(--line);
+			border-radius: 26px;
+			padding: 28px;
+			box-shadow: 0 18px 45px rgba(49, 40, 29, 0.06);
+			position: relative;
+			overflow: hidden;
+		}
+
+		.card::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 6px;
+			background: var(--accent);
+		}
+
+		.card.reach::before {
+			background: var(--orange);
+		}
+
+		.card.warm::before {
+			background: var(--blue);
+		}
+
+		.card.sales::before {
+			background: var(--green);
+		}
+
+		.card.expert::before {
+			background: var(--black);
+		}
+
+		.card-top {
+			display: flex;
+			justify-content: space-between;
+			gap: 16px;
+			align-items: flex-start;
+			margin-bottom: 18px;
+		}
+
+		.number {
+			width: 42px;
+			height: 42px;
+			min-width: 42px;
+			border-radius: 50%;
+			background: var(--bg);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-weight: 800;
+			color: var(--accent-dark);
+		}
+
+		.badges {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 7px;
+			justify-content: flex-end;
+		}
+
+		.badge {
+			padding: 6px 9px;
+			border-radius: 999px;
+			background: #f4f1eb;
+			font-size: 12px;
+			color: var(--muted);
+			font-weight: 600;
+		}
+
+		h2 {
+			font-size: 28px;
+			line-height: 1.15;
+			letter-spacing: -0.03em;
+			margin: 0 0 10px;
+		}
+
+		.description {
+			color: var(--muted);
+			font-size: 16px;
+			margin: 0 0 20px;
+		}
+
+		.section-title {
+			font-size: 13px;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			font-weight: 800;
+			color: var(--accent-dark);
+			margin: 22px 0 10px;
+		}
+
+		ul {
+			margin: 0;
+			padding-left: 18px;
+		}
+
+		li {
+			margin-bottom: 7px;
+		}
+
+		.hook {
+			background: #f7f3ee;
+			border: 1px solid var(--line);
+			border-radius: 16px;
+			padding: 16px;
+			font-size: 17px;
+			font-weight: 700;
+			line-height: 1.4;
+			margin-top: 12px;
+		}
+
+		.format {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 8px;
+			margin-top: 12px;
+		}
+
+		.format-item {
+			padding: 10px 12px;
+			border-radius: 12px;
+			background: #f7f3ee;
+			font-size: 14px;
+			color: var(--muted);
+		}
+
+		.week {
+			margin-top: 42px;
+			background: #181716;
+			color: #fff;
+			border-radius: 28px;
+			padding: 30px;
+		}
+
+		.week h2 {
+			margin-bottom: 8px;
+		}
+
+		.week p {
+			color: rgba(255,255,255,0.7);
+			margin-top: 0;
+			max-width: 760px;
+		}
+
+		.week-grid {
+			display: grid;
+			grid-template-columns: repeat(7, 1fr);
+			gap: 10px;
+			margin-top: 22px;
+		}
+
+		.day {
+			background: rgba(255,255,255,0.08);
+			border: 1px solid rgba(255,255,255,0.12);
+			border-radius: 16px;
+			padding: 14px;
+			min-height: 150px;
+		}
+
+		.day strong {
+			display: block;
+			font-size: 14px;
+			color: #d7b98a;
+			margin-bottom: 8px;
+		}
+
+		.day span {
+			display: block;
+			font-size: 14px;
+			color: rgba(255,255,255,0.86);
+		}
+
+		.footer-note {
+			margin-top: 28px;
+			padding: 18px 20px;
+			background: rgba(255,255,255,0.08);
+			border-radius: 18px;
+			color: rgba(255,255,255,0.78);
+			font-size: 15px;
+		}
+
+		@media (max-width: 900px) {
+			.summary {
+				grid-template-columns: repeat(2, 1fr);
+			}
+
+			.grid {
+				grid-template-columns: 1fr;
+			}
+
+			.week-grid {
+				grid-template-columns: repeat(2, 1fr);
+			}
+		}
+
+		@media (max-width: 560px) {
+			.page {
+				padding: 32px 16px 48px;
+			}
+
+			.summary {
+				grid-template-columns: 1fr;
+			}
+
+			.card {
+				padding: 22px;
+			}
+
+			.card-top {
+				flex-direction: column;
+			}
+
+			.badges {
+				justify-content: flex-start;
+			}
+
+			.format {
+				grid-template-columns: 1fr;
+			}
+
+			.week-grid {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<main class="page">
+
+		<header class="header">
+			<div class="label">Dune Group - контент-система</div>
+			<h1>Рубрики для Instagram / Reels</h1>
+			<p class="subtitle">
+				4 основные рубрики, которые закрывают охваты, экспертный прогрев, доверие и продажи.
+				Фокус - ремонт под ключ в Ростове-на-Дону, реальные ошибки, инженерная логика и спокойная экспертность.
+			</p>
+		</header>
+
+		<section class="summary">
+			<div class="summary-card">
+				<strong>4</strong>
+				<span>ключевые рубрики</span>
+			</div>
+			<div class="summary-card">
+				<strong>2</strong>
+				<span>охватных направления</span>
+			</div>
+			<div class="summary-card">
+				<strong>1</strong>
+				<span>прогревающая система</span>
+			</div>
+			<div class="summary-card">
+				<strong>1</strong>
+				<span>продающая рубрика</span>
+			</div>
+		</section>
+
+		<section class="grid">
+
+			<article class="card reach">
+				<div class="card-top">
+					<div class="number">01</div>
+					<div class="badges">
+						<span class="badge">Охваты</span>
+						<span class="badge">Экспертность</span>
+						<span class="badge">Reels</span>
+					</div>
+				</div>
+
+				<h2>Ошибки ремонта, которые видно слишком поздно</h2>
+				<p class="description">
+					Рубрика строится на страхе реальных ошибок: сначала всё кажется нормальным,
+					а потом появляются зазоры, трещины, перекосы и лишние расходы.
+				</p>
+
+				<div class="section-title">Темы</div>
+				<ul>
+					<li>Кривые стены, которые ломают мебель и кухню.</li>
+					<li>Плохая штукатурка от застройщика.</li>
+					<li>Трещины после ремонта.</li>
+					<li>Розетки не там, где нужна техника.</li>
+					<li>Щели у плинтусов и неровные примыкания.</li>
+					<li>Стяжка, которая портит напольное покрытие.</li>
+					<li>Экономия на черновых, из-за которой переделывают чистовые.</li>
+				</ul>
+
+				<div class="section-title">Почему работает</div>
+				<p class="description">
+					Люди сохраняют и пересылают такой контент, потому что узнают свои страхи:
+					ремонт уже начался, а ошибки могут быть скрыты.
+				</p>
+
+				<div class="section-title">Пример hook</div>
+				<div class="hook">
+					Пока квартира пустая - кривые стены почти не видно. Потом приезжает кухня.
+				</div>
+
+				<div class="section-title">Форматы</div>
+				<div class="format">
+					<div class="format-item">Reels с объекта</div>
+					<div class="format-item">Короткий экспертный пост</div>
+					<div class="format-item">Карусель с ошибками</div>
+					<div class="format-item">HeyGen-разбор</div>
+				</div>
+			</article>
+
+			<article class="card warm">
+				<div class="card-top">
+					<div class="number">02</div>
+					<div class="badges">
+						<span class="badge">Прогрев</span>
+						<span class="badge">Доверие</span>
+						<span class="badge">Система</span>
+					</div>
+				</div>
+
+				<h2>Ремонт как система, а не набор мастеров</h2>
+				<p class="description">
+					Рубрика объясняет, почему ремонт под ключ - это не просто нанять рабочих,
+					а заранее связать проект, материалы, сроки, мебель, электрику и ответственность.
+				</p>
+
+				<div class="section-title">Темы</div>
+				<ul>
+					<li>Почему ремонт начинается не с мастеров, а с проекта.</li>
+					<li>Зачем фиксировать цену до старта.</li>
+					<li>Почему смета растет у других подрядчиков.</li>
+					<li>Как связаны электрика, мебель, свет и отделка.</li>
+					<li>Что входит в ремонт под ключ.</li>
+					<li>Почему клиенту не нужно самому закупать материалы.</li>
+					<li>Как контролируются этапы и скрытые работы.</li>
+				</ul>
+
+				<div class="section-title">Почему работает</div>
+				<p class="description">
+					Рубрика переводит аудиторию из логики “сколько стоит квадрат” в понимание,
+					что ремонт - это управляемый процесс, где ошибка на одном этапе ломает следующий.
+				</p>
+
+				<div class="section-title">Пример hook</div>
+				<div class="hook">
+					Если в ремонте нет системы, клиент становится прорабом.
+				</div>
+
+				<div class="section-title">Форматы</div>
+				<div class="format">
+					<div class="format-item">Talking head</div>
+					<div class="format-item">Reels с процесса</div>
+					<div class="format-item">Пост-объяснение</div>
+					<div class="format-item">Карусель “как устроено”</div>
+				</div>
+			</article>
+
+			<article class="card sales">
+				<div class="card-top">
+					<div class="number">03</div>
+					<div class="badges">
+						<span class="badge">Продажи</span>
+						<span class="badge">Кейсы</span>
+						<span class="badge">Доказательства</span>
+					</div>
+				</div>
+
+				<h2>Разборы реальных объектов Dune Group</h2>
+				<p class="description">
+					Главная продающая рубрика. Не обещаем абстрактный результат, а показываем реальные квартиры,
+					цифры, задачи, проблемы и решения.
+				</p>
+
+				<div class="section-title">Темы</div>
+				<ul>
+					<li>Квартира 35 м² - что вошло в бюджет.</li>
+					<li>Ремонт 93 м² - почему черновые материалы стоили дорого.</li>
+					<li>Объект в стройварианте - что сделали с нуля.</li>
+					<li>Ремонт для клиента из другого города.</li>
+					<li>Маленькая квартира - как выжали функциональность.</li>
+					<li>Почему на объекте выбрали конкретный пол.</li>
+					<li>Что скрыто за красивым финальным интерьером.</li>
+				</ul>
+
+				<div class="section-title">Почему работает</div>
+				<p class="description">
+					Кейсы доказывают лучше, чем обещания. Человек видит не рекламу,
+					а опыт компании: объект, ограничения, решения, деньги и результат.
+				</p>
+
+				<div class="section-title">Пример hook</div>
+				<div class="hook">
+					10 миллионов стоил этот ремонт. Но главное - не сумма.
+				</div>
+
+				<div class="section-title">Форматы</div>
+				<div class="format">
+					<div class="format-item">Reels-кейс</div>
+					<div class="format-item">До / после</div>
+					<div class="format-item">Карусель объекта</div>
+					<div class="format-item">Пост с цифрами</div>
+				</div>
+			</article>
+
+			<article class="card expert">
+				<div class="card-top">
+					<div class="number">04</div>
+					<div class="badges">
+						<span class="badge">Охваты</span>
+						<span class="badge">Сохранения</span>
+						<span class="badge">Экспертность</span>
+					</div>
+				</div>
+
+				<h2>Материалы и решения без иллюзий</h2>
+				<p class="description">
+					Рубрика про выбор материалов через эксплуатацию, а не через “нравится / не нравится”.
+					Здесь Dune Group звучит как компания, которая думает о том, как ремонт будет жить.
+				</p>
+
+				<div class="section-title">Темы</div>
+				<ul>
+					<li>Какой пол выбрать для квартиры.</li>
+					<li>Ламинат, кварцвинил, инженерная доска - где что уместно.</li>
+					<li>Почему цвет пола меняет интерьер.</li>
+					<li>Краска или обои.</li>
+					<li>Какой плинтус выглядит аккуратно.</li>
+					<li>Почему дешевые двери портят ремонт.</li>
+					<li>Матовая плитка или глянец.</li>
+					<li>Что видно на солнце и сложно обслуживать.</li>
+				</ul>
+
+				<div class="section-title">Почему работает</div>
+				<p class="description">
+					Материалы интересны даже тем, кто пока не готов к ремонту.
+					Такой контент хорошо сохраняют, потому что он помогает принимать решения.
+				</p>
+
+				<div class="section-title">Пример hook</div>
+				<div class="hook">
+					Пол выбирают не по картинке. Его выбирают под жизнь.
+				</div>
+
+				<div class="section-title">Форматы</div>
+				<div class="format">
+					<div class="format-item">Reels-сравнение</div>
+					<div class="format-item">Карусель “что выбрать”</div>
+					<div class="format-item">Пост-разбор</div>
+					<div class="format-item">HeyGen-объяснение</div>
+				</div>
+			</article>
+
+		</section>
+
+		<section class="week">
+			<h2>Пример недельного распределения</h2>
+			<p>
+				Так канал не выглядит как бесконечная продажа, но каждый день работает на воронку:
+				охват, доверие, прогрев и заявки.
+			</p>
+
+			<div class="week-grid">
+				<div class="day">
+					<strong>Понедельник</strong>
+					<span>Ошибка ремонта, которую видно слишком поздно</span>
+				</div>
+
+				<div class="day">
+					<strong>Вторник</strong>
+					<span>Материалы и решения без иллюзий</span>
+				</div>
+
+				<div class="day">
+					<strong>Среда</strong>
+					<span>Разбор реального объекта Dune Group</span>
+				</div>
+
+				<div class="day">
+					<strong>Четверг</strong>
+					<span>Ремонт как система, а не набор мастеров</span>
+				</div>
+
+				<div class="day">
+					<strong>Пятница</strong>
+					<span>Ошибка ремонта с сильным hook</span>
+				</div>
+
+				<div class="day">
+					<strong>Суббота</strong>
+					<span>Разбор объекта, бюджета или решения</span>
+				</div>
+
+				<div class="day">
+					<strong>Воскресенье</strong>
+					<span>Материал, интерьерное решение или легкий прогрев</span>
+				</div>
+			</div>
+
+			<div class="footer-note">
+				Главная линия контента: Dune Group - это не просто “красивый ремонт”.
+				Это ремонт, где заранее просчитаны этапы, материалы, деньги и ответственность.
+			</div>
+		</section>
+
+	</main>
+</body>
+</html>
