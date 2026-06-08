@@ -141,10 +141,13 @@
     "8. Создание report_0106.py с корректными данными",
     "9. Запуск report_0106.py — отчет создан в Google Sheets",
     "10. Обновление index.html с новыми данными (16 лидов, 7 целевых)",
-    "11. Git commit и push изменений в GitHub",
-    "12. Создание полной документации проекта (этот файл)"
+    "11. Git commit и push изменений в ветку main",
+    "12. Создание полной документации проекта (PROJECT_MASTER_DOCUMENTATION.md)",
+    "13. Обнаружение проблемы: веб-версия не обновляется (GitHub Pages публикует из gh-pages, а не main)",
+    "14. Копирование index.html из main в gh-pages и push в origin/gh-pages",
+    "15. Обновление документации с инструкциями по работе с двумя ветками"
   ],
-  "current_task": "Завершена автоматизация отчета за 01.06-07.06. Цель: создать отчет в Google Sheets и обновить веб-версию. Что сделано: (1) Парсинг Excel данных Директа, (2) Обновление bitrix.py для учета звонков Билайн АТС, (3) Создание report_0106.py, (4) Запуск скрипта — отчет создан, (5) Обновление index.html, (6) Commit и push в GitHub. Что осталось: веб-версия должна обновиться автоматически через GitHub Pages (может занять 1-5 минут). Критерии успеха: отчет в Google Sheets создан ✓, index.html обновлен ✓, изменения в GitHub ✓, веб-версия обновится автоматически.",
+  "current_task": "Завершена автоматизация отчета за 01.06-07.06 и обновление веб-версии. Что сделано: (1) Парсинг Excel данных, (2) Обновление bitrix.py, (3) Создание report_0106.py, (4) Отчет в Google Sheets, (5) Обновление index.html, (6) Push в main, (7) Копирование index.html в gh-pages, (8) Push в gh-pages, (9) Обновление документации. Критерии успеха: отчет в Google Sheets ✓, index.html обновлен ✓, изменения в main ✓, изменения в gh-pages ✓, веб-версия обновится через 1-3 минуты ✓.",
 
   "decision_log": [
     {
@@ -166,13 +169,18 @@
       "decision": "Атрибуция лидов: все с 'marquiz' → e-20010227",
       "rationale": "Все лиды из CRM имеют источник 'Яндекс.Директ' + 'marquiz', UTM не заполнен",
       "alternatives_considered": "Распределить по другим аккаунтам по UTM (отклонено — UTM не заполнен)"
+    },
+    {
+      "decision": "Публикация веб-версии через gh-pages",
+      "rationale": "GitHub Pages настроен на публикацию из ветки gh-pages. Нужно обновлять index.html в обеих ветках: main (для истории) и gh-pages (для публикации)",
+      "alternatives_considered": "Публиковать из main (невозможно — настройки репозитория используют gh-pages)"
     }
   ],
   "pending_issues": [
     {
-      "issue": "Веб-версия не обновляется мгновенно после push",
-      "severity": "low",
-      "suggested_solution": "GitHub Pages обновляется с задержкой 1-5 минут. Проверить через несколько минут или принудительно очистить кеш браузера (Ctrl+F5)."
+      "issue": "Необходимо обновлять две ветки (main и gh-pages)",
+      "severity": "medium",
+      "suggested_solution": "Всегда после обновления index.html делать: (1) push в main, (2) checkout gh-pages, (3) копировать из main, (4) push в gh-pages. Автоматизировать через скрипт или GitHub Actions."
     },
     {
       "issue": "Ручной ввод данных из Excel файлов",
@@ -188,9 +196,9 @@
     "Service Account имеет постоянный доступ к Google Таблице",
     "Битрикс24 вебхук активен: https://dunegroup.bitrix24.ru/rest/396/vk0fdm6r1qrtt81w/",
     "Яндекс.Метрика счётчик 90747520 корректен для dune-group.ru",
-    "GitHub Pages автоматически деплоит изменения в index.html"
+    "GitHub Pages публикует из ветки gh-pages (не из main!)"
   ],
-  "continuation_guide": "Вот полный контекст предыдущей сессии. Изучи его очень внимательно. Продолжай работу точно с того места, где мы остановились. Проект: Dune Dashboard — автоматизация еженедельных отчетов по рекламе в Google Sheets. Подключены все API: Битрикс24 (вебхук работает, учитывает звонки Билайн АТС), Яндекс.Метрика (счётчик 90747520), Google Sheets (Service Account andrew@...). Последний отчет: 01.06-07.06 (16 лидов, 7 целевых, расход 96494₽). Отчет создан в Google Sheets (вкладка '01.06-07.06'), веб-версия обновлена (index.html), изменения запушены в GitHub (коммит b176f91). Веб-версия обновляется через GitHub Pages с задержкой 1-5 минут. Для создания нового отчета: (1) Получи скриншоты Директа с детализацией ПО КАМПАНИЯМ, (2) Запусти python read_xlsx_data.py для парсинга Excel, (3) Запусти python bitrix.py YYYY-MM-DD YYYY-MM-DD для лидов, (4) Создай report_DDMM.py по шаблону report_0106.py, (5) Запусти скрипт, (6) Обнови index.html с новыми данными, (7) Сделай commit и push. ВАЖНО: столбец 'Визиты' для Директа = КЛИКИ (не из Метрики!), все лиды с 'Билайн АТС 9094091176' = Директовые, целевые лиды = стадия 'S' в Битриксе."
+  "continuation_guide": "Вот полный контекст предыдущей сессии. Изучи его очень внимательно. Продолжай работу точно с того места, где мы остановились. Проект: Dune Dashboard — автоматизация еженедельных отчетов по рекламе в Google Sheets. Подключены все API: Битрикс24 (вебхук работает, учитывает звонки Билайн АТС), Яндекс.Метрика (счётчик 90747520), Google Sheets (Service Account andrew@...). Последний отчет: 01.06-07.06 (16 лидов, 7 целевых, расход 96494₽). Отчет создан в Google Sheets (вкладка '01.06-07.06'), веб-версия обновлена (index.html в gh-pages), изменения запушены в main (коммит b176f91) и gh-pages (коммит e35e881). КРИТИЧЕСКИ ВАЖНО: GitHub Pages публикует из ветки gh-pages, а не main! После обновления index.html нужно обновить ОБЕ ветки. Для создания нового отчета: (1) Получи скриншоты Директа с детализацией ПО КАМПАНИЯМ, (2) Запусти python read_xlsx_data.py для парсинга Excel, (3) Запусти python bitrix.py YYYY-MM-DD YYYY-MM-DD для лидов, (4) Создай report_DDMM.py по шаблону report_0106.py, (5) Запусти скрипт, (6) Обнови index.html с новыми данными, (7) Сделай commit и push в main, (8) ОБЯЗАТЕЛЬНО: git checkout gh-pages && git checkout main -- index.html && git commit && git push origin gh-pages && git checkout main. ВАЖНО: столбец 'Визиты' для Директа = КЛИКИ (не из Метрики!), все лиды с 'Билайн АТС 9094091176' = Директовые, целевые лиды = стадия 'S' в Битриксе."
 }
 ```
 
@@ -501,13 +509,23 @@ python report_DDMM.py
 
 #### Шаг 8: Commit и Push
 
+**ВАЖНО:** GitHub Pages публикует из ветки `gh-pages`, поэтому нужно обновить обе ветки!
+
 ```bash
+# 1. Коммит в main
 git add index.html report_DDMM.py
 git commit -m "Add weekly report for DD.MM-DD.MM: X leads, Y target leads"
 git push
+
+# 2. Обновление gh-pages для веб-версии
+git checkout gh-pages
+git checkout main -- index.html
+git commit -m "Update web dashboard: add week X (DD.MM-DD.MM) - X leads, Y target leads"
+git push origin gh-pages
+git checkout main
 ```
 
-Веб-версия обновится автоматически через 1-5 минут на GitHub Pages.
+Веб-версия обновится автоматически через 1-3 минуты на GitHub Pages.
 
 ---
 
@@ -559,6 +577,11 @@ git push
 ---
 
 ## 📈 История изменений
+
+### Версия 4.1 (2026-06-09)
+- ✅ Исправлена публикация веб-версии: обновлена ветка `gh-pages`
+- ✅ Обновлена документация: добавлены инструкции по работе с gh-pages
+- ✅ Добавлены новые секции в decision_log и pending_issues
 
 ### Версия 4.0 (2026-06-09)
 - ✅ Создан отчет за 01.06-07.06 (16 лидов, 7 целевых)
@@ -614,9 +637,17 @@ git push
 
 5. **Зафиксировать изменения:**
    ```bash
+   # В main
    git add index.html report_DDMM.py
-   git commit -m "Add weekly report for DD.MM-DD.MM"
+   git commit -m "Add weekly report for DD.MM-DD.MM: X leads, Y target leads"
    git push
+   
+   # В gh-pages (для веб-версии)
+   git checkout gh-pages
+   git checkout main -- index.html
+   git commit -m "Update web dashboard: add week X (DD.MM-DD.MM)"
+   git push origin gh-pages
+   git checkout main
    ```
 
 ### Полезные команды
