@@ -380,7 +380,7 @@ tbody tr:nth-child(even) { background: rgba(255,255,255,0.01); }
     </div>
     
     <div class="data-table">
-      <h3>Полный период (04.05–07.06)</h3>
+      <h3 id="detailTitle">Полный период (04.05–07.06)</h3>
       <table id="detailTable"></table>
     </div>
   </section>
@@ -437,24 +437,24 @@ const weeks = [
     }
   },
   { id: 'w5', label: '01.06–07.06', short: '01.06',
-    impressions: 118346, clicks: 1541, spend: 96494, leads: 16, target: 7,
-    ctr: 1.30, cpc: 63, cpa: 6031, cpl: 13785, convLead: 1.04, convTarget: 43.75, seo: 54,
+    impressions: 118346, clicks: 1541, spend: 27564, leads: 11, target: 7,
+    ctr: 1.30, cpc: 18, cpa: 2506, cpl: 3938, convLead: 0.71, convTarget: 63.64, seo: 80,
     accounts: {
-      'e-20010227': { imp: 49416, clicks: 805, spend: 27564, leads: 16, target: 7 },
-      'e-17228851': { imp: 58292, clicks: 465, spend: 58292, leads: 0, target: 0 },
-      'dune-group': { imp: 4707, clicks: 151, spend: 4707, leads: 0, target: 0 },
-      'porg-3uieikjn': { imp: 5931, clicks: 120, spend: 5931, leads: 0, target: 0 }
+      'e-20010227': { imp: 49416, clicks: 805, spend: 27564, leads: 11, target: 7 },
+      'e-17228851': { imp: 58292, clicks: 465, spend: 0, leads: 0, target: 0 },
+      'dune-group': { imp: 4707, clicks: 151, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 5931, clicks: 120, spend: 0, leads: 0, target: 0 }
     }
   }
 ];
 
 const monthDetail = [
-  { name: 'Итого', level: 'total', imp: null, clicks: null, ctr: null, cpc: null, leads: 46, conv: null, cpa: '4 212', target: 25, convT: null, cpl: '7 751', spend: '193 785' },
-  { name: 'Яндекс Директ', level: 'channel', imp: 723507, clicks: 14386, ctr: '1,99%', cpc: '13', leads: 39, conv: '0,27%', cpa: '4 969', target: 17, convT: '43,59%', cpl: '11 399', spend: '193 785' },
-  { name: 'e-20010227', level: 'account', imp: 289758, clicks: 6732, ctr: '2,32%', cpc: '15', leads: 38, conv: '0,56%', cpa: '2 713', target: 17, convT: '44,74%', cpl: '6 063', spend: '103 011' },
-  { name: 'e-17228851', level: 'account', imp: 381240, clicks: 6190, ctr: '1,62%', cpc: '13', leads: 1, conv: '0,02%', cpa: '80 692', target: 1, convT: '100,00%', cpl: '80 692', spend: '80 692' },
-  { name: 'dune-group', level: 'account', imp: 23576, clicks: 842, ctr: '3,57%', cpc: '6', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '4 951' },
-  { name: 'porg-3uieikjn', level: 'account', imp: 28933, clicks: 622, ctr: '2,15%', cpc: '10', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '5 931' },
+  { name: 'Итого', level: 'total', imp: null, clicks: null, ctr: null, cpc: null, leads: 41, conv: null, cpa: '3 081', target: 25, convT: null, cpl: '5 051', spend: '126 355' },
+  { name: 'Яндекс Директ', level: 'channel', imp: 723507, clicks: 14386, ctr: '1,99%', cpc: '9', leads: 34, conv: '0,24%', cpa: '3 716', target: 17, convT: '50,00%', cpl: '7 433', spend: '126 355' },
+  { name: 'e-20010227', level: 'account', imp: 289758, clicks: 6732, ctr: '2,32%', cpc: '15', leads: 33, conv: '0,49%', cpa: '3 122', target: 17, convT: '51,52%', cpl: '6 063', spend: '103 011' },
+  { name: 'e-17228851', level: 'account', imp: 381240, clicks: 6190, ctr: '1,62%', cpc: '4', leads: 1, conv: '0,02%', cpa: '22 400', target: 1, convT: '100,00%', cpl: '22 400', spend: '22 400' },
+  { name: 'dune-group', level: 'account', imp: 23576, clicks: 842, ctr: '3,57%', cpc: '0', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '244' },
+  { name: 'porg-3uieikjn', level: 'account', imp: 28933, clicks: 622, ctr: '2,15%', cpc: '0', leads: 0, conv: '0,00%', cpa: '—', target: 0, convT: '—', cpl: '—', spend: '0' },
   { name: 'SEO', level: 'channel', imp: null, clicks: 222, ctr: null, cpc: null, leads: 1, conv: null, cpa: '—', target: 1, convT: '—', cpl: '—', spend: '—' },
   { name: 'Рекомендации / Звонки', level: 'channel', imp: null, clicks: null, ctr: null, cpc: null, leads: 6, conv: null, cpa: '—', target: 6, convT: '—', cpl: '—', spend: '—' },
   { name: 'Не атрибутировано', level: 'channel', imp: null, clicks: null, ctr: null, cpc: null, leads: 0, conv: null, cpa: '—', target: 1, convT: '—', cpl: '—', spend: '—' }
@@ -616,14 +616,76 @@ function renderSummaryTable() {
 }
 
 // ===== DETAIL TABLE =====
-function renderDetailTable() {
+function renderDetailTable(data) {
   const table = document.getElementById('detailTable');
+  const title = document.getElementById('detailTitle');
+  const isAll = data.length > 1;
+  
+  // Update title
+  if (isAll) {
+    title.textContent = 'Полный период (04.05–07.06)';
+  } else {
+    title.textContent = `Неделя ${data[0].label}`;
+  }
+  
+  // Calculate data for selected period
+  let detailData;
+  if (isAll) {
+    detailData = monthDetail; // Use pre-calculated month detail
+  } else {
+    // Calculate for single week
+    const w = data[0];
+    const accounts = Object.entries(w.accounts);
+    const totalSpend = accounts.reduce((sum, [, acc]) => sum + acc.spend, 0);
+    const totalLeads = accounts.reduce((sum, [, acc]) => sum + acc.leads, 0);
+    const totalTarget = accounts.reduce((sum, [, acc]) => sum + acc.target, 0);
+    
+    detailData = [
+      { 
+        name: 'Итого', level: 'total',
+        imp: null, clicks: null, ctr: null, cpc: null,
+        leads: w.leads, conv: null, cpa: totalLeads > 0 ? Math.round(totalSpend / totalLeads) : '—',
+        target: w.target, convT: null, cpl: w.target > 0 ? Math.round(totalSpend / w.target) : '—',
+        spend: fmt(Math.round(totalSpend))
+      },
+      { 
+        name: 'Яндекс Директ', level: 'channel',
+        imp: w.impressions, clicks: w.clicks,
+        ctr: pct(w.ctr), cpc: Math.round(w.cpc),
+        leads: totalLeads, conv: pct(w.convLead), cpa: Math.round(w.cpa),
+        target: totalTarget, convT: w.target > 0 ? pct((totalTarget / totalLeads) * 100) : '—',
+        cpl: w.cpl ? Math.round(w.cpl) : '—',
+        spend: fmt(Math.round(totalSpend))
+      }
+    ];
+    
+    // Add accounts
+    accounts.forEach(([name, acc]) => {
+      if (acc.spend > 0 || acc.leads > 0) {
+        detailData.push({
+          name: name,
+          level: 'account',
+          imp: acc.imp, clicks: acc.clicks,
+          ctr: acc.imp > 0 ? pct((acc.clicks / acc.imp) * 100) : '—',
+          cpc: acc.clicks > 0 ? Math.round(acc.spend / acc.clicks) : '—',
+          leads: acc.leads,
+          conv: acc.clicks > 0 ? pct((acc.leads / acc.clicks) * 100) : '—',
+          cpa: acc.leads > 0 ? Math.round(acc.spend / acc.leads) : '—',
+          target: acc.target,
+          convT: acc.leads > 0 ? pct((acc.target / acc.leads) * 100) : '—',
+          cpl: acc.target > 0 ? Math.round(acc.spend / acc.target) : '—',
+          spend: fmt(Math.round(acc.spend))
+        });
+      }
+    });
+  }
+  
   let html = `<thead><tr>
     <th>Канал / Кабинет</th><th>Показы</th><th>Клики</th><th>CTR</th><th>CPC</th>
     <th>Лиды</th><th>Конв.</th><th>CPA</th><th>Ц.Лиды</th><th>Конв.ЦЛ</th><th>CPL</th><th>Расход</th>
   </tr></thead><tbody>`;
 
-  monthDetail.forEach(r => {
+  detailData.forEach(r => {
     const cls = r.level === 'total' ? 'row-total' : r.level === 'account' ? 'row-account' : '';
     html += `<tr class="${cls}">
       <td>${r.name}</td>
@@ -655,13 +717,14 @@ function showPeriod(period, event) {
   const data = period === 'all' ? weeks : [weeks.find(w => w.id === period)];
   renderHeroStats(data);
   renderKPI(data);
+  renderDetailTable(data);
 }
 
 // ===== INIT =====
 renderHeroStats(weeks);
 renderKPI(weeks);
 renderSummaryTable();
-renderDetailTable();
+renderDetailTable(weeks);
 </script>
 
 </body>
