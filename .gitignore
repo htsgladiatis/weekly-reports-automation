@@ -25,10 +25,8 @@ __pycache__/
 *.csv
 *.html
 !README.html
-!рубрики2.html
-!рубрики.html
-!index_ghpages.html
-!rubriki2.html
+!index.html
+!index2.html
 
 # Other projects
 leak_scanner/
