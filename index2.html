@@ -380,7 +380,7 @@ tbody tr:nth-child(even) { background: rgba(255,255,255,0.01); }
     </div>
     
     <div class="data-table">
-      <h3>Полный период (04.05–07.06)</h3>
+      <h3 id="detailTitle">Полный период (04.05–07.06)</h3>
       <table id="detailTable"></table>
     </div>
   </section>
@@ -616,14 +616,76 @@ function renderSummaryTable() {
 }
 
 // ===== DETAIL TABLE =====
-function renderDetailTable() {
+function renderDetailTable(data) {
   const table = document.getElementById('detailTable');
+  const title = document.getElementById('detailTitle');
+  const isAll = data.length > 1;
+  
+  // Update title
+  if (isAll) {
+    title.textContent = 'Полный период (04.05–07.06)';
+  } else {
+    title.textContent = `Неделя ${data[0].label}`;
+  }
+  
+  // Calculate data for selected period
+  let detailData;
+  if (isAll) {
+    detailData = monthDetail; // Use pre-calculated month detail
+  } else {
+    // Calculate for single week
+    const w = data[0];
+    const accounts = Object.entries(w.accounts);
+    const totalSpend = accounts.reduce((sum, [, acc]) => sum + acc.spend, 0);
+    const totalLeads = accounts.reduce((sum, [, acc]) => sum + acc.leads, 0);
+    const totalTarget = accounts.reduce((sum, [, acc]) => sum + acc.target, 0);
+    
+    detailData = [
+      { 
+        name: 'Итого', level: 'total',
+        imp: null, clicks: null, ctr: null, cpc: null,
+        leads: w.leads, conv: null, cpa: totalLeads > 0 ? Math.round(totalSpend / totalLeads) : '—',
+        target: w.target, convT: null, cpl: w.target > 0 ? Math.round(totalSpend / w.target) : '—',
+        spend: fmt(Math.round(totalSpend))
+      },
+      { 
+        name: 'Яндекс Директ', level: 'channel',
+        imp: w.impressions, clicks: w.clicks,
+        ctr: pct(w.ctr), cpc: Math.round(w.cpc),
+        leads: totalLeads, conv: pct(w.convLead), cpa: Math.round(w.cpa),
+        target: totalTarget, convT: w.target > 0 ? pct((totalTarget / totalLeads) * 100) : '—',
+        cpl: w.cpl ? Math.round(w.cpl) : '—',
+        spend: fmt(Math.round(totalSpend))
+      }
+    ];
+    
+    // Add accounts
+    accounts.forEach(([name, acc]) => {
+      if (acc.spend > 0 || acc.leads > 0) {
+        detailData.push({
+          name: name,
+          level: 'account',
+          imp: acc.imp, clicks: acc.clicks,
+          ctr: acc.imp > 0 ? pct((acc.clicks / acc.imp) * 100) : '—',
+          cpc: acc.clicks > 0 ? Math.round(acc.spend / acc.clicks) : '—',
+          leads: acc.leads,
+          conv: acc.clicks > 0 ? pct((acc.leads / acc.clicks) * 100) : '—',
+          cpa: acc.leads > 0 ? Math.round(acc.spend / acc.leads) : '—',
+          target: acc.target,
+          convT: acc.leads > 0 ? pct((acc.target / acc.leads) * 100) : '—',
+          cpl: acc.target > 0 ? Math.round(acc.spend / acc.target) : '—',
+          spend: fmt(Math.round(acc.spend))
+        });
+      }
+    });
+  }
+  
   let html = `<thead><tr>
     <th>Канал / Кабинет</th><th>Показы</th><th>Клики</th><th>CTR</th><th>CPC</th>
     <th>Лиды</th><th>Конв.</th><th>CPA</th><th>Ц.Лиды</th><th>Конв.ЦЛ</th><th>CPL</th><th>Расход</th>
   </tr></thead><tbody>`;
 
-  monthDetail.forEach(r => {
+  detailData.forEach(r => {
     const cls = r.level === 'total' ? 'row-total' : r.level === 'account' ? 'row-account' : '';
     html += `<tr class="${cls}">
       <td>${r.name}</td>
@@ -655,13 +717,14 @@ function showPeriod(period, event) {
   const data = period === 'all' ? weeks : [weeks.find(w => w.id === period)];
   renderHeroStats(data);
   renderKPI(data);
+  renderDetailTable(data);
 }
 
 // ===== INIT =====
 renderHeroStats(weeks);
 renderKPI(weeks);
 renderSummaryTable();
-renderDetailTable();
+renderDetailTable(weeks);
 </script>
 
 </body>
