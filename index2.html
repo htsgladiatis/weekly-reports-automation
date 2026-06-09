@@ -323,24 +323,7 @@ tbody tr:nth-child(even) { background: rgba(255,255,255,0.01); }
     <div class="hero-subtitle">
       Яндекс.Директ · 4 рекламных кабинета · Еженедельная аналитика эффективности
     </div>
-    <div class="hero-stats">
-      <div class="stat-item">
-        <span class="stat-value">5</span>
-        <div class="stat-label">недель</div>
-      </div>
-      <div class="stat-item">
-        <span class="stat-value">46</span>
-        <div class="stat-label">лидов</div>
-      </div>
-      <div class="stat-item">
-        <span class="stat-value">25</span>
-        <div class="stat-label">целевых</div>
-      </div>
-      <div class="stat-item">
-        <span class="stat-value">193K</span>
-        <div class="stat-label">расход ₽</div>
-      </div>
-    </div>
+    <div class="hero-stats" id="heroStats"></div>
   </div>
 </div>
 
@@ -491,6 +474,41 @@ function rub(n) {
   return '₽' + fmt(Math.round(n));
 }
 
+// ===== HERO STATS RENDERING =====
+function renderHeroStats(data) {
+  const heroStats = document.getElementById('heroStats');
+  const isAll = data.length > 1;
+
+  const totals = data.reduce((acc, w) => {
+    acc.leads += w.leads;
+    acc.target += w.target;
+    acc.spend += w.spend;
+    return acc;
+  }, { leads: 0, target: 0, spend: 0 });
+
+  const weeksLabel = isAll ? `${data.length} недель` : data[0].label;
+  const spendLabel = totals.spend >= 1000 ? `${Math.round(totals.spend/1000)}K` : totals.spend;
+
+  heroStats.innerHTML = `
+    <div class="stat-item">
+      <span class="stat-value">${isAll ? data.length : '1'}</span>
+      <div class="stat-label">${isAll ? 'недель' : 'неделя'}</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">${totals.leads}</span>
+      <div class="stat-label">лидов</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">${totals.target}</span>
+      <div class="stat-label">целевых</div>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">${spendLabel}</span>
+      <div class="stat-label">расход ₽</div>
+    </div>
+  `;
+}
+
 // ===== KPI RENDERING =====
 function renderKPI(data) {
   const grid = document.getElementById('kpiGrid');
@@ -635,10 +653,12 @@ function showPeriod(period, event) {
   }
 
   const data = period === 'all' ? weeks : [weeks.find(w => w.id === period)];
+  renderHeroStats(data);
   renderKPI(data);
 }
 
 // ===== INIT =====
+renderHeroStats(weeks);
 renderKPI(weeks);
 renderSummaryTable();
 renderDetailTable();
