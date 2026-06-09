@@ -1,0 +1,100 @@
+{
+  "updated": "2026-06-09T12:00:00",
+  "weeks": {
+    "w1": {
+      "period": {"from": "2026-05-04", "to": "2026-05-10"},
+      "label": "04.05–10.05",
+      "accounts": {
+        "e-20010227": {"leads": 5, "target": 0},
+        "e-17228851": {"leads": 0, "target": 0},
+        "dune-group": {"leads": 0, "target": 0},
+        "porg-3uieikjn": {"leads": 0, "target": 0}
+      },
+      "channels": {
+        "direct": {"leads": 5, "target": 0},
+        "seo": {"leads": 0, "target": 0},
+        "recommendations": {"leads": 0, "target": 0}
+      },
+      "total": {"leads": 5, "target": 0}
+    },
+    "w2": {
+      "period": {"from": "2026-05-11", "to": "2026-05-17"},
+      "label": "11.05–17.05",
+      "accounts": {
+        "e-20010227": {"leads": 9, "target": 5},
+        "e-17228851": {"leads": 1, "target": 1},
+        "dune-group": {"leads": 0, "target": 0},
+        "porg-3uieikjn": {"leads": 0, "target": 0}
+      },
+      "channels": {
+        "direct": {"leads": 10, "target": 6},
+        "seo": {"leads": 0, "target": 0},
+        "recommendations": {"leads": 0, "target": 0}
+      },
+      "total": {"leads": 10, "target": 6}
+    },
+    "w3": {
+      "period": {"from": "2026-05-18", "to": "2026-05-24"},
+      "label": "18.05–24.05",
+      "accounts": {
+        "e-20010227": {"leads": 3, "target": 3},
+        "e-17228851": {"leads": 0, "target": 0},
+        "dune-group": {"leads": 0, "target": 0},
+        "porg-3uieikjn": {"leads": 0, "target": 0}
+      },
+      "channels": {
+        "direct": {"leads": 10, "target": 10},
+        "seo": {"leads": 0, "target": 0},
+        "recommendations": {"leads": 0, "target": 0}
+      },
+      "total": {"leads": 10, "target": 10}
+    },
+    "w4": {
+      "period": {"from": "2026-05-25", "to": "2026-05-31"},
+      "label": "25.05–31.05",
+      "accounts": {
+        "e-20010227": {"leads": 5, "target": 2},
+        "e-17228851": {"leads": 0, "target": 0},
+        "dune-group": {"leads": 0, "target": 0},
+        "porg-3uieikjn": {"leads": 0, "target": 0}
+      },
+      "channels": {
+        "direct": {"leads": 5, "target": 2},
+        "seo": {"leads": 0, "target": 0},
+        "recommendations": {"leads": 0, "target": 0}
+      },
+      "total": {"leads": 5, "target": 2}
+    },
+    "w5": {
+      "period": {"from": "2026-06-01", "to": "2026-06-07"},
+      "label": "01.06–07.06",
+      "accounts": {
+        "e-20010227": {"leads": 11, "target": 7},
+        "e-17228851": {"leads": 0, "target": 0},
+        "dune-group": {"leads": 0, "target": 0},
+        "porg-3uieikjn": {"leads": 0, "target": 0}
+      },
+      "channels": {
+        "direct": {"leads": 11, "target": 7},
+        "seo": {"leads": 0, "target": 0},
+        "recommendations": {"leads": 0, "target": 0}
+      },
+      "total": {"leads": 11, "target": 7},
+      "target_leads": [
+        {"name": "Николай", "description": "65м2 вторичка"},
+        {"name": "Константин", "description": "дом 80м2 Севанская"},
+        {"name": "Вероника", "description": "40м2 ЖК Персона"},
+        {"name": "Андрей", "description": "50 Ремонт Зум"},
+        {"name": "Илона", "description": "35м2 вторичка"},
+        {"name": "Роман", "description": "60м2 новостройка"},
+        {"name": "Мария", "description": "45м2 ЖК Центр"}
+      ]
+    }
+  },
+  "meta": {
+    "source": "Bitrix24 CRM",
+    "webhook": "https://dunegroup.bitrix24.ru/rest/396/vk0fdm6r1qrtt81w/",
+    "manual_update_required": true,
+    "last_manual_update": "2026-06-09"
+  }
+}
