@@ -3,514 +3,534 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Дашборд РК — RUQI + Секвойя | Июнь 2026</title>
+<title>Яндекс.Директ + Roistat — RUQI + Секвойя | Июнь 2026</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f0f2f5; color: #1a1a2e; }
+:root {
+  --bg: #0f111a; --surface: #161922; --surface2: #1e212e; --border: #2a2e3f;
+  --accent: #6366f1; --green: #22c55e; --red: #ef4444; --yellow: #f59e0b; --blue: #3b82f6; --purple: #8b5cf6; --cyan: #06b6d4;
+  --text: #e2e8f0; --muted: #94a3b8; --dim: #64748b;
+}
+body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; font-size: 14px; }
+.header { background: linear-gradient(135deg, #1e1b4b, #312e81); padding: 40px 32px 32px; }
+.header-inner { max-width: 1200px; margin: 0 auto; }
+.header h1 { font-size: 28px; font-weight: 800; background: linear-gradient(90deg, #818cf8, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.header .subtitle { color: var(--muted); margin-top: 8px; }
+.header .updated { color: var(--dim); font-size: 12px; margin-top: 16px; background: rgba(255,255,255,0.05); display: inline-block; padding: 6px 14px; border-radius: 20px; }
+.container { max-width: 1200px; margin: 0 auto; padding: 32px; }
 
-.header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 24px 40px; display: flex; justify-content: space-between; align-items: center; }
-.header h1 { font-size: 20px; font-weight: 700; }
-.header .meta { font-size: 12px; opacity: 0.6; margin-top: 4px; }
-.header .updated { font-size: 12px; background: rgba(255,255,255,0.1); padding: 6px 14px; border-radius: 20px; }
+.balance-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+.balance-card { background: var(--surface); border-radius: 16px; padding: 24px; border: 1px solid var(--border); position: relative; overflow: hidden; }
+.balance-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+.balance-card.ruqi::before { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+.balance-card.seq::before { background: linear-gradient(90deg, #8b5cf6, #ec4899); }
+.balance-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+.balance-value { font-size: 32px; font-weight: 800; }
+.balance-vat { font-size: 13px; color: var(--dim); margin-top: 4px; }
+.balance-id { font-size: 11px; color: var(--dim); margin-top: 8px; font-family: monospace; }
 
-.container { max-width: 1300px; margin: 0 auto; padding: 24px 20px; }
+.alert { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 12px; padding: 16px 20px; margin-bottom: 32px; font-size: 13px; color: #fca5a5; }
+.alert strong { color: #ef4444; }
 
-/* Budget bar */
-.budget-section { background: white; border-radius: 12px; padding: 20px 24px; margin-bottom: 24px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
-.budget-section h2 { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: #888; margin-bottom: 16px; }
-.budget-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-.budget-item .label { font-size: 13px; color: #555; margin-bottom: 8px; display: flex; justify-content: space-between; }
-.budget-item .label span { font-weight: 700; color: #1a1a2e; }
-.budget-bar { height: 10px; background: #e2e8f0; border-radius: 5px; overflow: hidden; }
-.budget-fill { height: 10px; border-radius: 5px; transition: width .3s; }
-.budget-fill.ruqi { background: linear-gradient(90deg, #4299e1, #3182ce); }
-.budget-fill.seq { background: linear-gradient(90deg, #805ad5, #6b46c1); }
-.budget-fill.warn { background: linear-gradient(90deg, #e53e3e, #c53030); }
-.budget-sub { font-size: 11px; color: #888; margin-top: 5px; }
+.section-title { font-size: 18px; font-weight: 700; margin: 40px 0 20px; display: flex; align-items: center; gap: 12px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+.dot.ruqi { background: #3b82f6; }
+.dot.seq { background: #8b5cf6; }
+.dot.roistat { background: #f59e0b; }
 
-/* Tabs */
-.tabs { display: flex; gap: 8px; margin-bottom: 20px; }
-.tab { padding: 8px 20px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; border: 2px solid transparent; transition: all .2s; }
-.tab.active { background: #1a1a2e; color: white; }
-.tab:not(.active) { background: white; color: #555; border-color: #e2e8f0; }
+.kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 32px; }
+.kpi { background: var(--surface); border-radius: 14px; padding: 20px; border: 1px solid var(--border); transition: transform 0.2s; }
+.kpi:hover { transform: translateY(-2px); }
+.kpi .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+.kpi .value { font-size: 24px; font-weight: 800; }
+.kpi .delta { font-size: 12px; margin-top: 6px; }
+.kpi .delta.up { color: var(--green); }
+.kpi .delta.down { color: var(--red); }
+.kpi .delta.flat { color: var(--dim); }
+.kpi .value.green { color: var(--green); }
+.kpi .value.blue { color: var(--blue); }
+.kpi .value.yellow { color: var(--yellow); }
+.kpi .value.purple { color: #c084fc; }
+.kpi .value.red { color: var(--red); }
+.kpi .value.cyan { color: var(--cyan); }
 
-/* KPI row */
-.kpi-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin-bottom: 20px; }
-.kpi { background: white; border-radius: 10px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.08); border-top: 3px solid #e2e8f0; }
-.kpi.blue { border-color: #4299e1; }
-.kpi.green { border-color: #38a169; }
-.kpi.red { border-color: #e53e3e; }
-.kpi.yellow { border-color: #d69e2e; }
-.kpi.purple { border-color: #805ad5; }
-.kpi .label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: .4px; margin-bottom: 6px; }
-.kpi .value { font-size: 26px; font-weight: 700; line-height: 1; }
-.kpi .delta { font-size: 11px; margin-top: 5px; }
-.delta.up { color: #38a169; }
-.delta.down { color: #e53e3e; }
-.delta.flat { color: #888; }
+.table-wrap { background: var(--surface); border-radius: 16px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 32px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 900px; }
+thead { background: var(--surface2); position: sticky; top: 0; }
+th { padding: 14px 16px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); border-bottom: 1px solid var(--border); white-space: nowrap; }
+td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text); }
+tr:last-child td { border-bottom: none; }
+tr:hover { background: rgba(255,255,255,0.02); }
+.name { font-weight: 600; max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.num { font-family: 'SF Mono', monospace; text-align: right; white-space: nowrap; }
+.cpa-good { color: var(--green); font-weight: 700; }
+.cpa-ok { color: var(--yellow); font-weight: 700; }
+.cpa-bad { color: var(--red); font-weight: 700; }
+.badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+.badge.on { background: rgba(34,197,94,0.15); color: var(--green); }
+.badge.off { background: rgba(239,68,68,0.15); color: var(--red); }
+.badge.arch { background: rgba(148,163,184,0.15); color: var(--muted); }
 
-/* Table */
-.section-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .8px; color: #888; margin: 20px 0 12px; }
-table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.08); margin-bottom: 20px; font-size: 13px; }
-thead { background: #1a1a2e; color: white; }
-thead th { padding: 11px 14px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .4px; }
-tbody td { padding: 10px 14px; border-bottom: 1px solid #f0f2f5; }
-tbody tr:last-child td { border-bottom: none; }
-tbody tr:hover { background: #fafbfc; }
-.badge { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 11px; font-weight: 600; }
-.badge.on { background: #c6f6d5; color: #276749; }
-.badge.off { background: #fed7d7; color: #822727; }
-.badge.arch { background: #e2e8f0; color: #4a5568; }
-.badge.new { background: #bee3f8; color: #2a4365; }
-.badge.watch { background: #fefcbf; color: #744210; }
-.cpa-good { color: #38a169; font-weight: 700; }
-.cpa-ok { color: #d69e2e; font-weight: 700; }
-.cpa-bad { color: #e53e3e; font-weight: 700; }
+.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 32px; }
+.summary-card { background: var(--surface); border-radius: 16px; padding: 24px; border: 1px solid var(--border); }
+.summary-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+.summary-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+.summary-row:last-child { border-bottom: none; }
+.summary-row .label { color: var(--muted); }
+.summary-row .value { font-weight: 700; font-family: monospace; }
+.summary-row .value.green { color: var(--green); }
+.summary-row .value.red { color: var(--red); }
+.summary-row .value.blue { color: var(--blue); }
+.summary-row .value.yellow { color: var(--yellow); }
 
-/* Hypotheses */
-.hyp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 20px; }
-.hyp { background: white; border-radius: 10px; padding: 16px; box-shadow: 0 1px 4px rgba(0,0,0,.08); border-left: 4px solid #e2e8f0; }
-.hyp.done { border-color: #38a169; }
-.hyp.watch { border-color: #d69e2e; }
-.hyp.risk { border-color: #e53e3e; }
-.hyp .num { font-size: 11px; font-weight: 700; color: #888; margin-bottom: 6px; }
-.hyp .title { font-size: 13px; font-weight: 700; margin-bottom: 6px; }
-.hyp .desc { font-size: 12px; color: #555; line-height: 1.5; }
-.hyp .forecast { font-size: 12px; color: #38a169; font-weight: 600; margin-top: 8px; }
+.footer { text-align: center; color: var(--dim); font-size: 12px; margin-top: 40px; padding-bottom: 40px; }
 
-/* Log */
-.log { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 4px rgba(0,0,0,.08); }
-.log h3 { font-size: 13px; font-weight: 700; margin-bottom: 14px; }
-.log-item { display: flex; gap: 12px; padding: 8px 0; border-bottom: 1px solid #f0f2f5; font-size: 13px; }
-.log-item:last-child { border-bottom: none; }
-.log-date { color: #888; min-width: 80px; font-size: 12px; }
-.log-text { color: #333; flex: 1; }
-.log-tag { font-size: 11px; padding: 1px 7px; border-radius: 10px; background: #e2e8f0; color: #555; }
-.log-tag.ruqi { background: #bee3f8; color: #2a4365; }
-.log-tag.seq { background: #e9d8fd; color: #553c9a; }
-.log-tag.alert { background: #fed7d7; color: #822727; }
-
-/* Alert box */
-.alert-box { background: #fff5f5; border-left: 4px solid #e53e3e; border-radius: 8px; padding: 14px 18px; margin-bottom: 20px; font-size: 13px; color: #742a2a; }
-.alert-box strong { color: #c53030; }
-
-@media(max-width:900px) { .kpi-row { grid-template-columns: repeat(3,1fr); } .hyp-grid { grid-template-columns: 1fr; } .budget-grid { grid-template-columns: 1fr; } }
+@media (max-width: 900px) { .kpi-row { grid-template-columns: repeat(2, 1fr); } .balance-row, .summary-grid { grid-template-columns: 1fr; } }
+@media (max-width: 600px) { .kpi-row { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
 <div class="header">
-  <div>
-    <h1>📊 Дашборд РК — RUQI + Секвойя</h1>
-    <div class="meta">Июнь 2026 · Бюджет: уточнить (май был 250 000 ₽)</div>
+  <div class="header-inner">
+    <h1>📊 Яндекс.Директ + Roistat — RUQI + Секвойя</h1>
+    <div class="subtitle">Июнь 2026 (1–15 июня) · Данные из Директ API + Roistat выгрузки</div>
+    <div class="updated">🕐 Обновлено: 15.06.2026 · Все суммы с НДС</div>
   </div>
-  <div class="updated">🕐 Обновлено: 15.06.2026 (данные 1–15.06)</div>
 </div>
 
 <div class="container">
 
-  <!-- ALERTS -->
-  <div class="alert-box">
-    <strong>⚠️ Критические изменения с 25.05:</strong> МК // CPA Цель (708408079) — <strong>SUSPENDED</strong> (была 22 конв в мае). Ruqi Топ-РК — <strong>ARCHIVED</strong>. 
-    Аутсорсинг.РФ — SUSPENDED. Омск — бюджет <strong>8 000 ₽/день</strong> (риск перерасхода). Нужны решения.
-  </div>
-
-  <!-- BUDGET -->
-  <div class="budget-section">
-    <h2>💰 Бюджет июня (1–15 июня) + прогноз</h2>
-    <div class="budget-grid">
-      <div class="budget-item">
-        <div class="label">RUQI — расход 1–15.06 <span>120 480 ₽ (прогноз ~241к)</span></div>
-        <div class="budget-bar"><div class="budget-fill warn" style="width:96%"></div></div>
-        <div class="budget-sub">⚠️ Прогноз перерасхода если бюджет 200к · CPA 2 563 ₽ · 47 конверсий (прогноз ~94)</div>
-        <div style="margin-top:12px;display:flex;gap:16px">
-          <div style="background:#f7fafc;border-radius:8px;padding:10px 16px;flex:1">
-            <div style="font-size:11px;color:#888;margin-bottom:4px">РАСХОД 1–15.06</div>
-            <div style="font-size:20px;font-weight:700;color:#4299e1">120 480 ₽</div>
-            <div style="font-size:11px;color:#888">API ✅, с НДС</div>
-          </div>
-          <div style="background:#fff5f5;border-radius:8px;padding:10px 16px;flex:1">
-            <div style="font-size:11px;color:#888;margin-bottom:4px">ПРОГНОЗ НА МЕСЯЦ</div>
-            <div style="font-size:20px;font-weight:700;color:#e53e3e">~241к ₽</div>
-            <div style="font-size:11px;color:#888">⚠️ Выше бюджета мая (200к)</div>
-          </div>
-          <div style="background:#f0fff4;border-radius:8px;padding:10px 16px;flex:1">
-            <div style="font-size:11px;color:#888;margin-bottom:4px">КОНВЕРСИИ 1–15.06</div>
-            <div style="font-size:20px;font-weight:700;color:#38a169">47</div>
-            <div style="font-size:11px;color:#888">прогноз ~94 за июнь</div>
-          </div>
-        </div>
-      </div>
-      <div class="budget-item">
-        <div class="label">Секвойя — расход 1–15.06 <span>20 264 ₽ (прогноз ~40к)</span></div>
-        <div class="budget-bar"><div class="budget-fill seq" style="width:81%"></div></div>
-        <div class="budget-sub">✅ В рамках бюджета 50к · CPA 654 ₽ · 31 конверсия (прогноз ~62)</div>
-        <div style="margin-top:12px;display:flex;gap:16px">
-          <div style="background:#f7fafc;border-radius:8px;padding:10px 16px;flex:1">
-            <div style="font-size:11px;color:#888;margin-bottom:4px">РАСХОД 1–15.06</div>
-            <div style="font-size:20px;font-weight:700;color:#805ad5">20 264 ₽</div>
-            <div style="font-size:11px;color:#888">API ✅, с НДС</div>
-          </div>
-          <div style="background:#f0fff4;border-radius:8px;padding:10px 16px;flex:1">
-            <div style="font-size:11px;color:#888;margin-bottom:4px">ПРОГНОЗ НА МЕСЯЦ</div>
-            <div style="font-size:20px;font-weight:700;color:#38a169">~40к ₽</div>
-            <div style="font-size:11px;color:#888">✅ В рамках 50к бюджета</div>
-          </div>
-          <div style="background:#f0fff4;border-radius:8px;padding:10px 16px;flex:1">
-            <div style="font-size:11px;color:#888;margin-bottom:4px">КОНВЕРСИИ 1–15.06</div>
-            <div style="font-size:20px;font-weight:700;color:#38a169">31</div>
-            <div style="font-size:11px;color:#888">прогноз ~62 за июнь</div>
-          </div>
-        </div>
-      </div>
+  <!-- BALANCES -->
+  <div class="section-title"><span class="dot"></span>Баланс кабинетов</div>
+  <div class="balance-row">
+    <div class="balance-card ruqi">
+      <div class="balance-label">RUQI · Счёт 69184724</div>
+      <div class="balance-value">52 660 ₽</div>
+      <div class="balance-vat">64 246 ₽ с НДС</div>
+      <div class="balance-id">ruqi.ru · Аутсорсинг линейного персонала</div>
     </div>
-    <div style="margin-top:14px;padding:12px 16px;background:#fffbeb;border-radius:8px;font-size:12px;color:#744210">
-      💡 <strong>Баланс кабинета</strong> — скажи мне актуальный баланс из Директа (direct.yandex.ru → Финансы → Баланс), я обновлю дашборд.
+    <div class="balance-card seq">
+      <div class="balance-label">Секвойя · Счёт 69184724</div>
+      <div class="balance-value">54 076 ₽</div>
+      <div class="balance-vat">65 973 ₽ с НДС</div>
+      <div class="balance-id">sequoia-service.ru · Аутсорсинг персонала</div>
     </div>
   </div>
 
-  <!-- KPI RUQI -->
-  <div class="section-title">RUQI — показатели июня (1–15 июня)</div>
+  <div class="alert">
+    <strong>⚠️ Внимание:</strong> RUQI прогноз расхода ~241к ₽ (при бюджете 200к). Баланс 52 660 ₽ — хватит на ~6–7 дней. МК // CPA Цель приостановлена. Омск — бюджет 8 000 ₽/день.
+    <a href="https://htsgladiatis.github.io/weekly-reports-automation/roistat_june.html" style="color:#fca5a5;margin-left:12px">→ Roistat детализация июня</a>
+  </div>
+
+  <!-- RUQI DIRECT -->
+  <div class="section-title"><span class="dot ruqi"></span>RUQI — Директ · Июнь 1–15</div>
   <div class="kpi-row">
-    <div class="kpi blue">
+    <div class="kpi">
       <div class="label">Расход</div>
-      <div class="value">120к ₽</div>
-      <div class="delta down">↑ прогноз ~241к — риск перерасхода</div>
+      <div class="value blue">120 480 ₽</div>
+      <div class="delta down">↑ прогноз ~241к</div>
     </div>
-    <div class="kpi green">
-      <div class="label">Конверсии</div>
-      <div class="value">47</div>
-      <div class="delta up">прогноз ~94 за месяц</div>
+    <div class="kpi">
+      <div class="label">Конверсии (цель)</div>
+      <div class="value green">47</div>
+      <div class="delta up">прогноз ~94</div>
     </div>
-    <div class="kpi yellow">
-      <div class="label">Средний CPA</div>
-      <div class="value">2 563 ₽</div>
-      <div class="delta watch">↑ выше цели 2 500 ₽</div>
+    <div class="kpi">
+      <div class="label">CPA (цель)</div>
+      <div class="value yellow">2 563 ₽</div>
+      <div class="delta flat">выше цели 2 500</div>
     </div>
-    <div class="kpi blue">
+    <div class="kpi">
       <div class="label">Клики</div>
       <div class="value">211</div>
       <div class="delta flat">CTR ~1.2%</div>
     </div>
-    <div class="kpi purple">
+    <div class="kpi">
       <div class="label">Активных РК</div>
-      <div class="value">13</div>
+      <div class="value purple">13</div>
       <div class="delta flat">из 128 всего</div>
     </div>
   </div>
 
-  <!-- KPI SEQUOIA -->
-  <div class="section-title">Секвойя — показатели июня (1–15 июня)</div>
+  <!-- RUQI ROISTAT -->
+  <div class="section-title"><span class="dot roistat"></span>RUQI — Roistat · Июнь 1–15</div>
   <div class="kpi-row">
-    <div class="kpi purple">
+    <div class="kpi">
+      <div class="label">Расход (Roistat)</div>
+      <div class="value yellow">119 094 ₽</div>
+      <div class="delta flat">≈ Директ: 120 480 ₽</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Заявки (Roistat)</div>
+      <div class="value cyan">26</div>
+      <div class="delta down">↓ Директ: 47 конв</div>
+    </div>
+    <div class="kpi">
+      <div class="label">CPL (Roistat)</div>
+      <div class="value yellow">4 581 ₽</div>
+      <div class="delta flat">за заявку</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Целевые лиды</div>
+      <div class="value green">2</div>
+      <div class="delta flat">ЦЛ-стоимость 59 547 ₽</div>
+    </div>
+    <div class="kpi">
+      <div class="label">Продажи / Выручка</div>
+      <div class="value">0 / 0 ₽</div>
+      <div class="delta flat">ROAS —</div>
+    </div>
+  </div>
+
+  <!-- SEQ DIRECT -->
+  <div class="section-title"><span class="dot seq"></span>Секвойя — Директ · Июнь 1–15</div>
+  <div class="kpi-row">
+    <div class="kpi">
       <div class="label">Расход</div>
-      <div class="value">20к ₽</div>
-      <div class="delta up">прогноз ~40к — в рамках бюджета</div>
+      <div class="value purple">20 264 ₽</div>
+      <div class="delta up">прогноз ~40к</div>
     </div>
-    <div class="kpi green">
+    <div class="kpi">
       <div class="label">Конверсии</div>
-      <div class="value">31</div>
-      <div class="delta up">прогноз ~62 за месяц</div>
+      <div class="value green">31</div>
+      <div class="delta up">прогноз ~62</div>
     </div>
-    <div class="kpi green">
-      <div class="label">Средний CPA</div>
-      <div class="value">654 ₽</div>
-      <div class="delta up">✅ отличный (РСЯ ~290 ₽)</div>
+    <div class="kpi">
+      <div class="label">CPA</div>
+      <div class="value green">654 ₽</div>
+      <div class="delta up">✅ отличный</div>
     </div>
-    <div class="kpi blue">
+    <div class="kpi">
       <div class="label">Клики</div>
       <div class="value">140</div>
       <div class="delta flat">CTR ~0.3%</div>
     </div>
-    <div class="kpi purple">
+    <div class="kpi">
       <div class="label">Активных РК</div>
-      <div class="value">3</div>
+      <div class="value purple">3</div>
       <div class="delta flat">все остальные в архиве</div>
     </div>
   </div>
 
-  <!-- CAMPAIGNS RUQI -->
-  <div class="section-title">Активные кампании RUQI — статус и тренд (июнь 1–15)</div>
-  <table>
-    <thead>
-      <tr>
-        <th>Кампания</th>
-        <th>Статус</th>
-        <th>Расход 1–15.06</th>
-        <th>Конв 1–15.06</th>
-        <th>CPA</th>
-        <th>Бюджет/день</th>
-        <th>Тренд / Действие</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>Аренда персонала. Москва и МО</strong></td>
-        <td><span class="badge on">ON</span></td>
-        <td>50 294 ₽</td>
-        <td>20</td>
-        <td class="cpa-ok">2 515 ₽</td>
-        <td>—</td>
-        <td>📈 Лидер по расходу и конверсиям · CPA улучшился с 3 730 ₽</td>
-      </tr>
-      <tr>
-        <td><strong>Аутсорсинг. СПб и ЛО</strong></td>
-        <td><span class="badge on">ON</span></td>
-        <td>27 990 ₽</td>
-        <td>7</td>
-        <td class="cpa-bad">3 999 ₽</td>
-        <td>—</td>
-        <td>⚠️ CPA вырос с 876 ₽ (май) — мониторить</td>
-      </tr>
-      <tr>
-        <td><strong>Предоставление. СПб и ЛО</strong></td>
-        <td><span class="badge on">ON</span></td>
-        <td>6 854 ₽</td>
-        <td>5</td>
-        <td class="cpa-good">1 371 ₽</td>
-        <td>—</td>
-        <td>✅ Стабильно · CPA 1 371 ₽</td>
-      </tr>
-      <tr>
-        <td><strong>Города. Краснодар</strong></td>
-        <td><span class="badge on">ON</span></td>
-        <td>8 717 ₽</td>
-        <td>2</td>
-        <td class="cpa-bad">4 358 ₽</td>
-        <td>2 500 ₽</td>
-        <td>⚠️ CPA 4 358 ₽ — рассмотреть снижение ставок</td>
-      </tr>
-      <tr>
-        <td><strong>Города. Омск</strong></td>
-        <td><span class="badge on">ON</span></td>
-        <td>3 735 ₽</td>
-        <td>3</td>
-        <td class="cpa-good">1 245 ₽</td>
-        <td>8 000 ₽</td>
-        <td>🚨 <strong>Бюджет 8 000 ₽/день</strong> — срочно проверить! Риск 240к/мес</td>
-      </tr>
-      <tr>
-        <td><strong>Города. Пермь</strong></td>
-        <td><span class="badge on">ON</span></td>
-        <td>7 248 ₽</td>
-        <td>2</td>
-        <td class="cpa-ok">3 624 ₽</td>
-        <td>—</td>
-        <td>⚠️ CPA вырос с 1 632 ₽ (май) — мониторить</td>
-      </tr>
-      <tr>
-        <td><strong>(ЦЛ) Города. Воронеж</strong></td>
-        <td><span class="badge on">ON</span></td>
-        <td>4 521 ₽</td>
-        <td>2</td>
-        <td class="cpa-ok">2 260 ₽</td>
-        <td>—</td>
-        <td>✅ Стабильно</td>
-      </tr>
-      <tr>
-        <td><strong>Склад. Москва и МО</strong></td>
-        <td><span class="badge on">ON</span></td>
-        <td>3 864 ₽</td>
-        <td>1</td>
-        <td class="cpa-bad">3 864 ₽</td>
-        <td>6 000 ₽</td>
-        <td>⚠️ CPA вырос с 1 885 ₽ (май) — мониторить</td>
-      </tr>
-      <tr>
-        <td><strong>Кладовщики. Москва и МО</strong></td>
-        <td><span class="badge on">ON</span></td>
-        <td>3 660 ₽</td>
-        <td>1</td>
-        <td class="cpa-bad">3 660 ₽</td>
-        <td>—</td>
-        <td>⚠️ Новая кампания · мало данных</td>
-      </tr>
-      <tr>
-        <td><strong>Грузчики. РФ</strong></td>
-        <td><span class="badge on">ON</span></td>
-        <td>1 182 ₽</td>
-        <td>1</td>
-        <td class="cpa-good">1 182 ₽</td>
-        <td>4 000 ₽</td>
-        <td>✅ Хороший CPA · мало кликов (4)</td>
-      </tr>
-      <tr>
-        <td><strong>Грузчики. Москва и МО</strong></td>
-        <td><span class="badge on">ON</span></td>
-        <td>490 ₽</td>
-        <td>1</td>
-        <td class="cpa-good">490 ₽</td>
-        <td>3 000 ₽</td>
-        <td>✅ Отличный CPA · мало кликов (2)</td>
-      </tr>
-      <tr>
-        <td><strong>Города. Сочи</strong></td>
-        <td><span class="badge on">ON</span></td>
-        <td>1 868 ₽</td>
-        <td>1</td>
-        <td class="cpa-good">1 868 ₽</td>
-        <td>2 000 ₽</td>
-        <td>✅ Норма</td>
-      </tr>
-      <tr>
-        <td><strong>Комплектовщики. Москва и МО</strong></td>
-        <td><span class="badge on">ON</span></td>
-        <td>657 ₽</td>
-        <td>1</td>
-        <td class="cpa-good">657 ₽</td>
-        <td>1 000 ₽</td>
-        <td>✅ Отличный CPA · мало кликов (2)</td>
-      </tr>
-      <tr style="background:#fff5f5">
-        <td><strong>МК // CPA Цель</strong></td>
-        <td><span class="badge off">SUSPENDED</span></td>
-        <td>0 ₽</td>
-        <td>0</td>
-        <td>—</td>
-        <td>—</td>
-        <td>🛑 <strong>ПРИОСТАНОВЛЕНА</strong> · В мае: 22 конв · CPA 1 902 ₽ · Нужно решение</td>
-      </tr>
-      <tr style="background:#f7fafc">
-        <td><strong>Ruqi Топ-РК</strong></td>
-        <td><span class="badge arch">ARCHIVED</span></td>
-        <td>0 ₽</td>
-        <td>0</td>
-        <td>—</td>
-        <td>—</td>
-        <td>📦 В архиве · В мае: 12 конв · CPA 3 566 ₽</td>
-      </tr>
-      <tr style="background:#fff5f5">
-        <td><strong>Аутсорсинг. РФ</strong></td>
-        <td><span class="badge off">SUSPENDED</span></td>
-        <td>0 ₽</td>
-        <td>0</td>
-        <td>—</td>
-        <td>8 200 ₽</td>
-        <td>🛑 Приостановлена · В мае: 3 конв · CPA 3 599 ₽</td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- COMPARISON TABLE -->
+  <div class="section-title"><span class="dot"></span>Сопоставление: Директ vs Roistat · RUQI · Июнь 1–15</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Метрика</th>
+          <th>Яндекс.Директ API</th>
+          <th>Roistat</th>
+          <th>Разница</th>
+          <th>Комментарий</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="name">Расход</td>
+          <td class="num">120 480 ₽</td>
+          <td class="num">119 094 ₽</td>
+          <td class="num">-1 386 ₽ (-1.2%)</td>
+          <td>✅ Совпадает в пределах погрешности</td>
+        </tr>
+        <tr>
+          <td class="name">Конверсии / Заявки</td>
+          <td class="num green">47</td>
+          <td class="num">26</td>
+          <td class="num red">-21 (-45%)</td>
+          <td>⚠️ Директ считает цель "Заявка", Roistat — свои заявки</td>
+        </tr>
+        <tr>
+          <td class="name">CPA / CPL</td>
+          <td class="num green">2 563 ₽</td>
+          <td class="num yellow">4 581 ₽</td>
+          <td class="num red">+1 818 ₽ (+71%)</td>
+          <td>⚠️ Разные методологии подсчёта</td>
+        </tr>
+        <tr>
+          <td class="name">Целевые лиды</td>
+          <td class="num">—</td>
+          <td class="num">2</td>
+          <td class="num">—</td>
+          <td>ℹ️ Только в Roistat (тег "Целевой")</td>
+        </tr>
+        <tr>
+          <td class="name">Продажи</td>
+          <td class="num">—</td>
+          <td class="num">0</td>
+          <td class="num">—</td>
+          <td>ℹ️ CRM-данные из Roistat</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <!-- CAMPAIGNS SEQUOIA -->
-  <div class="section-title">Активные кампании Секвойя — статус и тренд (июнь 1–15)</div>
-  <table>
-    <thead>
-      <tr>
-        <th>Кампания</th>
-        <th>Статус</th>
-        <th>Расход 1–15.06</th>
-        <th>Конв 1–15.06</th>
-        <th>CPA</th>
-        <th>Бюджет/день</th>
-        <th>Тренд / Действие</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><strong>РСЯ Редизайн</strong></td>
-        <td><span class="badge on">ON</span></td>
-        <td>6 067 ₽</td>
-        <td>21</td>
-        <td class="cpa-good">289 ₽</td>
-        <td>—</td>
-        <td>📈 <strong>Звезда аккаунта</strong> · CPA 289 ₽ · прогноз ~42 конв/мес</td>
-      </tr>
-      <tr>
-        <td><strong>Аутсорсинг. Москва и МО</strong></td>
-        <td><span class="badge on">ON</span></td>
-        <td>12 395 ₽</td>
-        <td>9</td>
-        <td class="cpa-ok">1 377 ₽</td>
-        <td>—</td>
-        <td>✅ CPA улучшился с 1 558 ₽ (май)</td>
-      </tr>
-      <tr>
-        <td><strong>Кладовщики. Москва и МО</strong></td>
-        <td><span class="badge on">ON</span></td>
-        <td>1 802 ₽</td>
-        <td>1</td>
-        <td class="cpa-good">1 802 ₽</td>
-        <td>—</td>
-        <td>✅ Стабильно · мало кликов (3)</td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- RUQI CAMPAIGNS -->
+  <div class="section-title"><span class="dot ruqi"></span>RUQI — Кампании · Июнь 1–15 (Директ)</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Кампания</th>
+          <th>Расход</th>
+          <th>Клики</th>
+          <th>Конв</th>
+          <th>CPA</th>
+          <th>Бюджет/день</th>
+          <th>Оценка</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="name">Аренда персонала. Москва</td>
+          <td class="num">50 294 ₽</td>
+          <td class="num">63</td>
+          <td class="num">20</td>
+          <td class="cpa-ok">2 515 ₽</td>
+          <td class="num">—</td>
+          <td>📈 Лидер</td>
+        </tr>
+        <tr>
+          <td class="name">Аутсорсинг. СПб и ЛО</td>
+          <td class="num">27 990 ₽</td>
+          <td class="num">41</td>
+          <td class="num">7</td>
+          <td class="cpa-bad">3 999 ₽</td>
+          <td class="num">—</td>
+          <td>⚠️ CPA вырос</td>
+        </tr>
+        <tr>
+          <td class="name">Предоставление. СПб и ЛО</td>
+          <td class="num">6 854 ₽</td>
+          <td class="num">14</td>
+          <td class="num">5</td>
+          <td class="cpa-good">1 371 ₽</td>
+          <td class="num">—</td>
+          <td>✅ Отлично</td>
+        </tr>
+        <tr>
+          <td class="name">Города. Краснодар</td>
+          <td class="num">8 717 ₽</td>
+          <td class="num">24</td>
+          <td class="num">2</td>
+          <td class="cpa-bad">4 358 ₽</td>
+          <td class="num">2 500 ₽</td>
+          <td>⚠️ CPA высокий</td>
+        </tr>
+        <tr>
+          <td class="name">Города. Омск</td>
+          <td class="num">3 735 ₽</td>
+          <td class="num">11</td>
+          <td class="num">3</td>
+          <td class="cpa-good">1 245 ₽</td>
+          <td class="num red">8 000 ₽</td>
+          <td>🚨 Риск бюджета</td>
+        </tr>
+        <tr>
+          <td class="name">Города. Пермь</td>
+          <td class="num">7 248 ₽</td>
+          <td class="num">17</td>
+          <td class="num">2</td>
+          <td class="cpa-ok">3 624 ₽</td>
+          <td class="num">—</td>
+          <td>⚠️ CPA вырос</td>
+        </tr>
+        <tr>
+          <td class="name">(ЦЛ) Города. Воронеж</td>
+          <td class="num">4 521 ₽</td>
+          <td class="num">11</td>
+          <td class="num">2</td>
+          <td class="cpa-ok">2 260 ₽</td>
+          <td class="num">—</td>
+          <td>~ Норма</td>
+        </tr>
+        <tr>
+          <td class="name">Склад. Москва и МО</td>
+          <td class="num">3 864 ₽</td>
+          <td class="num">17</td>
+          <td class="num">1</td>
+          <td class="cpa-bad">3 864 ₽</td>
+          <td class="num">6 000 ₽</td>
+          <td>⚠️ CPA вырос</td>
+        </tr>
+        <tr>
+          <td class="name">Кладовщики. Москва</td>
+          <td class="num">3 660 ₽</td>
+          <td class="num">7</td>
+          <td class="num">1</td>
+          <td class="cpa-bad">3 660 ₽</td>
+          <td class="num">—</td>
+          <td>⚠️ Мало данных</td>
+        </tr>
+        <tr>
+          <td class="name">Грузчики. РФ</td>
+          <td class="num">1 182 ₽</td>
+          <td class="num">4</td>
+          <td class="num">1</td>
+          <td class="cpa-good">1 182 ₽</td>
+          <td class="num">4 000 ₽</td>
+          <td>✅ Хорошо</td>
+        </tr>
+        <tr>
+          <td class="name">Грузчики. Москва</td>
+          <td class="num">490 ₽</td>
+          <td class="num">2</td>
+          <td class="num">1</td>
+          <td class="cpa-good">490 ₽</td>
+          <td class="num">3 000 ₽</td>
+          <td>✅ Отлично</td>
+        </tr>
+        <tr>
+          <td class="name">Города. Сочи</td>
+          <td class="num">1 868 ₽</td>
+          <td class="num">6</td>
+          <td class="num">1</td>
+          <td class="cpa-good">1 868 ₽</td>
+          <td class="num">2 000 ₽</td>
+          <td>✅ Норма</td>
+        </tr>
+        <tr>
+          <td class="name">Комплектовщики. Москва</td>
+          <td class="num">657 ₽</td>
+          <td class="num">2</td>
+          <td class="num">1</td>
+          <td class="cpa-good">657 ₽</td>
+          <td class="num">1 000 ₽</td>
+          <td>✅ Отлично</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-  <!-- HYPOTHESES -->
-  <div class="section-title">Гипотезы — статус и новые приоритеты</div>
-  <div class="hyp-grid">
-    <div class="hyp risk">
-      <div class="num">#1 🚨 RUQI — СРОЧНО</div>
-      <div class="title">МК // CPA Цель — приостановлена</div>
-      <div class="desc">В мае дала 22 конв · CPA 1 902 ₽. Сейчас SUSPENDED. Возможные причины: баланс, ручная пауза, ошибка.</div>
-      <div class="forecast" style="color:#e53e3e">⚠️ Нужно решение: включить / оставить выключенной / перенести бюджет</div>
+  <!-- SEQ CAMPAIGNS -->
+  <div class="section-title"><span class="dot seq"></span>Секвойя — Кампании · Июнь 1–15 (Директ)</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Кампания</th>
+          <th>Расход</th>
+          <th>Клики</th>
+          <th>Конв</th>
+          <th>CPA</th>
+          <th>Оценка</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="name">РСЯ Редизайн</td>
+          <td class="num">6 067 ₽</td>
+          <td class="num">119</td>
+          <td class="num">21</td>
+          <td class="cpa-good">289 ₽</td>
+          <td>⭐⭐⭐ Звезда</td>
+        </tr>
+        <tr>
+          <td class="name">Аутсорсинг. Москва</td>
+          <td class="num">12 395 ₽</td>
+          <td class="num">18</td>
+          <td class="num">9</td>
+          <td class="cpa-ok">1 377 ₽</td>
+          <td>✅ Улучшился</td>
+        </tr>
+        <tr>
+          <td class="name">Кладовщики. Москва</td>
+          <td class="num">1 802 ₽</td>
+          <td class="num">3</td>
+          <td class="num">1</td>
+          <td class="cpa-good">1 802 ₽</td>
+          <td>✅ Стабильно</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="section-title"><span class="dot"></span>Сводка и прогноз</div>
+  <div class="summary-grid">
+    <div class="summary-card">
+      <h3>📊 Июнь 1–15 — Факт</h3>
+      <div class="summary-row">
+        <span class="label">RUQI Директ расход</span>
+        <span class="value blue">120 480 ₽</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">RUQI Директ конверсии</span>
+        <span class="value green">47</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">RUQI Директ CPA</span>
+        <span class="value yellow">2 563 ₽</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">RUQI Roistat заявки</span>
+        <span class="value cyan">26</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">RUQI Roistat CPL</span>
+        <span class="value yellow">4 581 ₽</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">RUQI Roistat ЦЛ</span>
+        <span class="value green">2</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Секвойя расход</span>
+        <span class="value purple">20 264 ₽</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Секвойя конверсии</span>
+        <span class="value green">31</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Секвойя CPA</span>
+        <span class="value green">654 ₽</span>
+      </div>
     </div>
-    <div class="hyp risk">
-      <div class="num">#2 🚨 RUQI — СРОЧНО</div>
-      <div class="title">Омск — бюджет 8 000 ₽/день</div>
-      <div class="desc">Бюджет 8 000 ₽/день = 240 000 ₽/мес — больше всего бюджета RUQI. В мае CPA 1 218 ₽, в июне 1 245 ₽. Хороший CPA но масштаб рискован.</div>
-      <div class="forecast" style="color:#e53e3e">⚠️ Рекомендация: снизить до 2 000–3 000 ₽/день</div>
-    </div>
-    <div class="hyp watch">
-      <div class="num">#3 ⚠️ RUQI</div>
-      <div class="title">Аутсорсинг. СПб — рост CPA</div>
-      <div class="desc">Май: CPA 876 ₽ (11 конв). Июнь: CPA 3 999 ₽ (7 конв). Расход вырос с 9 642 ₽ до 27 990 ₽ (прогноз).</div>
-      <div class="forecast" style="color:#d69e2e">⚠️ Мониторить · если CPA > 3 000 ₽ до конца июня — снизить бюджет</div>
-    </div>
-    <div class="hyp watch">
-      <div class="num">#4 ⚠️ RUQI</div>
-      <div class="title">Краснодар + Пермь — CPA вырос</div>
-      <div class="desc">Краснодар: CPA с 3 037 ₽ → 4 358 ₽. Пермь: с 1 632 ₽ → 3 624 ₽. Мало конверсий (2 каждая), статистически ненадёжно.</div>
-      <div class="forecast" style="color:#d69e2e">⚠️ Ждём больше данных до 25.06 · не трогаем пока</div>
-    </div>
-    <div class="hyp done">
-      <div class="num">#5 ✅ СЕКВОЙЯ</div>
-      <div class="title">РСЯ Редизайн — стабильно отлично</div>
-      <div class="desc">CPA 289 ₽ · 21 конв за 15 дней · прогноз ~42/мес. Лучшая кампания обоих аккаунтов.</div>
-      <div class="forecast">✅ Не трогаем · пусть работает</div>
-    </div>
-    <div class="hyp done">
-      <div class="num">#6 ✅ RUQI</div>
-      <div class="title">Аренда персонала. Москва — рост конверсий</div>
-      <div class="desc">Май: 4 конв · CPA 3 730 ₽. Июнь: 20 конв · CPA 2 515 ₽. Улучшение на 33%.</div>
-      <div class="forecast">✅ Главный драйвер роста · мониторить CPA</div>
-    </div>
-    <div class="hyp watch">
-      <div class="num">#7 ⚠️ ОБЩЕЕ</div>
-      <div class="title">Бюджет июня — уточнить</div>
-      <div class="desc">Май: 250к (200к RUQI + 50к SEQ). RUQI факт: 169к. SEQ факт: 63к (перерасход). Июнь прогноз RUQI: 241к.</div>
-      <div class="forecast" style="color:#d69e2e">❓ Какой бюджет июня? Нужно знать для корректировки</div>
+    <div class="summary-card">
+      <h3>📈 Прогноз на месяц</h3>
+      <div class="summary-row">
+        <span class="label">RUQI Директ расход</span>
+        <span class="value red">~241к ₽</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">RUQI Директ конверсии</span>
+        <span class="value green">~94</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Секвойя расход</span>
+        <span class="value purple">~40к ₽</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Секвойя конверсии</span>
+        <span class="value green">~62</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Общий расход</span>
+        <span class="value red">~281к ₽</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Всего конверсий</span>
+        <span class="value green">~156</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Баланс RUQI</span>
+        <span class="value yellow">52 660 ₽</span>
+      </div>
+      <div class="summary-row">
+        <span class="label">Баланс Секвойя</span>
+        <span class="value green">54 076 ₽</span>
+      </div>
     </div>
   </div>
 
-  <!-- LOG -->
-  <div class="log">
-    <h3>📋 Журнал изменений</h3>
-    <div class="log-item">
-      <span class="log-date">15.06.2026</span>
-      <span class="log-text">Обновление дашборда после 3-недельного перерыва. МК CPA и Топ-РК остановлены. Омск бюджет 8к/день.</span>
-      <span class="log-tag alert">Обновление</span>
-    </div>
-    <div class="log-item">
-      <span class="log-date">Июнь 1–15</span>
-      <span class="log-text">RUQI: 47 конв · 120 480 ₽ · CPA 2 563 ₽ | SEQ: 31 конв · 20 264 ₽ · CPA 654 ₽ | Итого: 78 конв · 140 744 ₽</span>
-      <span class="log-tag">📊 Отчёт</span>
-    </div>
-    <div class="log-item">
-      <span class="log-date">Май 2026</span>
-      <span class="log-text">RUQI: 80 конв · 168 958 ₽ · CPA 2 112 ₽ | SEQ: 128 конв · 63 495 ₽ · CPA 496 ₽ | Итого: 208 конв · 232 453 ₽</span>
-      <span class="log-tag">📊 Отчёт</span>
-    </div>
-    <div class="log-item">
-      <span class="log-date">25.05.2026</span>
-      <span class="log-text">Последнее обновление дашборда. МК CPA на переобучении. Тренд роста после изменений 21.05.</span>
-      <span class="log-tag ruqi">RUQI</span>
-    </div>
-    <div class="log-item">
-      <span class="log-date">21.05.2026</span>
-      <span class="log-text">Исправлена цель МК CPA (utm_sourse→Заявка). Включены кампании с лучшим CPA. Снапшот сохранён.</span>
-      <span class="log-tag ruqi">RUQI</span>
-    </div>
+  <div class="footer">
+    Дашборд обновлён 15.06.2026 · Данные: Яндекс.Директ API v5 + Roistat проект 225433 · Все суммы с НДС
+    <br>
+    <a href="https://htsgladiatis.github.io/weekly-reports-automation/roistat_june.html" style="color:var(--dim)">→ Детализация Roistat за июнь</a>
+    · <a href="https://htsgladiatis.github.io/weekly-reports-automation/roistat_may.html" style="color:var(--dim)">→ Детализация Roistat за май</a>
+    · <a href="https://htsgladiatis.github.io/weekly-reports-automation/dashboard_may.html" style="color:var(--dim)">→ Дашборд мая</a>
   </div>
 
 </div>
