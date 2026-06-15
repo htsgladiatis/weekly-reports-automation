@@ -65,25 +65,37 @@ python report_DDMM.py
 │   ├── skills/
 │   │   └── weekly-report.md         # Документация процесса
 │   └── specs/
-│       └── weekly-report-sheet/
-│           ├── requirements.md       # Требования (9 требований)
-│           ├── design.md            # Дизайн (11 correctness properties)
-│           └── .config.kiro         # Конфигурация
+│       ├── weekly-report-sheet/
+│       │   ├── requirements.md       # Требования (9 требований)
+│       │   ├── design.md            # Дизайн (11 correctness properties)
+│       │   └── .config.kiro         # Конфигурация
+│       └── cost-calculation-fix/
+│           ├── bugfix.md            # Bug condition C(X) для недели 01.06-07.06
+│           ├── design.md            # Техническое проектирование фикса
+│           ├── tasks.md             # Список задач (completed)
+│           └── .config.kiro         # Конфигурация бага
+├── docs/
+│   └── index.html                   # Дашборд (копия для локального просмотра)
+├── index.html                       # GitHub Pages дашборд (MAIN)
+├── index2.html                      # Альтернативная версия дашборда
+├── index_ghpages.html              # Резервная копия дашборда
 ├── report_0405.py                   # Отчет 04.05-10.05
 ├── report_1105_v2.py               # Отчет 11.05-17.05
 ├── report_1805.py                   # Отчет 18.05-24.05 (эталон)
-├── report_2505.py                   # Отчет 25.05-31.05 (последний)
+├── report_2505.py                   # Отчет 25.05-31.05
+├── report_0106.py                   # Отчет 01.06-07.06 (исправлен)
+├── test_report_0106_bug_exploration.py   # Bug exploration test (PBT)
+├── test_report_0106_preservation.py      # Preservation test (PBT)
 └── README.md                        # Этот файл
 ```
 
 ## 📋 Context Snapshot для AI-агентов
 
-
 ### Метаданные проекта
-- **Версия**: 2.1
+- **Версия**: 2.2
 - **Сложность**: Medium
-- **Уверенность**: 95%
-- **Дата снэпшота**: 2026-06-02
+- **Уверенность**: 98%
+- **Дата снэпшота**: 2026-06-09
 
 ### Технологический стек
 - Python 3.x
@@ -99,19 +111,31 @@ python report_DDMM.py
 **Статус**: Completed  
 **Описание**: Полная спецификация с 9 требованиями и 11 correctness properties для property-based testing
 
-#### 2. report_2505.py (python_script)
+#### 2. cost-calculation-fix (bugfix_spec)
+**Статус**: Completed and Verified  
+**Описание**: Исправлена ошибка расчета стоимости для недели 01.06-07.06 (было 96,494₽ → стало 27,564₽)
+
+#### 3. report_0106.py (python_script)
+**Статус**: Fixed and Tested  
+**Описание**: Скрипт для отчета 01.06-07.06, исправлены данные расхода для 3 аккаунтов (e-17228851, dune-group, porg-3uieikjn)
+
+#### 4. index.html / Dashboard (web_dashboard)
+**Статус**: Active and Updated  
+**Описание**: Интерактивный дашборд на GitHub Pages с корректными данными за 5 недель (04.05-07.06)
+
+#### 5. report_2505.py (python_script)
 **Статус**: Completed and Verified  
 **Описание**: Скрипт для отчета 25.05-31.05, исправлен с учетом реальных данных из скриншотов кабинетов
 
-#### 3. report_1805.py (python_script)
+#### 6. report_1805.py (python_script)
 **Статус**: Completed (Reference)  
 **Описание**: Эталонный скрипт с правильной структурой и атрибуцией лидов
 
-#### 4. weekly-report.md (skill_documentation)
+#### 7. weekly-report.md (skill_documentation)
 **Статус**: Completed  
 **Описание**: Полная документация процесса в .kiro/skills/
 
-#### 5. Google Sheets Integration (api_integration)
+#### 8. Google Sheets Integration (api_integration)
 **Статус**: Active  
 **Описание**: Service Account andrew@oval-plate-464820-p5.iam.gserviceaccount.com
 
@@ -196,6 +220,7 @@ python report_DDMM.py
 
 ## 🗂️ Хронология последних действий
 
+### Отчет 25.05-31.05 (2026-06-02)
 1. Пользователь запросил создание нового отчета за 25.05-31.05
 2. Получены данные из Яндекс.Метрики: 4745 визитов, 44 SEO визита
 3. Получены данные из CRM: 2 целевых лида (Владимир 35м2, Анна 32м2), 5 лидов всего
@@ -207,6 +232,30 @@ python report_DDMM.py
 9. Пересчитаны CTR для всех кампаний
 10. Скрипт успешно выполнен, отчет создан в Google Sheets
 11. Данные проверены и совпадают со скриншотами
+
+### Исправление отчета 01.06-07.06 (2026-06-09)
+1. Обнаружена ошибка в расчете стоимости: отображалось 96,494₽ вместо 27,564₽
+2. Создана bugfix спецификация (cost-calculation-fix) с bug condition C(X)
+3. Написаны PBT тесты (exploration и preservation)
+4. Исправлен report_0106.py:
+   - e-20010227: spend=27,564₽ (единственный аккаунт с расходом)
+   - e-17228851, dune-group, porg-3uieikjn: spend=0₽
+   - Пересчитаны CPC: 63₽ → 18₽
+   - Пересчитаны CPA: 8,772₽ → 2,506₽
+   - Пересчитаны CPL: 13,785₽ → 3,938₽
+   - Пересчитаны leads: 16 → 11
+5. Обновлены HTML дашборды (index.html, index2.html, index_ghpages.html):
+   - Исправлены данные для week 5 (01.06-07.06)
+   - Исправлены impressions: 49,416 → 118,346
+   - Исправлены clicks для доп. аккаунтов: e-17228851 (405), dune-group (151), porg-3uieikjn (180)
+   - Пересчитаны CTR: 3.12% → 1.30%
+   - Обновлены monthDetail агрегаты (04.05-07.06): Total Direkta impressions = 772,853
+   - Исправлена таблица title: "04.05-31.05" → "04.05-07.06"
+   - Исправлен Channel Leads chart (включены все 4 аккаунта)
+   - Исправлен KPI grid layout (2 ряда по 4 карточки)
+6. Все изменения закоммичены и запушены в gh-pages
+7. Все 20 PBT тестов проходят успешно
+8. GitHub Pages обновлен: https://htsgladiatis.github.io/weekly-reports-automation/
 
 ## ⚠️ Важные решения
 
@@ -316,8 +365,20 @@ ROWS = [
 ]
 ```
 
-## 📊 Результаты последнего отчета (25.05-31.05)
+## 📊 Результаты последних отчетов
 
+### Отчет 01.06-07.06 (исправлен)
+- **Расход**: 27,564 руб (только e-20010227)
+- **Показы**: 118,346
+- **Клики**: 1,541
+- **Лиды**: 11 (все из Директа, аккаунт e-20010227)
+- **Целевые лиды**: 7
+- **CPA**: 2,506 руб
+- **CPL**: 3,938 руб
+- **CTR**: 1.30%
+- **SEO визиты**: 80
+
+### Отчет 25.05-31.05
 - **Расход**: 28,757 руб (23,022 из e-20010227 + 5,735 из e-17228851)
 - **Показы**: 150,146
 - **Клики**: 4,465
@@ -327,9 +388,19 @@ ROWS = [
 - **CPL**: 14,379 руб
 - **SEO визиты**: 44 (без целевых лидов)
 
+### Сводка за весь период (04.05-07.06)
+- **Общий расход**: 124,855 руб
+- **Общие показы**: 772,853 (Яндекс.Директ)
+- **Общие клики**: 14,386
+- **Лиды**: 41 (34 Директ + 1 SEO + 6 Рекомендации)
+- **Целевые лиды**: 25 (18 Директ + 1 SEO + 6 Рекомендации)
+- **Средний CPA**: 3,045 руб
+- **Средний CPL**: 4,994 руб
+
 
 ## 🔗 Ссылки
 
+- **GitHub Pages Dashboard**: https://htsgladiatis.github.io/weekly-reports-automation/ (ГЛАВНЫЙ)
 - **Google Sheets**: https://docs.google.com/spreadsheets/d/1TMa7NMknshntaQE-Dgmr-Trjk3pQxvY_K1IyAYfjZ4A/
 - **Репозиторий**: https://github.com/htsgladiatis/weekly-reports-automation
 
@@ -344,6 +415,7 @@ Proprietary - Dune Group
 
 ---
 
-**Последнее обновление**: 2026-06-02  
-**Версия**: 2.1  
-**Статус**: Production Ready ✅
+**Последнее обновление**: 2026-06-09  
+**Версия**: 2.2  
+**Статус**: Production Ready ✅  
+**Последний багфикс**: cost-calculation-fix (01.06-07.06) ✅

@@ -1,0 +1,206 @@
+{
+  "w1": {
+    "period": { "from": "2026-05-04", "to": "2026-05-10" },
+    "seo_stats": {
+      "visits": 34,
+      "users": 31,
+      "bounce_rate": 2.94,
+      "page_depth": 3.29,
+      "avg_duration": 159
+    },
+    "top_landing_pages": [
+      { "url": "https://dune-group.ru/", "visits": 10, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/prices", "visits": 8, "bounce_rate": 12.5 },
+      { "url": "https://dune-group.ru/designhouses", "visits": 4, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/designapartments", "visits": 3, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/?rs_stat=9204", "visits": 1, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/designerepairdune", "visits": 1, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/dizain-restorana", "visits": 1, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/dvuhetazhnii-dom", "visits": 1, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/kommercheskii-remont", "visits": 1, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/remont-gostinici", "visits": 1, "bounce_rate": 0.0 }
+    ],
+    "search_queries": [
+      { "query": "category_id:(184107431)", "visits": 1 },
+      { "query": "dune group", "visits": 1 },
+      { "query": "dune group строительство домов ростов на дону", "visits": 1 },
+      { "query": "дизайнер интерьера ресторана ростов", "visits": 1 },
+      { "query": "дизайнерский дом ростов на дону", "visits": 1 },
+      { "query": "помпания dune груп работает", "visits": 1 },
+      { "query": "прайс лист на ремонтно строительные работы в ростове на дону", "visits": 1 },
+      { "query": "ростов расценки по внутреннему ремонт цены на 2026", "visits": 1 },
+      { "query": "строительная компания dune group", "visits": 1 },
+      { "query": "цена на ремонт квартиры под ключ в ростове на дону с материалами и работой в 2026 году", "visits": 1 }
+    ]
+  },
+  "w2": {
+    "period": { "from": "2026-05-11", "to": "2026-05-17" },
+    "seo_stats": {
+      "visits": 34,
+      "users": 32,
+      "bounce_rate": 8.82,
+      "page_depth": 3.79,
+      "avg_duration": 273
+    },
+    "top_landing_pages": [
+      { "url": "https://dune-group.ru/prices", "visits": 9, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/", "visits": 7, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/designapartments", "visits": 3, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/designerepairdune", "visits": 3, "bounce_rate": 33.33 },
+      { "url": "https://dune-group.ru/designhouses", "visits": 3, "bounce_rate": 33.33 },
+      { "url": "https://dune-group.ru/dom", "visits": 2, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/arhitecturedune", "visits": 1, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/dizain-odnokomnatnoi-kvartiri", "visits": 1, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/kommercheskii-remont", "visits": 1, "bounce_rate": 100.0 },
+      { "url": "https://dune-group.ru/remont-gostinoy", "visits": 1, "bounce_rate": 0.0 }
+    ],
+    "search_queries": [
+      { "query": "79034850671", "visits": 1 },
+      { "query": "dom-dune", "visits": 1 },
+      { "query": "dune - groip . ru", "visits": 1 },
+      { "query": "dunegroup", "visits": 1 },
+      { "query": "дизайн проект дома ростов", "visits": 1 },
+      { "query": "компания дюна групп в ростове-на-дону", "visits": 1 },
+      { "query": "прайс на отделочные работы ростов-на-дону", "visits": 1 },
+      { "query": "прайс-лист на отделочные работы в ростове-на-дону 2026год", "visits": 1 },
+      { "query": "прайс-лист на отделочные работы в ростовской области на 2026", "visits": 1 },
+      { "query": "ростов-на-дону буденновский проспект 81 дюна групп", "visits": 1 }
+    ]
+  },
+  "w3": {
+    "period": { "from": "2026-05-18", "to": "2026-05-24" },
+    "seo_stats": {
+      "visits": 49,
+      "users": 45,
+      "bounce_rate": 6.12,
+      "page_depth": 3.45,
+      "avg_duration": 129
+    },
+    "top_landing_pages": [
+      { "url": "https://dune-group.ru/prices", "visits": 14, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/", "visits": 7, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/designapartments", "visits": 4, "bounce_rate": 25.0 },
+      { "url": "https://dune-group.ru/designerepairdune", "visits": 4, "bounce_rate": 0.0 },
+      { "url": "https://remont.dune-group.ru/", "visits": 3, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/dom", "visits": 2, "bounce_rate": 100.0 },
+      { "url": "https://dune-group.ru/kladochnie-raboti", "visits": 2, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/remont-vannoy-i-tualeta", "visits": 2, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/arhitekturnii-proekt-doma", "visits": 1, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/cvdesignerepairdune", "visits": 1, "bounce_rate": 0.0 }
+    ],
+    "search_queries": [
+      { "query": "дизайн проект в жк донская слобода ростов на дону", "visits": 3 },
+      { "query": "строительная компания done group ростов-на-дону", "visits": 2 },
+      { "query": "цены на ремонтные и отделочные работы в ростове на дону", "visits": 2 },
+      { "query": "category_id:(184107633)", "visits": 1 },
+      { "query": "большинство дефектов ростовских новостроек выявляют в первые годы", "visits": 1 },
+      { "query": "дизайнер интерьера ростов на дону стоимость", "visits": 1 },
+      { "query": "дюна груп ремонт", "visits": 1 },
+      { "query": "дюна групп ростов на дону", "visits": 1 },
+      { "query": "кладочные работы в ростове-на-дону", "visits": 1 },
+      { "query": "компании по ремонту ро прайс", "visits": 1 }
+    ]
+  },
+  "w4": {
+    "period": { "from": "2026-05-25", "to": "2026-05-31" },
+    "seo_stats": {
+      "visits": 39,
+      "users": 36,
+      "bounce_rate": 10.26,
+      "page_depth": 3.31,
+      "avg_duration": 159
+    },
+    "top_landing_pages": [
+      { "url": "https://dune-group.ru/", "visits": 15, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/designerepairdune", "visits": 5, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/prices", "visits": 5, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/designapartments", "visits": 3, "bounce_rate": 33.33 },
+      { "url": "https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026", "visits": 3, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/designhouses", "visits": 2, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/requisites", "visits": 2, "bounce_rate": 50.0 },
+      { "url": "https://dune-group.ru/remont-dvuhkomnatnoi-kvartiri", "visits": 1, "bounce_rate": 100.0 },
+      { "url": "https://dune-group.ru/remont-kvartiri-studii", "visits": 1, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/remont-magazina", "visits": 1, "bounce_rate": 100.0 }
+    ],
+    "search_queries": [
+      { "query": "дун груп", "visits": 3 },
+      { "query": "dune group", "visits": 2 },
+      { "query": "dune group, ростов-на-дону", "visits": 1 },
+      { "query": "{\"text\":\"строительная компания\",\"what\":[{\"attr_name\":\"category_id\",\"attr_values\":[\"184107633\"]}]}", "visits": 1 },
+      { "query": "{\"text\":\"строительство дачных домов и коттеджей\",\"what\":[{\"attr_name\":\"category_id\",\"attr_values\":[\"184107431\"]}]}", "visits": 1 },
+      { "query": "евченко юрий", "visits": 1 },
+      { "query": "какая стоимость ремонта новостройки в ростове", "visits": 1 },
+      { "query": "прайс дизайнерского ремонта ростов", "visits": 1 },
+      { "query": "расценки на ремонтные и отделочные работы 2026", "visits": 1 },
+      { "query": "ремонт ванной комнаты под ключ в ростове на дону", "visits": 1 }
+    ]
+  },
+  "w5": {
+    "period": { "from": "2026-06-01", "to": "2026-06-07" },
+    "seo_stats": {
+      "visits": 54,
+      "users": 52,
+      "bounce_rate": 3.7,
+      "page_depth": 3.28,
+      "avg_duration": 144
+    },
+    "top_landing_pages": [
+      { "url": "https://dune-group.ru/", "visits": 18, "bounce_rate": 5.56 },
+      { "url": "https://dune-group.ru/designapartments", "visits": 10, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/designerepairdune", "visits": 7, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026", "visits": 4, "bounce_rate": 25.0 },
+      { "url": "https://dune-group.ru/designhouses", "visits": 2, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/prices", "visits": 2, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/remont-balkona", "visits": 2, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/kak-vybrat-podryadchika-na-remont-rostov", "visits": 1, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/kommercheskii-remont", "visits": 1, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/priemka-kvartiry-u-zastroyshchika-rostov", "visits": 1, "bounce_rate": 0.0 }
+    ],
+    "search_queries": [
+      { "query": "dune group, ростов-на-дону", "visits": 3 },
+      { "query": "дюна групп", "visits": 1 },
+      { "query": "дюна групп ростов на дону", "visits": 1 },
+      { "query": "прайс лист на ремонтно строительные работы в ростове на дону", "visits": 1 },
+      { "query": "приемка квартиры в новостройке в ростове на дону", "visits": 1 },
+      { "query": "расценки натремононые работы ростов 2026", "visits": 1 },
+      { "query": "ремонт балкона в ростове на дону", "visits": 1 },
+      { "query": "ремонт квартир в ростове на дону под ключ с материалами цена за м2 под ключ", "visits": 1 },
+      { "query": "ремонт квартир под ключ", "visits": 1 },
+      { "query": "ремонт квартир ростов", "visits": 1 }
+    ]
+  },
+  "all": {
+    "period": { "from": "2026-05-04", "to": "2026-06-07" },
+    "seo_stats": {
+      "visits": 210,
+      "users": 196,
+      "bounce_rate": 6.19,
+      "page_depth": 3.42,
+      "avg_duration": 173
+    },
+    "top_landing_pages": [
+      { "url": "https://dune-group.ru/", "visits": 57, "bounce_rate": 1.75 },
+      { "url": "https://dune-group.ru/prices", "visits": 38, "bounce_rate": 2.63 },
+      { "url": "https://dune-group.ru/designapartments", "visits": 23, "bounce_rate": 13.04 },
+      { "url": "https://dune-group.ru/designerepairdune", "visits": 20, "bounce_rate": 5.0 },
+      { "url": "https://dune-group.ru/designhouses", "visits": 13, "bounce_rate": 7.69 },
+      { "url": "https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026", "visits": 7, "bounce_rate": 14.29 },
+      { "url": "https://dune-group.ru/dom", "visits": 6, "bounce_rate": 50.0 },
+      { "url": "https://remont.dune-group.ru/", "visits": 3, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/kladochnie-raboti", "visits": 2, "bounce_rate": 0.0 },
+      { "url": "https://dune-group.ru/remont-balkona", "visits": 2, "bounce_rate": 0.0 }
+    ],
+    "search_queries": [
+      { "query": "dune group, ростов-на-дону", "visits": 4 },
+      { "query": "дун груп", "visits": 3 },
+      { "query": "дизайн проект в жк донская слобода ростов на дону", "visits": 3 },
+      { "query": "dune group", "visits": 3 },
+      { "query": "прайс лист на ремонтно строительные работы в ростове на дону", "visits": 2 },
+      { "query": "строительная компания done group ростов-на-дону", "visits": 2 },
+      { "query": "цены на ремонтные и отделочные работы в ростове на дону", "visits": 2 },
+      { "query": "дюна групп ростов на дону", "visits": 2 },
+      { "query": "category_id:(184107431)", "visits": 1 },
+      { "query": "dune group строительство домов ростов на дону", "visits": 1 }
+    ]
+  }
+}
