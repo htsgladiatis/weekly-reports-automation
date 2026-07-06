@@ -110,8 +110,11 @@ def classify_lead(lead: Dict[str, Any]) -> Dict[str, str]:
     Returns:
         {"account": "e-20010227", "is_target": True/False, "channel": "direct"}
     """
-    utm_source = lead.get("UTM_SOURCE", "").lower()
-    utm_campaign = lead.get("UTM_CAMPAIGN", "").lower()
+    if not lead:
+        return {"account": "unknown", "is_target": False, "channel": "direct", "is_valid": False}
+    
+    utm_source = (lead.get("UTM_SOURCE") or "").lower()
+    utm_campaign = (lead.get("UTM_CAMPAIGN") or "").lower()
     source_id = lead.get("SOURCE_ID", "")
     status_id = lead.get("STATUS_ID", "")
     

@@ -52,8 +52,33 @@ https://docs.google.com/spreadsheets/d/1TMa7NMknshntaQE-Dgmr-Trjk3pQxvY_K1IyAYfj
 
 Пользователь присылает данные в 3 блока:
 1. **Яндекс Директ** — JSON из 4 кабинетов (показы, клики, расход, конверсии по кампаниям)
-2. **CRM** — CSV с лидами (стадия, источник, дата). Целевые = стадия "Целевой лид"
+2. **CRM** — лиды (стадия, источник, дата). Целевые = стадия "Целевой лид".
+   Берутся автоматически из Битрикс24 через `bitrix.py` (REST API, входящий
+   вебхук) или, как раньше, из выгруженного CSV.
 3. **Метрика** — JSON с визитами, источниками трафика (SEO = search_engine_visits)
+
+### Лиды из Битрикс24 (bitrix.py)
+
+Модуль `bitrix.py` тянет лиды напрямую из CRM и считает их по тем же правилам.
+
+```bash
+set BITRIX_WEBHOOK_URL=https://ВАШ-ПОРТАЛ.bitrix24.ru/rest/1/КОД/   # Windows cmd
+python bitrix.py 2026-06-01 2026-06-07
+```
+
+Или из скрипта отчёта:
+```python
+from bitrix import get_lead_stats
+stats = get_lead_stats("2026-06-01", "2026-06-07")
+leads_total  = stats["total"]["leads"]
+target_total = stats["total"]["target"]
+leads_e20    = stats["accounts"]["e-20010227"]["leads"]
+```
+
+Поля Битрикса: `STATUS_ID`→стадия, `SOURCE_ID`→источник,
+`SOURCE_DESCRIPTION`→"marquiz", `UTM_CAMPAIGN`→привязка к кабинету,
+`DATE_CREATE`→дата. Коды стадий/источников разворачиваются в имена через
+`crm.status.list`.
 
 ## Расчёт метрик
 
