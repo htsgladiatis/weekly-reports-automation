@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fbf9f8">
+<title>DUNE GROUP — Дашборд рекламы</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+/* ============================================================
+   DUNE GROUP — DESIGN TOKENS
+   ========================================================= */
+:root{
+  --bg:#fbf9f8; --bg-2:#f6f3f2; --panel:#ffffff; --panel-2:#f6f3f2; --panel-3:#f0eded;
+  --line:#EEE9E3; --line-2:#E7E0D8; --glass:rgba(255,255,255,.7);
+  --txt:#1b1c1c; --txt-2:#6D6B68; --txt-3:#98938C;
+  --primary:#7a582f; --primary-container:#c3996b; --on-primary:#ffffff; --on-primary-container:#4e310c;
+  --accent-light:#E8D8C4; --accent-hover:#B58A5D; --secondary:#5e5e5c;
+  --outline:#81756a; --outline-variant:#d3c4b7; --surface-variant:#e4e2e1; --on-surface-variant:#4f453b;
+  --grad-primary:linear-gradient(135deg,#8d6a3d,#7a582f);
+  --grad-text:linear-gradient(100deg,var(--txt) 0%,var(--primary) 55%,var(--accent-hover) 100%);
+  --grad-overlay:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.35) 55%,transparent);
+  --glow-primary:0 0 0 1px rgba(122,88,47,.3),0 8px 24px rgba(122,88,47,.18);
+  --elev-1:0 12px 40px rgba(27,23,18,.06);
+  --elev-2:0 1px 0 rgba(255,255,255,.6) inset,0 16px 44px rgba(27,23,18,.10);
+  --r:0.75rem; --r-sm:0.5rem; --r-xs:0.25rem; --r-full:9999px; --maxw:1280px;
+  --ease:cubic-bezier(.22,1,.36,1); --ease-out:cubic-bezier(.16,1,.3,1);
+  --green:#22c55e; --red:#ef4444; --yellow:#eab308; --blue:#3b82f6; --purple:#a855f7; --cyan:#06b6d4;
+}
+[data-theme="dark"]{
+  --bg:#1b1712; --bg-2:#221c16; --panel:#2a231b; --panel-2:#332b20; --panel-3:#3d3326;
+  --line:#4a3f30; --line-2:#5c4d3a; --glass:rgba(42,35,27,.7);
+  --txt:#f6f0e7; --txt-2:#c9beac; --txt-3:#948872;
+  --primary:#c3996b; --primary-container:#7a582f; --on-primary:#2a1c0d; --on-primary-container:#f0e0c8;
+  --accent-light:#4e3f2b; --accent-hover:#d9b47f; --secondary:#a8a196;
+  --outline:#b3a48f; --outline-variant:#5c4d3a; --surface-variant:#3d3326; --on-surface-variant:#e4d8c4;
+  --grad-primary:linear-gradient(135deg,#d9b47f,#c3996b);
+  --grad-text:linear-gradient(100deg,var(--txt) 0%,var(--primary) 55%,var(--accent-hover) 100%);
+  --glow-primary:0 0 0 1px rgba(195,153,107,.4),0 8px 30px rgba(195,153,107,.25);
+  --elev-1:0 1px 0 rgba(255,255,255,.03) inset,0 6px 18px rgba(0,0,0,.5);
+  --elev-2:0 1px 0 rgba(255,255,255,.04) inset,0 16px 44px rgba(0,0,0,.6);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--txt);line-height:1.55;overflow-x:hidden;
+  transition:background .4s var(--ease),color .4s var(--ease);-webkit-font-smoothing:antialiased}
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;font-size:20px;line-height:1;vertical-align:middle}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:6px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:var(--primary)}
+
+/* HEADER */
+.hdr{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter:blur(16px) saturate(150%);border-bottom:1px solid var(--line)}
+.hdr-in{max-width:var(--maxw);margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:14px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{width:34px;height:34px;border-radius:var(--r-sm);background:var(--grad-primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;box-shadow:var(--glow-primary)}
+.brand b{font-size:15px;font-weight:700;letter-spacing:.02em}
+.brand span{display:block;font-size:10px;color:var(--txt-3);letter-spacing:.12em;text-transform:uppercase}
+.hdr-sp{flex:1}
+.status{display:inline-flex;align-items:center;gap:7px;font-size:11px;color:var(--txt-2);padding:5px 11px;border:1px solid var(--line-2);border-radius:20px;background:var(--panel)}
+.status .led{width:7px;height:7px;border-radius:50%;background:#7a9a6b;box-shadow:0 0 8px #7a9a6b;animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.tgl{width:54px;height:28px;border-radius:16px;border:1px solid var(--line-2);background:var(--panel-2);position:relative;cursor:pointer;flex-shrink:0}
+.tgl-k{position:absolute;top:2px;left:2px;width:22px;height:22px;border-radius:50%;background:var(--panel);box-shadow:var(--elev-1);display:flex;align-items:center;justify-content:center;font-size:12px;transition:transform .4s var(--ease)}
+[data-theme="dark"] .tgl-k{transform:translateX(26px)}
+
+/* HERO */
+.hero{max-width:var(--maxw);margin:0 auto;padding:36px 24px 20px;text-align:center}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--primary);padding:5px 12px;border:1px solid var(--outline-variant);border-radius:20px;background:var(--panel);margin-bottom:16px}
+.hero h1{font-size:clamp(28px,4vw,42px);font-weight:700;line-height:1.08;letter-spacing:-.01em;
+  background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
+.hero p{font-size:14px;color:var(--txt-2);max-width:600px;margin:0 auto 20px;line-height:1.6}
+
+/* PERIOD SELECTOR */
+.period-bar{position:sticky;top:59px;z-index:90;background:var(--glass);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.period-in{max-width:var(--maxw);margin:0 auto;padding:10px 24px;display:flex;gap:8px;align-items:center;overflow-x:auto;scrollbar-width:none}
+.period-in::-webkit-scrollbar{display:none}
+.period-btns{display:flex;gap:6px;flex-wrap:nowrap}
+.period-btn{padding:7px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--txt);cursor:pointer;font-size:12px;font-weight:500;
+  transition:all .2s var(--ease);white-space:nowrap;font-family:'Manrope',sans-serif}
+.period-btn:hover{border-color:var(--primary);background:var(--accent-light)}
+.period-btn.active{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+.period-btn.week-btn{font-size:11px;padding:6px 10px}
+.period-divider{width:1px;height:24px;background:var(--line);flex-shrink:0;margin:0 4px}
+.period-label{font-size:11px;color:var(--txt-3);letter-spacing:.06em;text-transform:uppercase;flex-shrink:0}
+
+/* CONTENT */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:24px 24px 60px;display:flex;flex-direction:column;gap:20px}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.kpi-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;
+  box-shadow:var(--elev-1);transition:transform .2s var(--ease),border-color .2s var(--ease)}
+.kpi-card:hover{transform:translateY(-2px);border-color:var(--line-2)}
+.kpi-label{font-size:11px;color:var(--txt-3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.kpi-value{font-size:24px;font-weight:700;margin-bottom:2px}
+.kpi-change{font-size:11px;display:flex;align-items:center;gap:4px}
+.kpi-change.up{color:var(--green)}.kpi-change.down{color:var(--red)}.kpi-change.neutral{color:var(--txt-3)}
+.kpi-card .trend{font-size:14px}
+
+/* CHARTS GRID */
+.charts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:20px}
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--elev-1)}
+.chart-h{padding:16px 20px;border-bottom:1px solid var(--line);background:var(--panel-2);font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px}
+.chart-h .mat{color:var(--primary);font-size:18px}
+.chart-b{padding:20px;position:relative}
+.chart-container{height:280px;position:relative}
+
+/* TABLE CARD */
+.table-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--elev-1)}
+.table-card .table-h{padding:16px 20px;border-bottom:1px solid var(--line);background:var(--panel-2);font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px}
+.table-wrap{overflow-x:auto;padding:0}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:10px 12px;border-bottom:2px solid var(--line);color:var(--txt-3);
+  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;
+  background:var(--bg-2);position:sticky;top:0}
+td{padding:10px 12px;border-bottom:1px solid var(--line);color:var(--txt-2);white-space:nowrap;font-size:12px}
+tr:hover td{background:var(--bg-2)}
+td:first-child{color:var(--txt);font-weight:600}
+.row-total td{font-weight:700;border-top:2px solid var(--primary);background:var(--accent-light);color:var(--txt)!important}
+.row-channel td{font-weight:600;background:var(--panel-2)}
+.row-account td{padding-left:24px;font-weight:400;color:var(--txt-2)!important}
+.row-campaign td{padding-left:40px;color:var(--txt-3)!important;font-weight:400}
+
+/* SECTION HEADER */
+.sec-title{font-size:18px;font-weight:700;letter-spacing:-.01em;padding:0 4px;margin:8px 0 4px;display:flex;align-items:center;gap:10px}
+.sec-title .mat{color:var(--primary);font-size:22px}
+
+/* FOOTER */
+.footer{text-align:center;color:var(--txt-3);font-size:11px;padding:24px 0 0;border-top:1px solid var(--line);margin-top:8px}
+.footer a{color:var(--primary);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+
+/* RESPONSIVE */
+@media(max-width:860px){.hero{padding-top:24px}.charts-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.hero h1{font-size:26px}.wrap{padding:16px 12px 40px}.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+@media print{.period-bar,.tgl{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ANIMATIONS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.kpi-card,.chart-card,.table-card{animation:fadeIn .4s var(--ease-out) both}
+.kpi-card:nth-child(1){animation-delay:.05s}.kpi-card:nth-child(2){animation-delay:.1s}
+.kpi-card:nth-child(3){animation-delay:.15s}.kpi-card:nth-child(4){animation-delay:.2s}
+.kpi-card:nth-child(5){animation-delay:.25s}.kpi-card:nth-child(6){animation-delay:.3s}
+.kpi-card:nth-child(7){animation-delay:.35s}.kpi-card:nth-child(8){animation-delay:.4s}
+
+/* UPDATE BADGE */
+.update-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:var(--r-full);
+  background:rgba(34,197,94,.12);color:var(--green);font-size:10px;font-weight:600;border:1px solid rgba(34,197,94,.2);
+  margin-left:8px}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="brand">
+      <div class="brand-mark">D</div>
+      <div><b>DUNE GROUP</b><span>Рекламный дашборд</span></div>
+    </div>
+    <div class="hdr-sp"></div>
+    <span class="status"><span class="led"></span>Ремонт под ключ · Ростов-на-Дону</span>
+    <button class="tgl" id="tgl" role="switch" aria-checked="false" aria-label="Тема"><span class="tgl-k" id="tglK">☀️</span></button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="hero-tag">◈ ЕЖЕНЕДЕЛЬНАЯ АНАЛИТИКА · 2026</span>
+  <h1>Дашборд рекламных кампаний</h1>
+  <p id="heroSubtitle">Яндекс Директ · SEO · Лиды — агрегированные показатели по всем каналам</p>
+</section>
+
+<!-- PERIOD BAR -->
+<nav class="period-bar" id="periodBar">
+  <div class="period-in">
+    <span class="period-label">Период:</span>
+    <div class="period-btns" id="periodBtns">
+      <button class="period-btn active" data-period="all">Все недели</button>
+      <span class="period-divider"></span>
+      <span class="period-label">По неделям</span>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main class="wrap" id="mainContent">
+
+  <!-- KPI Cards -->
+  <div class="kpi-grid" id="kpiGrid"></div>
+
+  <!-- Charts -->
+  <div class="sec-title"><span class="material-symbols-outlined mat">bar_chart</span> Визуализация</div>
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-h"><span class="material-symbols-outlined mat">payments</span> Расход и Лиды</div>
+      <div class="chart-b"><div class="chart-container"><canvas id="spendLeadsChart"></canvas></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-h"><span class="material-symbols-outlined mat">visibility</span> Показы и Клики</div>
+      <div class="chart-b"><div class="chart-container"><canvas id="impressionsClicksChart"></canvas></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-h"><span class="material-symbols-outlined mat">speed</span> Эффективность: CTR и Конверсия</div>
+      <div class="chart-b"><div class="chart-container"><canvas id="efficiencyChart"></canvas></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-h"><span class="material-symbols-outlined mat">account_balance_wallet</span> Стоимость: CPA / CPL</div>
+      <div class="chart-b"><div class="chart-container"><canvas id="costChart"></canvas></div></div>
+    </div>
+  </div>
+
+  <!-- Detail Table -->
+  <div class="sec-title" style="margin-top:8px"><span class="material-symbols-outlined mat">table</span> Детализация по каналам</div>
+  <div class="table-card">
+    <div class="table-h"><span class="material-symbols-outlined mat" style="font-size:18px">grid_view</span> <span id="detailTitle">Все периоды</span></div>
+    <div class="table-wrap" id="detailTableWrap"></div>
+  </div>
+
+  <!-- Summary Table -->
+  <div class="sec-title"><span class="material-symbols-outlined mat">summary</span> Сводка по неделям</div>
+  <div class="table-card">
+    <div class="table-h"><span class="material-symbols-outlined mat" style="font-size:18px">calendar_view_week</span> Все недели</div>
+    <div class="table-wrap" id="summaryTableWrap"></div>
+  </div>
+
+  <!-- SEO Section -->
+  <div class="sec-title" style="margin-top:8px"><span class="material-symbols-outlined mat">search</span> SEO Аналитика</div>
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-h"><span class="material-symbols-outlined mat">trending_up</span> SEO Performance</div>
+      <div class="chart-b"><div class="chart-container"><canvas id="seoPerformanceChart"></canvas></div></div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="wrap" style="padding-top:0">
+  <div class="footer">
+    Dune Group © 2026 · Автоматизация еженедельной отчётности ·
+    <a href="https://github.com/htsgladiatis/weekly-reports-automation" target="_blank">GitHub</a> ·
+    <a href="https://docs.google.com/spreadsheets/d/1TMa7NMknshntaQE-Dgmr-Trjk3pQxvY_K1IyAYfjZ4A/" target="_blank">Google Sheets</a>
+  </div>
+</footer>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const weeks = [
+  { id: 'w1', label: '04.05–10.05', short: '04.05–10.05',
+    impressions: 130701, clicks: 922, spend: 12486, leads: 5, target: 0,
+    ctr: 0.71, cpc: 14, cpa: 2497, cpl: null, convLead: 0.54, convTarget: 0,
+    seo: 39, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 48704, clicks: 475, spend: 12242, leads: 5, target: 0 },
+      'e-17228851': { imp: 68377, clicks: 110, spend: 0, leads: 0, target: 0 },
+      'dune-group': { imp: 8095, clicks: 216, spend: 244, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 5525, clicks: 121, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w2', label: '11.05–17.05', short: '11.05–17.05',
+    impressions: 160986, clicks: 1531, spend: 20204, leads: 10, target: 6,
+    ctr: 0.95, cpc: 13, cpa: 2020, cpl: 3367, convLead: 0.65, convTarget: 60.0,
+    seo: 35, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 68900, clicks: 1230, spend: 20204, leads: 9, target: 5 },
+      'e-17228851': { imp: 84570, clicks: 120, spend: 0, leads: 1, target: 1 },
+      'dune-group': { imp: 2933, clicks: 73, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 4583, clicks: 108, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w3', label: '18.05–24.05', short: '18.05–24.05',
+    impressions: 163328, clicks: 5927, spend: 35844, leads: 10, target: 10,
+    ctr: 3.63, cpc: 6, cpa: 3584, cpl: 3584, convLead: 0.17, convTarget: 100.0,
+    seo: 50, seoLeads: 1, seoTarget: 1, otherLeads: 6, otherTarget: 6,
+    accounts: {
+      'e-20010227': { imp: 55587, clicks: 1568, spend: 19179, leads: 3, target: 3 },
+      'e-17228851': { imp: 97059, clicks: 4032, spend: 16665, leads: 0, target: 0 },
+      'dune-group': { imp: 3491, clicks: 168, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 7191, clicks: 159, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w4', label: '25.05–31.05', short: '25.05–31.05',
+    impressions: 150146, clicks: 4465, spend: 28757, leads: 5, target: 2,
+    ctr: 2.97, cpc: 6, cpa: 5751, cpl: 14379, convLead: 0.11, convTarget: 40.0,
+    seo: 44, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 67151, clicks: 2654, spend: 23022, leads: 5, target: 2 },
+      'e-17228851': { imp: 72942, clicks: 1463, spend: 5735, leads: 0, target: 0 },
+      'dune-group': { imp: 4350, clicks: 234, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 5703, clicks: 114, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w5', label: '01.06–07.06', short: '01.06–07.06',
+    impressions: 118346, clicks: 1541, spend: 27564, leads: 8, target: 8,
+    ctr: 1.30, cpc: 18, cpa: 3446, cpl: 3446, convLead: 0.52, convTarget: 100.0,
+    seo: 80, seoLeads: 0, seoTarget: 0, otherLeads: 3, otherTarget: 3,
+    accounts: {
+      'e-20010227': { imp: 49416, clicks: 805, spend: 27564, leads: 5, target: 4 },
+      'e-17228851': { imp: 58292, clicks: 405, spend: 0, leads: 0, target: 0 },
+      'dune-group': { imp: 4707, clicks: 151, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 5931, clicks: 180, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w6', label: '08.06–14.06', short: '08.06–14.06',
+    impressions: 121040, clicks: 630, spend: 29894, leads: 28, target: 3,
+    ctr: 0.52, cpc: 47, cpa: 1068, cpl: 9965, convLead: 1.75, convTarget: 10.71,
+    seo: 72, seoLeads: 2, seoTarget: 1, otherLeads: 15, otherTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 53240, clicks: 542, spend: 27820, leads: 11, target: 2 },
+      'e-17228851': { imp: 67615, clicks: 81, spend: 2074, leads: 0, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 185, clicks: 7, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w7', label: '15.06–21.06', short: '15.06–21.06',
+    impressions: 133855, clicks: 627, spend: 29954, leads: 12, target: 12,
+    ctr: 0.47, cpc: 48, cpa: 2496, cpl: 2496, convLead: 1.91, convTarget: 100.0,
+    seo: 58, seoLeads: 1, seoTarget: 1, otherLeads: 5, otherTarget: 5,
+    accounts: {
+      'e-20010227': { imp: 73423, clicks: 572, spend: 29954, leads: 6, target: 6 },
+      'e-17228851': { imp: 60211, clicks: 44, spend: 0, leads: 0, target: 0 },
+      'dune-group': { imp: 221, clicks: 11, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w8', label: '22.06–30.06', short: '22.06–30.06',
+    impressions: 152560, clicks: 653, spend: 29683, leads: 7, target: 7,
+    ctr: 0.43, cpc: 45, cpa: 4240, cpl: 4240, convLead: 1.07, convTarget: 100.0,
+    seo: 22, seoLeads: 0, seoTarget: 0, otherLeads: 3, otherTarget: 3,
+    accounts: {
+      'e-20010227': { imp: 91107, clicks: 593, spend: 29683, leads: 4, target: 4 },
+      'e-17228851': { imp: 61013, clicks: 40, spend: 0, leads: 0, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 440, clicks: 20, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w9', label: '29.06–05.07', short: '29.06–05.07',
+    impressions: 98963, clicks: 1200, spend: 33075, leads: 35, target: 10,
+    ctr: 1.21, cpc: 28, cpa: 945, cpl: 3308, convLead: 2.92, convTarget: 28.57,
+    seo: 88, seoLeads: 8, seoTarget: 4, otherLeads: 16, otherTarget: 1,
+    accounts: {
+      'e-20010227': { imp: 53253, clicks: 425, spend: 28105, leads: 11, target: 5 },
+      'e-17228851': { imp: 45340, clicks: 757, spend: 4971, leads: 0, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 370, clicks: 18, spend: 0, leads: 0, target: 0 }
+    }
+  }
+];
+
+const months = [
+  { id: 'm1', label: 'Май 2026', short: 'Май', weeks: ['w1','w2','w3','w4'], dateRange: '04.05–31.05' },
+  { id: 'm2', label: 'Июнь 2026', short: 'Июнь', weeks: ['w5','w6','w7','w8','w9'], dateRange: '01.06–30.06' }
+];
+
+// ============================================================
+// HELPERS
+// ============================================================
+function fmt(n) {
+  if (n == null || n === undefined) return '\u2014';
+  return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+
+function pct(n) {
+  if (n == null || n === undefined) return '\u2014';
+  return n.toFixed(2) + '%';
+}
+
+function rub(n) {
+  if (n == null || n === undefined) return '\u2014';
+  return '\u0440. ' + fmt(Math.round(n));
+}
+
+function getDataForPeriod(periodId) {
+  if (periodId === 'all') return weeks;
+  const month = months.find(m => m.id === periodId);
+  if (month) return weeks.filter(w => month.weeks.includes(w.id));
+  return weeks.filter(w => w.id === periodId);
+}
+
+function aggregateWeeks(weekIds, label, monthId) {
+  const weeksData = weeks.filter(w => weekIds.includes(w.id));
+  const agg = weeksData.reduce((acc, w) => {
+    acc.impressions += w.impressions;
+    acc.clicks += w.clicks;
+    acc.spend += w.spend;
+    acc.leads += w.leads;
+    acc.target += w.target;
+    acc.seo += w.seo;
+    acc.seoLeads += w.seoLeads || 0;
+    acc.seoTarget += w.seoTarget || 0;
+    acc.otherLeads += w.otherLeads || 0;
+    acc.otherTarget += w.otherTarget || 0;
+
+    Object.entries(w.accounts).forEach(([name, a]) => {
+      if (!acc.accounts[name]) acc.accounts[name] = { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 };
+      acc.accounts[name].imp += a.imp;
+      acc.accounts[name].clicks += a.clicks;
+      acc.accounts[name].spend += a.spend;
+      acc.accounts[name].leads += a.leads || 0;
+      acc.accounts[name].target += a.target || 0;
+    });
+    return acc;
+  }, { id: monthId, impressions: 0, clicks: 0, spend: 0, leads: 0, target: 0,
+      seo: 0, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, accounts: {} });
+
+  agg.ctr = agg.impressions > 0 ? (agg.clicks / agg.impressions * 100) : 0;
+  agg.cpc = agg.clicks > 0 ? (agg.spend / agg.clicks) : 0;
+  agg.cpa = agg.leads > 0 ? (agg.spend / agg.leads) : null;
+  agg.cpl = agg.target > 0 ? (agg.spend / agg.target) : null;
+  agg.convLead = agg.clicks > 0 ? (agg.leads / agg.clicks * 100) : 0;
+  agg.convTarget = agg.leads > 0 ? (agg.target / agg.leads * 100) : 0;
+  agg.label = label;
+  agg.short = label;
+  return agg;
+}
+
+function getMonthsData() {
+  return months.map(m => aggregateWeeks(m.weeks, m.short, m.id));
+}
+
+// ============================================================
+// CHART DEFAULTS
+// ============================================================
+const chartDefaults = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: {
+    legend: { labels: { color: '#71717a', font: { size: 11 } } },
+    tooltip: { backgroundColor: '#1a1d27', titleColor: '#e4e4e7', bodyColor: '#e4e4e7',
+      borderColor: '#2a2d3a', borderWidth: 1, padding: 12, cornerRadius: 8 }
+  },
+  scales: {
+    x: { ticks: { color: '#71717a' }, grid: { color: 'rgba(42,45,58,0.5)' } },
+    y: { ticks: { color: '#71717a' }, grid: { color: 'rgba(42,45,58,0.5)' } }
+  }
+};
+
+let chartInstances = {};
+
+function destroyCharts() {
+  Object.values(chartInstances).forEach(c => { if (c) c.destroy(); });
+  chartInstances = {};
+}
+
+function initCharts(data) {
+  destroyCharts();
+  const labels = data.map(w => w.short);
+
+  // Spend & Leads
+  chartInstances.spendLeads = new Chart(document.getElementById('spendLeadsChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Расход (р.)', data: data.map(w => w.spend),
+          backgroundColor: 'rgba(99,102,241,.7)', borderRadius: 6, yAxisID: 'y' },
+        { label: 'Лиды', data: data.map(w => w.leads), type: 'line',
+          borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,.1)',
+          tension: .3, pointRadius: 6, pointBackgroundColor: '#22c55e', yAxisID: 'y1' },
+        { label: 'Ц. Лиды', data: data.map(w => w.target), type: 'line',
+          borderColor: '#eab308', backgroundColor: 'rgba(234,179,8,.1)',
+          tension: .3, pointRadius: 6, pointBackgroundColor: '#eab308', yAxisID: 'y1' }
+      ]
+    },
+    options: {
+      ...chartDefaults,
+      scales: {
+        ...chartDefaults.scales,
+        y: { ...chartDefaults.scales.y, position: 'left', title: { display: true, text: 'Расход (р.)', color: '#71717a' } },
+        y1: { ...chartDefaults.scales.y, position: 'right', grid: { drawOnChartArea: false },
+          title: { display: true, text: 'Лиды', color: '#71717a' } }
+      }
+    }
+  });
+
+  // Impressions & Clicks
+  chartInstances.impressionsClicks = new Chart(document.getElementById('impressionsClicksChart'), {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        { label: 'Показы', data: data.map(w => w.impressions),
+          backgroundColor: 'rgba(59,130,246,.7)', borderRadius: 6, yAxisID: 'y' },
+        { label: 'Клики', data: data.map(w => w.clicks), type: 'line',
+          borderColor: '#f97316', backgroundColor: 'rgba(249,115,22,.1)',
+          tension: .3, pointRadius: 6, pointBackgroundColor: '#f97316', yAxisID: 'y1' }
+      ]
+    },
+    options: {
+      ...chartDefaults,
+      scales: {
+        ...chartDefaults.scales,
+        y: { ...chartDefaults.scales.y, position: 'left', title: { display: true, text: 'Показы', color: '#71717a' } },
+        y1: { ...chartDefaults.scales.y, position: 'right', grid: { drawOnChartArea: false },
+          title: { display: true, text: 'Клики', color: '#71717a' } }
+      }
+    }
+  });
+
+  // Efficiency: CTR & Conv
+  chartInstances.efficiency = new Chart(document.getElementById('efficiencyChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: 'CTR %', data: data.map(w => w.ctr),
+          borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,.1)',
+          tension: .3, pointRadius: 6, pointBackgroundColor: '#6366f1', fill: true },
+        { label: 'Конверсия в Лид %', data: data.map(w => w.convLead),
+          borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,.1)',
+          tension: .3, pointRadius: 6, pointBackgroundColor: '#22c55e', fill: true }
+      ]
+    },
+    options: chartDefaults
+  });
+
+  // Cost: CPA & CPL
+  chartInstances.cost = new Chart(document.getElementById('costChart'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        { label: 'CPA (р.)', data: data.map(w => w.cpa),
+          borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,.1)',
+          tension: .3, pointRadius: 6, pointBackgroundColor: '#ef4444', fill: true },
+        { label: 'CPL (р.)', data: data.map(w => w.cpl),
+          borderColor: '#a855f7', backgroundColor: 'rgba(168,85,247,.1)',
+          tension: .3, pointRadius: 6, pointBackgroundColor: '#a855f7', fill: true }
+      ]
+    },
+    options: chartDefaults
+  });
+
+  // SEO Performance
+  const seoData = data.reduce((s, w) => s + (w.seo || 0), 0);
+  const seoUsers = Math.round(seoData * 0.72);
+  chartInstances.seo = new Chart(document.getElementById('seoPerformanceChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Визиты', 'Пользователи', 'Глубина (x50)', 'Время (с)'],
+      datasets: [{
+        label: 'SEO Метрики',
+        data: [seoData, seoUsers, 2.5 * 50, 120],
+        backgroundColor: ['rgba(34,197,94,.7)', 'rgba(59,130,246,.7)', 'rgba(168,85,247,.7)', 'rgba(249,115,22,.7)'],
+        borderRadius: 6
+      }]
+    },
+    options: {
+      ...chartDefaults,
+      plugins: {
+        ...chartDefaults.plugins,
+        legend: { display: false },
+        tooltip: {
+          ...chartDefaults.plugins.tooltip,
+          callbacks: {
+            label: (ctx) => {
+              const labels = ['Визиты: ', 'Пользователи: ', 'Глубина: ', 'Время (с): '];
+              return labels[ctx.dataIndex] + ctx.raw;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// ============================================================
+// KPI RENDER
+// ============================================================
+function renderKPI(data) {
+  const grid = document.getElementById('kpiGrid');
+  const isAll = data.length > 1;
+  const totals = data.reduce((acc, w) => {
+    acc.impressions += w.impressions;
+    acc.clicks += w.clicks;
+    acc.spend += w.spend;
+    acc.leads += w.leads;
+    acc.target += w.target;
+    acc.seo += w.seo || 0;
+    return acc;
+  }, { impressions: 0, clicks: 0, spend: 0, leads: 0, target: 0, seo: 0 });
+
+  let prevWeek = null;
+  if (!isAll) {
+    const idx = weeks.findIndex(w => w.id === data[0].id);
+    if (idx > 0) prevWeek = weeks[idx - 1];
+  }
+
+  const curr = data[data.length - 1];
+  const avgCtr = totals.clicks / totals.impressions * 100;
+  const avgCpc = totals.spend / totals.clicks;
+  const avgCpa = totals.leads > 0 ? totals.spend / totals.leads : null;
+  const avgCpl = totals.target > 0 ? totals.spend / totals.target : null;
+
+  const cards = [
+    { label: 'Показы', value: fmt(totals.impressions), curr: curr.impressions, prev: prevWeek ? prevWeek.impressions : null, inverse: false },
+    { label: 'Клики', value: fmt(totals.clicks), curr: curr.clicks, prev: prevWeek ? prevWeek.clicks : null, inverse: false },
+    { label: 'Расход', value: rub(totals.spend), curr: curr.spend, prev: prevWeek ? prevWeek.spend : null, inverse: true },
+    { label: 'Лиды', value: totals.leads, curr: curr.leads, prev: prevWeek ? prevWeek.leads : null, inverse: false },
+    { label: 'Целевые лиды', value: totals.target, curr: curr.target, prev: prevWeek ? prevWeek.target : null, inverse: false, color: 'var(--green)' },
+    { label: 'CTR', value: pct(avgCtr), curr: curr.ctr, prev: prevWeek ? prevWeek.ctr : null, inverse: false },
+    { label: 'CPA', value: avgCpa ? rub(avgCpa) : '\u2014', curr: curr.cpa, prev: prevWeek ? prevWeek.cpa : null, inverse: true },
+    { label: 'CPL', value: avgCpl ? rub(avgCpl) : '\u2014', curr: curr.cpl, prev: prevWeek ? prevWeek.cpl : null, inverse: true }
+  ];
+
+  grid.innerHTML = cards.map(c => {
+    let changeHtml = '';
+    if (c.prev !== null && c.prev !== undefined && c.prev !== 0 && c.curr !== undefined) {
+      const diff = ((c.curr - c.prev) / c.prev * 100).toFixed(1);
+      const isUp = diff > 0;
+      const cls = c.inverse ? (isUp ? 'down' : 'up') : (isUp ? 'up' : 'down');
+      const arrow = isUp ? '\u25B2' : '\u25BC';
+      changeHtml = `<span class="kpi-change ${cls}">${arrow} ${Math.abs(diff)}%</span>`;
+    }
+
+    const colorStyle = c.color ? `style="color:${c.color}"` : '';
+    return `<div class="kpi-card">
+      <div class="kpi-label">${c.label}</div>
+      <div class="kpi-value" ${colorStyle}>${c.value}</div>
+      ${changeHtml}
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// DETAIL TABLE
+// ============================================================
+function renderDetailTable(data) {
+  const totals = data.reduce((acc, w) => {
+    acc.impressions += w.impressions;
+    acc.clicks += w.clicks;
+    acc.spend += w.spend;
+    acc.leads += w.leads;
+    acc.target += w.target;
+    acc.seoVisits += w.seo || 0;
+    acc.seoLeads += w.seoLeads || 0;
+    acc.seoTarget += w.seoTarget || 0;
+    acc.otherLeads += w.otherLeads || 0;
+    acc.otherTarget += w.otherTarget || 0;
+    Object.entries(w.accounts).forEach(([name, a]) => {
+      if (!acc.accounts[name]) acc.accounts[name] = { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 };
+      acc.accounts[name].imp += a.imp;
+      acc.accounts[name].clicks += a.clicks;
+      acc.accounts[name].spend += a.spend;
+      acc.accounts[name].leads += a.leads || 0;
+      acc.accounts[name].target += a.target || 0;
+    });
+    return acc;
+  }, { impressions: 0, clicks: 0, spend: 0, leads: 0, target: 0,
+      seoVisits: 0, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, accounts: {} });
+
+  const directLeads = Object.values(totals.accounts).reduce((s, a) => s + a.leads, 0);
+  const directTarget = Object.values(totals.accounts).reduce((s, a) => s + a.target, 0);
+  const avgCtr = totals.impressions > 0 ? (totals.clicks / totals.impressions * 100).toFixed(2) + '%' : '\u2014';
+  const avgCpc = totals.clicks > 0 ? Math.round(totals.spend / totals.clicks) : 0;
+  const avgCpa = directLeads > 0 ? fmt(Math.round(totals.spend / directLeads)) : '\u2014';
+  const avgCpl = directTarget > 0 ? fmt(Math.round(totals.spend / directTarget)) : '\u2014';
+  const convLead = totals.clicks > 0 ? (directLeads / totals.clicks * 100).toFixed(2) + '%' : '\u2014';
+  const convTarget = directLeads > 0 ? (directTarget / directLeads * 100).toFixed(2) + '%' : '\u2014';
+
+  let html = `<table><thead><tr>
+    <th>Канал / Аккаунт</th><th>Показы</th><th>Клики</th><th>CTR</th><th>CPC</th>
+    <th>Лиды</th><th>Конв. в Лид</th><th>CPA</th><th>Ц. Лиды</th><th>Конв. в Ц.Лид</th><th>CPL</th><th>Расход</th>
+  </tr></thead><tbody>`;
+
+  // Total row
+  html += `<tr class="row-total">
+    <td>ИТОГО</td><td>\u2014</td><td>\u2014</td><td>\u2014</td><td>\u2014>
+    <td>${totals.leads}</td><td>\u2014</td><td>${avgCpa}</td>
+    <td>${totals.target}</td><td>\u2014</td><td>${avgCpl}</td><td>${fmt(totals.spend)}</td>
+  </tr>`;
+
+  // Direct channel
+  html += `<tr class="row-channel">
+    <td>Яндекс Директ</td><td>${fmt(totals.impressions)}</td><td>${fmt(totals.clicks)}</td>
+    <td>${avgCtr}</td><td>${avgCpc}</td>
+    <td>${directLeads}</td><td>${convLead}</td><td>${avgCpa}</td>
+    <td>${directTarget}</td><td>${convTarget}</td><td>${avgCpl}</td><td>${rub(totals.spend)}</td>
+  </tr>`;
+
+  // Accounts
+  Object.entries(totals.accounts).forEach(([name, acc]) => {
+    const aCtr = acc.imp > 0 ? (acc.clicks / acc.imp * 100).toFixed(2) + '%' : '\u2014';
+    const aCpc = acc.clicks > 0 ? Math.round(acc.spend / acc.clicks) : 0;
+    const aCpa = acc.leads > 0 ? fmt(Math.round(acc.spend / acc.leads)) : '\u2014';
+    const aCpl = acc.target > 0 ? fmt(Math.round(acc.spend / acc.target)) : '\u2014';
+    const aConvLead = acc.clicks > 0 ? (acc.leads / acc.clicks * 100).toFixed(2) + '%' : '0.00%';
+    const aConvTarget = acc.leads > 0 ? (acc.target / acc.leads * 100).toFixed(2) + '%' : '\u2014';
+    html += `<tr class="row-account">
+      <td>${name}</td><td>${fmt(acc.imp)}</td><td>${fmt(acc.clicks)}</td>
+      <td>${aCtr}</td><td>${aCpc}</td>
+      <td>${acc.leads}</td><td>${aConvLead}</td><td>${aCpa}</td>
+      <td>${acc.target}</td><td>${aConvTarget}</td><td>${aCpl}</td><td>${rub(acc.spend)}</td>
+    </tr>`;
+  });
+
+  // SEO row
+  const seoConv = totals.seoVisits > 0 ? (totals.seoLeads / totals.seoVisits * 100).toFixed(2) + '%' : '\u2014';
+  const seoConvTarget = totals.seoLeads > 0 ? (totals.seoTarget / totals.seoLeads * 100).toFixed(2) + '%' : '\u2014';
+  html += `<tr class="row-channel">
+    <td>SEO</td><td>\u2014</td><td>${totals.seoVisits}</td><td>\u2014</td><td>\u2014</td>
+    <td>${totals.seoLeads}</td><td>${seoConv}</td><td>\u2014</td>
+    <td>${totals.seoTarget}</td><td>${seoConvTarget}</td><td>\u2014</td><td>\u2014</td>
+  </tr>`;
+
+  // Other row
+  const otherConvTarget = totals.otherLeads > 0 ? (totals.otherTarget / totals.otherLeads * 100).toFixed(2) + '%' : '\u2014';
+  html += `<tr class="row-channel">
+    <td>Рекомендации / Звонки</td><td>\u2014</td><td>\u2014</td><td>\u2014</td><td>\u2014</td>
+    <td>${totals.otherLeads}</td><td>\u2014</td><td>\u2014</td>
+    <td>${totals.otherTarget}</td><td>${otherConvTarget}</td><td>\u2014</td><td>\u2014</td>
+  </tr>`;
+
+  html += '</tbody></table>';
+  document.getElementById('detailTableWrap').innerHTML = html;
+}
+
+// ============================================================
+// SUMMARY TABLE
+// ============================================================
+function renderSummaryTable() {
+  let html = `<table><thead><tr>
+    <th>Неделя</th><th>Показы</th><th>Клики</th><th>CTR</th><th>CPC</th>
+    <th>Лиды</th><th>Ц. Лиды</th><th>CPA</th><th>CPL</th><th>Расход</th><th>SEO</th>
+  </tr></thead><tbody>`;
+
+  weeks.forEach(w => {
+    html += `<tr>
+      <td><strong>${w.label}</strong></td>
+      <td>${fmt(w.impressions)}</td>
+      <td>${fmt(w.clicks)}</td>
+      <td>${pct(w.ctr)}</td>
+      <td>${rub(w.cpc)}</td>
+      <td>${w.leads}</td>
+      <td style="color:var(--green)">${w.target}</td>
+      <td>${w.cpa ? rub(w.cpa) : '\u2014'}</td>
+      <td>${w.cpl ? rub(w.cpl) : '\u2014'}</td>
+      <td>${rub(w.spend)}</td>
+      <td>${w.seo || 0}</td>
+    </tr>`;
+  });
+
+  const t = weeks.reduce((a, w) => {
+    a.imp += w.impressions; a.clk += w.clicks; a.spd += w.spend;
+    a.lds += w.leads; a.tgt += w.target; a.seo += w.seo || 0;
+    return a;
+  }, { imp: 0, clk: 0, spd: 0, lds: 0, tgt: 0, seo: 0 });
+
+  html += `<tr class="row-total">
+    <td>ВСЕГО</td><td>${fmt(t.imp)}</td><td>${fmt(t.clk)}</td>
+    <td>${pct(t.clk / t.imp * 100)}</td><td>${rub(t.spd / t.clk)}</td>
+    <td>${t.lds}</td><td>${t.tgt}</td>
+    <td>${t.lds > 0 ? rub(t.spd / t.lds) : '\u2014'}</td>
+    <td>${t.tgt > 0 ? rub(t.spd / t.tgt) : '\u2014'}</td>
+    <td>${rub(t.spd)}</td><td>${t.seo}</td>
+  </tr>`;
+
+  html += '</tbody></table>';
+  document.getElementById('summaryTableWrap').innerHTML = html;
+}
+
+// ============================================================
+// PERIOD SELECTION
+// ============================================================
+let currentPeriod = 'all';
+
+function showPeriod(period) {
+  currentPeriod = period;
+
+  const data = getDataForPeriod(period);
+  if (!data || data.length === 0) return;
+
+  document.getElementById('detailTitle').textContent = period === 'all'
+    ? 'Все периоды' : (weeks.find(w => w.id === period)?.label || 'Выбранный период');
+
+  renderKPI(data);
+  initCharts(data);
+  renderDetailTable(data);
+}
+
+function initPeriodButtons() {
+  const container = document.getElementById('periodBtns');
+
+  // Add week buttons
+  weeks.forEach(w => {
+    const btn = document.createElement('button');
+    btn.className = 'period-btn week-btn';
+    btn.dataset.period = w.id;
+    btn.textContent = w.label.replace('\u2013', '\u2011');
+    btn.onclick = () => {
+      document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      showPeriod(w.id);
+    };
+    container.appendChild(btn);
+  });
+
+  // Attach handler to the existing "\u0412\u0441\u0435 \u043D\u0435\u0434\u0435\u043B\u0438" button
+  const allBtn = container.querySelector('[data-period="all"]');
+  if (allBtn) {
+    allBtn.onclick = () => {
+      document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+      allBtn.classList.add('active');
+      showPeriod('all');
+    };
+  }
+}
+
+// ============================================================
+// THEME TOGGLE
+// ============================================================
+document.getElementById('tgl').addEventListener('click', () => {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('tgl').setAttribute('aria-checked', String(!isDark));
+  document.getElementById('tglK').textContent = isDark ? '\u2600\uFE0F' : '\uD83C\uDF19';
+  // Update chart colors
+  const textColor = isDark ? '#e4e4e7' : '#71717a';
+  const gridColor = isDark ? 'rgba(255,255,255,.08)' : 'rgba(42,45,58,0.5)';
+  Object.values(chartInstances).forEach(c => {
+    if (c) {
+      c.options.plugins.legend.labels.color = textColor;
+      c.options.scales.x.ticks.color = textColor;
+      c.options.scales.x.grid.color = gridColor;
+      c.options.scales.y.ticks.color = textColor;
+      c.options.scales.y.grid.color = gridColor;
+      if (c.options.scales.y1) {
+        c.options.scales.y1.ticks.color = textColor;
+        c.options.scales.y1.grid.color = gridColor;
+      }
+      c.update();
+    }
+  });
+});
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  initPeriodButtons();
+  renderSummaryTable();
+  showPeriod('all');
+});
+</script>
+
+</body>
+</html>
