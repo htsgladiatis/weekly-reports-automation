@@ -1,0 +1,102 @@
+# Implementation Plan
+
+- [x] 1. Write bug condition exploration test
+  - **Property 1: Bug Condition** - Incorrect Hardcoded Cost Values
+  - **CRITICAL**: This test MUST FAIL on unfixed code - failure confirms the bug exists
+  - **DO NOT attempt to fix the test or the code when it fails**
+  - **NOTE**: This test encodes the expected behavior - it will validate the fix when it passes after implementation
+  - **GOAL**: Surface counterexamples that demonstrate hardcoded values don't match actual data
+  - **Scoped PBT Approach**: Test the concrete failing case of period 01.06-07.06.2026 with four accounts where three have zero actual costs but non-zero hardcoded values
+  - Test that ROWS data structure contains incorrect hardcoded values from code comments
+  - Verify ROWS[4][11] (Total cost) shows "р.96 494" instead of expected "р.27 564"
+  - Verify ROWS[5][11] (Yandex Direct summary) shows "р.96 494" instead of "р.27 564"
+  - Verify ROWS[10][11] (e-17228851) shows "р.58 292" instead of "р.0"
+  - Verify ROWS[15][11] (dune-group) shows "р.4 707" instead of "р.0"
+  - Verify ROWS[18][11] (porg-3uieikjn) shows "р.5 931" instead of "р.0"
+  - Verify derived metrics use incorrect total: ROWS[4][4] CPC uses 96494 instead of 27564
+  - Run test on UNFIXED code
+  - **EXPECTED OUTCOME**: Test FAILS (this is correct - it proves the bug exists)
+  - Document counterexamples found: hardcoded values (96494, 58292, 4707, 5931) vs actual data (27564, 0, 0, 0)
+  - Mark task complete when test is written, run, and failure is documented
+  - _Requirements: 1.1, 1.2, 1.3, 1.4_
+
+- [x] 2. Write preservation property tests (BEFORE implementing fix)
+  - **Property 2: Preservation** - Non-Cost Data and Individual Account Metrics
+  - **IMPORTANT**: Follow observation-first methodology
+  - Observe behavior on UNFIXED code for non-buggy data
+  - Observe: ROWS[6] (e-20010227 account) displays impressions=49416, clicks=805, cost="р.27 564" correctly
+  - Observe: ROWS[7-9] (campaign rows for e-20010227) display their individual costs and metrics correctly
+  - Observe: ROWS[21] (SEO) displays 80 visits with 0 leads and no costs
+  - Observe: ROWS[22] (Recommendations) displays its data unchanged
+  - Observe: BOLD_ROWS formatting list remains intact
+  - Write property-based tests capturing these observed patterns:
+    - For all rows NOT in [4, 5, 10, 15, 18] (the rows being fixed), verify data remains identical
+    - For account e-20010227 (row 6), verify impressions, clicks, and cost remain unchanged
+    - For campaign-level rows (7-9, 11-14, 16-17, 19-20), verify visits and costs remain unchanged
+    - For SEO/Recommendations rows (21-22), verify data remains unchanged
+    - For BOLD_ROWS list, verify formatting remains unchanged
+    - For report structure (total rows, columns, headers), verify structure remains unchanged
+  - Run tests on UNFIXED code
+  - **EXPECTED OUTCOME**: Tests PASS (this confirms baseline behavior to preserve)
+  - Mark task complete when tests are written, run, and passing on unfixed code
+  - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6_
+
+- [x] 3. Fix for incorrect cost calculation in ROWS data structure
+
+  - [x] 3.1 Implement the fix
+    - Open file `report_0106.py` and locate ROWS data structure definition (lines ~36-66)
+    - Update Row 4 (Total) - Column 11: Change `"р.96 494"` to `"р.27 564"`
+    - Update Row 5 (Yandex Direct summary) - Column 11: Change `"р.96 494"` to `"р.27 564"`
+    - Update Row 4 (Total) - Derived Metrics in Column 4 (CPC): Change `cpc(96494,1541)` to `cpc(27564,1541)` → "р.18"
+    - Update Row 4 (Total) - Derived Metrics in Column 7 (CPA): Change `"р.8 772"` to `"р.2 506"` (27564/11≈2506)
+    - Update Row 4 (Total) - Derived Metrics in Column 10 (CPL): Change `"р.13 785"` to `"р.3 938"` (27564/7≈3938)
+    - Update Row 5 (Yandex Direct) - Derived Metrics in Column 4 (CPC): Change `cpc(96494,1541)` to `cpc(27564,1541)` → "р.18"
+    - Update Row 5 (Yandex Direct) - Derived Metrics in Column 7 (CPA): Change `"р.8 772"` to `"р.2 506"`
+    - Update Row 5 (Yandex Direct) - Derived Metrics in Column 10 (CPL): Change `"р.13 785"` to `"р.3 938"`
+    - Update Row 10 (e-17228851) - Column 11: Change `"р.58 292"` to `"р.0"` (zero actual costs)
+    - Update Row 15 (dune-group) - Column 11: Change `"р.4 707"` to `"р.0"` (zero actual costs)
+    - Update Row 18 (porg-3uieikjn) - Column 11: Change `"р.5 931"` to `"р.0"` (zero actual costs)
+    - Add or update code comments (lines 10-13) to document which accounts had zero costs and clarify correct total calculation
+    - _Bug_Condition: isBugCondition(accountsData) where accountsData has zero actual costs for e-17228851, dune-group, porg-3uieikjn, but ROWS contains non-zero hardcoded values (58292, 4707, 5931) from code comments_
+    - _Expected_Behavior: totalCost = 27564, ROWS[4][11] = "р.27 564", ROWS[5][11] = "р.27 564", ROWS[10][11] = "р.0", ROWS[15][11] = "р.0", ROWS[18][11] = "р.0", derived metrics use correct total (CPC≈18, CPA≈2506, CPL≈3938)_
+    - _Preservation: All rows except [4, 5, 10, 15, 18] remain unchanged; account e-20010227 data (row 6) unchanged; campaign-level rows (7-9, 11-14, 16-17, 19-20) unchanged; SEO/Recommendations rows (21-22) unchanged; BOLD_ROWS formatting unchanged; report structure unchanged_
+    - _Requirements: 2.1, 2.2, 2.3, 2.4, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6_
+
+  - [x] 3.2 Verify bug condition exploration test now passes
+    - **Property 1: Expected Behavior** - Correct Cost Values from Actual Data
+    - **IMPORTANT**: Re-run the SAME test from task 1 - do NOT write a new test
+    - The test from task 1 encodes the expected behavior
+    - When this test passes, it confirms the expected behavior is satisfied
+    - Run bug condition exploration test from step 1
+    - Verify ROWS[4][11] now shows "р.27 564" (Total cost)
+    - Verify ROWS[5][11] now shows "р.27 564" (Yandex Direct summary)
+    - Verify ROWS[10][11] now shows "р.0" (e-17228851)
+    - Verify ROWS[15][11] now shows "р.0" (dune-group)
+    - Verify ROWS[18][11] now shows "р.0" (porg-3uieikjn)
+    - Verify derived metrics use correct total: CPC≈18, CPA≈2506, CPL≈3938
+    - **EXPECTED OUTCOME**: Test PASSES (confirms bug is fixed)
+    - _Requirements: 2.1, 2.2, 2.3, 2.4_
+
+  - [x] 3.3 Verify preservation tests still pass
+    - **Property 2: Preservation** - Non-Cost Data and Individual Account Metrics
+    - **IMPORTANT**: Re-run the SAME tests from task 2 - do NOT write new tests
+    - Run preservation property tests from step 2
+    - Verify all rows NOT in [4, 5, 10, 15, 18] remain unchanged
+    - Verify account e-20010227 (row 6) data remains unchanged: impressions=49416, clicks=805, cost="р.27 564"
+    - Verify campaign-level rows (7-9, 11-14, 16-17, 19-20) remain unchanged
+    - Verify SEO row (21) remains unchanged: 80 visits, 0 leads
+    - Verify Recommendations row (22) remains unchanged
+    - Verify BOLD_ROWS formatting remains unchanged
+    - Verify report structure (total rows, columns, headers) remains unchanged
+    - **EXPECTED OUTCOME**: Tests PASS (confirms no regressions)
+    - Confirm all tests still pass after fix (no regressions)
+    - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6_
+
+- [x] 4. Checkpoint - Ensure all tests pass
+  - Run all tests from tasks 1 and 2
+  - Verify bug condition test (task 1) now passes with correct values
+  - Verify preservation tests (task 2) still pass with no regressions
+  - Run the complete script `report_0106.py` to ensure it executes without errors
+  - Verify the generated Google Sheets output contains correct costs ("р.27 564" in Total and Yandex Direct rows)
+  - Verify derived metrics in spreadsheet match expected calculations (CPC≈18, CPA≈2506, CPL≈3938)
+  - Ensure all tests pass, ask the user if questions arise

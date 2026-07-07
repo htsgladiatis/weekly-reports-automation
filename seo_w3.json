@@ -1,0 +1,159 @@
+{
+  "period": {
+    "from": "2026-05-18",
+    "to": "2026-05-24"
+  },
+  "updated": "2026-06-09T11:37:25.153256",
+  "counter_id": "90747520",
+  "seo_stats": {
+    "visits": 49,
+    "users": 45,
+    "bounce_rate": 6.12,
+    "page_depth": 3.45,
+    "avg_duration": 129
+  },
+  "top_landing_pages": [
+    {
+      "url": "https://dune-group.ru/prices",
+      "visits": 14,
+      "users": 14,
+      "bounce_rate": 0.0,
+      "page_depth": 2.93,
+      "avg_duration": 142
+    },
+    {
+      "url": "https://dune-group.ru/",
+      "visits": 7,
+      "users": 7,
+      "bounce_rate": 0.0,
+      "page_depth": 4.14,
+      "avg_duration": 138
+    },
+    {
+      "url": "https://dune-group.ru/designapartments",
+      "visits": 4,
+      "users": 2,
+      "bounce_rate": 25.0,
+      "page_depth": 2.0,
+      "avg_duration": 181
+    },
+    {
+      "url": "https://dune-group.ru/designerepairdune",
+      "visits": 4,
+      "users": 4,
+      "bounce_rate": 0.0,
+      "page_depth": 2.5,
+      "avg_duration": 133
+    },
+    {
+      "url": "https://remont.dune-group.ru/",
+      "visits": 3,
+      "users": 3,
+      "bounce_rate": 0.0,
+      "page_depth": 3.33,
+      "avg_duration": 111
+    },
+    {
+      "url": "https://dune-group.ru/dom",
+      "visits": 2,
+      "users": 1,
+      "bounce_rate": 100.0,
+      "page_depth": 1.0,
+      "avg_duration": 0
+    },
+    {
+      "url": "https://dune-group.ru/kladochnie-raboti",
+      "visits": 2,
+      "users": 2,
+      "bounce_rate": 0.0,
+      "page_depth": 4.5,
+      "avg_duration": 50
+    },
+    {
+      "url": "https://dune-group.ru/remont-vannoy-i-tualeta",
+      "visits": 2,
+      "users": 2,
+      "bounce_rate": 0.0,
+      "page_depth": 8.0,
+      "avg_duration": 65
+    },
+    {
+      "url": "https://dune-group.ru/arhitekturnii-proekt-doma",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0,
+      "page_depth": 3.0,
+      "avg_duration": 29
+    },
+    {
+      "url": "https://dune-group.ru/cvdesignerepairdune",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0,
+      "page_depth": 2.0,
+      "avg_duration": 467
+    }
+  ],
+  "search_queries": [
+    {
+      "query": "дизайн проект в жк донская слобода ростов на дону",
+      "visits": 3,
+      "users": 1,
+      "bounce_rate": 33.33
+    },
+    {
+      "query": "строительная компания done group ростов-на-дону",
+      "visits": 2,
+      "users": 1,
+      "bounce_rate": 100.0
+    },
+    {
+      "query": "цены на ремонтные и отделочные работы в ростове на дону",
+      "visits": 2,
+      "users": 2,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "category_id:(184107633)",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "большинство дефектов ростовских новостроек выявляют в первые годы",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "дизайнер интерьера ростов на дону стоимость",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "дюна груп ремонт",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "дюна групп ростов на дону",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "кладочные работы в ростове-на-дону",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "компании по ремонту ро прайс",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    }
+  ]
+}

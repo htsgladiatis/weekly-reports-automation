@@ -1,0 +1,45 @@
+{
+  "period": {
+    "from": "2026-06-01",
+    "to": "2026-06-07"
+  },
+  "updated": "2026-06-26T13:12:01.301976",
+  "data": {
+    "accounts": {
+      "e-20010227": {
+        "leads": 0,
+        "target": 0
+      },
+      "e-17228851": {
+        "leads": 0,
+        "target": 0
+      },
+      "dune-group": {
+        "leads": 0,
+        "target": 0
+      },
+      "porg-3uieikjn": {
+        "leads": 0,
+        "target": 0
+      }
+    },
+    "channels": {
+      "direct": {
+        "leads": 2,
+        "target": 0
+      },
+      "seo": {
+        "leads": 0,
+        "target": 0
+      },
+      "recommendations": {
+        "leads": 21,
+        "target": 0
+      }
+    },
+    "total": {
+      "leads": 23,
+      "target": 0
+    }
+  }
+}

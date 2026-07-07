@@ -1,0 +1,159 @@
+{
+  "period": {
+    "from": "2026-05-04",
+    "to": "2026-05-10"
+  },
+  "updated": "2026-06-09T11:36:57.803019",
+  "counter_id": "90747520",
+  "seo_stats": {
+    "visits": 34,
+    "users": 31,
+    "bounce_rate": 2.94,
+    "page_depth": 3.29,
+    "avg_duration": 159
+  },
+  "top_landing_pages": [
+    {
+      "url": "https://dune-group.ru/",
+      "visits": 10,
+      "users": 8,
+      "bounce_rate": 0.0,
+      "page_depth": 4.9,
+      "avg_duration": 140
+    },
+    {
+      "url": "https://dune-group.ru/prices",
+      "visits": 8,
+      "users": 7,
+      "bounce_rate": 12.5,
+      "page_depth": 2.0,
+      "avg_duration": 68
+    },
+    {
+      "url": "https://dune-group.ru/designhouses",
+      "visits": 4,
+      "users": 4,
+      "bounce_rate": 0.0,
+      "page_depth": 2.5,
+      "avg_duration": 511
+    },
+    {
+      "url": "https://dune-group.ru/designapartments",
+      "visits": 3,
+      "users": 3,
+      "bounce_rate": 0.0,
+      "page_depth": 1.67,
+      "avg_duration": 96
+    },
+    {
+      "url": "https://dune-group.ru/?rs_stat=9204",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0,
+      "page_depth": 9.0,
+      "avg_duration": 49
+    },
+    {
+      "url": "https://dune-group.ru/designerepairdune",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0,
+      "page_depth": 2.0,
+      "avg_duration": 32
+    },
+    {
+      "url": "https://dune-group.ru/dizain-restorana",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0,
+      "page_depth": 5.0,
+      "avg_duration": 35
+    },
+    {
+      "url": "https://dune-group.ru/dvuhetazhnii-dom",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0,
+      "page_depth": 2.0,
+      "avg_duration": 16
+    },
+    {
+      "url": "https://dune-group.ru/kommercheskii-remont",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0,
+      "page_depth": 2.0,
+      "avg_duration": 448
+    },
+    {
+      "url": "https://dune-group.ru/remont-gostinici",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0,
+      "page_depth": 3.0,
+      "avg_duration": 189
+    }
+  ],
+  "search_queries": [
+    {
+      "query": "category_id:(184107431)",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "dune group",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "dune group строительство домов ростов на дону",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "дизайнер интерьера ресторана ростов",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "дизайнерский дом ростов на дону",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "помпания dune груп работает",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "прайс лист на ремонтно строительные работы в ростове на дону",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "ростов расценки по внутреннему ремонт цены на 2026",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 100.0
+    },
+    {
+      "query": "строительная компания dune group",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "цена на ремонт квартиры под ключ в ростове на дону с материалами и работой в 2026 году",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    }
+  ]
+}

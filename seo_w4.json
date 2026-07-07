@@ -1,0 +1,159 @@
+{
+  "period": {
+    "from": "2026-05-25",
+    "to": "2026-05-31"
+  },
+  "updated": "2026-06-09T11:48:18.795145",
+  "counter_id": "90747520",
+  "seo_stats": {
+    "visits": 39,
+    "users": 36,
+    "bounce_rate": 10.26,
+    "page_depth": 3.31,
+    "avg_duration": 159
+  },
+  "top_landing_pages": [
+    {
+      "url": "https://dune-group.ru/",
+      "visits": 15,
+      "users": 13,
+      "bounce_rate": 0.0,
+      "page_depth": 4.73,
+      "avg_duration": 81
+    },
+    {
+      "url": "https://dune-group.ru/designerepairdune",
+      "visits": 5,
+      "users": 5,
+      "bounce_rate": 0.0,
+      "page_depth": 3.0,
+      "avg_duration": 114
+    },
+    {
+      "url": "https://dune-group.ru/prices",
+      "visits": 5,
+      "users": 5,
+      "bounce_rate": 0.0,
+      "page_depth": 2.0,
+      "avg_duration": 169
+    },
+    {
+      "url": "https://dune-group.ru/designapartments",
+      "visits": 3,
+      "users": 3,
+      "bounce_rate": 33.33,
+      "page_depth": 2.33,
+      "avg_duration": 109
+    },
+    {
+      "url": "https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026",
+      "visits": 3,
+      "users": 3,
+      "bounce_rate": 0.0,
+      "page_depth": 3.33,
+      "avg_duration": 1000
+    },
+    {
+      "url": "https://dune-group.ru/designhouses",
+      "visits": 2,
+      "users": 2,
+      "bounce_rate": 0.0,
+      "page_depth": 3.0,
+      "avg_duration": 41
+    },
+    {
+      "url": "https://dune-group.ru/requisites",
+      "visits": 2,
+      "users": 1,
+      "bounce_rate": 50.0,
+      "page_depth": 1.0,
+      "avg_duration": 12
+    },
+    {
+      "url": "https://dune-group.ru/remont-dvuhkomnatnoi-kvartiri",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 100.0,
+      "page_depth": 1.0,
+      "avg_duration": 0
+    },
+    {
+      "url": "https://dune-group.ru/remont-kvartiri-studii",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0,
+      "page_depth": 3.0,
+      "avg_duration": 1
+    },
+    {
+      "url": "https://dune-group.ru/remont-magazina",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 100.0,
+      "page_depth": 1.0,
+      "avg_duration": 0
+    }
+  ],
+  "search_queries": [
+    {
+      "query": "дун груп",
+      "visits": 3,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "dune group",
+      "visits": 2,
+      "users": 2,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "dune group, ростов-на-дону",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "{\"text\":\"строительная компания\",\"what\":[{\"attr_name\":\"category_id\",\"attr_values\":[\"184107633\"]}]}",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "{\"text\":\"строительство дачных домов и коттеджей\",\"what\":[{\"attr_name\":\"category_id\",\"attr_values\":[\"184107431\"]}]}",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "евченко юрий",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "какая стоимость ремонта новостройки в ростове",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "прайс дизайнерского ремонта ростов",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "расценки на ремонтные и отделочные работы 2026",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "ремонт ванной комнаты под ключ в ростове на дону",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    }
+  ]
+}

@@ -1,0 +1,159 @@
+{
+  "period": {
+    "from": "2026-05-11",
+    "to": "2026-05-17"
+  },
+  "updated": "2026-06-09T11:37:15.650483",
+  "counter_id": "90747520",
+  "seo_stats": {
+    "visits": 34,
+    "users": 32,
+    "bounce_rate": 8.82,
+    "page_depth": 3.79,
+    "avg_duration": 273
+  },
+  "top_landing_pages": [
+    {
+      "url": "https://dune-group.ru/prices",
+      "visits": 9,
+      "users": 9,
+      "bounce_rate": 0.0,
+      "page_depth": 2.89,
+      "avg_duration": 58
+    },
+    {
+      "url": "https://dune-group.ru/",
+      "visits": 7,
+      "users": 5,
+      "bounce_rate": 0.0,
+      "page_depth": 5.86,
+      "avg_duration": 388
+    },
+    {
+      "url": "https://dune-group.ru/designapartments",
+      "visits": 3,
+      "users": 3,
+      "bounce_rate": 0.0,
+      "page_depth": 2.0,
+      "avg_duration": 596
+    },
+    {
+      "url": "https://dune-group.ru/designerepairdune",
+      "visits": 3,
+      "users": 3,
+      "bounce_rate": 33.33,
+      "page_depth": 1.67,
+      "avg_duration": 159
+    },
+    {
+      "url": "https://dune-group.ru/designhouses",
+      "visits": 3,
+      "users": 3,
+      "bounce_rate": 33.33,
+      "page_depth": 1.67,
+      "avg_duration": 19
+    },
+    {
+      "url": "https://dune-group.ru/dom",
+      "visits": 2,
+      "users": 2,
+      "bounce_rate": 0.0,
+      "page_depth": 2.0,
+      "avg_duration": 129
+    },
+    {
+      "url": "https://dune-group.ru/arhitecturedune",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0,
+      "page_depth": 20.0,
+      "avg_duration": 111
+    },
+    {
+      "url": "https://dune-group.ru/dizain-odnokomnatnoi-kvartiri",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0,
+      "page_depth": 3.0,
+      "avg_duration": 102
+    },
+    {
+      "url": "https://dune-group.ru/kommercheskii-remont",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 100.0,
+      "page_depth": 1.0,
+      "avg_duration": 0
+    },
+    {
+      "url": "https://dune-group.ru/remont-gostinoy",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0,
+      "page_depth": 3.0,
+      "avg_duration": 98
+    }
+  ],
+  "search_queries": [
+    {
+      "query": "79034850671",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "dom-dune",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "dune - groip . ru",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "dunegroup",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "дизайн проект дома ростов",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "компания дюна групп в ростове-на-дону",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "прайс на отделочные работы ростов-на-дону",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "прайс-лист на отделочные работы в ростове-на-дону 2026год",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "прайс-лист на отделочные работы в ростовской области на 2026",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    },
+    {
+      "query": "ростов-на-дону буденновский проспект 81 дюна групп",
+      "visits": 1,
+      "users": 1,
+      "bounce_rate": 0.0
+    }
+  ]
+}

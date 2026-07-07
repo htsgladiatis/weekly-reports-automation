@@ -1,0 +1,116 @@
+{
+  "period": "29.06.2026 - 05.07.2026",
+  "direct_accounts": {
+    "e-20010227": {
+      "totals": {
+        "spend": 28104.789999999994,
+        "clicks": 425.0,
+        "impressions": 53253.0,
+        "conversions": 73.0
+      },
+      "campaigns": {
+        "МК ТК // Ремонт // remont.dune-group.ru": {
+          "spend": 28104.789999999994,
+          "clicks": 425.0,
+          "impressions": 53253.0,
+          "conversions": 73.0
+        }
+      },
+      "source_file": "2026-07-06_21-05-44_e-20010227.xlsx",
+      "has_impressions_col": true
+    },
+    "e-17228851": {
+      "totals": {
+        "spend": 4970.610000000001,
+        "clicks": 757.0,
+        "impressions": 45340.0,
+        "conversions": 2.0
+      },
+      "campaigns": {
+        "МК // Ремонт Денис Бренд//": {
+          "spend": 4970.610000000001,
+          "clicks": 692.0,
+          "impressions": 19879.0,
+          "conversions": 2.0
+        },
+        "ЕПК // Ремонт //ФЦ remont.dune-group.ru": {
+          "spend": 0.0,
+          "clicks": 4.0,
+          "impressions": 11284.0,
+          "conversions": 0.0
+        },
+        "МК // Строительство // СРА": {
+          "spend": 0.0,
+          "clicks": 3.0,
+          "impressions": 111.0,
+          "conversions": 0.0
+        },
+        "МК Товарная кампания Ремонт": {
+          "spend": 0.0,
+          "clicks": 0.0,
+          "impressions": 21.0,
+          "conversions": 0.0
+        },
+        "РСЯ// типовой ремонт // Синяя кухня с текстом и кухней": {
+          "spend": 0.0,
+          "clicks": 8.0,
+          "impressions": 8234.0,
+          "conversions": 0.0
+        },
+        "Товарная кампания ремонт старая": {
+          "spend": 0.0,
+          "clicks": 1.0,
+          "impressions": 154.0,
+          "conversions": 0.0
+        },
+        "МК // Строительство // СРА->в платку": {
+          "spend": 0.0,
+          "clicks": 0.0,
+          "impressions": 4.0,
+          "conversions": 0.0
+        },
+        "МК Товарная - Услуга дизайна": {
+          "spend": 0.0,
+          "clicks": 49.0,
+          "impressions": 5653.0,
+          "conversions": 0.0
+        }
+      },
+      "source_file": "2026-07-06_21-06-39_e-17228851.xlsx",
+      "has_impressions_col": true
+    },
+    "dune-group": {
+      "totals": {
+        "spend": 0.0,
+        "clicks": 0,
+        "impressions": 0,
+        "conversions": 0
+      },
+      "campaigns": {},
+      "source_file": "2026-07-06_21-07-37_dune-group.xlsx",
+      "has_impressions_col": true
+    },
+    "porg-3uieikjn": {
+      "totals": {
+        "spend": 0.0,
+        "clicks": 18.0,
+        "impressions": 370.0,
+        "conversions": 0.0
+      },
+      "campaigns": {
+        "МК // Строительство // СРА (Ф+ТГ)": {
+          "spend": 0.0,
+          "clicks": 18.0,
+          "impressions": 370.0,
+          "conversions": 0.0
+        }
+      },
+      "source_file": "2026-07-06_21-08-17_porg-3uieikjn.xlsx",
+      "has_impressions_col": true
+    }
+  },
+  "total_impressions": 98963.0,
+  "total_clicks": 1200.0,
+  "total_spend": 33075.399999999994,
+  "total_conversions": 75.0
+}
