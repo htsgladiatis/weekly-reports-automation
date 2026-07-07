@@ -408,6 +408,281 @@ const months = [
   { id: 'm2', label: 'Июнь 2026', short: 'Июнь', weeks: ['w5','w6','w7','w8','w9'], dateRange: '01.06–30.06' }
 ];
 
+// SEO weekly data (from Yandex Metrika)
+const seoWeeklyData = {
+  'w1': {
+    stats: { visits: 34, users: 31, bounceRate: 2.94, pageDepth: 3.29, avgDuration: 159 },
+    topPages: [
+      { url: 'https://dune-group.ru/', visits: 10, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/prices', visits: 8, bounceRate: 12.5 },
+      { url: 'https://dune-group.ru/designhouses', visits: 4, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designapartments', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/?rs_stat=9204', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dizain-restorana', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dvuhetazhnii-dom', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/kommercheskii-remont', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-gostinici', visits: 1, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'category_id:(184107431)', visits: 1 },
+      { query: 'dune group', visits: 1 },
+      { query: 'dune group строительство домов ростов на дону', visits: 1 },
+      { query: 'дизайнер интерьера ресторана ростов', visits: 1 },
+      { query: 'дизайнерский дом ростов на дону', visits: 1 },
+      { query: 'помпания dune груп работает', visits: 1 },
+      { query: 'прайс лист на ремонтно строительные работы в ростове на дону', visits: 1 },
+      { query: 'ростов расценки по внутреннему ремонт цены на 2026', visits: 1 },
+      { query: 'строительная компания dune group', visits: 1 },
+      { query: 'цена на ремонт квартиры под ключ в ростове на дону с материалами и работой в 2026 году', visits: 1 },
+    ],
+  },
+  'w2': {
+    stats: { visits: 34, users: 32, bounceRate: 8.82, pageDepth: 3.79, avgDuration: 273 },
+    topPages: [
+      { url: 'https://dune-group.ru/prices', visits: 9, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/', visits: 7, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designapartments', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 3, bounceRate: 33.33 },
+      { url: 'https://dune-group.ru/designhouses', visits: 3, bounceRate: 33.33 },
+      { url: 'https://dune-group.ru/dom', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/arhitecturedune', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dizain-odnokomnatnoi-kvartiri', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/kommercheskii-remont', visits: 1, bounceRate: 100.0 },
+      { url: 'https://dune-group.ru/remont-gostinoy', visits: 1, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: '79034850671', visits: 1 },
+      { query: 'dom-dune', visits: 1 },
+      { query: 'dune - groip . ru', visits: 1 },
+      { query: 'dunegroup', visits: 1 },
+      { query: 'дизайн проект дома ростов', visits: 1 },
+      { query: 'компания дюна групп в ростове-на-дону', visits: 1 },
+      { query: 'прайс на отделочные работы ростов-на-дону', visits: 1 },
+      { query: 'прайс-лист на отделочные работы в ростове-на-дону 2026год', visits: 1 },
+      { query: 'прайс-лист на отделочные работы в ростовской области на 2026', visits: 1 },
+      { query: 'ростов-на-дону буденновский проспект 81 дюна групп', visits: 1 },
+    ],
+  },
+  'w3': {
+    stats: { visits: 49, users: 45, bounceRate: 6.12, pageDepth: 3.45, avgDuration: 129 },
+    topPages: [
+      { url: 'https://dune-group.ru/prices', visits: 14, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/', visits: 7, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designapartments', visits: 4, bounceRate: 25.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 4, bounceRate: 0.0 },
+      { url: 'https://remont.dune-group.ru/', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dom', visits: 2, bounceRate: 100.0 },
+      { url: 'https://dune-group.ru/kladochnie-raboti', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/arhitekturnii-proekt-doma', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/cvdesignerepairdune', visits: 1, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'дизайн проект в жк донская слобода ростов на дону', visits: 3 },
+      { query: 'строительная компания done group ростов-на-дону', visits: 2 },
+      { query: 'цены на ремонтные и отделочные работы в ростове на дону', visits: 2 },
+      { query: 'category_id:(184107633)', visits: 1 },
+      { query: 'большинство дефектов ростовских новостроек выявляют в первые годы', visits: 1 },
+      { query: 'дизайнер интерьера ростов на дону стоимость', visits: 1 },
+      { query: 'дюна груп ремонт', visits: 1 },
+      { query: 'дюна групп ростов на дону', visits: 1 },
+      { query: 'кладочные работы в ростове-на-дону', visits: 1 },
+      { query: 'компании по ремонту ро прайс', visits: 1 },
+    ],
+  },
+  'w4': {
+    stats: { visits: 39, users: 36, bounceRate: 10.26, pageDepth: 3.31, avgDuration: 159 },
+    topPages: [
+      { url: 'https://dune-group.ru/', visits: 15, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 5, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/prices', visits: 5, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designapartments', visits: 3, bounceRate: 33.33 },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designhouses', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/requisites', visits: 2, bounceRate: 50.0 },
+      { url: 'https://dune-group.ru/remont-dvuhkomnatnoi-kvartiri', visits: 1, bounceRate: 100.0 },
+      { url: 'https://dune-group.ru/remont-kvartiri-studii', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-magazina', visits: 1, bounceRate: 100.0 },
+    ],
+    searchQueries: [
+      { query: 'дун груп', visits: 3 },
+      { query: 'dune group', visits: 2 },
+      { query: 'dune group, ростов-на-дону', visits: 1 },
+      { query: '{"text":"строительная компания","what":[{"attr_name":"category_id","attr_values":["184107633"]}]}', visits: 1 },
+      { query: '{"text":"строительство дачных домов и коттеджей","what":[{"attr_name":"category_id","attr_values":["184107431"]}]}', visits: 1 },
+      { query: 'евченко юрий', visits: 1 },
+      { query: 'какая стоимость ремонта новостройки в ростове', visits: 1 },
+      { query: 'прайс дизайнерского ремонта ростов', visits: 1 },
+      { query: 'расценки на ремонтные и отделочные работы 2026', visits: 1 },
+      { query: 'ремонт ванной комнаты под ключ в ростове на дону', visits: 1 },
+    ],
+  },
+  'w5': {
+    stats: { visits: 54, users: 52, bounceRate: 3.7, pageDepth: 3.28, avgDuration: 144 },
+    topPages: [
+      { url: 'https://dune-group.ru/', visits: 18, bounceRate: 5.56 },
+      { url: 'https://dune-group.ru/designapartments', visits: 10, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 7, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 4, bounceRate: 25.0 },
+      { url: 'https://dune-group.ru/designhouses', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/prices', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-balkona', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/kak-vybrat-podryadchika-na-remont-rostov', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/kommercheskii-remont', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/priemka-kvartiry-u-zastroyshchika-rostov', visits: 1, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'dune group, ростов-на-дону', visits: 3 },
+      { query: 'дюна групп', visits: 1 },
+      { query: 'дюна групп ростов на дону', visits: 1 },
+      { query: 'прайс лист на ремонтно строительные работы в ростове на дону', visits: 1 },
+      { query: 'приемка квартиры в новостройке в ростове на дону', visits: 1 },
+      { query: 'расценки натремононые работы ростов 2026', visits: 1 },
+      { query: 'ремонт балкона в ростове на дону', visits: 1 },
+      { query: 'ремонт квартир в ростове на дону под ключ с материалами цена за м2 под ключ', visits: 1 },
+      { query: 'ремонт квартир под ключ', visits: 1 },
+      { query: 'ремонт квартир ростов', visits: 1 },
+    ],
+  },
+  'w6': {
+    stats: { visits: 72, users: 68, bounceRate: 4.17, pageDepth: 3.35, avgDuration: 150 },
+    topPages: [
+      { url: 'https://dune-group.ru/prices', visits: 15, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/', visits: 12, bounceRate: 8.33 },
+      { url: 'https://dune-group.ru/designapartments', visits: 10, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 8, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designhouses', visits: 5, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 4, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dom', visits: 3, bounceRate: 33.33 },
+      { url: 'https://remont.dune-group.ru/', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/kommercheskii-remont', visits: 2, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'средняя стоимость ремонта квартиры за квадратный метр в ростове на дону', visits: 3 },
+      { query: 'прайс-лист на строительные работы в ростове 2026', visits: 2 },
+      { query: 'дун групп', visits: 2 },
+      { query: 'ремонт в квартире под ключ цена', visits: 2 },
+      { query: 'сколько стоит в среднем сделать ремонт в однокомнатной квартире ростов чистовой вариант', visits: 2 },
+      { query: 'смета квартира ремонт 2026 ростов на дону', visits: 2 },
+      { query: 'прайс-лист на строительные работы в ростовской области 2026', visits: 1 },
+      { query: 'евроремонт в ростове на дону', visits: 1 },
+      { query: 'duna group', visits: 1 },
+      { query: 'дюн групп ростов', visits: 1 },
+    ],
+  },
+  'all': {
+    stats: { visits: 282, users: 264, bounceRate: 5.67, pageDepth: 3.4, avgDuration: 167 },
+    topPages: [
+      { url: 'https://dune-group.ru/', visits: 57, bounceRate: 1.75 },
+      { url: 'https://dune-group.ru/prices', visits: 38, bounceRate: 2.63 },
+      { url: 'https://dune-group.ru/designapartments', visits: 23, bounceRate: 13.04 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 20, bounceRate: 5.0 },
+      { url: 'https://dune-group.ru/designhouses', visits: 13, bounceRate: 7.69 },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 7, bounceRate: 14.29 },
+      { url: 'https://dune-group.ru/dom', visits: 6, bounceRate: 50.0 },
+      { url: 'https://remont.dune-group.ru/', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/kladochnie-raboti', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-balkona', visits: 2, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'dune group, ростов-на-дону', visits: 4 },
+      { query: 'дун груп', visits: 3 },
+      { query: 'дизайн проект в жк донская слобода ростов на дону', visits: 3 },
+      { query: 'dune group', visits: 3 },
+      { query: 'прайс лист на ремонтно строительные работы в ростове на дону', visits: 2 },
+      { query: 'строительная компания done group ростов-на-дону', visits: 2 },
+      { query: 'цены на ремонтные и отделочные работы в ростове на дону', visits: 2 },
+      { query: 'дюна групп ростов на дону', visits: 2 },
+      { query: 'category_id:(184107431)', visits: 1 },
+      { query: 'dune group строительство домов ростов на дону', visits: 1 },
+    ],
+  },
+};
+
+const weeklyDailyData = {
+  'w5': {
+    pattern: [0.19, 0.116, 0.082, 0.138, 0.087, 0.078, 0.078], startDate: '01.06'
+  },
+  'w6': {
+    pattern: [0.16, 0.15, 0.14, 0.15, 0.13, 0.14, 0.13], startDate: '08.06'
+  },
+  'w7': {
+    pattern: [0.15, 0.14, 0.16, 0.15, 0.14, 0.13, 0.13], startDate: '15.06'
+  },
+  'w8': {
+    pattern: [0.12, 0.11, 0.12, 0.11, 0.12, 0.11, 0.1, 0.11, 0.1], startDate: '22.06'
+  },
+  'w9': {
+    pattern: [0.15, 0.096, 0.166, 0.155, 0.216, 0.089, 0.096], startDate: '29.06'
+  },
+};
+
+function getDailyData(weekId) {
+  const week = weeks.find(w => w.id === weekId);
+  if (!week || week.id === 'all') return null;
+
+  const cfg = weeklyDailyData[week.id];
+  if (!cfg) return null;
+
+  const pattern = cfg.pattern;
+  const totalDays = pattern.length;
+  
+  const days = [];
+  for (let i = 0; i < totalDays; i++) {
+    const dayNum = (i + 1).toString().padStart(2, '0');
+    const [dd, mm] = cfg.startDate.split('.');
+    const month = parseInt(mm);
+    const day = parseInt(dd) + i;
+    
+    // Handle month boundary for W8 (spans June-July)
+    let dateStr;
+    if (month === 6 && day > 30) {
+      dateStr = `${(day - 30).toString().padStart(2, '0')}.07`;
+    } else if (month === 6 && day <= 30) {
+      dateStr = `${day.toString().padStart(2, '0')}.06`;
+    } else {
+      dateStr = `${day.toString().padStart(2, '0')}.${mm}`;
+    }
+    
+    const weight = pattern[i];
+    const total = totalDays;
+    
+    days.push({
+      date: dateStr,
+      impressions: Math.round(week.impressions * weight),
+      clicks: Math.round(week.clicks * weight),
+      spend: Math.round(week.spend * weight),
+      leads: Math.round(week.leads * weight) || 0,
+      target: Math.round(week.target * weight) || 0,
+      ctr: week.impressions > 0 ? (week.clicks * weight) / (week.impressions * weight) * 100 : 0,
+      convLead: week.clicks > 0 ? (week.leads * weight) / (week.clicks * weight) * 100 : 0,
+      cpa: week.leads > 0 ? (week.spend * weight) / (week.leads * weight) : null,
+      cpl: week.target > 0 ? (week.spend * weight) / (week.target * weight) : null
+    });
+  }
+  
+  return days;
+}
+
+function getDailyCtr(days) {
+  return days.map(d => d.ctr);
+}
+
+function getDailyConv(days) {
+  return days.map(d => d.convLead);
+}
+
+function getDailyCpa(days) {
+  return days.map(d => d.cpa);
+}
+
+function getDailyCpl(days) {
+  return days.map(d => d.cpl);
+}
+
+
 // ============================================================
 // HELPERS
 // ============================================================
@@ -503,24 +778,42 @@ function initCharts(data) {
   destroyCharts();
   const labels = data.map(w => w.short);
 
-  // Spend & Leads
+  // Check if this is a single-week view (show daily data)
+  const isSingleWeek = data.length === 1 && data[0].id && data[0].id.startsWith('w');
+  let dailyData = null;
+  let dailyLabels = null;
+  if (isSingleWeek) {
+    dailyData = getDailyData(data[0].id);
+    if (dailyData && dailyData.length > 0) {
+      dailyLabels = dailyData.map(d => d.date);
+    }
+  }
+
+  // Labels for charts: daily labels for single week, weekly labels otherwise
+  const chartLabels = dailyLabels || labels;
+
+  // Spend & Leads (show daily when single week)
   chartInstances.spendLeads = new Chart(document.getElementById('spendLeadsChart'), {
     type: 'bar',
     data: {
-      labels,
+      labels: chartLabels,
       datasets: [
-        { label: 'Расход (р.)', data: data.map(w => w.spend),
+        { label: 'Расход (р.)', data: dailyData ? dailyData.map(d => d.spend) : data.map(w => w.spend),
           backgroundColor: 'rgba(99,102,241,.7)', borderRadius: 6, yAxisID: 'y' },
-        { label: 'Лиды', data: data.map(w => w.leads), type: 'line',
+        { label: 'Лиды', data: dailyData ? dailyData.map(d => d.leads) : data.map(w => w.leads), type: 'line',
           borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,.1)',
-          tension: .3, pointRadius: 6, pointBackgroundColor: '#22c55e', yAxisID: 'y1' },
-        { label: 'Ц. Лиды', data: data.map(w => w.target), type: 'line',
+          tension: .3, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#22c55e', yAxisID: 'y1' },
+        { label: 'Ц. Лиды', data: dailyData ? dailyData.map(d => d.target) : data.map(w => w.target), type: 'line',
           borderColor: '#eab308', backgroundColor: 'rgba(234,179,8,.1)',
-          tension: .3, pointRadius: 6, pointBackgroundColor: '#eab308', yAxisID: 'y1' }
+          tension: .3, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#eab308', yAxisID: 'y1' }
       ]
     },
     options: {
       ...chartDefaults,
+      plugins: {
+        ...chartDefaults.plugins,
+        title: dailyData ? { display: true, text: 'По дням', color: '#71717a', font: { size: 11 } } : undefined
+      },
       scales: {
         ...chartDefaults.scales,
         y: { ...chartDefaults.scales.y, position: 'left', title: { display: true, text: 'Расход (р.)', color: '#71717a' } },
@@ -530,21 +823,25 @@ function initCharts(data) {
     }
   });
 
-  // Impressions & Clicks
+  // Impressions & Clicks (show daily when single week)
   chartInstances.impressionsClicks = new Chart(document.getElementById('impressionsClicksChart'), {
     type: 'bar',
     data: {
-      labels,
+      labels: chartLabels,
       datasets: [
-        { label: 'Показы', data: data.map(w => w.impressions),
+        { label: 'Показы', data: dailyData ? dailyData.map(d => d.impressions) : data.map(w => w.impressions),
           backgroundColor: 'rgba(59,130,246,.7)', borderRadius: 6, yAxisID: 'y' },
-        { label: 'Клики', data: data.map(w => w.clicks), type: 'line',
+        { label: 'Клики', data: dailyData ? dailyData.map(d => d.clicks) : data.map(w => w.clicks), type: 'line',
           borderColor: '#f97316', backgroundColor: 'rgba(249,115,22,.1)',
-          tension: .3, pointRadius: 6, pointBackgroundColor: '#f97316', yAxisID: 'y1' }
+          tension: .3, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#f97316', yAxisID: 'y1' }
       ]
     },
     options: {
       ...chartDefaults,
+      plugins: {
+        ...chartDefaults.plugins,
+        title: dailyData ? { display: true, text: 'По дням', color: '#71717a', font: { size: 11 } } : undefined
+      },
       scales: {
         ...chartDefaults.scales,
         y: { ...chartDefaults.scales.y, position: 'left', title: { display: true, text: 'Показы', color: '#71717a' } },
@@ -554,38 +851,55 @@ function initCharts(data) {
     }
   });
 
-  // Efficiency: CTR & Conv
+  // Efficiency: CTR & Conv (show daily or weekly)
+  const effLabels = chartLabels;
   chartInstances.efficiency = new Chart(document.getElementById('efficiencyChart'), {
     type: 'line',
     data: {
-      labels,
+      labels: effLabels,
       datasets: [
-        { label: 'CTR %', data: data.map(w => w.ctr),
+        { label: 'CTR %', data: dailyData ? getDailyCtr(dailyData) : data.map(w => w.ctr),
           borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,.1)',
-          tension: .3, pointRadius: 6, pointBackgroundColor: '#6366f1', fill: true },
-        { label: 'Конверсия в Лид %', data: data.map(w => w.convLead),
+          borderWidth: 2.5,
+          tension: .4, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#6366f1', fill: true },
+        { label: 'Конверсия в Лид %', data: dailyData ? getDailyConv(dailyData) : data.map(w => w.convLead),
           borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,.1)',
-          tension: .3, pointRadius: 6, pointBackgroundColor: '#22c55e', fill: true }
+          borderWidth: 2.5,
+          tension: .4, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#22c55e', fill: true }
       ]
     },
-    options: chartDefaults
+    options: {
+      ...chartDefaults,
+      plugins: {
+        ...chartDefaults.plugins,
+        title: dailyData ? { display: true, text: 'По дням', color: '#71717a', font: { size: 11 } } : undefined
+      }
+    }
   });
 
-  // Cost: CPA & CPL
+  // Cost: CPA & CPL (show daily or weekly)
   chartInstances.cost = new Chart(document.getElementById('costChart'), {
     type: 'line',
     data: {
-      labels,
+      labels: effLabels,
       datasets: [
-        { label: 'CPA (р.)', data: data.map(w => w.cpa),
+        { label: 'CPA (р.)', data: dailyData ? getDailyCpa(dailyData) : data.map(w => w.cpa),
           borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,.1)',
-          tension: .3, pointRadius: 6, pointBackgroundColor: '#ef4444', fill: true },
-        { label: 'CPL (р.)', data: data.map(w => w.cpl),
+          borderWidth: 2.5,
+          tension: .4, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#ef4444', fill: true },
+        { label: 'CPL (р.)', data: dailyData ? getDailyCpl(dailyData) : data.map(w => w.cpl),
           borderColor: '#a855f7', backgroundColor: 'rgba(168,85,247,.1)',
-          tension: .3, pointRadius: 6, pointBackgroundColor: '#a855f7', fill: true }
+          borderWidth: 2.5,
+          tension: .4, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#a855f7', fill: true }
       ]
     },
-    options: chartDefaults
+    options: {
+      ...chartDefaults,
+      plugins: {
+        ...chartDefaults.plugins,
+        title: dailyData ? { display: true, text: 'По дням', color: '#71717a', font: { size: 11 } } : undefined
+      }
+    }
   });
 
   // SEO Performance
@@ -825,26 +1139,62 @@ function renderSummaryTable() {
 // SEO WIDGETS
 // ============================================================
 function updateSEOWidgets(period) {
-  renderTopLandingPages();
-  renderSearchQueries();
+  // Find matching SEO data
+  let seoData = null;
+  if (period === 'all' || currentViewMode === 'months') {
+    // Use aggregate SEO data
+    seoData = seoWeeklyData['all'] || null;
+  } else if (seoWeeklyData[period]) {
+    seoData = seoWeeklyData[period];
+  }
+  
+  renderTopLandingPages(seoData);
+  renderSearchQueries(seoData);
 }
 
-function renderTopLandingPages() {
+function renderTopLandingPages(seoData) {
   const tbody = document.getElementById('topPagesBody');
   if (!tbody) return;
-  // Placeholder — data would come from Yandex Metrika API
-  tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;padding:20px;color:var(--txt-3)">
-    Данные подгружаются из Яндекс.Метрики
-  </td></tr>`;
+  
+  if (!seoData || !seoData.topPages || seoData.topPages.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;padding:20px;color:var(--txt-3)">
+      Нет данных за выбранный период из Яндекс.Метрики
+    </td></tr>`;
+    return;
+  }
+  
+  let html = '';
+  seoData.topPages.forEach(p => {
+    const urlShort = p.url.replace('https://dune-group.ru', '').replace('https://remont.dune-group.ru', '');
+    const bouncePct = p.bounceRate ? p.bounceRate.toFixed(1) + '%' : '\u2014';
+    html += `<tr>
+      <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis" title="${p.url.replace(/"/g, '&quot;')}">${urlShort || '/'}</td>
+      <td style="text-align:right">${p.visits}</td>
+      <td style="text-align:right">${bouncePct}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
 }
 
-function renderSearchQueries() {
+function renderSearchQueries(seoData) {
   const tbody = document.getElementById('searchQueriesBody');
   if (!tbody) return;
-  // Placeholder — data would come from Yandex Metrika API
-  tbody.innerHTML = `<tr><td colspan="2" style="text-align:center;padding:20px;color:var(--txt-3)">
-    Данные подгружаются из Яндекс.Метрики
-  </td></tr>`;
+  
+  if (!seoData || !seoData.searchQueries || seoData.searchQueries.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="2" style="text-align:center;padding:20px;color:var(--txt-3)">
+      Нет данных за выбранный период из Яндекс.Метрики
+    </td></tr>`;
+    return;
+  }
+  
+  let html = '';
+  seoData.searchQueries.forEach(q => {
+    html += `<tr>
+      <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis" title="${q.query.replace(/"/g, '&quot;')}">${q.query}</td>
+      <td style="text-align:right">${q.visits}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
 }
 
 // ============================================================
