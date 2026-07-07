@@ -77,22 +77,30 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--txt);line
 
 /* PERIOD SELECTOR */
 .period-bar{position:sticky;top:59px;z-index:90;background:var(--glass);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.period-in{max-width:var(--maxw);margin:0 auto;padding:10px 24px;display:flex;gap:8px;align-items:center;overflow-x:auto;scrollbar-width:none}
-.period-in::-webkit-scrollbar{display:none}
-.period-btns{display:flex;gap:6px;flex-wrap:nowrap}
-.period-btn{padding:7px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--txt);cursor:pointer;font-size:12px;font-weight:500;
-  transition:all .2s var(--ease);white-space:nowrap;font-family:'Manrope',sans-serif}
-.period-btn:hover{border-color:var(--primary);background:var(--accent-light)}
-.period-btn.active{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
-.period-btn.week-btn{font-size:11px;padding:6px 10px}
-.period-divider{width:1px;height:24px;background:var(--line);flex-shrink:0;margin:0 4px}
+.period-in{max-width:var(--maxw);margin:0 auto;padding:10px 24px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .period-label{font-size:11px;color:var(--txt-3);letter-spacing:.06em;text-transform:uppercase;flex-shrink:0}
+
+/* View Mode Toggle */
+.view-mode-toggle{display:flex;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel)}
+.view-mode-btn{padding:7px 16px;border:none;background:transparent;color:var(--txt);cursor:pointer;font-size:12px;font-weight:500;
+  transition:all .2s var(--ease);white-space:nowrap;font-family:'Manrope',sans-serif;position:relative}
+.view-mode-btn:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:var(--line)}
+.view-mode-btn:hover{background:var(--accent-light)}
+.view-mode-btn.active{background:var(--primary);color:var(--on-primary)}
+
+/* Week/Month Dropdown */
+.week-dropdown{display:inline-block;position:relative}
+.week-select{padding:7px 32px 7px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--txt);
+  cursor:pointer;font-size:12px;font-family:'Manrope',sans-serif;min-width:160px;
+  appearance:none;-webkit-appearance:none;transition:all .2s var(--ease)}
+.week-select:hover{border-color:var(--primary)}.week-select:focus{outline:none;border-color:var(--primary)}
+.week-dropdown::after{content:'\u25BC';position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:8px;color:var(--txt-3);pointer-events:none}
 
 /* CONTENT */
 .wrap{max-width:var(--maxw);margin:0 auto;padding:24px 24px 60px;display:flex;flex-direction:column;gap:20px}
 
 /* KPI GRID */
-.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .kpi-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;
   box-shadow:var(--elev-1);transition:transform .2s var(--ease),border-color .2s var(--ease)}
 .kpi-card:hover{transform:translateY(-2px);border-color:var(--line-2)}
@@ -181,10 +189,12 @@ td:first-child{color:var(--txt);font-weight:600}
 <nav class="period-bar" id="periodBar">
   <div class="period-in">
     <span class="period-label">Период:</span>
-    <div class="period-btns" id="periodBtns">
-      <button class="period-btn active" data-period="all">Все недели</button>
-      <span class="period-divider"></span>
-      <span class="period-label">По неделям</span>
+    <div class="view-mode-toggle" id="viewModeToggle">
+      <button class="view-mode-btn active" onclick="switchViewMode('weeks')">По неделям</button>
+      <button class="view-mode-btn" onclick="switchViewMode('months')">По месяцам</button>
+    </div>
+    <div class="week-dropdown" id="weekDropdown">
+      <select class="week-select" id="weekSelect" onchange="showPeriod(this.value)"></select>
     </div>
   </div>
 </nav>
@@ -380,7 +390,9 @@ function rub(n) {
 }
 
 function getDataForPeriod(periodId) {
-  if (periodId === 'all') return weeks;
+  if (periodId === 'all') {
+    return currentViewMode === 'months' ? getMonthsData() : weeks;
+  }
   const month = months.find(m => m.id === periodId);
   if (month) return weeks.filter(w => month.weeks.includes(w.id));
   return weeks.filter(w => w.id === periodId);
@@ -768,6 +780,50 @@ function renderSummaryTable() {
 }
 
 // ============================================================
+// VIEW MODE TOGGLE
+// ============================================================
+let currentViewMode = 'weeks';
+
+function switchViewMode(mode) {
+  currentViewMode = mode;
+  document.querySelectorAll('.view-mode-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.view-mode-btn').forEach(b => {
+    if ((mode === 'weeks' && b.textContent.includes('недел')) ||
+        (mode === 'months' && b.textContent.includes('месяц'))) {
+      b.classList.add('active');
+    }
+  });
+
+  const dropdown = document.getElementById('weekSelect');
+  dropdown.innerHTML = '';
+
+  if (mode === 'months') {
+    // Add "Все месяцы" option
+    const allOpt = document.createElement('option');
+    allOpt.value = 'all'; allOpt.textContent = 'Все месяцы';
+    dropdown.appendChild(allOpt);
+    months.forEach(m => {
+      const opt = document.createElement('option');
+      opt.value = m.id;
+      opt.textContent = `${m.label} (${m.dateRange})`;
+      dropdown.appendChild(opt);
+    });
+  } else {
+    // Add "Все недели" option
+    const allOpt = document.createElement('option');
+    allOpt.value = 'all'; allOpt.textContent = 'Все недели';
+    dropdown.appendChild(allOpt);
+    weeks.forEach(w => {
+      const opt = document.createElement('option');
+      opt.value = w.id;
+      opt.textContent = w.label;
+      dropdown.appendChild(opt);
+    });
+  }
+  showPeriod('all');
+}
+
+// ============================================================
 // PERIOD SELECTION
 // ============================================================
 let currentPeriod = 'all';
@@ -778,40 +834,19 @@ function showPeriod(period) {
   const data = getDataForPeriod(period);
   if (!data || data.length === 0) return;
 
-  document.getElementById('detailTitle').textContent = period === 'all'
-    ? 'Все периоды' : (weeks.find(w => w.id === period)?.label || 'Выбранный период');
+  let title;
+  if (period === 'all') {
+    title = currentViewMode === 'months' ? 'Все месяцы' : 'Все периоды';
+  } else {
+    const week = weeks.find(w => w.id === period);
+    const month = months.find(m => m.id === period);
+    title = week ? week.label : (month ? month.label : 'Выбранный период');
+  }
+  document.getElementById('detailTitle').textContent = title;
 
   renderKPI(data);
   initCharts(data);
   renderDetailTable(data);
-}
-
-function initPeriodButtons() {
-  const container = document.getElementById('periodBtns');
-
-  // Add week buttons
-  weeks.forEach(w => {
-    const btn = document.createElement('button');
-    btn.className = 'period-btn week-btn';
-    btn.dataset.period = w.id;
-    btn.textContent = w.label.replace('\u2013', '\u2011');
-    btn.onclick = () => {
-      document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      showPeriod(w.id);
-    };
-    container.appendChild(btn);
-  });
-
-  // Attach handler to the existing "\u0412\u0441\u0435 \u043D\u0435\u0434\u0435\u043B\u0438" button
-  const allBtn = container.querySelector('[data-period="all"]');
-  if (allBtn) {
-    allBtn.onclick = () => {
-      document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
-      allBtn.classList.add('active');
-      showPeriod('all');
-    };
-  }
 }
 
 // ============================================================
@@ -846,9 +881,8 @@ document.getElementById('tgl').addEventListener('click', () => {
 // INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-  initPeriodButtons();
+  switchViewMode('weeks');
   renderSummaryTable();
-  showPeriod('all');
 });
 </script>
 
