@@ -1204,6 +1204,8 @@ let currentViewMode = 'weeks';
 
 function switchViewMode(mode) {
   currentViewMode = mode;
+
+  // Update view-mode buttons (textContent matching — robust like the old, без использования устаревшего window.event)
   document.querySelectorAll('.view-mode-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.view-mode-btn').forEach(b => {
     if ((mode === 'weeks' && b.textContent.includes('недел')) ||
@@ -1212,33 +1214,44 @@ function switchViewMode(mode) {
     }
   });
 
+  // Обновить dropdown через отдельные хелперы (как в старом дашборде: updateMonthSelector / updateWeekSelector)
+  if (mode === 'months') {
+    updateMonthSelector();
+  } else {
+    updateWeekSelector();
+  }
+
+  showPeriod('all');
+}
+
+function updateMonthSelector() {
   const dropdown = document.getElementById('weekSelect');
   dropdown.innerHTML = '';
+  const allOpt = document.createElement('option');
+  allOpt.value = 'all';
+  allOpt.textContent = 'Все месяцы';
+  dropdown.appendChild(allOpt);
+  months.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m.id;
+    opt.textContent = `${m.label} (${m.dateRange})`;
+    dropdown.appendChild(opt);
+  });
+}
 
-  if (mode === 'months') {
-    // Add "Все месяцы" option
-    const allOpt = document.createElement('option');
-    allOpt.value = 'all'; allOpt.textContent = 'Все месяцы';
-    dropdown.appendChild(allOpt);
-    months.forEach(m => {
-      const opt = document.createElement('option');
-      opt.value = m.id;
-      opt.textContent = `${m.label} (${m.dateRange})`;
-      dropdown.appendChild(opt);
-    });
-  } else {
-    // Add "Все недели" option
-    const allOpt = document.createElement('option');
-    allOpt.value = 'all'; allOpt.textContent = 'Все недели';
-    dropdown.appendChild(allOpt);
-    weeks.forEach(w => {
-      const opt = document.createElement('option');
-      opt.value = w.id;
-      opt.textContent = w.label;
-      dropdown.appendChild(opt);
-    });
-  }
-  showPeriod('all');
+function updateWeekSelector() {
+  const dropdown = document.getElementById('weekSelect');
+  dropdown.innerHTML = '';
+  const allOpt = document.createElement('option');
+  allOpt.value = 'all';
+  allOpt.textContent = 'Все недели';
+  dropdown.appendChild(allOpt);
+  weeks.forEach(w => {
+    const opt = document.createElement('option');
+    opt.value = w.id;
+    opt.textContent = w.label;
+    dropdown.appendChild(opt);
+  });
 }
 
 // ============================================================
@@ -1248,6 +1261,10 @@ let currentPeriod = 'all';
 
 function showPeriod(period) {
   currentPeriod = period;
+
+  // Синхронизировать dropdown с периодом (как в старом дашборде)
+  const dropdown = document.getElementById('weekSelect');
+  if (dropdown) dropdown.value = period;
 
   const data = getDataForPeriod(period);
   if (!data || data.length === 0) return;
