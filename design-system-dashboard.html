@@ -57,8 +57,8 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--txt);line
 .hdr{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter:blur(16px) saturate(150%);border-bottom:1px solid var(--line)}
 .hdr-in{max-width:var(--maxw);margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:14px}
 .brand{display:flex;align-items:center;gap:11px}
-.brand-mark{width:34px;height:34px;border-radius:var(--r-sm);background:var(--grad-primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;box-shadow:var(--glow-primary);overflow:hidden}
-.brand-mark img{width:100%;height:100%;object-fit:contain;display:block}
+.brand-mark{display:flex;align-items:center;justify-content:center;background:transparent;box-shadow:none;overflow:hidden}
+.brand-mark img{height:38px;width:auto;display:block;object-fit:contain}
 .brand b{font-size:15px;font-weight:700;letter-spacing:.02em}
 .brand span{display:block;font-size:10px;color:var(--txt-3);letter-spacing:.12em;text-transform:uppercase}
 .hdr-sp{flex:1}
@@ -951,6 +951,8 @@ function applyPreset(name){
 }
 
 function aggregateByRange(startISO, endISO){
+  const startD = parseISO(startISO);
+  const endD   = parseISO(endISO);
   const days = dailyMetrics.filter(d => d.dateISO >= startISO && d.dateISO <= endISO);
   const totals = { impressions:0, clicks:0, spend:0, leads:0, target:0, seo:0, ctr:0, cpa:null, cpl:null, convLead:0, convTarget:0,
                    seoLeads:0, seoTarget:0, otherLeads:0, otherTarget:0, byChannel: [] };
@@ -985,6 +987,26 @@ function aggregateByRange(startISO, endISO){
     { channel: 'seo',    leads: channelAggregator.seo.leads,    target: channelAggregator.seo.target },
     { channel: 'other',  leads: channelAggregator.other.leads,  target: 0 },
   ];
+  // Per-account breakdown (Яндекс.Директ РК) — пропорционально overlap-дням
+  const accounts = {};
+  weeks.forEach(w => {
+    const cfg = weeklyDailyData[w.id];
+    if (!cfg || !w.accounts) return;
+    const [d, mo] = cfg.startDate.split('.').map(Number);
+    const wStart = new Date(2026, mo-1, d);
+    const wEnd   = addDays(wStart, cfg.pattern.length - 1);
+    if (wEnd < startD || wStart > endD) return;
+    const overlap = daysBetween(Math.max(wStart, startD), Math.min(wEnd, endD));
+    const weight = overlap / cfg.pattern.length;
+    Object.entries(w.accounts).forEach(([name, a]) => {
+      if (!accounts[name]) accounts[name] = { imp:0, clicks:0, spend:0, leads:0, target:0 };
+      accounts[name].imp    += Math.round((a.imp    || 0) * weight);
+      accounts[name].clicks += Math.round((a.clicks || 0) * weight);
+      accounts[name].spend  += Math.round((a.spend  || 0) * weight);
+      accounts[name].leads  += Math.round((a.leads  || 0) * weight);
+      accounts[name].target += Math.round((a.target || 0) * weight);
+    });
+  });
   return {
     id: 'range',
     isRange: true,
@@ -993,6 +1015,7 @@ function aggregateByRange(startISO, endISO){
     short: `${fmtRuShort(parseISO(startISO))}–${fmtRuShort(parseISO(endISO))}`,
     daily: days,
     totals,
+    accounts,
   };
 }
 
@@ -1421,6 +1444,17 @@ function renderDetailTable(data) {
       acc.seoTarget  += (t.seoTarget  ?? 0);
       acc.otherLeads += (t.otherLeads ?? 0);
       acc.otherTarget+= (t.otherTarget?? 0);
+      // Per-account breakdown for range view (Яндекс.Директ РК)
+      if (w.accounts) {
+        Object.entries(w.accounts).forEach(([name, a]) => {
+          if (!acc.accounts[name]) acc.accounts[name] = { imp:0, clicks:0, spend:0, leads:0, target:0 };
+          acc.accounts[name].imp    += (a.imp    || 0);
+          acc.accounts[name].clicks += (a.clicks || 0);
+          acc.accounts[name].spend  += (a.spend  || 0);
+          acc.accounts[name].leads  += (a.leads  || 0);
+          acc.accounts[name].target += (a.target || 0);
+        });
+      }
     } else {
       acc.impressions += (w.impressions || 0);
       acc.clicks     += (w.clicks      || 0);
