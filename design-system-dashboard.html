@@ -992,6 +992,8 @@ function aggregateByRange(startISO, endISO){
 
   // Я.Директ + SEO totals: ТОЛЬКО полные недели. Никаких пропорций.
   let impressions = 0, clicks = 0, spend = 0, seo = 0;
+  // Per-account API sums (per-РК из API Я.Директа — факт)
+  let directApiLeads = 0, directApiTarget = 0;
   const accounts = {};
   for (const w of weeks) {
     if (!fullWeekIds.includes(w.id)) continue;
@@ -1007,6 +1009,8 @@ function aggregateByRange(startISO, endISO){
         accounts[name].spend  += a.spend  || 0;
         accounts[name].leads  += a.leads  || 0;
         accounts[name].target += a.target || 0;
+        directApiLeads  += a.leads  || 0;
+        directApiTarget += a.target || 0;
       });
     }
   }
@@ -1024,6 +1028,13 @@ function aggregateByRange(startISO, endISO){
     otherLeadsCrm  += (crm.calls||0) + (crm.site||0) + (crm.tg||0) + (crm.realtor||0) + (crm.other||0);
     // CRM-целевые идут в общий `target` (канал-в-целевой в выгрузке не атрибутирован)
   }
+
+  // Атрибуция ЦЛ по каналам:
+  // - Яндекс Директ ЦЛ = API per-РК (факт из API Яндекс.Директа)
+  // - SEO ЦЛ          = 0 (CRM не разбивает target по каналам — честно ничего не знаем)
+  // - Other ЦЛ        = CRM total target − Я.Директ API target (residual)
+  //   Например, июнь: 31 CRM-ЦЛ − 18 API-target = 13 → пришло из звонков/сайта/тг/риелтора
+  const otherTarget = Math.max(0, target - directApiTarget);
 
   return {
     id: 'range',
@@ -1043,13 +1054,14 @@ function aggregateByRange(startISO, endISO){
       cpl:        target > 0 ? spend / target : null,
       convLead:   clicks > 0 ? (leads / clicks * 100) : 0,
       convTarget: leads > 0 ? (target / leads * 100) : 0,
-      directLeads: directLeadsCrm, directTarget: 0,
+      // Яндекс Директ = API per-РК (факт), SEO = 0 (нет атрибуции), Other = CRM residual
+      directLeads: directApiLeads, directTarget: directApiTarget,
       seoLeads:    seoLeadsCrm,    seoTarget: 0,
-      otherLeads:  otherLeadsCrm,  otherTarget: 0,
+      otherLeads:  otherLeadsCrm,  otherTarget: otherTarget,
       byChannel: [
-        { channel: 'direct', leads: directLeadsCrm, target: 0 },
+        { channel: 'direct', leads: directApiLeads, target: directApiTarget },
         { channel: 'seo',    leads: seoLeadsCrm,    target: 0 },
-        { channel: 'other',  leads: otherLeadsCrm,  target: 0 },
+        { channel: 'other',  leads: otherLeadsCrm,  target: otherTarget },
       ],
     },
   };
@@ -1597,9 +1609,11 @@ function renderDetailTable(data) {
     </tr>`;
   });
 
-  // SEO row
+  // SEO row — ЦЛ нельзя посчитать (CRM не атрибутирует target по каналам → честно "—")
   const seoConv = totals.seoVisits > 0 ? (totals.seoLeads / totals.seoVisits * 100).toFixed(2) + '%' : '\u2014';
-  const seoConvTarget = totals.seoLeads > 0 ? (totals.seoTarget / totals.seoLeads * 100).toFixed(2) + '%' : '\u2014';
+  const seoConvTarget = totals.seoLeads > 0 && totals.seoTarget > 0
+    ? (totals.seoTarget / totals.seoLeads * 100).toFixed(2) + '%'
+    : '\u2014';
   html += `<tr class="row-channel">
     <td>SEO</td><td>\u2014</td><td>${totals.seoVisits}</td><td>\u2014</td><td>\u2014</td>
     <td>${totals.seoLeads}</td><td>${seoConv}</td><td>\u2014</td>
