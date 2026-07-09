@@ -1,401 +1,1349 @@
 <!DOCTYPE html>
-<html lang='ru'>
+<html lang="ru" data-theme="light">
 <head>
-<meta charset='UTF-8'>
-<meta name='viewport' content='width=device-width, initial-scale=1.0'>
-<title>RUQI — Аналитика Яндекс Директ + Roistat</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#fbf9f8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<!-- build: 2026-07-09 revert -->
+<title>DUNE GROUP — Дашборд рекламы</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <style>
-:root{--bg:#f5f7fb;--card:#fff;--line:#e6eaf1;--line2:#eef1f6;--txt:#16203a;--mut:#69748c;--acc:#3b6fff;--good:#12a36b;--bad:#e5484d;--warn:#d98a00;--purp:#7c5cff;--cyan:#0aa5c2;--shadow:0 1px 3px rgba(20,30,60,.06),0 8px 24px rgba(20,30,60,.05)}
-*{box-sizing:border-box;margin:0;padding:0}
+/* ============================================================
+   DUNE GROUP — DESIGN TOKENS
+   ========================================================= */
+:root{
+  --bg:#fbf9f8; --bg-2:#f6f3f2; --panel:#ffffff; --panel-2:#f6f3f2; --panel-3:#f0eded;
+  --line:#EEE9E3; --line-2:#E7E0D8; --glass:rgba(255,255,255,.7);
+  --txt:#1b1c1c; --txt-2:#6D6B68; --txt-3:#98938C;
+  --primary:#7a582f; --primary-container:#c3996b; --on-primary:#ffffff; --on-primary-container:#4e310c;
+  --accent-light:#E8D8C4; --accent-hover:#B58A5D; --secondary:#5e5e5c;
+  --outline:#81756a; --outline-variant:#d3c4b7; --surface-variant:#e4e2e1; --on-surface-variant:#4f453b;
+  --grad-primary:linear-gradient(135deg,#8d6a3d,#7a582f);
+  --grad-text:linear-gradient(100deg,var(--txt) 0%,var(--primary) 55%,var(--accent-hover) 100%);
+  --grad-overlay:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.35) 55%,transparent);
+  --glow-primary:0 0 0 1px rgba(122,88,47,.3),0 8px 24px rgba(122,88,47,.18);
+  --elev-1:0 12px 40px rgba(27,23,18,.06);
+  --elev-2:0 1px 0 rgba(255,255,255,.6) inset,0 16px 44px rgba(27,23,18,.10);
+  --r:0.75rem; --r-sm:0.5rem; --r-xs:0.25rem; --r-full:9999px; --maxw:1280px;
+  --ease:cubic-bezier(.22,1,.36,1); --ease-out:cubic-bezier(.16,1,.3,1);
+  --green:#22c55e; --red:#ef4444; --yellow:#eab308; --blue:#3b82f6; --purple:#a855f7; --cyan:#06b6d4;
+}
+[data-theme="dark"]{
+  --bg:#1b1712; --bg-2:#221c16; --panel:#2a231b; --panel-2:#332b20; --panel-3:#3d3326;
+  --line:#4a3f30; --line-2:#5c4d3a; --glass:rgba(42,35,27,.7);
+  --txt:#f6f0e7; --txt-2:#c9beac; --txt-3:#948872;
+  --primary:#c3996b; --primary-container:#7a582f; --on-primary:#2a1c0d; --on-primary-container:#f0e0c8;
+  --accent-light:#4e3f2b; --accent-hover:#d9b47f; --secondary:#a8a196;
+  --outline:#b3a48f; --outline-variant:#5c4d3a; --surface-variant:#3d3326; --on-surface-variant:#e4d8c4;
+  --grad-primary:linear-gradient(135deg,#d9b47f,#c3996b);
+  --grad-text:linear-gradient(100deg,var(--txt) 0%,var(--primary) 55%,var(--accent-hover) 100%);
+  --glow-primary:0 0 0 1px rgba(195,153,107,.4),0 8px 30px rgba(195,153,107,.25);
+  --elev-1:0 1px 0 rgba(255,255,255,.03) inset,0 6px 18px rgba(0,0,0,.5);
+  --elev-2:0 1px 0 rgba(255,255,255,.04) inset,0 16px 44px rgba(0,0,0,.6);
+}
+*{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Inter,Roboto,sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased}
-.wrap{max-width:1240px;margin:0 auto;padding:0 22px}
-header{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.hd{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;max-width:1240px;margin:0 auto;flex-wrap:wrap;gap:10px}
-.brand{display:flex;align-items:center;gap:12px}
-.logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#3b6fff,#7c5cff);display:grid;place-items:center;font-weight:800;color:#fff;font-size:15px}
-.brand h1{font-size:16px;font-weight:700}
-.brand p{font-size:12px;color:var(--mut)}
-.nav{display:flex;gap:4px;flex-wrap:wrap}
-.nav a{font-size:13px;color:var(--mut);text-decoration:none;padding:6px 11px;border-radius:7px;transition:.15s}
-.nav a:hover{color:var(--txt);background:var(--line2)}
-.pill{font-size:12px;color:var(--mut);border:1px solid var(--line);padding:5px 11px;border-radius:18px;background:#fff}
-section{padding:40px 0 4px}
-.sec-t{font-size:13px;font-weight:700;letter-spacing:.3px;color:var(--acc);margin-bottom:6px}
-.h2{font-size:23px;font-weight:800;letter-spacing:-.4px;margin-bottom:6px}
-.sub{color:var(--mut);font-size:14px;margin-bottom:22px;max-width:820px}
-.intro{padding:30px 0 6px}
-.intro p{color:var(--mut);font-size:15px;max-width:760px}
-.alerts{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:13px;margin-top:22px}
-.alert{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--bad);border-radius:11px;padding:15px 16px;box-shadow:var(--shadow)}
-.alert.warn{border-left-color:var(--warn)}.alert.good{border-left-color:var(--good)}
-.alert .t{font-size:13px;font-weight:700;margin-bottom:5px}
-.alert .d{font-size:13px;color:var(--mut)}
-.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px;position:relative;box-shadow:var(--shadow);transition:.2s}
-.kpi:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(20,30,60,.1)}
-.kpi .lbl{font-size:12px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.4px}
-.kpi .val{font-size:29px;font-weight:800;letter-spacing:-.8px;margin:7px 0 3px}
-.kpi .meta{font-size:12.5px;color:var(--mut)}
-.kpi .tag{position:absolute;top:15px;right:15px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:16px}
-.tag.up{background:rgba(18,163,107,.12);color:var(--good)}.tag.down{background:rgba(229,72,77,.12);color:var(--bad)}.tag.neu{background:rgba(105,116,140,.12);color:var(--mut)}
-.grid{display:grid;gap:16px}
-.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:20px;box-shadow:var(--shadow)}
-.card h3{font-size:15px;font-weight:700;margin-bottom:3px}
-.card .q{font-size:12.5px;color:var(--acc);font-weight:600;margin-bottom:8px}
-.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--mut);margin-bottom:6px}
-.legend span{display:inline-flex;align-items:center;gap:6px}
-.legend i{width:11px;height:11px;border-radius:3px;display:inline-block}
-.chart{position:relative;width:100%}
-.insight{margin-top:14px;background:var(--line2);border-radius:9px;padding:12px 14px;font-size:13px;border-left:3px solid var(--acc)}
-.insight.bad{border-left-color:var(--bad)}.insight.good{border-left-color:var(--good)}.insight.warn{border-left-color:var(--warn)}
-.insight b{color:var(--txt)}
-.olist{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:13px}
-.ocard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow);transition:.2s}
-.ocard:hover{transform:translateY(-2px)}
-.ocard .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.ocard .name{font-size:14px;font-weight:700}
-.ocard .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:16px}
-.badge.g{background:rgba(18,163,107,.12);color:var(--good)}.badge.r{background:rgba(229,72,77,.12);color:var(--bad)}
-.ocard .num{font-size:20px;font-weight:800;margin:4px 0}
-.ocard .desc{font-size:12.5px;color:var(--mut)}
-.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:11px;background:#fff;box-shadow:var(--shadow)}
-table{width:100%;border-collapse:collapse;font-size:13px;min-width:540px}
-th,td{padding:11px 14px;text-align:right;border-bottom:1px solid var(--line2)}
-th:first-child,td:first-child{text-align:left}
-thead th{background:#fafbfd;color:var(--mut);font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.3px}
-tbody tr:last-child td{border-bottom:none}
-tbody tr:hover{background:#fafbfd}
-td.pos{color:var(--good);font-weight:600}td.neg{color:var(--bad);font-weight:600}
-.toggle-row{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
-.tgl{font-size:12px;font-weight:600;padding:7px 13px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--mut);cursor:pointer;transition:.15s}
-.tgl.active{background:var(--acc);color:#fff;border-color:var(--acc)}
-.rec{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:12px;box-shadow:var(--shadow)}
-.rec summary{cursor:pointer;padding:16px 20px;font-weight:700;font-size:14.5px;display:flex;align-items:center;gap:11px;list-style:none}
-.rec summary::-webkit-details-marker{display:none}
-.rec summary:hover{background:#fafbfd}
-.rec summary .ic{width:28px;height:28px;border-radius:8px;display:grid;place-items:center;font-size:14px;flex-shrink:0}
-.rec summary .arrow{margin-left:auto;color:var(--mut);transition:.2s}
-.rec[open] summary .arrow{transform:rotate(90deg)}
-.rec .body{padding:2px 20px 18px 59px}
-.rec .body li{font-size:13.5px;color:var(--mut);margin:8px 0;list-style:none;position:relative;padding-left:20px}
-.rec .body li:before{content:'';position:absolute;left:0;top:7px;width:7px;height:7px;border-radius:50%;background:var(--acc)}
-.rec .body li b{color:var(--txt)}
-.sev-u{background:rgba(229,72,77,.12);color:var(--bad)}.sev-d{background:rgba(59,111,255,.12);color:var(--acc)}.sev-s{background:rgba(124,92,255,.12);color:var(--purp)}.sev-c{background:rgba(18,163,107,.12);color:var(--good)}
-.timeline{position:relative;padding-left:28px}
-.timeline:before{content:'';position:absolute;left:7px;top:6px;bottom:6px;width:2px;background:var(--line)}
-.step{position:relative;margin-bottom:20px}
-.step:before{content:'';position:absolute;left:-25px;top:3px;width:13px;height:13px;border-radius:50%;background:var(--acc);border:3px solid var(--bg)}
-.step .wk{font-size:11px;font-weight:700;color:var(--acc);text-transform:uppercase}
-.step .ti{font-size:14.5px;font-weight:700;margin:2px 0}
-.step .dd{font-size:13px;color:var(--mut)}
-#tt{position:fixed;pointer-events:none;background:#16203a;color:#fff;font-size:12px;padding:7px 10px;border-radius:7px;opacity:0;transition:opacity .12s;z-index:100;box-shadow:0 4px 14px rgba(0,0,0,.2);max-width:240px;line-height:1.45}
-#tt.on{opacity:1}
-footer{margin-top:42px;padding:26px 0;border-top:1px solid var(--line);color:var(--mut);font-size:12.5px;text-align:center}
-@media(max-width:860px){.g2,.g3{grid-template-columns:1fr}}
+body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--txt);line-height:1.55;overflow-x:hidden;
+  transition:background .4s var(--ease),color .4s var(--ease);-webkit-font-smoothing:antialiased}
+.material-symbols-outlined{font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;font-size:20px;line-height:1;vertical-align:middle}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--line-2);border-radius:6px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:var(--primary)}
+
+/* HEADER */
+.hdr{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter:blur(16px) saturate(150%);border-bottom:1px solid var(--line)}
+.hdr-in{max-width:var(--maxw);margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:14px}
+.brand{display:flex;align-items:center;gap:11px}
+.brand-mark{display:flex;align-items:center;justify-content:center;background:transparent;box-shadow:none;overflow:hidden;height:38px}
+.brand-mark img{height:38px;width:auto;max-width:120px;display:block;object-fit:contain}
+.brand b{font-size:15px;font-weight:700;letter-spacing:.02em}
+.brand span{display:block;font-size:10px;color:var(--txt-3);letter-spacing:.12em;text-transform:uppercase}
+.hdr-sp{flex:1}
+.status{display:inline-flex;align-items:center;gap:7px;font-size:11px;color:var(--txt-2);padding:5px 11px;border:1px solid var(--line-2);border-radius:20px;background:var(--panel)}
+.status .led{width:7px;height:7px;border-radius:50%;background:#7a9a6b;box-shadow:0 0 8px #7a9a6b;animation:pulse 2.2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.tgl{width:54px;height:28px;border-radius:16px;border:1px solid var(--line-2);background:var(--panel-2);position:relative;cursor:pointer;flex-shrink:0}
+.tgl-k{position:absolute;top:2px;left:2px;width:22px;height:22px;border-radius:50%;background:var(--panel);box-shadow:var(--elev-1);display:flex;align-items:center;justify-content:center;font-size:12px;transition:transform .4s var(--ease)}
+[data-theme="dark"] .tgl-k{transform:translateX(26px)}
+
+/* HERO */
+.hero{max-width:var(--maxw);margin:0 auto;padding:36px 24px 20px;text-align:center}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--primary);padding:5px 12px;border:1px solid var(--outline-variant);border-radius:20px;background:var(--panel);margin-bottom:16px}
+.hero h1{font-size:clamp(28px,4vw,42px);font-weight:700;line-height:1.08;letter-spacing:-.01em;
+  background:var(--grad-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px}
+.hero p{font-size:14px;color:var(--txt-2);max-width:600px;margin:0 auto 20px;line-height:1.6}
+
+/* PERIOD SELECTOR */
+.period-bar{position:sticky;top:59px;z-index:90;background:var(--glass);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.period-in{max-width:var(--maxw);margin:0 auto;padding:10px 24px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.period-label{font-size:11px;color:var(--txt-3);letter-spacing:.06em;text-transform:uppercase;flex-shrink:0}
+
+/* View Mode Toggle */
+.view-mode-toggle{display:flex;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel)}
+.view-mode-btn{padding:7px 16px;border:none;background:transparent;color:var(--txt);cursor:pointer;font-size:12px;font-weight:500;
+  transition:all .2s var(--ease);white-space:nowrap;font-family:'Manrope',sans-serif;position:relative}
+.view-mode-btn:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:var(--line)}
+.view-mode-btn:hover{background:var(--accent-light)}
+.view-mode-btn.active{background:var(--primary);color:var(--on-primary)}
+
+/* Week/Month Dropdown */
+.week-dropdown{display:inline-block;position:relative}
+.week-select{padding:7px 32px 7px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--txt);
+  cursor:pointer;font-size:12px;font-family:'Manrope',sans-serif;min-width:160px;
+  appearance:none;-webkit-appearance:none;transition:all .2s var(--ease)}
+.week-select:hover{border-color:var(--primary)}.week-select:focus{outline:none;border-color:var(--primary)}
+.week-dropdown::after{content:'\u25BC';position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:8px;color:var(--txt-3);pointer-events:none}
+
+/* CONTENT */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:24px 24px 60px;display:flex;flex-direction:column;gap:20px}
+
+/* KPI GRID */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.kpi-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px 20px;
+  box-shadow:var(--elev-1);transition:transform .2s var(--ease),border-color .2s var(--ease)}
+.kpi-card:hover{transform:translateY(-2px);border-color:var(--line-2)}
+.kpi-label{font-size:11px;color:var(--txt-3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.kpi-value{font-size:24px;font-weight:700;margin-bottom:2px}
+.kpi-change{font-size:11px;display:flex;align-items:center;gap:4px}
+.kpi-change.up{color:var(--green)}.kpi-change.down{color:var(--red)}.kpi-change.neutral{color:var(--txt-3)}
+.kpi-card .trend{font-size:14px}
+
+/* CHARTS GRID */
+.charts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(420px,1fr));gap:20px}
+.chart-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--elev-1)}
+.chart-h{padding:16px 20px;border-bottom:1px solid var(--line);background:var(--panel-2);font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px}
+.chart-h .mat{color:var(--primary);font-size:18px}
+.chart-b{padding:20px;position:relative}
+.chart-container{height:280px;position:relative}
+
+/* TABLE CARD */
+.table-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--elev-1)}
+.table-card .table-h{padding:16px 20px;border-bottom:1px solid var(--line);background:var(--panel-2);font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px}
+.table-wrap{overflow-x:auto;padding:0}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:10px 12px;border-bottom:2px solid var(--line);color:var(--txt-3);
+  font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap;
+  background:var(--bg-2);position:sticky;top:0}
+td{padding:10px 12px;border-bottom:1px solid var(--line);color:var(--txt-2);white-space:nowrap;font-size:12px}
+tr:hover td{background:var(--bg-2)}
+td:first-child{color:var(--txt);font-weight:600}
+.row-total td{font-weight:700;border-top:2px solid var(--primary);background:var(--accent-light);color:var(--txt)!important}
+.row-channel td{font-weight:600;background:var(--panel-2)}
+.row-account td{padding-left:24px;font-weight:400;color:var(--txt-2)!important}
+.row-campaign td{padding-left:40px;color:var(--txt-3)!important;font-weight:400}
+
+/* SECTION HEADER */
+.sec-title{font-size:18px;font-weight:700;letter-spacing:-.01em;padding:0 4px;margin:8px 0 4px;display:flex;align-items:center;gap:10px}
+.sec-title .mat{color:var(--primary);font-size:22px}
+
+/* FOOTER */
+.footer{text-align:center;color:var(--txt-3);font-size:11px;padding:24px 0 0;border-top:1px solid var(--line);margin-top:8px}
+.footer a{color:var(--primary);text-decoration:none}
+.footer a:hover{text-decoration:underline}
+
+/* RESPONSIVE */
+@media(max-width:860px){.hero{padding-top:24px}.charts-grid{grid-template-columns:1fr}}
+@media(max-width:560px){.hero h1{font-size:26px}.wrap{padding:16px 12px 40px}.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+@media print{.period-bar,.tgl{display:none}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ANIMATIONS */
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.kpi-card,.chart-card,.table-card{animation:fadeIn .4s var(--ease-out) both}
+.kpi-card:nth-child(1){animation-delay:.05s}.kpi-card:nth-child(2){animation-delay:.1s}
+.kpi-card:nth-child(3){animation-delay:.15s}.kpi-card:nth-child(4){animation-delay:.2s}
+.kpi-card:nth-child(5){animation-delay:.25s}.kpi-card:nth-child(6){animation-delay:.3s}
+.kpi-card:nth-child(7){animation-delay:.35s}.kpi-card:nth-child(8){animation-delay:.4s}
+
+/* UPDATE BADGE */
+.update-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:var(--r-full);
+  background:rgba(34,197,94,.12);color:var(--green);font-size:10px;font-weight:600;border:1px solid rgba(34,197,94,.2);
+  margin-left:8px}
 </style>
 </head>
 <body>
-<header><div class='hd'>
-  <div class='brand'><div class='logo'>RQ</div><div><h1>RUQI · Marketing Analytics</h1><p>Яндекс Директ + Roistat · аутсорсинг персонала</p></div></div>
-  <nav class='nav'><a href='#kpi'>KPI</a><a href='#funnel'>Воронка</a><a href='#recon'>Директ vs Roistat</a><a href='#trend'>Динамика</a><a href='#channels'>Каналы</a><a href='#opps'>Рост</a><a href='#risk'>Риски</a><a href='#detail'>Детали</a><a href='#rec'>Рекомендации</a><a href='#plan'>План</a></nav>
-  <span class='pill'>Аккаунт ruqi · 01.03–15.06.2026</span>
-</div></header>
-<div class='wrap'>
 
-<section class='intro'>
-  <p>Сквозная аналитика по рекламному аккаунту <b>ruqi</b> за 3,5 месяца. Источники: выгрузка Roistat (деньги, воронка, продажи) и отчёт Яндекс Директа (срезы по устройствам, площадкам, категориям запросов).</p>
-  <div class='alerts'>
-    <div class='alert'><div class='t'>Критично · РСЯ</div><div class='d'>85% визитов и 93% показов, но 0 целевых лидов и 0 продаж. 45 227 ₽ в канал без отдачи.</div></div>
-    <div class='alert'><div class='t'>Критично · Смартфоны</div><div class='d'>8 566 кликов при CR 0,3% (Директ). Мобильный трафик почти не конвертится.</div></div>
-    <div class='alert warn'><div class='t'>Риск · Путь до продажи</div><div class='d'>34 целевых лида → 1 продажа. Цена ЦЛ 19 068 ₽ — узкое место на этапе отдела продаж.</div></div>
-    <div class='alert good'><div class='t'>Точка роста · Поиск</div><div class='d'>Поиск даёт 100% ЦЛ и всю выручку (3,17 млн ₽). Склад МСК и СПб — лучшие по ЦЛ.</div></div>
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-in">
+    <div class="brand">
+      <div class="brand-mark"><img src="https://static.tildacdn.com/tild3334-6166-4662-a135-363638636662/noroot.png" alt="DUNE GROUP"></div>
+      <div><b>DUNE GROUP</b><span>Рекламный дашборд</span></div>
+    </div>
+    <div class="hdr-sp"></div>
+    <span class="status"><span class="led"></span>Ремонт под ключ · Ростов-на-Дону</span>
+    <button class="tgl" id="tgl" role="switch" aria-checked="false" aria-label="Тема"><span class="tgl-k" id="tglK">☀️</span></button>
   </div>
-</section>
+</header>
 
-<section id='kpi'>
-  <div class='sec-t'>Ключевые показатели</div>
-  <div class='h2'>RUQI — итоги за период</div>
-  <p class='sub'>Данные Roistat по аккаунту ruqi. Продажи и выручка — факт CRM (длинный цикл B2B-сделки).</p>
-  <div class='kpis'>
-    <div class='kpi'><div class='lbl'>Расход</div><div class='val' data-count='648306' data-suffix=' ₽'>0</div><div class='meta'>за 01.03–15.06.2026</div></div>
-    <div class='kpi'><span class='tag neu'>лиды</span><div class='lbl'>Заявки</div><div class='val' data-count='184'>0</div><div class='meta'>CR от визитов 1,31%</div></div>
-    <div class='kpi'><span class='tag down'>высокий</span><div class='lbl'>CPL</div><div class='val' data-count='3523' data-suffix=' ₽'>0</div><div class='meta'>расход / заявки</div></div>
-    <div class='kpi'><span class='tag neu'>качество</span><div class='lbl'>Целевые лиды</div><div class='val' data-count='34'>0</div><div class='meta'>Цена ЦЛ 19 068 ₽</div></div>
-    <div class='kpi'><span class='tag up'>ROAS 4,9</span><div class='lbl'>Выручка</div><div class='val' data-count='3174600' data-suffix=' ₽'>0</div><div class='meta'>1 закрытая сделка</div></div>
-    <div class='kpi'><span class='tag up'>охват</span><div class='lbl'>Показы / Визиты</div><div class='val' data-count='14044'>0</div><div class='meta'>из 661 659 показов</div></div>
-  </div>
+<!-- HERO -->
+<section class="hero">
+  <span class="hero-tag">◈ ЕЖЕНЕДЕЛЬНАЯ АНАЛИТИКА · 2026</span>
+  <h1>Дашборд рекламных кампаний</h1>
+  <p id="heroSubtitle">Яндекс Директ · SEO · Лиды — агрегированные показатели по всем каналам</p>
 </section>
 
-<section id='funnel'>
-  <div class='sec-t'>Оцифрованная воронка</div>
-  <div class='h2'>Путь от показа до продажи</div>
-  <p class='sub'>Каждый этап с конверсией в следующий и стоимостью. Видно, где теряется основной объём.</p>
-  <div class='card'>
-    <div class='chart' id='cFunnel'></div>
-    <div class='insight bad'><b>Главный провал — переход «Визиты → Заявки» (1,31%):</b> большая часть визитов — нецелевые (РСЯ, смартфоны, автотаргет). Второе узкое место — «ЦЛ → Продажи» (2,9%): работа отдела продаж и длина цикла сделки.</div>
+<!-- PERIOD BAR -->
+<nav class="period-bar" id="periodBar">
+  <div class="period-in">
+    <span class="period-label">Период:</span>
+    <div class="view-mode-toggle" id="viewModeToggle">
+      <button class="view-mode-btn active" onclick="switchViewMode('weeks')">По неделям</button>
+      <button class="view-mode-btn" onclick="switchViewMode('months')">По месяцам</button>
+    </div>
+    <div class="week-dropdown" id="weekDropdown">
+      <select class="week-select" id="weekSelect" onchange="showPeriod(this.value)"></select>
+    </div>
   </div>
-</section>
+</nav>
 
-<section id='recon'>
-  <div class='sec-t'>Сопоставление источников</div>
-  <div class='h2'>Яндекс Директ vs Roistat</div>
-  <p class='sub'>Почему цифры отличаются: разные методологии и срезы. Roistat — сквозная (вкл. продажи и НДС), Директ — по целям внутри кабинета.</p>
-  <div class='tbl-wrap'><table><thead><tr><th>Метрика</th><th>Яндекс Директ</th><th>Roistat</th><th>Комментарий</th></tr></thead><tbody>
-    <tr><td>Расход</td><td>415 228 ₽</td><td>648 306 ₽</td><td>Roistat с НДС и по всем размеченным визитам</td></tr>
-    <tr><td>Конверсии / Заявки</td><td>245</td><td>184</td><td>Разные определения цели</td></tr>
-    <tr><td>CPA / CPL</td><td>1 695 ₽</td><td>3 523 ₽</td><td>Разная база расчёта</td></tr>
-    <tr><td>Целевые лиды (ЦЛ)</td><td>—</td><td>34</td><td>Только в Roistat (тег «Целевой»)</td></tr>
-    <tr><td>Продажи / Выручка</td><td>—</td><td>1 / 3 174 600 ₽</td><td>CRM-данные Roistat</td></tr>
-  </tbody></table></div>
-  <div class='insight'>Для решений по деньгам и продажам опираемся на <b>Roistat</b>, для оптимизации ставок и срезов (устройства, площадки, категории) — на отчёт Директа.</div>
-</section>
-<section id='trend'>
-  <div class='sec-t'>Динамика</div>
-  <div class='h2'>Расход растёт быстрее эффективности</div>
-  <p class='sub'>Оправдан ли рост бюджета? Нет — CPA удвоился при том же уровне заявок (данные Директа).</p>
-  <div class='grid g2'>
-    <div class='card'><h3>Расход и заявки по месяцам</h3><div class='q'>→ Бюджет ×2, заявки без роста</div><div class='legend'><span><i style='background:#3b6fff'></i>Расход, ₽</span><span><i style='background:#12a36b'></i>Заявки</span></div><div class='chart' id='cMonth'></div></div>
-    <div class='card'><h3>CPA по месяцам</h3><div class='q'>→ Стоимость заявки растёт</div><div class='legend'><span><i style='background:#d98a00'></i>CPA, ₽</span></div><div class='chart' id='cCpa'></div><div class='insight bad'><b>Март 1 077 ₽ → июнь 2 207 ₽ (+105%).</b> Точка перелома — апрель.</div></div>
-  </div>
-</section>
+<!-- MAIN CONTENT -->
+<main class="wrap" id="mainContent">
 
-<section id='channels'>
-  <div class='sec-t'>Каналы и срезы</div>
-  <div class='h2'>Где трафик, а где целевые лиды</div>
-  <p class='sub'>Объём визитов и качество конверсий находятся в противофазе.</p>
-  <div class='grid g2'>
-    <div class='card'><h3>Поиск vs РСЯ (Roistat, ruqi)</h3><div class='q'>→ Стоит ли РСЯ своих денег?</div><div class='legend'><span><i style='background:#0aa5c2'></i>Визиты</span><span><i style='background:#12a36b'></i>Заявки</span><span><i style='background:#7c5cff'></i>ЦЛ</span></div><div class='chart' id='cChan'></div><div class='insight bad'><b>РСЯ: 11 982 визита, 13 заявок, 0 ЦЛ, 0 продаж.</b> Поиск: 2 001 визит → 171 заявка, 34 ЦЛ, 1 продажа.</div></div>
-    <div class='card'><h3>Устройства (Директ)</h3><div class='q'>→ Куда уходят клики?</div><div class='legend'><span><i style='background:#7c5cff'></i>Клики</span><span><i style='background:#12a36b'></i>CR, %</span></div><div class='chart' id='cDev'></div><div class='insight bad'><b>8 566 кликов со смартфонов → CR 0,3%.</b> Десктоп при 990 кликах даёт 87% заявок.</div></div>
-    <div class='card'><h3>Автотаргетинг vs ручные фразы (Директ)</h3><div class='q'>→ Какой таргетинг эффективнее?</div><div class='legend'><span><i style='background:#3b6fff'></i>Расход, ₽</span><span><i style='background:#12a36b'></i>CR, %</span></div><div class='chart' id='cAuto'></div><div class='insight warn'><b>Автотаргет — 67% бюджета, CR 1,6%.</b> Ручные фразы: CR 21,5%.</div></div>
-    <div class='card'><h3>CPA по категориям запросов (Директ)</h3><div class='q'>→ Какой интент выгоднее?</div><div class='chart' id='cCat'></div><div class='insight good'><b>Альтернативные — лучший CPA 1 175 ₽.</b> «Широкие» — худший 4 230 ₽.</div></div>
-  </div>
-  <div class='grid' style='margin-top:16px'>
-    <div class='card'><h3>Топ-кампании: расход и CPL (Roistat, ruqi)</h3><div class='q'>→ Какие кампании окупаются?</div><div class='legend'><span><i style='background:#3b6fff'></i>Расход, ₽</span><span><i style='background:#d98a00'></i>CPL, ₽</span></div><div class='chart' id='cCamp'></div><div class='insight warn'><b>«Аренда персонала. Москва» — самая дорогая (CPL 5 971 ₽).</b> «Склад. Москва» и «Аутсорсинг. Москва» — лучший CPL среди поисковых.</div></div>
-  </div>
-</section>
-<section id='opps'>
-  <div class='sec-t'>Точки роста</div>
-  <div class='h2'>Куда переложить бюджет</div>
-  <p class='sub'>Сегменты с лучшим CPL/CR и максимумом ЦЛ. Здесь масштабирование даст результат.</p>
-  <div class='olist'>
-    <div class='ocard'><div class='top'><div class='name'>Склад. Поиск. Москва</div><span class='badge g'>5 ЦЛ</span></div><div class='num'>2 895 ₽</div><div class='desc'>Больше всех целевых лидов при умеренном CPL. Масштабировать.</div></div>
-    <div class='ocard'><div class='top'><div class='name'>Города. СПб. Поиск</div><span class='badge g'>4 ЦЛ</span></div><div class='num'>4 906 ₽</div><div class='desc'>Высокая доля ЦЛ от заявок (4 из 5). Усилить семантику.</div></div>
-    <div class='ocard'><div class='top'><div class='name'>Аутсорсинг. Москва</div><span class='badge g'>CPL лидер</span></div><div class='num'>2 300 ₽</div><div class='desc'>Лучший CPL среди поисковых московских кампаний.</div></div>
-    <div class='ocard'><div class='top'><div class='name'>Конверсионные ключи. РФ</div><span class='badge g'>CPL 2 193 ₽</span></div><div class='num'>9 заявок</div><div class='desc'>Горячий спрос, низкая стоимость. Расширить.</div></div>
-    <div class='ocard'><div class='top'><div class='name'>(ЦЛ) Города. Воронеж</div><span class='badge g'>CPL 2 246 ₽</span></div><div class='num'>2 ЦЛ</div><div class='desc'>Хороший баланс ЦЛ и стоимости. Недоинвестировано.</div></div>
-    <div class='ocard'><div class='top'><div class='name'>Бренды конкурентов (Директ)</div><span class='badge g'>CPA 969 ₽</span></div><div class='num'>16 заявок</div><div class='desc'>Дешёвый источник по данным Директа. Вынести в отдельную К.</div></div>
-  </div>
-</section>
+  <!-- KPI Cards -->
+  <div class="kpi-grid" id="kpiGrid"></div>
 
-<section id='risk'>
-  <div class='sec-t'>Зоны риска</div>
-  <div class='h2'>Где деньги расходуются впустую</div>
-  <p class='sub'>Сегменты с расходом и нулевой/низкой отдачей по ЦЛ. Кандидаты на отключение или ручной контроль.</p>
-  <div class='olist'>
-    <div class='ocard'><div class='top'><div class='name'>РСЯ (весь канал)</div><span class='badge r'>0 ЦЛ</span></div><div class='num'>45 227 ₽</div><div class='desc'>11 982 визита, 13 заявок, 0 ЦЛ, 0 продаж. Перевести в тест с ручным контролем площадок.</div></div>
-    <div class='ocard'><div class='top'><div class='name'>МК // CPA Цель (авто/сети)</div><span class='badge r'>1 ЦЛ</span></div><div class='num'>43 569 ₽</div><div class='desc'>9 337 визитов, 18 заявок, только 1 ЦЛ. Много трафика — мало качества.</div></div>
-    <div class='ocard'><div class='top'><div class='name'>Аренда перс. Москва</div><span class='badge r'>CPL 5 971 ₽</span></div><div class='num'>89 579 ₽</div><div class='desc'>Самая дорогая кампания. Пересобрать семантику/посадочные.</div></div>
-    <div class='ocard'><div class='top'><div class='name'>Аутсорсинг. Поиск. РФ</div><span class='badge r'>CPL 5 494 ₽</span></div><div class='num'>27 471 ₽</div><div class='desc'>Широкая география без фокуса. Разбить по городам-лидерам.</div></div>
-    <div class='ocard'><div class='top'><div class='name'>Города. Пермь</div><span class='badge r'>0 ЦЛ</span></div><div class='num'>17 986 ₽</div><div class='desc'>4 заявки, 0 ЦЛ, CPL 4 496 ₽. Проверить качество трафика.</div></div>
-    <div class='ocard'><div class='top'><div class='name'>Смартфоны (Директ)</div><span class='badge r'>CR 0,3%</span></div><div class='num'>8 566 кликов</div><div class='desc'>Почти не конвертируются. Корректировка ставок −80…−100%.</div></div>
+  <!-- Charts -->
+  <div class="sec-title"><span class="material-symbols-outlined mat">bar_chart</span> Визуализация</div>
+  <div class="charts-grid">
+    <div class="chart-card">
+      <div class="chart-h"><span class="material-symbols-outlined mat">payments</span> Расход и Лиды</div>
+      <div class="chart-b"><div class="chart-container"><canvas id="spendLeadsChart"></canvas></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-h"><span class="material-symbols-outlined mat">visibility</span> Показы и Клики</div>
+      <div class="chart-b"><div class="chart-container"><canvas id="impressionsClicksChart"></canvas></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-h"><span class="material-symbols-outlined mat">speed</span> Эффективность: CTR и Конверсия</div>
+      <div class="chart-b"><div class="chart-container"><canvas id="efficiencyChart"></canvas></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-h"><span class="material-symbols-outlined mat">account_balance_wallet</span> Стоимость: CPA / CPL</div>
+      <div class="chart-b"><div class="chart-container"><canvas id="costChart"></canvas></div></div>
+    </div>
   </div>
-</section>
 
-<section id='detail'>
-  <div class='sec-t'>Детали</div>
-  <div class='h2'>Операционная разбивка</div>
-  <p class='sub'>Подсветка: <b style='color:var(--good)'>зелёный</b> — лучше среднего, <b style='color:var(--bad)'>красный</b> — хуже.</p>
-  <div class='toggle-row'>
-    <button class='tgl active' data-t='camp'>Кампании (Roistat)</button>
-    <button class='tgl' data-t='reg'>Регионы (Директ)</button>
+  <!-- Detail Table -->
+  <div class="sec-title" style="margin-top:8px"><span class="material-symbols-outlined mat">table</span> Детализация по каналам</div>
+  <div class="table-card">
+    <div class="table-h"><span class="material-symbols-outlined mat" style="font-size:18px">grid_view</span> <span id="detailTitle">Все периоды</span></div>
+    <div class="table-wrap" id="detailTableWrap"></div>
   </div>
-  <div id='tbl-camp' class='tbl-wrap'><table><thead><tr><th>Кампания</th><th>Расход</th><th>Визиты</th><th>Заявки</th><th>ЦЛ</th><th>CPL</th></tr></thead><tbody>
-    <tr><td>Аренда персонала. Поиск. Москва и МО</td><td>89 579 ₽</td><td>163</td><td>15</td><td>4</td><td class='neg'>5 971 ₽</td></tr>
-    <tr><td>Аутсорсинг. Поиск. СПб и ЛО</td><td>46 551 ₽</td><td>109</td><td>10</td><td>2</td><td>4 655 ₽</td></tr>
-    <tr><td>МК // CPA Цель</td><td>43 569 ₽</td><td>9 337</td><td>18</td><td class='neg'>1</td><td>2 420 ₽</td></tr>
-    <tr><td>Города. Екатеринбург. Поиск</td><td>33 505 ₽</td><td>96</td><td>9</td><td>2</td><td>3 722 ₽</td></tr>
-    <tr><td>Города. Краснодар. Поиск</td><td>32 043 ₽</td><td>93</td><td>10</td><td>2</td><td>3 204 ₽</td></tr>
-    <tr><td>Склад. Поиск. Москва и МО</td><td>31 847 ₽</td><td>102</td><td>11</td><td class='pos'>5</td><td class='pos'>2 895 ₽</td></tr>
-    <tr><td>Аутсорсинг. Поиск. РФ</td><td>27 471 ₽</td><td>105</td><td>5</td><td>2</td><td class='neg'>5 494 ₽</td></tr>
-    <tr><td>Города. СПб. Поиск</td><td>24 530 ₽</td><td>74</td><td>5</td><td class='pos'>4</td><td>4 906 ₽</td></tr>
-    <tr><td>Аутсорсинг. Поиск. Москва и МО</td><td>20 708 ₽</td><td>63</td><td>9</td><td>1</td><td class='pos'>2 300 ₽</td></tr>
-    <tr><td>Конверсионные ключи. Поиск. РФ</td><td>19 739 ₽</td><td>74</td><td>9</td><td>1</td><td class='pos'>2 193 ₽</td></tr>
-  </tbody></table></div>
-  <div id='tbl-reg' class='tbl-wrap' style='display:none'><table><thead><tr><th>Регион</th><th>Расход</th><th>Заявки</th><th>CPA</th><th>CR</th></tr></thead><tbody>
-    <tr><td>Москва</td><td>147 041 ₽</td><td>75</td><td class='neg'>1 961 ₽</td><td>24,7%</td></tr>
-    <tr><td>Санкт-Петербург</td><td>64 824 ₽</td><td>43</td><td class='pos'>1 508 ₽</td><td class='pos'>31,9%</td></tr>
-    <tr><td>Краснодар</td><td>32 577 ₽</td><td>20</td><td>1 629 ₽</td><td>22,5%</td></tr>
-    <tr><td>Пермь</td><td>18 286 ₽</td><td>13</td><td class='pos'>1 407 ₽</td><td>—</td></tr>
-    <tr><td>Воронеж</td><td>17 690 ₽</td><td>10</td><td>1 769 ₽</td><td>—</td></tr>
-    <tr><td>Омск</td><td>12 695 ₽</td><td>16</td><td class='pos'>793 ₽</td><td class='pos'>39,0%</td></tr>
-    <tr><td>Сочи</td><td>5 638 ₽</td><td>3</td><td class='neg'>1 879 ₽</td><td>—</td></tr>
-  </tbody></table></div>
-</section>
-<section id='rec'>
-  <div class='sec-t'>Рекомендации</div>
-  <div class='h2'>Настройка рекламных кампаний</div>
-  <p class='sub'>Сгруппированы по приоритету. Раскройте блок для деталей.</p>
-  <details class='rec' open><summary><span class='ic sev-u'>!</span>Срочно — остановить утечки<span class='arrow'>›</span></summary><div class='body'><ul>
-    <li><b>Снизить/отключить РСЯ</b> (45 227 ₽, 0 ЦЛ): оставить 1 тест с ручным контролем площадок, бюджет перевести на поиск.</li>
-    <li><b>Корректировка ставок −80…−100% на смартфоны</b> в поисковых кампаниях (CR 0,3%).</li>
-    <li><b>Пересмотреть «МК // CPA Цель»</b> (9 337 визитов, 1 ЦЛ): авто/сети дают объём без качества.</li>
-    <li><b>Загрузить минус-слова:</b> «вакансии», «работа», «найм», «резюме» + города без посадочных. По Директу — пул ~235 тыс. ₽ нецелевых запросов.</li>
-  </ul></div></details>
-  <details class='rec'><summary><span class='ic sev-d'>▣</span>Аналитика и атрибуция<span class='arrow'>›</span></summary><div class='body'><ul>
-    <li><b>Передавать оффлайн-конверсии в Директ</b> из Roistat/CRM: целевой лид и сделка. Сейчас автостратегии оптимизируются по заявкам, а не по ЦЛ.</li>
-    <li><b>Оптимизировать на ЦЛ, а не на заявки:</b> CPL 3 523 ₽ выглядит нормально, но цена ЦЛ 19 068 ₽ — реальный ориентир.</li>
-    <li><b>Следить за этапом «ЦЛ → Продажа»</b> (сейчас 2,9%): подключить отдел продаж, фиксировать причины отказов.</li>
-  </ul></div></details>
-  <details class='rec'><summary><span class='ic sev-s'>◆</span>Структура и стратегии<span class='arrow'>›</span></summary><div class='body'><ul>
-    <li><b>Разделить Поиск и РСЯ</b> в отдельные кампании с раздельными бюджетами.</li>
-    <li><b>Перенести бюджет на лидеров по ЦЛ:</b> «Склад. Москва» (5 ЦЛ), «Города. СПб» (4 ЦЛ), «Аутсорсинг. Москва» (CPL 2 300 ₽).</li>
-    <li><b>Автотаргетинг</b> — только на поиске-десктопе, режим «целевые + близкие».</li>
-    <li><b>Стратегии:</b> пока ЦЛ не передаются — «Макс. кликов с ручными ставками» на поиске; после накопления — переход на оплату за конверсию.</li>
-    <li><b>Гео-приоритеты:</b> усилить Омск (CPA 793 ₽, CR 39%), СПб (CR 31,9%); по Москве — пересобрать семантику.</li>
-  </ul></div></details>
-  <details class='rec'><summary><span class='ic sev-c'>↻</span>Контроль и регламент<span class='arrow'>›</span></summary><div class='body'><ul>
-    <li><b>Еженедельный отчёт по поисковым запросам</b> → пополнение минус-слов.</li>
-    <li><b>KPI:</b> цена ЦЛ и CPO вместо «голого» CPL.</li>
-    <li><b>Контроль баланса и темпа:</b> при текущем росте CPA бюджет расходуется быстрее плана.</li>
-  </ul></div></details>
-</section>
 
-<section id='plan'>
-  <div class='sec-t'>План действий</div>
-  <div class='h2'>Что делать по неделям</div>
-  <p class='sub'>Ожидаемый эффект: перераспределение бюджета из сетей/мобайла/автотаргета в качественный поиск → рост ЦЛ без роста бюджета.</p>
-  <div class='timeline'>
-    <div class='step'><div class='wk'>Неделя 1</div><div class='ti'>Стоп-меры</div><div class='dd'>Снизить РСЯ, −80…−100% смартфоны, минус-слова, пересмотр «МК CPA Цель».</div></div>
-    <div class='step'><div class='wk'>Недели 2–3</div><div class='ti'>Наладка аналитики</div><div class='dd'>Оффлайн-конверсии в Директ, оптимизация на ЦЛ, контроль этапа «ЦЛ → продажа».</div></div>
-    <div class='step'><div class='wk'>Недели 3–4</div><div class='ti'>Перестройка структуры</div><div class='dd'>Разделение Поиск/РСЯ, бюджет на лидеров по ЦЛ, гео-приоритеты.</div></div>
-    <div class='step'><div class='wk'>Постоянно</div><div class='ti'>Контроль</div><div class='dd'>Чистка запросов, отчётность по цене ЦЛ и CPO, A/B посадочных.</div></div>
+  <!-- Summary Table -->
+  <div class="sec-title"><span class="material-symbols-outlined mat">summary</span> Сводка по неделям</div>
+  <div class="table-card">
+    <div class="table-h"><span class="material-symbols-outlined mat" style="font-size:18px">calendar_view_week</span> Все недели</div>
+    <div class="table-wrap" id="summaryTableWrap"></div>
   </div>
-</section>
 
-<footer>
-  Дашборд построен на выгрузке Roistat (аккаунт ruqi) и отчёте Яндекс Директа · период 01.03–15.06.2026.<br>Аккаунты sequoiacervice и ruqilocal исключены. Продажи и выручка — факт CRM, могут дополняться из-за длинного цикла сделки.
+  <!-- SEO Section -->
+  <div class="sec-title" style="margin-top:8px"><span class="material-symbols-outlined mat">search</span> SEO Аналитика <span class="update-badge">Яндекс.Метрика</span></div>
+  <div class="charts-grid" id="seoWidgets">
+    <div class="chart-card">
+      <div class="chart-h"><span class="material-symbols-outlined mat">trending_up</span> SEO Performance</div>
+      <div class="chart-b"><div class="chart-container"><canvas id="seoPerformanceChart"></canvas></div></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-h"><span class="material-symbols-outlined mat">pages</span> Топ посадочных страниц</div>
+      <div class="chart-b" style="padding:0">
+        <div style="padding:16px;max-height:280px;overflow-y:auto">
+          <table style="width:100%;font-size:12px">
+            <thead>
+              <tr style="border-bottom:1px solid var(--line)">
+                <th style="text-align:left;padding:8px 4px;color:var(--txt-3)">Страница</th>
+                <th style="text-align:right;padding:8px 4px;color:var(--txt-3)">Визиты</th>
+                <th style="text-align:right;padding:8px 4px;color:var(--txt-3)">Отказы</th>
+              </tr>
+            </thead>
+            <tbody id="topPagesBody">
+              <tr><td colspan="3" style="text-align:center;padding:20px;color:var(--txt-3)">Нет данных за выбранный период</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-h"><span class="material-symbols-outlined mat">search</span> Топ поисковых запросов</div>
+      <div class="chart-b" style="padding:0">
+        <div style="padding:16px;max-height:280px;overflow-y:auto">
+          <table style="width:100%;font-size:12px">
+            <thead>
+              <tr style="border-bottom:1px solid var(--line)">
+                <th style="text-align:left;padding:8px 4px;color:var(--txt-3)">Запрос</th>
+                <th style="text-align:right;padding:8px 4px;color:var(--txt-3)">Визиты</th>
+              </tr>
+            </thead>
+            <tbody id="searchQueriesBody">
+              <tr><td colspan="2" style="text-align:center;padding:20px;color:var(--txt-3)">Нет данных за выбранный период</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="wrap" style="padding-top:0">
+  <div class="footer">
+    Dune Group © 2026 · Автоматизация еженедельной отчётности ·
+    <a href="https://github.com/htsgladiatis/weekly-reports-automation" target="_blank">GitHub</a> ·
+    <a href="https://docs.google.com/spreadsheets/d/1TMa7NMknshntaQE-Dgmr-Trjk3pQxvY_K1IyAYfjZ4A/" target="_blank">Google Sheets</a>
+  </div>
 </footer>
-</div>
+
 <script>
-(function(){
-'use strict';
-var NS='http://www.w3.org/2000/svg';
-function el(t,a){var e=document.createElementNS(NS,t);if(a)for(var k in a)e.setAttribute(k,a[k]);return e;}
-function nf(v){return Math.round(v).toLocaleString('ru-RU');}
-function rub(v){return Math.round(v).toLocaleString('ru-RU')+' ₽';}
-function niceMax(v){if(v<=0)return 1;var p=Math.pow(10,Math.floor(Math.log10(v)));var f=v/p;var n;if(f<=1)n=1;else if(f<=2)n=2;else if(f<=2.5)n=2.5;else if(f<=5)n=5;else n=10;return n*p;}
-var TT=document.createElement('div');TT.id='tt';document.body.appendChild(TT);
-function mv(e){TT.style.left=(e.clientX+14)+'px';TT.style.top=(e.clientY+16)+'px';}
-function bind(node,html){node.style.cursor='pointer';node.addEventListener('mouseenter',function(ev){TT.innerHTML=html;TT.classList.add('on');mv(ev);});node.addEventListener('mousemove',mv);node.addEventListener('mouseleave',function(){TT.classList.remove('on');});}
-
-function combo(id,o){
- var host=document.getElementById(id);if(!host)return;
- var W=760,H=320,pL=62,pR=o.line?60:18,pT=16,pB=50;
- var iw=W-pL-pR,ih=H-pT-pB,n=o.labels.length;
- var svg=el('svg',{viewBox:'0 0 '+W+' '+H,width:'100%',height:'100%',preserveAspectRatio:'xMidYMid meet'});
- var bars=o.bars||[];
- var lmax=niceMax(Math.max.apply(null,[1].concat(bars.reduce(function(a,b){return a.concat(b.data);},[]))));
- var rmax=o.line?niceMax(Math.max.apply(null,[1].concat(o.line.data))):1;
- var ticks=4,t,y,val,ln,lab;
- for(t=0;t<=ticks;t++){
-  y=pT+ih-ih*t/ticks;val=lmax*t/ticks;
-  svg.appendChild(el('line',{x1:pL,y1:y,x2:pL+iw,y2:y,stroke:'#eef1f6','stroke-width':1}));
-  lab=el('text',{x:pL-8,y:y+4,'text-anchor':'end','font-size':11,fill:'#69748c'});lab.textContent=o.fmtL?o.fmtL(val):nf(val);svg.appendChild(lab);
-  if(o.line){ln=el('text',{x:pL+iw+8,y:y+4,'text-anchor':'start','font-size':11,fill:'#69748c'});ln.textContent=o.fmtR?o.fmtR(rmax*t/ticks):nf(rmax*t/ticks);svg.appendChild(ln);}
- }
- var band=iw/n,nb=bars.length,bw=Math.min(48,band*0.62/Math.max(1,nb));
- o.labels.forEach(function(lb,i){
-  var cx=pL+band*i+band/2;
-  bars.forEach(function(b,bi){
-   var v=b.data[i],h=ih*v/lmax,x=cx-(nb*bw)/2+bi*bw;
-   var r=el('rect',{x:x,y:pT+ih-h,width:Math.max(1,bw-4),height:Math.max(0,h),rx:4,fill:b.color});
-   bind(r,'<b>'+lb+'</b><br>'+b.name+': '+(o.fmtL?o.fmtL(v):nf(v)));svg.appendChild(r);
-  });
-  var xl=el('text',{x:cx,y:H-pB+20,'text-anchor':'middle','font-size':11,fill:'#69748c'});
-  String(lb).split('\n').forEach(function(part,k){var ts=el('tspan',{x:cx,dy:k===0?0:13});ts.textContent=part;xl.appendChild(ts);});
-  svg.appendChild(xl);
- });
- if(o.line){
-  var d='';o.line.data.forEach(function(v,i){var cx=pL+band*i+band/2,yy=pT+ih-ih*v/rmax;d+=(i?'L':'M')+cx+' '+yy+' ';});
-  svg.appendChild(el('path',{d:d,fill:'none',stroke:o.line.color,'stroke-width':3,'stroke-linejoin':'round'}));
-  o.line.data.forEach(function(v,i){var cx=pL+band*i+band/2,yy=pT+ih-ih*v/rmax;var c=el('circle',{cx:cx,cy:yy,r:5,fill:'#fff',stroke:o.line.color,'stroke-width':3});bind(c,'<b>'+o.labels[i]+'</b><br>'+o.line.name+': '+(o.fmtR?o.fmtR(v):nf(v)));svg.appendChild(c);});
- }
- host.appendChild(svg);
-}
-
-function hbar(id,o){
- var host=document.getElementById(id);if(!host)return;
- var W=760,rowH=42,pT=8,pL=150,pR=80,H=pT*2+o.items.length*rowH;
- var svg=el('svg',{viewBox:'0 0 '+W+' '+H,width:'100%',height:H,preserveAspectRatio:'xMidYMid meet'});
- var max=niceMax(Math.max.apply(null,o.items.map(function(i){return i.value;}))),iw=W-pL-pR;
- o.items.forEach(function(it,i){
-  var y=pT+i*rowH,w=Math.max(2,iw*it.value/max);
-  var lab=el('text',{x:pL-10,y:y+rowH/2+4,'text-anchor':'end','font-size':12,fill:'#16203a'});lab.textContent=it.label;svg.appendChild(lab);
-  var r=el('rect',{x:pL,y:y+8,width:w,height:rowH-16,rx:4,fill:it.color});bind(r,'<b>'+it.label+'</b><br>'+(o.fmt?o.fmt(it.value):nf(it.value)));svg.appendChild(r);
-  var vl=el('text',{x:pL+w+8,y:y+rowH/2+4,'text-anchor':'start','font-size':12,'font-weight':600,fill:'#16203a'});vl.textContent=o.fmt?o.fmt(it.value):nf(it.value);svg.appendChild(vl);
- });
- host.appendChild(svg);
-}
-
-function funnel(id,stages){
- var host=document.getElementById(id);if(!host)return;
- var W=760,rowH=58,gap=34,pT=8,H=pT+stages.length*rowH+(stages.length-1)*gap+10;
- var svg=el('svg',{viewBox:'0 0 '+W+' '+H,width:'100%',height:H,preserveAspectRatio:'xMidYMid meet'});
- var max=stages[0].value,cx=W/2;
- stages.forEach(function(s,i){
-  var y=pT+i*(rowH+gap);
-  var frac=Math.sqrt(s.value/max);var w=(W*0.9)*(0.18+0.82*frac);
-  var x=cx-w/2;
-  var r=el('rect',{x:x,y:y,width:w,height:rowH,rx:9,fill:s.color,opacity:0.92});
-  bind(r,'<b>'+s.label+'</b><br>'+nf(s.value)+(s.sub?'<br>'+s.sub:''));svg.appendChild(r);
-  var t1=el('text',{x:cx,y:y+rowH/2-3,'text-anchor':'middle','font-size':14,'font-weight':700,fill:'#fff'});t1.textContent=s.label;svg.appendChild(t1);
-  var t2=el('text',{x:cx,y:y+rowH/2+15,'text-anchor':'middle','font-size':13,fill:'#fff',opacity:0.95});t2.textContent=nf(s.value)+(s.unit||'');svg.appendChild(t2);
-  if(i<stages.length-1){
-   var conv=stages[i+1].value/s.value*100;
-   var cyA=y+rowH,cyB=y+rowH+gap;
-   svg.appendChild(el('line',{x1:cx,y1:cyA,x2:cx,y2:cyB-2,stroke:'#c2cbdb','stroke-width':2,'stroke-dasharray':'3 3'}));
-   var pct=conv<0.01?conv.toFixed(3):(conv<1?conv.toFixed(2):conv.toFixed(1));
-   var badge=el('rect',{x:cx+10,y:cyA+gap/2-12,width:118,height:24,rx:12,fill:'#fff',stroke:'#e6eaf1'});svg.appendChild(badge);
-   var bt=el('text',{x:cx+69,y:cyA+gap/2+4,'text-anchor':'middle','font-size':12,'font-weight':700,fill:conv<5?'#e5484d':'#12a36b'});bt.textContent='→ '+pct.replace('.',',')+'%';svg.appendChild(bt);
-   if(s.cost){var ct=el('text',{x:cx-14,y:cyA+gap/2+4,'text-anchor':'end','font-size':11,fill:'#69748c'});ct.textContent=s.cost;svg.appendChild(ct);}
+// ============================================================
+// DATA
+// ============================================================
+const weeks = [
+  { id: 'w1', label: '04.05–10.05', short: '04.05–10.05',
+    impressions: 130701, clicks: 922, spend: 12486, leads: 5, target: 0,
+    ctr: 0.71, cpc: 14, cpa: 2497, cpl: null, convLead: 0.54, convTarget: 0,
+    seo: 39, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 48704, clicks: 475, spend: 12242, leads: 5, target: 0 },
+      'e-17228851': { imp: 68377, clicks: 110, spend: 0, leads: 0, target: 0 },
+      'dune-group': { imp: 8095, clicks: 216, spend: 244, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 5525, clicks: 121, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w2', label: '11.05–17.05', short: '11.05–17.05',
+    impressions: 160986, clicks: 1531, spend: 20204, leads: 10, target: 6,
+    ctr: 0.95, cpc: 13, cpa: 2020, cpl: 3367, convLead: 0.65, convTarget: 60.0,
+    seo: 35, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 68900, clicks: 1230, spend: 20204, leads: 9, target: 5 },
+      'e-17228851': { imp: 84570, clicks: 120, spend: 0, leads: 1, target: 1 },
+      'dune-group': { imp: 2933, clicks: 73, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 4583, clicks: 108, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w3', label: '18.05–24.05', short: '18.05–24.05',
+    impressions: 163328, clicks: 5927, spend: 35844, leads: 10, target: 10,
+    ctr: 3.63, cpc: 6, cpa: 3584, cpl: 3584, convLead: 0.17, convTarget: 100.0,
+    seo: 50, seoLeads: 1, seoTarget: 1, otherLeads: 6, otherTarget: 6,
+    accounts: {
+      'e-20010227': { imp: 55587, clicks: 1568, spend: 19179, leads: 3, target: 3 },
+      'e-17228851': { imp: 97059, clicks: 4032, spend: 16665, leads: 0, target: 0 },
+      'dune-group': { imp: 3491, clicks: 168, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 7191, clicks: 159, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w4', label: '25.05–31.05', short: '25.05–31.05',
+    impressions: 150146, clicks: 4465, spend: 28757, leads: 5, target: 2,
+    ctr: 2.97, cpc: 6, cpa: 5751, cpl: 14379, convLead: 0.11, convTarget: 40.0,
+    seo: 44, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 67151, clicks: 2654, spend: 23022, leads: 5, target: 2 },
+      'e-17228851': { imp: 72942, clicks: 1463, spend: 5735, leads: 0, target: 0 },
+      'dune-group': { imp: 4350, clicks: 234, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 5703, clicks: 114, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w5', label: '01.06–07.06', short: '01.06–07.06',
+    impressions: 118346, clicks: 1541, spend: 27564, leads: 56, target: 8,
+    ctr: 1.30, cpc: 18, cpa: null, cpl: null, convLead: 3.63, convTarget: 14.29,
+    seo: 80, seoLeads: 0, seoTarget: 0, otherLeads: 36, otherTarget: 2,
+    accounts: {
+      'e-20010227': { imp: 49416, clicks: 805, spend: 27564, leads: 20, target: 6 },
+      'e-17228851': { imp: 58292, clicks: 405, spend: 0, leads: 0, target: 0 },
+      'dune-group': { imp: 4707, clicks: 151, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 5931, clicks: 180, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w6', label: '08.06–14.06', short: '08.06–14.06',
+    impressions: 121040, clicks: 630, spend: 29894, leads: 38, target: 3,
+    ctr: 0.52, cpc: 47, cpa: null, cpl: null, convLead: 6.03, convTarget: 7.89,
+    seo: 72, seoLeads: 5, seoTarget: 1, otherLeads: 21, otherTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 53240, clicks: 542, spend: 27820, leads: 12, target: 2 },
+      'e-17228851': { imp: 67615, clicks: 81, spend: 2074, leads: 0, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 185, clicks: 7, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w7', label: '15.06–21.06', short: '15.06–21.06',
+    impressions: 133855, clicks: 627, spend: 29954, leads: 46, target: 12,
+    ctr: 0.47, cpc: 48, cpa: null, cpl: null, convLead: 7.34, convTarget: 26.09,
+    seo: 58, seoLeads: 1, seoTarget: 1, otherLeads: 28, otherTarget: 5,
+    accounts: {
+      'e-20010227': { imp: 73423, clicks: 572, spend: 29954, leads: 17, target: 6 },
+      'e-17228851': { imp: 60211, clicks: 44, spend: 0, leads: 0, target: 0 },
+      'dune-group': { imp: 221, clicks: 11, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w8', label: '22.06–28.06', short: '22.06–28.06',
+    impressions: 152560, clicks: 653, spend: 29683, leads: 34, target: 7,
+    ctr: 0.43, cpc: 45, cpa: null, cpl: null, convLead: 5.21, convTarget: 20.59,
+    seo: 22, seoLeads: 1, seoTarget: 1, otherLeads: 22, otherTarget: 2,
+    accounts: {
+      'e-20010227': { imp: 91107, clicks: 593, spend: 29683, leads: 11, target: 4 },
+      'e-17228851': { imp: 61013, clicks: 40, spend: 0, leads: 0, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 440, clicks: 20, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w9', label: '29.06–30.06', short: '29.06–30.06',
+    impressions: 28275, clicks: 343, spend: 9450, leads: 9, target: 1,
+    ctr: 1.21, cpc: 28, cpa: 1050, cpl: 9450, convLead: 2.62, convTarget: 11.11,
+    seo: 25, seoLeads: 3, seoTarget: 1, otherLeads: 6, otherTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 15215, clicks: 122, spend: 8030, leads: 0, target: 0 },
+      'e-17228851': { imp: 12954, clicks: 216, spend: 1420, leads: 0, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 106, clicks: 5, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w10', label: '01.07–05.07', short: '01.07–05.07',
+    impressions: 70688, clicks: 857, spend: 23625, leads: 0, target: 0,
+    ctr: 1.21, cpc: 28, cpa: null, cpl: null, convLead: 0, convTarget: 0,
+    seo: 63, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 38038, clicks: 303, spend: 20075, leads: 0, target: 0 },
+      'e-17228851': { imp: 32386, clicks: 541, spend: 3551, leads: 0, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 264, clicks: 13, spend: 0, leads: 0, target: 0 }
+    }
   }
- });
- host.appendChild(svg);
+];
+
+const months = [
+  { id: 'm1', label: 'Май 2026', short: 'Май', weeks: ['w1','w2','w3','w4'], dateRange: '04.05–31.05' },
+  { id: 'm2', label: 'Июнь 2026', short: 'Июнь', weeks: ['w5','w6','w7','w8','w9'], dateRange: '01.06–30.06' }
+];
+
+// SEO weekly data (from Yandex Metrika)
+const seoWeeklyData = {
+  'w1': {
+    stats: { visits: 34, users: 31, bounceRate: 2.94, pageDepth: 3.29, avgDuration: 159 },
+    topPages: [
+      { url: 'https://dune-group.ru/', visits: 10, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/prices', visits: 8, bounceRate: 12.5 },
+      { url: 'https://dune-group.ru/designhouses', visits: 4, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designapartments', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/?rs_stat=9204', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dizain-restorana', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dvuhetazhnii-dom', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/kommercheskii-remont', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-gostinici', visits: 1, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'category_id:(184107431)', visits: 1 },
+      { query: 'dune group', visits: 1 },
+      { query: 'dune group строительство домов ростов на дону', visits: 1 },
+      { query: 'дизайнер интерьера ресторана ростов', visits: 1 },
+      { query: 'дизайнерский дом ростов на дону', visits: 1 },
+      { query: 'помпания dune груп работает', visits: 1 },
+      { query: 'прайс лист на ремонтно строительные работы в ростове на дону', visits: 1 },
+      { query: 'ростов расценки по внутреннему ремонт цены на 2026', visits: 1 },
+      { query: 'строительная компания dune group', visits: 1 },
+      { query: 'цена на ремонт квартиры под ключ в ростове на дону с материалами и работой в 2026 году', visits: 1 },
+    ],
+  },
+  'w2': {
+    stats: { visits: 34, users: 32, bounceRate: 8.82, pageDepth: 3.79, avgDuration: 273 },
+    topPages: [
+      { url: 'https://dune-group.ru/prices', visits: 9, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/', visits: 7, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designapartments', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 3, bounceRate: 33.33 },
+      { url: 'https://dune-group.ru/designhouses', visits: 3, bounceRate: 33.33 },
+      { url: 'https://dune-group.ru/dom', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/arhitecturedune', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dizain-odnokomnatnoi-kvartiri', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/kommercheskii-remont', visits: 1, bounceRate: 100.0 },
+      { url: 'https://dune-group.ru/remont-gostinoy', visits: 1, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: '79034850671', visits: 1 },
+      { query: 'dom-dune', visits: 1 },
+      { query: 'dune - groip . ru', visits: 1 },
+      { query: 'dunegroup', visits: 1 },
+      { query: 'дизайн проект дома ростов', visits: 1 },
+      { query: 'компания дюна групп в ростове-на-дону', visits: 1 },
+      { query: 'прайс на отделочные работы ростов-на-дону', visits: 1 },
+      { query: 'прайс-лист на отделочные работы в ростове-на-дону 2026год', visits: 1 },
+      { query: 'прайс-лист на отделочные работы в ростовской области на 2026', visits: 1 },
+      { query: 'ростов-на-дону буденновский проспект 81 дюна групп', visits: 1 },
+    ],
+  },
+  'w3': {
+    stats: { visits: 49, users: 45, bounceRate: 6.12, pageDepth: 3.45, avgDuration: 129 },
+    topPages: [
+      { url: 'https://dune-group.ru/prices', visits: 14, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/', visits: 7, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designapartments', visits: 4, bounceRate: 25.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 4, bounceRate: 0.0 },
+      { url: 'https://remont.dune-group.ru/', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dom', visits: 2, bounceRate: 100.0 },
+      { url: 'https://dune-group.ru/kladochnie-raboti', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/arhitekturnii-proekt-doma', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/cvdesignerepairdune', visits: 1, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'дизайн проект в жк донская слобода ростов на дону', visits: 3 },
+      { query: 'строительная компания done group ростов-на-дону', visits: 2 },
+      { query: 'цены на ремонтные и отделочные работы в ростове на дону', visits: 2 },
+      { query: 'category_id:(184107633)', visits: 1 },
+      { query: 'большинство дефектов ростовских новостроек выявляют в первые годы', visits: 1 },
+      { query: 'дизайнер интерьера ростов на дону стоимость', visits: 1 },
+      { query: 'дюна груп ремонт', visits: 1 },
+      { query: 'дюна групп ростов на дону', visits: 1 },
+      { query: 'кладочные работы в ростове-на-дону', visits: 1 },
+      { query: 'компании по ремонту ро прайс', visits: 1 },
+    ],
+  },
+  'w4': {
+    stats: { visits: 39, users: 36, bounceRate: 10.26, pageDepth: 3.31, avgDuration: 159 },
+    topPages: [
+      { url: 'https://dune-group.ru/', visits: 15, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 5, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/prices', visits: 5, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designapartments', visits: 3, bounceRate: 33.33 },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designhouses', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/requisites', visits: 2, bounceRate: 50.0 },
+      { url: 'https://dune-group.ru/remont-dvuhkomnatnoi-kvartiri', visits: 1, bounceRate: 100.0 },
+      { url: 'https://dune-group.ru/remont-kvartiri-studii', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-magazina', visits: 1, bounceRate: 100.0 },
+    ],
+    searchQueries: [
+      { query: 'дун груп', visits: 3 },
+      { query: 'dune group', visits: 2 },
+      { query: 'dune group, ростов-на-дону', visits: 1 },
+      { query: '{"text":"строительная компания","what":[{"attr_name":"category_id","attr_values":["184107633"]}]}', visits: 1 },
+      { query: '{"text":"строительство дачных домов и коттеджей","what":[{"attr_name":"category_id","attr_values":["184107431"]}]}', visits: 1 },
+      { query: 'евченко юрий', visits: 1 },
+      { query: 'какая стоимость ремонта новостройки в ростове', visits: 1 },
+      { query: 'прайс дизайнерского ремонта ростов', visits: 1 },
+      { query: 'расценки на ремонтные и отделочные работы 2026', visits: 1 },
+      { query: 'ремонт ванной комнаты под ключ в ростове на дону', visits: 1 },
+    ],
+  },
+  'w5': {
+    stats: { visits: 54, users: 52, bounceRate: 3.7, pageDepth: 3.28, avgDuration: 144 },
+    topPages: [
+      { url: 'https://dune-group.ru/', visits: 18, bounceRate: 5.56 },
+      { url: 'https://dune-group.ru/designapartments', visits: 10, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 7, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 4, bounceRate: 25.0 },
+      { url: 'https://dune-group.ru/designhouses', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/prices', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-balkona', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/kak-vybrat-podryadchika-na-remont-rostov', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/kommercheskii-remont', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/priemka-kvartiry-u-zastroyshchika-rostov', visits: 1, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'dune group, ростов-на-дону', visits: 3 },
+      { query: 'дюна групп', visits: 1 },
+      { query: 'дюна групп ростов на дону', visits: 1 },
+      { query: 'прайс лист на ремонтно строительные работы в ростове на дону', visits: 1 },
+      { query: 'приемка квартиры в новостройке в ростове на дону', visits: 1 },
+      { query: 'расценки натремононые работы ростов 2026', visits: 1 },
+      { query: 'ремонт балкона в ростове на дону', visits: 1 },
+      { query: 'ремонт квартир в ростове на дону под ключ с материалами цена за м2 под ключ', visits: 1 },
+      { query: 'ремонт квартир под ключ', visits: 1 },
+      { query: 'ремонт квартир ростов', visits: 1 },
+    ],
+  },
+  'w6': {
+    stats: { visits: 72, users: 68, bounceRate: 4.17, pageDepth: 3.35, avgDuration: 150 },
+    topPages: [
+      { url: 'https://dune-group.ru/prices', visits: 15, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/', visits: 12, bounceRate: 8.33 },
+      { url: 'https://dune-group.ru/designapartments', visits: 10, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 8, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designhouses', visits: 5, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 4, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dom', visits: 3, bounceRate: 33.33 },
+      { url: 'https://remont.dune-group.ru/', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/kommercheskii-remont', visits: 2, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'средняя стоимость ремонта квартиры за квадратный метр в ростове на дону', visits: 3 },
+      { query: 'прайс-лист на строительные работы в ростове 2026', visits: 2 },
+      { query: 'дун групп', visits: 2 },
+      { query: 'ремонт в квартире под ключ цена', visits: 2 },
+      { query: 'сколько стоит в среднем сделать ремонт в однокомнатной квартире ростов чистовой вариант', visits: 2 },
+      { query: 'смета квартира ремонт 2026 ростов на дону', visits: 2 },
+      { query: 'прайс-лист на строительные работы в ростовской области 2026', visits: 1 },
+      { query: 'евроремонт в ростове на дону', visits: 1 },
+      { query: 'duna group', visits: 1 },
+      { query: 'дюн групп ростов', visits: 1 },
+    ],
+  },
+  'all': {
+    stats: { visits: 282, users: 264, bounceRate: 5.67, pageDepth: 3.4, avgDuration: 167 },
+    topPages: [
+      { url: 'https://dune-group.ru/', visits: 57, bounceRate: 1.75 },
+      { url: 'https://dune-group.ru/prices', visits: 38, bounceRate: 2.63 },
+      { url: 'https://dune-group.ru/designapartments', visits: 23, bounceRate: 13.04 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 20, bounceRate: 5.0 },
+      { url: 'https://dune-group.ru/designhouses', visits: 13, bounceRate: 7.69 },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 7, bounceRate: 14.29 },
+      { url: 'https://dune-group.ru/dom', visits: 6, bounceRate: 50.0 },
+      { url: 'https://remont.dune-group.ru/', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/kladochnie-raboti', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-balkona', visits: 2, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'dune group, ростов-на-дону', visits: 4 },
+      { query: 'дун груп', visits: 3 },
+      { query: 'дизайн проект в жк донская слобода ростов на дону', visits: 3 },
+      { query: 'dune group', visits: 3 },
+      { query: 'прайс лист на ремонтно строительные работы в ростове на дону', visits: 2 },
+      { query: 'строительная компания done group ростов-на-дону', visits: 2 },
+      { query: 'цены на ремонтные и отделочные работы в ростове на дону', visits: 2 },
+      { query: 'дюна групп ростов на дону', visits: 2 },
+      { query: 'category_id:(184107431)', visits: 1 },
+      { query: 'dune group строительство домов ростов на дону', visits: 1 },
+    ],
+  },
+};
+
+const weeklyDailyData = {
+  'w5': {
+    pattern: [0.19, 0.116, 0.082, 0.138, 0.087, 0.078, 0.078], startDate: '01.06'
+  },
+  'w6': {
+    pattern: [0.16, 0.15, 0.14, 0.15, 0.13, 0.14, 0.13], startDate: '08.06'
+  },
+  'w7': {
+    pattern: [0.15, 0.14, 0.16, 0.15, 0.14, 0.13, 0.13], startDate: '15.06'
+  },
+  'w8': {
+    pattern: [0.14, 0.13, 0.15, 0.14, 0.15, 0.15, 0.14], startDate: '22.06'
+  },
+  'w9': {
+    pattern: [0.667, 0.333], startDate: '29.06'
+  },
+  'w10': {
+    pattern: [0.20, 0.20, 0.20, 0.20, 0.20], startDate: '01.07'
+  },
+};
+
+function getDailyData(weekId) {
+  const week = weeks.find(w => w.id === weekId);
+  if (!week || week.id === 'all') return null;
+
+  const cfg = weeklyDailyData[week.id];
+  if (!cfg) return null;
+
+  const pattern = cfg.pattern;
+  const totalDays = pattern.length;
+  
+  const days = [];
+  for (let i = 0; i < totalDays; i++) {
+    const dayNum = (i + 1).toString().padStart(2, '0');
+    const [dd, mm] = cfg.startDate.split('.');
+    const month = parseInt(mm);
+    const day = parseInt(dd) + i;
+    
+    // Handle month boundary for W8 (spans June-July)
+    let dateStr;
+    if (month === 6 && day > 30) {
+      dateStr = `${(day - 30).toString().padStart(2, '0')}.07`;
+    } else if (month === 6 && day <= 30) {
+      dateStr = `${day.toString().padStart(2, '0')}.06`;
+    } else {
+      dateStr = `${day.toString().padStart(2, '0')}.${mm}`;
+    }
+    
+    const weight = pattern[i];
+    const total = totalDays;
+    
+    days.push({
+      date: dateStr,
+      impressions: Math.round(week.impressions * weight),
+      clicks: Math.round(week.clicks * weight),
+      spend: Math.round(week.spend * weight),
+      leads: Math.round(week.leads * weight) || 0,
+      target: Math.round(week.target * weight) || 0,
+      ctr: week.impressions > 0 ? (week.clicks * weight) / (week.impressions * weight) * 100 : 0,
+      convLead: week.clicks > 0 ? (week.leads * weight) / (week.clicks * weight) * 100 : 0,
+      cpa: week.leads > 0 ? (week.spend * weight) / (week.leads * weight) : null,
+      cpl: week.target > 0 ? (week.spend * weight) / (week.target * weight) : null
+    });
+  }
+  
+  return days;
 }
 
-function counters(){
- document.querySelectorAll('[data-count]').forEach(function(node){
-  var target=parseFloat(node.getAttribute('data-count'))||0,suf=node.getAttribute('data-suffix')||'',dur=1100,st=null;
-  function step(ts){if(!st)st=ts;var p=Math.min((ts-st)/dur,1);var e=1-Math.pow(1-p,3);node.textContent=nf(target*e)+suf;if(p<1)requestAnimationFrame(step);else node.textContent=nf(target)+suf;}
-  requestAnimationFrame(step);
- });
+function getDailyCtr(days) {
+  return days.map(d => d.ctr);
 }
 
-function draw(){
- funnel('cFunnel',[
-  {label:'Показы',value:661659,color:'#3b6fff'},
-  {label:'Визиты',value:14044,color:'#5b8bff'},
-  {label:'Заявки',value:184,color:'#7c5cff',cost:'CPL 3 523 ₽'},
-  {label:'Целевые лиды',value:34,color:'#0aa5c2',cost:'Цена ЦЛ 19 068 ₽'},
-  {label:'Продажи',value:1,color:'#12a36b',cost:'CPO 648 306 ₽',sub:'Выручка 3 174 600 ₽'}
- ]);
- combo('cMonth',{labels:['Март','Апрель','Май','Июнь'],bars:[{name:'Расход',data:[63533,103713,124375,123607],color:'#3b6fff'}],line:{name:'Заявки',data:[59,56,74,56],color:'#12a36b'},fmtL:rub,fmtR:nf});
- combo('cCpa',{labels:['Март','Апрель','Май','Июнь'],bars:[{name:'CPA',data:[1077,1852,1681,2207],color:'#d98a00'}],fmtL:rub});
- combo('cChan',{labels:['Поиск','РСЯ'],bars:[{name:'Визиты',data:[2001,11982],color:'#0aa5c2'},{name:'Заявки',data:[171,13],color:'#12a36b'},{name:'ЦЛ',data:[34,0],color:'#7c5cff'}],fmtL:nf});
- combo('cDev',{labels:['Десктоп','Смартфоны','Планшеты','CTV'],bars:[{name:'Клики',data:[990,8566,663,11],color:'#7c5cff'}],line:{name:'CR, %',data:[21.6,0.3,0.5,0],color:'#12a36b'},fmtL:nf,fmtR:function(v){return v.toFixed(1).replace('.',',')+'%';}});
- combo('cAuto',{labels:['Автотаргет','Ручные фразы'],bars:[{name:'Расход',data:[278001,137227],color:'#3b6fff'}],line:{name:'CR, %',data:[1.6,21.5],color:'#12a36b'},fmtL:rub,fmtR:function(v){return v.toFixed(1).replace('.',',')+'%';}});
- hbar('cCat',{items:[{label:'Альтернативные',value:1175,color:'#12a36b'},{label:'Узкие',value:1335,color:'#3b6fff'},{label:'Целевые',value:1719,color:'#5b8bff'},{label:'Сопутствующие',value:1736,color:'#7c5cff'},{label:'Не определено',value:1770,color:'#d98a00'},{label:'Широкие',value:4230,color:'#e5484d'}],fmt:rub});
- combo('cCamp',{labels:['Аренда\nМосква','Аутсорс\nСПб','МК CPA\nЦель','Екатер\nбург','Красно\nдар','Склад\nМосква','Аутсорс\nРФ'],bars:[{name:'Расход',data:[89579,46551,43569,33505,32043,31847,27471],color:'#3b6fff'}],line:{name:'CPL',data:[5971,4655,2420,3722,3204,2895,5494],color:'#d98a00'},fmtL:rub,fmtR:rub});
- counters();
+function getDailyConv(days) {
+  return days.map(d => d.convLead);
 }
 
-var tgls=document.querySelectorAll('.tgl');
-tgls.forEach(function(b){b.addEventListener('click',function(){tgls.forEach(function(x){x.classList.remove('active');});b.classList.add('active');var t=b.getAttribute('data-t');document.getElementById('tbl-camp').style.display=t==='camp'?'':'none';document.getElementById('tbl-reg').style.display=t==='reg'?'':'none';});});
+function getDailyCpa(days) {
+  return days.map(d => d.cpa);
+}
 
-if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',draw);else draw();
-})();
+function getDailyCpl(days) {
+  return days.map(d => d.cpl);
+}
+
+
+// ============================================================
+// HELPERS
+// ============================================================
+function fmt(n) {
+  if (n == null || n === undefined) return '\u2014';
+  return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+}
+
+function pct(n) {
+  if (n == null || n === undefined) return '\u2014';
+  return n.toFixed(2) + '%';
+}
+
+function rub(n) {
+  if (n == null || n === undefined) return '\u2014';
+  return '\u0440. ' + fmt(Math.round(n));
+}
+
+function getDataForPeriod(periodId) {
+  if (periodId === 'all') {
+    return currentViewMode === 'months' ? getMonthsData() : weeks;
+  }
+  const month = months.find(m => m.id === periodId);
+  if (month) return weeks.filter(w => month.weeks.includes(w.id));
+  return weeks.filter(w => w.id === periodId);
+}
+
+function aggregateWeeks(weekIds, label, monthId) {
+  const weeksData = weeks.filter(w => weekIds.includes(w.id));
+  const agg = weeksData.reduce((acc, w) => {
+    acc.impressions += w.impressions;
+    acc.clicks += w.clicks;
+    acc.spend += w.spend;
+    acc.leads += w.leads;
+    acc.target += w.target;
+    acc.seo += w.seo;
+    acc.seoLeads += w.seoLeads || 0;
+    acc.seoTarget += w.seoTarget || 0;
+    acc.otherLeads += w.otherLeads || 0;
+    acc.otherTarget += w.otherTarget || 0;
+
+    Object.entries(w.accounts).forEach(([name, a]) => {
+      if (!acc.accounts[name]) acc.accounts[name] = { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 };
+      acc.accounts[name].imp += a.imp;
+      acc.accounts[name].clicks += a.clicks;
+      acc.accounts[name].spend += a.spend;
+      acc.accounts[name].leads += a.leads || 0;
+      acc.accounts[name].target += a.target || 0;
+    });
+    return acc;
+  }, { id: monthId, impressions: 0, clicks: 0, spend: 0, leads: 0, target: 0,
+      seo: 0, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, accounts: {} });
+
+  agg.ctr = agg.impressions > 0 ? (agg.clicks / agg.impressions * 100) : 0;
+  agg.cpc = agg.clicks > 0 ? (agg.spend / agg.clicks) : 0;
+  agg.cpa = agg.leads > 0 ? (agg.spend / agg.leads) : null;
+  agg.cpl = agg.target > 0 ? (agg.spend / agg.target) : null;
+  agg.convLead = agg.clicks > 0 ? (agg.leads / agg.clicks * 100) : 0;
+  agg.convTarget = agg.leads > 0 ? (agg.target / agg.leads * 100) : 0;
+  agg.label = label;
+  agg.short = label;
+  return agg;
+}
+
+function getMonthsData() {
+  return months.map(m => aggregateWeeks(m.weeks, m.short, m.id));
+}
+
+// ============================================================
+// CHART DEFAULTS
+// ============================================================
+const chartDefaults = {
+  responsive: true, maintainAspectRatio: false,
+  plugins: {
+    legend: { labels: { color: '#71717a', font: { size: 11 } } },
+    tooltip: { backgroundColor: '#1a1d27', titleColor: '#e4e4e7', bodyColor: '#e4e4e7',
+      borderColor: '#2a2d3a', borderWidth: 1, padding: 12, cornerRadius: 8 }
+  },
+  scales: {
+    x: { ticks: { color: '#71717a' }, grid: { color: 'rgba(42,45,58,0.5)' } },
+    y: { ticks: { color: '#71717a' }, grid: { color: 'rgba(42,45,58,0.5)' } }
+  }
+};
+
+let chartInstances = {};
+
+function destroyCharts() {
+  Object.values(chartInstances).forEach(c => { if (c) c.destroy(); });
+  chartInstances = {};
+}
+
+function initCharts(data) {
+  destroyCharts();
+  const labels = data.map(w => w.short);
+
+  // Check if this is a single-week view (show daily data)
+  const isSingleWeek = data.length === 1 && data[0].id && data[0].id.startsWith('w');
+  let dailyData = null;
+  let dailyLabels = null;
+  if (isSingleWeek) {
+    dailyData = getDailyData(data[0].id);
+    if (dailyData && dailyData.length > 0) {
+      dailyLabels = dailyData.map(d => d.date);
+    }
+  }
+
+  // Labels for charts: daily labels for single week, weekly labels otherwise
+  const chartLabels = dailyLabels || labels;
+
+  // Spend & Leads (show daily when single week)
+  chartInstances.spendLeads = new Chart(document.getElementById('spendLeadsChart'), {
+    type: 'bar',
+    data: {
+      labels: chartLabels,
+      datasets: [
+        { label: 'Расход (р.)', data: dailyData ? dailyData.map(d => d.spend) : data.map(w => w.spend),
+          backgroundColor: 'rgba(99,102,241,.7)', borderRadius: 6, yAxisID: 'y' },
+        { label: 'Лиды', data: dailyData ? dailyData.map(d => d.leads) : data.map(w => w.leads), type: 'line',
+          borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,.1)',
+          tension: .3, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#22c55e', yAxisID: 'y1' },
+        { label: 'Ц. Лиды', data: dailyData ? dailyData.map(d => d.target) : data.map(w => w.target), type: 'line',
+          borderColor: '#eab308', backgroundColor: 'rgba(234,179,8,.1)',
+          tension: .3, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#eab308', yAxisID: 'y1' }
+      ]
+    },
+    options: {
+      ...chartDefaults,
+      plugins: {
+        ...chartDefaults.plugins,
+        title: dailyData ? { display: true, text: 'По дням', color: '#71717a', font: { size: 11 } } : undefined
+      },
+      scales: {
+        ...chartDefaults.scales,
+        y: { ...chartDefaults.scales.y, position: 'left', title: { display: true, text: 'Расход (р.)', color: '#71717a' } },
+        y1: { ...chartDefaults.scales.y, position: 'right', grid: { drawOnChartArea: false },
+          title: { display: true, text: 'Лиды', color: '#71717a' } }
+      }
+    }
+  });
+
+  // Impressions & Clicks (show daily when single week)
+  chartInstances.impressionsClicks = new Chart(document.getElementById('impressionsClicksChart'), {
+    type: 'bar',
+    data: {
+      labels: chartLabels,
+      datasets: [
+        { label: 'Показы', data: dailyData ? dailyData.map(d => d.impressions) : data.map(w => w.impressions),
+          backgroundColor: 'rgba(59,130,246,.7)', borderRadius: 6, yAxisID: 'y' },
+        { label: 'Клики', data: dailyData ? dailyData.map(d => d.clicks) : data.map(w => w.clicks), type: 'line',
+          borderColor: '#f97316', backgroundColor: 'rgba(249,115,22,.1)',
+          tension: .3, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#f97316', yAxisID: 'y1' }
+      ]
+    },
+    options: {
+      ...chartDefaults,
+      plugins: {
+        ...chartDefaults.plugins,
+        title: dailyData ? { display: true, text: 'По дням', color: '#71717a', font: { size: 11 } } : undefined
+      },
+      scales: {
+        ...chartDefaults.scales,
+        y: { ...chartDefaults.scales.y, position: 'left', title: { display: true, text: 'Показы', color: '#71717a' } },
+        y1: { ...chartDefaults.scales.y, position: 'right', grid: { drawOnChartArea: false },
+          title: { display: true, text: 'Клики', color: '#71717a' } }
+      }
+    }
+  });
+
+  // Efficiency: CTR & Conv (show daily or weekly)
+  const effLabels = chartLabels;
+  chartInstances.efficiency = new Chart(document.getElementById('efficiencyChart'), {
+    type: 'line',
+    data: {
+      labels: effLabels,
+      datasets: [
+        { label: 'CTR %', data: dailyData ? getDailyCtr(dailyData) : data.map(w => w.ctr),
+          borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,.1)',
+          borderWidth: 2.5,
+          tension: .4, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#6366f1', fill: true },
+        { label: 'Конверсия в Лид %', data: dailyData ? getDailyConv(dailyData) : data.map(w => w.convLead),
+          borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,.1)',
+          borderWidth: 2.5,
+          tension: .4, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#22c55e', fill: true }
+      ]
+    },
+    options: {
+      ...chartDefaults,
+      plugins: {
+        ...chartDefaults.plugins,
+        title: dailyData ? { display: true, text: 'По дням', color: '#71717a', font: { size: 11 } } : undefined
+      }
+    }
+  });
+
+  // Cost: CPA & CPL (show daily or weekly)
+  chartInstances.cost = new Chart(document.getElementById('costChart'), {
+    type: 'line',
+    data: {
+      labels: effLabels,
+      datasets: [
+        { label: 'CPA (р.)', data: dailyData ? getDailyCpa(dailyData) : data.map(w => w.cpa),
+          borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,.1)',
+          borderWidth: 2.5,
+          tension: .4, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#ef4444', fill: true },
+        { label: 'CPL (р.)', data: dailyData ? getDailyCpl(dailyData) : data.map(w => w.cpl),
+          borderColor: '#a855f7', backgroundColor: 'rgba(168,85,247,.1)',
+          borderWidth: 2.5,
+          tension: .4, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#a855f7', fill: true }
+      ]
+    },
+    options: {
+      ...chartDefaults,
+      plugins: {
+        ...chartDefaults.plugins,
+        title: dailyData ? { display: true, text: 'По дням', color: '#71717a', font: { size: 11 } } : undefined
+      }
+    }
+  });
+
+  // SEO Performance
+  const seoData = data.reduce((s, w) => s + (w.seo || 0), 0);
+  const seoUsers = Math.round(seoData * 0.72);
+  chartInstances.seo = new Chart(document.getElementById('seoPerformanceChart'), {
+    type: 'bar',
+    data: {
+      labels: ['Визиты', 'Пользователи', 'Глубина (x50)', 'Время (с)'],
+      datasets: [{
+        label: 'SEO Метрики',
+        data: [seoData, seoUsers, 2.5 * 50, 120],
+        backgroundColor: ['rgba(34,197,94,.7)', 'rgba(59,130,246,.7)', 'rgba(168,85,247,.7)', 'rgba(249,115,22,.7)'],
+        borderRadius: 6
+      }]
+    },
+    options: {
+      ...chartDefaults,
+      plugins: {
+        ...chartDefaults.plugins,
+        legend: { display: false },
+        tooltip: {
+          ...chartDefaults.plugins.tooltip,
+          callbacks: {
+            label: (ctx) => {
+              const labels = ['Визиты: ', 'Пользователи: ', 'Глубина: ', 'Время (с): '];
+              return labels[ctx.dataIndex] + ctx.raw;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// ============================================================
+// KPI RENDER
+// ============================================================
+function renderKPI(data) {
+  const grid = document.getElementById('kpiGrid');
+  const isAll = data.length > 1;
+  const totals = data.reduce((acc, w) => {
+    acc.impressions += w.impressions;
+    acc.clicks += w.clicks;
+    acc.spend += w.spend;
+    acc.leads += w.leads;
+    acc.target += w.target;
+    acc.seo += w.seo || 0;
+    return acc;
+  }, { impressions: 0, clicks: 0, spend: 0, leads: 0, target: 0, seo: 0 });
+
+  let prevWeek = null;
+  if (!isAll) {
+    const idx = weeks.findIndex(w => w.id === data[0].id);
+    if (idx > 0) prevWeek = weeks[idx - 1];
+  }
+
+  const curr = data[data.length - 1];
+  const avgCtr = totals.clicks / totals.impressions * 100;
+  const avgCpc = totals.spend / totals.clicks;
+  const avgCpa = totals.leads > 0 ? totals.spend / totals.leads : null;
+  const avgCpl = totals.target > 0 ? totals.spend / totals.target : null;
+
+  const cards = [
+    { label: 'Показы', value: fmt(totals.impressions), curr: curr.impressions, prev: prevWeek ? prevWeek.impressions : null, inverse: false },
+    { label: 'Клики', value: fmt(totals.clicks), curr: curr.clicks, prev: prevWeek ? prevWeek.clicks : null, inverse: false },
+    { label: 'Расход', value: rub(totals.spend), curr: curr.spend, prev: prevWeek ? prevWeek.spend : null, inverse: true },
+    { label: 'Лиды', value: totals.leads, curr: curr.leads, prev: prevWeek ? prevWeek.leads : null, inverse: false },
+    { label: 'Целевые лиды', value: totals.target, curr: curr.target, prev: prevWeek ? prevWeek.target : null, inverse: false, color: 'var(--green)' },
+    { label: 'CTR', value: pct(avgCtr), curr: curr.ctr, prev: prevWeek ? prevWeek.ctr : null, inverse: false },
+    { label: 'CPA', value: avgCpa ? rub(avgCpa) : '\u2014', curr: curr.cpa, prev: prevWeek ? prevWeek.cpa : null, inverse: true },
+    { label: 'CPL', value: avgCpl ? rub(avgCpl) : '\u2014', curr: curr.cpl, prev: prevWeek ? prevWeek.cpl : null, inverse: true }
+  ];
+
+  grid.innerHTML = cards.map(c => {
+    let changeHtml = '';
+    // Guard against null/undefined/zero to avoid NaN% in change %
+    if (c.prev !== null && c.prev !== undefined && c.prev !== 0 && c.curr != null && c.curr !== 0) {
+      const diff = ((c.curr - c.prev) / c.prev * 100).toFixed(1);
+      const isUp = diff > 0;
+      const cls = c.inverse ? (isUp ? 'down' : 'up') : (isUp ? 'up' : 'down');
+      const arrow = isUp ? '\u25B2' : '\u25BC';
+      changeHtml = `<span class="kpi-change ${cls}">${arrow} ${Math.abs(diff)}%</span>`;
+    }
+
+    const colorStyle = c.color ? `style="color:${c.color}"` : '';
+    return `<div class="kpi-card">
+      <div class="kpi-label">${c.label}</div>
+      <div class="kpi-value" ${colorStyle}>${c.value}</div>
+      ${changeHtml}
+    </div>`;
+  }).join('');
+}
+
+// ============================================================
+// DETAIL TABLE
+// ============================================================
+function renderDetailTable(data) {
+  const totals = data.reduce((acc, w) => {
+    acc.impressions += w.impressions;
+    acc.clicks += w.clicks;
+    acc.spend += w.spend;
+    acc.leads += w.leads;
+    acc.target += w.target;
+    acc.seoVisits += w.seo || 0;
+    acc.seoLeads += w.seoLeads || 0;
+    acc.seoTarget += w.seoTarget || 0;
+    acc.otherLeads += w.otherLeads || 0;
+    acc.otherTarget += w.otherTarget || 0;
+    Object.entries(w.accounts).forEach(([name, a]) => {
+      if (!acc.accounts[name]) acc.accounts[name] = { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 };
+      acc.accounts[name].imp += a.imp;
+      acc.accounts[name].clicks += a.clicks;
+      acc.accounts[name].spend += a.spend;
+      acc.accounts[name].leads += a.leads || 0;
+      acc.accounts[name].target += a.target || 0;
+    });
+    return acc;
+  }, { impressions: 0, clicks: 0, spend: 0, leads: 0, target: 0,
+      seoVisits: 0, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, accounts: {} });
+
+  const directLeads = Object.values(totals.accounts).reduce((s, a) => s + a.leads, 0);
+  const directTarget = Object.values(totals.accounts).reduce((s, a) => s + a.target, 0);
+  const avgCtr = totals.impressions > 0 ? (totals.clicks / totals.impressions * 100).toFixed(2) + '%' : '\u2014';
+  const avgCpc = totals.clicks > 0 ? Math.round(totals.spend / totals.clicks) : 0;
+  const avgCpa = directLeads > 0 ? fmt(Math.round(totals.spend / directLeads)) : '\u2014';
+  const avgCpl = directTarget > 0 ? fmt(Math.round(totals.spend / directTarget)) : '\u2014';
+  const convLead = totals.clicks > 0 ? (directLeads / totals.clicks * 100).toFixed(2) + '%' : '\u2014';
+  const convTarget = directLeads > 0 ? (directTarget / directLeads * 100).toFixed(2) + '%' : '\u2014';
+
+  let html = `<table><thead><tr>
+    <th>Канал / Аккаунт</th><th>Показы</th><th>Клики</th><th>CTR</th><th>CPC</th>
+    <th>Лиды</th><th>Конв. в Лид</th><th>CPA</th><th>Ц. Лиды</th><th>Конв. в Ц.Лид</th><th>CPL</th><th>Расход</th>
+  </tr></thead><tbody>`;
+
+  // Total row - aggregate across ALL channels
+  const totalCtr = totals.impressions > 0 ? (totals.clicks / totals.impressions * 100).toFixed(2) + '%' : '\u2014';
+  const totalCpc = totals.clicks > 0 ? Math.round(totals.spend / totals.clicks) : 0;
+  const totalCpa = totals.leads > 0 ? fmt(Math.round(totals.spend / totals.leads)) : '\u2014';
+  const totalCpl = totals.target > 0 ? fmt(Math.round(totals.spend / totals.target)) : '\u2014';
+  html += `<tr class="row-total">
+    <td>ИТОГО</td><td>${fmt(totals.impressions)}</td><td>${fmt(totals.clicks)}</td>
+    <td>${totalCtr}</td><td>${totalCpc}</td>
+    <td>${totals.leads}</td><td>\u2014</td><td>${totalCpa}</td>
+    <td>${totals.target}</td><td>\u2014</td><td>${totalCpl}</td><td>${fmt(totals.spend)}</td>
+  </tr>`;
+
+  // Direct channel
+  html += `<tr class="row-channel">
+    <td>Яндекс Директ</td><td>${fmt(totals.impressions)}</td><td>${fmt(totals.clicks)}</td>
+    <td>${avgCtr}</td><td>${avgCpc}</td>
+    <td>${directLeads}</td><td>${convLead}</td><td>${avgCpa}</td>
+    <td>${directTarget}</td><td>${convTarget}</td><td>${avgCpl}</td><td>${rub(totals.spend)}</td>
+  </tr>`;
+
+  // Accounts
+  Object.entries(totals.accounts).forEach(([name, acc]) => {
+    const aCtr = acc.imp > 0 ? (acc.clicks / acc.imp * 100).toFixed(2) + '%' : '\u2014';
+    const aCpc = acc.clicks > 0 ? Math.round(acc.spend / acc.clicks) : 0;
+    const aCpa = acc.leads > 0 ? fmt(Math.round(acc.spend / acc.leads)) : '\u2014';
+    const aCpl = acc.target > 0 ? fmt(Math.round(acc.spend / acc.target)) : '\u2014';
+    const aConvLead = acc.clicks > 0 ? (acc.leads / acc.clicks * 100).toFixed(2) + '%' : '0.00%';
+    const aConvTarget = acc.leads > 0 ? (acc.target / acc.leads * 100).toFixed(2) + '%' : '\u2014';
+    html += `<tr class="row-account">
+      <td>${name}</td><td>${fmt(acc.imp)}</td><td>${fmt(acc.clicks)}</td>
+      <td>${aCtr}</td><td>${aCpc}</td>
+      <td>${acc.leads}</td><td>${aConvLead}</td><td>${aCpa}</td>
+      <td>${acc.target}</td><td>${aConvTarget}</td><td>${aCpl}</td><td>${rub(acc.spend)}</td>
+    </tr>`;
+  });
+
+  // SEO row
+  const seoConv = totals.seoVisits > 0 ? (totals.seoLeads / totals.seoVisits * 100).toFixed(2) + '%' : '\u2014';
+  const seoConvTarget = totals.seoLeads > 0 ? (totals.seoTarget / totals.seoLeads * 100).toFixed(2) + '%' : '\u2014';
+  html += `<tr class="row-channel">
+    <td>SEO</td><td>\u2014</td><td>${totals.seoVisits}</td><td>\u2014</td><td>\u2014</td>
+    <td>${totals.seoLeads}</td><td>${seoConv}</td><td>\u2014</td>
+    <td>${totals.seoTarget}</td><td>${seoConvTarget}</td><td>\u2014</td><td>\u2014</td>
+  </tr>`;
+
+  // Other row
+  const otherConvTarget = totals.otherLeads > 0 ? (totals.otherTarget / totals.otherLeads * 100).toFixed(2) + '%' : '\u2014';
+  html += `<tr class="row-channel">
+    <td>Рекомендации / Звонки</td><td>\u2014</td><td>\u2014</td><td>\u2014</td><td>\u2014</td>
+    <td>${totals.otherLeads}</td><td>\u2014</td><td>\u2014</td>
+    <td>${totals.otherTarget}</td><td>${otherConvTarget}</td><td>\u2014</td><td>\u2014</td>
+  </tr>`;
+
+  html += '</tbody></table>';
+  document.getElementById('detailTableWrap').innerHTML = html;
+}
+
+// ============================================================
+// SUMMARY TABLE
+// ============================================================
+function renderSummaryTable() {
+  let html = `<table><thead><tr>
+    <th>Неделя</th><th>Показы</th><th>Клики</th><th>CTR</th><th>CPC</th>
+    <th>Лиды</th><th>Ц. Лиды</th><th>CPA</th><th>CPL</th><th>Расход</th><th>SEO</th>
+  </tr></thead><tbody>`;
+
+  weeks.forEach(w => {
+    html += `<tr>
+      <td><strong>${w.label}</strong></td>
+      <td>${fmt(w.impressions)}</td>
+      <td>${fmt(w.clicks)}</td>
+      <td>${pct(w.ctr)}</td>
+      <td>${rub(w.cpc)}</td>
+      <td>${w.leads}</td>
+      <td style="color:var(--green)">${w.target}</td>
+      <td>${w.cpa ? rub(w.cpa) : '\u2014'}</td>
+      <td>${w.cpl ? rub(w.cpl) : '\u2014'}</td>
+      <td>${rub(w.spend)}</td>
+      <td>${w.seo || 0}</td>
+    </tr>`;
+  });
+
+  const t = weeks.reduce((a, w) => {
+    a.imp += w.impressions; a.clk += w.clicks; a.spd += w.spend;
+    a.lds += w.leads; a.tgt += w.target; a.seo += w.seo || 0;
+    return a;
+  }, { imp: 0, clk: 0, spd: 0, lds: 0, tgt: 0, seo: 0 });
+
+  html += `<tr class="row-total">
+    <td>ВСЕГО</td><td>${fmt(t.imp)}</td><td>${fmt(t.clk)}</td>
+    <td>${pct(t.clk / t.imp * 100)}</td><td>${rub(t.spd / t.clk)}</td>
+    <td>${t.lds}</td><td>${t.tgt}</td>
+    <td>${t.lds > 0 ? rub(t.spd / t.lds) : '\u2014'}</td>
+    <td>${t.tgt > 0 ? rub(t.spd / t.tgt) : '\u2014'}</td>
+    <td>${rub(t.spd)}</td><td>${t.seo}</td>
+  </tr>`;
+
+  html += '</tbody></table>';
+  document.getElementById('summaryTableWrap').innerHTML = html;
+}
+
+// ============================================================
+// SEO WIDGETS
+// ============================================================
+function updateSEOWidgets(period) {
+  // Find matching SEO data
+  let seoData = null;
+  if (period === 'all' || currentViewMode === 'months') {
+    // Use aggregate SEO data
+    seoData = seoWeeklyData['all'] || null;
+  } else if (seoWeeklyData[period]) {
+    seoData = seoWeeklyData[period];
+  }
+  
+  renderTopLandingPages(seoData);
+  renderSearchQueries(seoData);
+}
+
+function renderTopLandingPages(seoData) {
+  const tbody = document.getElementById('topPagesBody');
+  if (!tbody) return;
+  
+  if (!seoData || !seoData.topPages || seoData.topPages.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="3" style="text-align:center;padding:20px;color:var(--txt-3)">
+      Нет данных за выбранный период из Яндекс.Метрики
+    </td></tr>`;
+    return;
+  }
+  
+  let html = '';
+  seoData.topPages.forEach(p => {
+    const urlShort = p.url.replace('https://dune-group.ru', '').replace('https://remont.dune-group.ru', '');
+    const bouncePct = p.bounceRate ? p.bounceRate.toFixed(1) + '%' : '\u2014';
+    html += `<tr>
+      <td style="max-width:240px;overflow:hidden;text-overflow:ellipsis" title="${p.url.replace(/"/g, '&quot;')}">${urlShort || '/'}</td>
+      <td style="text-align:right">${p.visits}</td>
+      <td style="text-align:right">${bouncePct}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+}
+
+function renderSearchQueries(seoData) {
+  const tbody = document.getElementById('searchQueriesBody');
+  if (!tbody) return;
+  
+  if (!seoData || !seoData.searchQueries || seoData.searchQueries.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="2" style="text-align:center;padding:20px;color:var(--txt-3)">
+      Нет данных за выбранный период из Яндекс.Метрики
+    </td></tr>`;
+    return;
+  }
+  
+  let html = '';
+  seoData.searchQueries.forEach(q => {
+    html += `<tr>
+      <td style="max-width:280px;overflow:hidden;text-overflow:ellipsis" title="${q.query.replace(/"/g, '&quot;')}">${q.query}</td>
+      <td style="text-align:right">${q.visits}</td>
+    </tr>`;
+  });
+  tbody.innerHTML = html;
+}
+
+// ============================================================
+// VIEW MODE TOGGLE
+// ============================================================
+let currentViewMode = 'weeks';
+
+function switchViewMode(mode) {
+  currentViewMode = mode;
+
+  // Update view-mode buttons (textContent matching — robust like the old, без использования устаревшего window.event)
+  document.querySelectorAll('.view-mode-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.view-mode-btn').forEach(b => {
+    if ((mode === 'weeks' && b.textContent.includes('недел')) ||
+        (mode === 'months' && b.textContent.includes('месяц'))) {
+      b.classList.add('active');
+    }
+  });
+
+  // Обновить dropdown через отдельные хелперы (как в старом дашборде: updateMonthSelector / updateWeekSelector)
+  if (mode === 'months') {
+    updateMonthSelector();
+  } else {
+    updateWeekSelector();
+  }
+
+  showPeriod('all');
+}
+
+function updateMonthSelector() {
+  const dropdown = document.getElementById('weekSelect');
+  dropdown.innerHTML = '';
+  const allOpt = document.createElement('option');
+  allOpt.value = 'all';
+  allOpt.textContent = 'Все месяцы';
+  dropdown.appendChild(allOpt);
+  months.forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m.id;
+    opt.textContent = `${m.label} (${m.dateRange})`;
+    dropdown.appendChild(opt);
+  });
+}
+
+function updateWeekSelector() {
+  const dropdown = document.getElementById('weekSelect');
+  dropdown.innerHTML = '';
+  const allOpt = document.createElement('option');
+  allOpt.value = 'all';
+  allOpt.textContent = 'Все недели';
+  dropdown.appendChild(allOpt);
+  weeks.forEach(w => {
+    const opt = document.createElement('option');
+    opt.value = w.id;
+    opt.textContent = w.label;
+    dropdown.appendChild(opt);
+  });
+}
+
+// ============================================================
+// PERIOD SELECTION
+// ============================================================
+let currentPeriod = 'all';
+
+function showPeriod(period) {
+  currentPeriod = period;
+
+  // Синхронизировать dropdown с периодом (как в старом дашборде)
+  const dropdown = document.getElementById('weekSelect');
+  if (dropdown) dropdown.value = period;
+
+  const data = getDataForPeriod(period);
+  if (!data || data.length === 0) return;
+
+  let title;
+  if (period === 'all') {
+    title = currentViewMode === 'months' ? 'Все месяцы' : 'Все периоды';
+  } else {
+    const week = weeks.find(w => w.id === period);
+    const month = months.find(m => m.id === period);
+    title = week ? week.label : (month ? month.label : 'Выбранный период');
+  }
+  // w9 ('29.06–30.06') and w10 ('01.07–05.07') now exactly match their labels.
+  // The split prevents the old 7-day Я.Директ spend from being merged with 2-day CRM lead count.
+  if (period === 'w10') title += ' <span class="update-badge" style="background:rgba(234,179,8,.12);color:var(--yellow);border:1px solid rgba(234,179,8,.2);margin-left:6px">⏳ лиды появятся после следующей CRM-выгрузки</span>';
+  document.getElementById('detailTitle').innerHTML = title;
+
+  renderKPI(data);
+  initCharts(data);
+  renderDetailTable(data);
+  updateSEOWidgets(period);
+}
+
+// ============================================================
+// THEME TOGGLE
+// ============================================================
+document.getElementById('tgl').addEventListener('click', () => {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('tgl').setAttribute('aria-checked', String(!isDark));
+  document.getElementById('tglK').textContent = isDark ? '\u2600\uFE0F' : '\uD83C\uDF19';
+  // Update chart colors
+  const textColor = isDark ? '#e4e4e7' : '#71717a';
+  const gridColor = isDark ? 'rgba(255,255,255,.08)' : 'rgba(42,45,58,0.5)';
+  Object.values(chartInstances).forEach(c => {
+    if (c) {
+      c.options.plugins.legend.labels.color = textColor;
+      c.options.scales.x.ticks.color = textColor;
+      c.options.scales.x.grid.color = gridColor;
+      c.options.scales.y.ticks.color = textColor;
+      c.options.scales.y.grid.color = gridColor;
+      if (c.options.scales.y1) {
+        c.options.scales.y1.ticks.color = textColor;
+        c.options.scales.y1.grid.color = gridColor;
+      }
+      c.update();
+    }
+  });
+});
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  switchViewMode('weeks');
+  renderSummaryTable();
+});
 </script>
+
 </body>
 </html>
