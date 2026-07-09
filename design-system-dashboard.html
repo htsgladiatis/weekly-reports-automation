@@ -162,6 +162,49 @@ td:first-child{color:var(--txt);font-weight:600}
 .update-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:var(--r-full);
   background:rgba(34,197,94,.12);color:var(--green);font-size:10px;font-weight:600;border:1px solid rgba(34,197,94,.2);
   margin-left:8px}
+
+/* ============================================================
+   v2.0 — CALENDAR RANGE PICKER
+   ========================================================= */
+.range-shell{display:flex;align-items:center;gap:14px;flex-wrap:wrap;width:100%}
+.range-presets{display:inline-flex;gap:6px;flex-wrap:wrap}
+.chip{padding:6px 12px;border:1px solid var(--line-2);border-radius:var(--r-full);background:var(--panel);
+  color:var(--txt-2);font-size:11px;font-weight:500;cursor:pointer;transition:all .2s var(--ease);
+  font-family:'Manrope',sans-serif;letter-spacing:.01em}
+.chip:hover{background:var(--accent-light);border-color:var(--primary);color:var(--txt)}
+.chip.active{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
+.range-pickers{display:inline-flex;gap:8px;align-items:center}
+.date-input{padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);
+  color:var(--txt);font-size:12px;font-family:'Manrope',sans-serif;cursor:pointer;min-width:135px;
+  transition:border-color .2s var(--ease)}
+.date-input:hover,.date-input:focus{border-color:var(--primary);outline:none}
+.range-sep{color:var(--txt-3);font-size:14px}
+.range-days{font-size:11px;color:var(--on-primary);background:var(--primary);padding:4px 10px;
+  border-radius:var(--r-full);font-weight:600}
+.calendar{display:grid;gap:6px;flex:1;min-width:320px}
+.cal-head{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;
+  background:var(--panel-2);border-radius:var(--r-sm);border:1px solid var(--line)}
+.cal-nav{background:transparent;border:none;color:var(--txt-2);font-size:20px;line-height:1;cursor:pointer;
+  width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+  font-family:'Manrope',sans-serif;font-weight:700;transition:all .2s var(--ease)}
+.cal-nav:hover{background:var(--accent-light);color:var(--primary)}
+.cal-title{font-size:13px;font-weight:700;color:var(--txt);letter-spacing:-.01em}
+.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;font-size:10px;color:var(--txt-3);
+  text-align:center;padding:0 2px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:2px}
+.cal-day{background:var(--panel);padding:7px 0;text-align:center;font-size:12px;cursor:pointer;
+  color:var(--txt-2);transition:all .15s var(--ease);font-weight:500;min-height:36px;
+  display:flex;align-items:center;justify-content:center;border:1px solid transparent;border-radius:6px;font-variant-numeric:tabular-nums}
+.cal-day:hover:not(.empty){background:var(--accent-light);color:var(--txt);font-weight:600;border-color:var(--outline-variant)}
+.cal-day.empty{color:var(--txt-3);opacity:.35;cursor:default}
+.cal-day.in-range{background:var(--accent-light);color:var(--txt)}
+.cal-day.range-start{background:var(--primary)!important;color:var(--on-primary)!important;font-weight:700}
+.cal-day.range-end{background:var(--primary)!important;color:var(--on-primary)!important;font-weight:700}
+.cal-day.range-start.range-end{border-radius:6px}
+.cal-day.in-range.range-start,.cal-day.in-range.range-end{border-radius:6px}
+.cal-day.today{box-shadow:inset 0 0 0 1.5px var(--accent-hover)}
+.cal-day.has-leads::after{content:'';display:block;width:4px;height:4px;border-radius:50%;background:var(--green);margin:1px auto 0}
+.cal-day.has-target::after{content:'';display:block;width:5px;height:5px;border-radius:50%;background:var(--orange,#f59e0b);margin:1px auto 0}
 </style>
 </head>
 <body>
@@ -186,16 +229,38 @@ td:first-child{color:var(--txt);font-weight:600}
   <p id="heroSubtitle">Яндекс Директ · SEO · Лиды — агрегированные показатели по всем каналам</p>
 </section>
 
-<!-- PERIOD BAR -->
+<!-- PERIOD BAR v2.0 — calendar + date-range -->
 <nav class="period-bar" id="periodBar">
   <div class="period-in">
     <span class="period-label">Период:</span>
-    <div class="view-mode-toggle" id="viewModeToggle">
-      <button class="view-mode-btn active" onclick="switchViewMode('weeks')">По неделям</button>
-      <button class="view-mode-btn" onclick="switchViewMode('months')">По месяцам</button>
-    </div>
-    <div class="week-dropdown" id="weekDropdown">
-      <select class="week-select" id="weekSelect" onchange="showPeriod(this.value)"></select>
+    <div class="range-shell">
+      <div class="range-presets" id="rangePresets">
+        <button class="chip" data-preset="today">Сегодня</button>
+        <button class="chip" data-preset="yesterday">Вчера</button>
+        <button class="chip" data-preset="last7">7 дней</button>
+        <button class="chip" data-preset="thisWeek">Эта неделя</button>
+        <button class="chip" data-preset="lastWeek">Прошлая</button>
+        <button class="chip" data-preset="thisMonth">Этот месяц</button>
+        <button class="chip" data-preset="lastMonth">Прошлый</button>
+        <button class="chip" data-preset="all">Всё время</button>
+      </div>
+      <div class="range-pickers">
+        <input type="date" id="startDate" class="date-input" title="Дата начала">
+        <span class="range-sep">—</span>
+        <input type="date" id="endDate" class="date-input" title="Дата конца">
+        <span id="rangeDays" class="range-days">—</span>
+      </div>
+      <div class="calendar">
+        <div class="cal-head">
+          <button class="cal-nav" id="calPrev" aria-label="Месяц назад">‹</button>
+          <div class="cal-title" id="calTitle">—</div>
+          <button class="cal-nav" id="calNext" aria-label="Месяц вперёд">›</button>
+        </div>
+        <div class="cal-weekdays">
+          <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
     </div>
   </div>
 </nav>
@@ -232,13 +297,6 @@ td:first-child{color:var(--txt);font-weight:600}
   <div class="table-card">
     <div class="table-h"><span class="material-symbols-outlined mat" style="font-size:18px">grid_view</span> <span id="detailTitle">Все периоды</span></div>
     <div class="table-wrap" id="detailTableWrap"></div>
-  </div>
-
-  <!-- Summary Table -->
-  <div class="sec-title"><span class="material-symbols-outlined mat">summary</span> Сводка по неделям</div>
-  <div class="table-card">
-    <div class="table-h"><span class="material-symbols-outlined mat" style="font-size:18px">calendar_view_week</span> Все недели</div>
-    <div class="table-wrap" id="summaryTableWrap"></div>
   </div>
 
   <!-- SEO Section -->
@@ -419,6 +477,42 @@ const months = [
   { id: 'm1', label: 'Май 2026', short: 'Май', weeks: ['w1','w2','w3','w4'], dateRange: '04.05–31.05' },
   { id: 'm2', label: 'Июнь 2026', short: 'Июнь', weeks: ['w5','w6','w7','w8','w9'], dateRange: '01.06–30.06' }
 ];
+
+// ============================================================
+// v2.0 — DAILY DATA LAYER (per-day CRM leads/target, по дням)
+// ============================================================
+const dailyCRM = {
+  '01.06.2026': { leads: 14, target: 2, direct: 7, seo: 0, calls: 6, site: 1, tg: 0, realtor: 0, other: 0 },
+  '02.06.2026': { leads:  9, target: 1, direct: 2, seo: 0, calls: 7, site: 0, tg: 0, realtor: 0, other: 0 },
+  '03.06.2026': { leads:  9, target: 1, direct: 1, seo: 0, calls: 8, site: 0, tg: 0, realtor: 0, other: 0 },
+  '04.06.2026': { leads:  9, target: 2, direct: 4, seo: 0, calls: 5, site: 0, tg: 0, realtor: 0, other: 0 },
+  '05.06.2026': { leads:  7, target: 1, direct: 1, seo: 0, calls: 6, site: 0, tg: 0, realtor: 0, other: 0 },
+  '06.06.2026': { leads:  5, target: 1, direct: 2, seo: 0, calls: 3, site: 0, tg: 0, realtor: 0, other: 0 },
+  '07.06.2026': { leads:  3, target: 0, direct: 3, seo: 0, calls: 0, site: 0, tg: 0, realtor: 0, other: 0 },
+  '08.06.2026': { leads:  3, target: 1, direct: 2, seo: 0, calls: 1, site: 0, tg: 0, realtor: 0, other: 1 },
+  '09.06.2026': { leads: 11, target: 0, direct: 4, seo: 0, calls: 3, site: 3, tg: 0, realtor: 0, other: 1 },
+  '10.06.2026': { leads:  9, target: 0, direct: 1, seo: 0, calls: 7, site: 0, tg: 1, realtor: 0, other: 0 },
+  '11.06.2026': { leads:  6, target: 0, direct: 0, seo: 0, calls: 4, site: 1, tg: 0, realtor: 0, other: 1 },
+  '12.06.2026': { leads:  4, target: 0, direct: 2, seo: 1, calls: 1, site: 0, tg: 0, realtor: 0, other: 0 },
+  '13.06.2026': { leads:  2, target: 1, direct: 2, seo: 0, calls: 0, site: 0, tg: 0, realtor: 0, other: 0 },
+  '14.06.2026': { leads:  3, target: 1, direct: 1, seo: 1, calls: 0, site: 0, tg: 0, realtor: 0, other: 1 },
+  '15.06.2026': { leads:  4, target: 0, direct: 0, seo: 0, calls: 4, site: 0, tg: 0, realtor: 0, other: 0 },
+  '16.06.2026': { leads:  8, target: 3, direct: 1, seo: 0, calls: 4, site: 1, tg: 0, realtor: 2, other: 0 },
+  '17.06.2026': { leads: 10, target: 1, direct: 3, seo: 0, calls: 6, site: 1, tg: 0, realtor: 0, other: 0 },
+  '18.06.2026': { leads: 10, target: 2, direct: 4, seo: 1, calls: 5, site: 0, tg: 0, realtor: 0, other: 0 },
+  '19.06.2026': { leads:  6, target: 2, direct: 3, seo: 0, calls: 3, site: 0, tg: 0, realtor: 0, other: 0 },
+  '20.06.2026': { leads:  5, target: 2, direct: 3, seo: 0, calls: 2, site: 0, tg: 0, realtor: 0, other: 0 },
+  '21.06.2026': { leads:  3, target: 2, direct: 3, seo: 0, calls: 0, site: 0, tg: 0, realtor: 0, other: 0 },
+  '22.06.2026': { leads:  3, target: 0, direct: 1, seo: 0, calls: 2, site: 0, tg: 0, realtor: 0, other: 0 },
+  '23.06.2026': { leads:  5, target: 0, direct: 1, seo: 0, calls: 4, site: 0, tg: 0, realtor: 0, other: 0 },
+  '24.06.2026': { leads:  4, target: 2, direct: 1, seo: 0, calls: 2, site: 1, tg: 0, realtor: 0, other: 0 },
+  '25.06.2026': { leads:  7, target: 2, direct: 2, seo: 1, calls: 4, site: 0, tg: 0, realtor: 0, other: 0 },
+  '26.06.2026': { leads:  9, target: 1, direct: 2, seo: 0, calls: 6, site: 1, tg: 0, realtor: 0, other: 0 },
+  '27.06.2026': { leads:  3, target: 1, direct: 2, seo: 0, calls: 1, site: 0, tg: 0, realtor: 0, other: 0 },
+  '28.06.2026': { leads:  3, target: 1, direct: 2, seo: 0, calls: 1, site: 0, tg: 0, realtor: 0, other: 0 },
+  '29.06.2026': { leads:  6, target: 1, direct: 0, seo: 2, calls: 3, site: 1, tg: 0, realtor: 0, other: 0 },
+  '30.06.2026': { leads:  3, target: 0, direct: 0, seo: 1, calls: 2, site: 0, tg: 0, realtor: 0, other: 0 }
+};
 
 // SEO weekly data (from Yandex Metrika)
 const seoWeeklyData = {
@@ -697,6 +791,220 @@ function getDailyCpl(days) {
   return days.map(d => d.cpl);
 }
 
+// ============================================================
+// v2.0 — CALENDAR + DATE-RANGE LAYER
+// ============================================================
+const MONTHS_RU = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
+const MONTHS_RU_GEN = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
+function pad2(n){ return String(n).padStart(2,'0'); }
+function fmtISO(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
+function fmtRuShort(d){ return `${pad2(d.getDate())}.${pad2(d.getMonth()+1)}`; }
+function fmtRuLong(d){ return `${d.getDate()} ${MONTHS_RU_GEN[d.getMonth()]} ${d.getFullYear()}`; }
+function fmtRuFull(d){ return `${pad2(d.getDate())}.${pad2(d.getMonth()+1)}.${d.getFullYear()}`; }
+function parseISO(s){ const [y,m,d]=s.split('-').map(Number); return new Date(y, m-1, d); }
+function daysBetween(a,b){ return Math.round((b-a)/(1000*60*60*24))+1; }
+function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
+function dayDecl(n){ n = n%100; if (n>=11 && n<=14) return 'дней'; n=n%10; if (n===1) return 'день'; if (n>=2 && n<=4) return 'дня'; return 'дней'; }
+
+let dailyMetrics = [];
+function buildDailyMetrics(){
+  const map = new Map();
+  weeks.forEach(w => {
+    const cfg = weeklyDailyData[w.id];
+    if (!cfg) return;
+    const [d, mo] = cfg.startDate.split('.').map(Number);
+    const year = 2026;
+    for (let i = 0; i < cfg.pattern.length; i++) {
+      const dt = new Date(year, mo - 1, d + i);
+      const key = fmtISO(dt);
+      if (map.has(key)) continue;
+      const crm = dailyCRM[fmtRuFull(dt)];
+      map.set(key, {
+        dateISO: key,
+        date: fmtRuShort(dt),
+        dateFull: fmtRuFull(dt),
+        impressions: Math.round(w.impressions * cfg.pattern[i]),
+        clicks: Math.round(w.clicks * cfg.pattern[i]),
+        spend: Math.round(w.spend * cfg.pattern[i]),
+        seo: Math.round((w.seo||0) * cfg.pattern[i]),
+        leads:    crm ? crm.leads  : 0,
+        target:   crm ? crm.target : 0,
+      });
+    }
+  });
+  dailyMetrics = [...map.values()].sort((a,b) => a.dateISO.localeCompare(b.dateISO));
+}
+
+// State
+let currentRange = null;
+let calMonth = { y: 2026, m: 6 };  // July 2026
+
+function renderCalendar(){
+  const y = calMonth.y, m = calMonth.m;
+  document.getElementById('calTitle').textContent = `${MONTHS_RU[m]} ${y}`;
+  const first = new Date(y, m, 1);
+  const offset = (first.getDay() + 6) % 7;
+  const lastDay = new Date(y, m+1, 0).getDate();
+  const html = [];
+  for (let i = 0; i < offset; i++) html.push('<div class="cal-day empty"></div>');
+  const todayISO = fmtISO(new Date());
+  for (let d = 1; d <= lastDay; d++) {
+    const iso = `${y}-${pad2(m+1)}-${pad2(d)}`;
+    let cls = 'cal-day';
+    if (currentRange) {
+      if (iso === currentRange.start && iso === currentRange.end) cls += ' range-start range-end';
+      else if (iso === currentRange.start) cls += ' range-start';
+      else if (iso === currentRange.end) cls += ' range-end';
+      else if (iso > currentRange.start && iso < currentRange.end) cls += ' in-range';
+    }
+    if (iso === todayISO) cls += ' today';
+    const dm = dailyMetrics.find(x => x.dateISO === iso);
+    if (dm) {
+      if (dm.target > 0) cls += ' has-target';
+      else if (dm.leads > 0) cls += ' has-leads';
+    }
+    html.push(`<div class="${cls}" data-date="${iso}">${d}</div>`);
+  }
+  document.getElementById('calGrid').innerHTML = html.join('');
+}
+
+function onCalClick(iso){
+  if (!currentRange || (currentRange.start && currentRange.end)) {
+    currentRange = { start: iso, end: iso };
+  } else {
+    if (iso < currentRange.start) currentRange = { start: iso, end: currentRange.start };
+    else currentRange = { start: currentRange.start, end: iso };
+  }
+  syncRangeInputs();
+  renderCalendar();
+  rebuildReport();
+}
+
+function syncRangeInputs(){
+  if (!currentRange) return;
+  document.getElementById('startDate').value = currentRange.start;
+  document.getElementById('endDate').value = currentRange.end;
+  const days = daysBetween(parseISO(currentRange.start), parseISO(currentRange.end));
+  document.getElementById('rangeDays').textContent = `${days} ${dayDecl(days)}`;
+}
+
+function applyPreset(name){
+  const today = new Date();
+  let start, end;
+  switch(name){
+    case 'today':     start = end = fmtISO(today); break;
+    case 'yesterday': { const y = addDays(today,-1); start = end = fmtISO(y); break; }
+    case 'last7':     start = fmtISO(addDays(today,-6)); end = fmtISO(today); break;
+    case 'thisWeek': {
+      const dow = (today.getDay()+6)%7;
+      start = fmtISO(addDays(today,-dow));
+      end   = fmtISO(today);
+      break;
+    }
+    case 'lastWeek': {
+      const dow = (today.getDay()+6)%7;
+      const lastMon = addDays(today,-dow-7);
+      start = fmtISO(lastMon);
+      end   = fmtISO(addDays(lastMon, 6));
+      break;
+    }
+    case 'thisMonth': {
+      start = fmtISO(new Date(today.getFullYear(), today.getMonth(), 1));
+      end   = fmtISO(today);
+      break;
+    }
+    case 'lastMonth': {
+      const first = new Date(today.getFullYear(), today.getMonth()-1, 1);
+      const last  = new Date(today.getFullYear(), today.getMonth(), 0);
+      start = fmtISO(first); end = fmtISO(last);
+      break;
+    }
+    case 'all': start = '2026-05-04'; end = '2026-07-31'; break;
+  }
+  currentRange = { start, end };
+  calMonth = { y: parseInt(start.slice(0,4)), m: parseInt(start.slice(5,7))-1 };
+  document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c.dataset.preset === name));
+  syncRangeInputs();
+  renderCalendar();
+  rebuildReport();
+}
+
+function aggregateByRange(startISO, endISO){
+  const days = dailyMetrics.filter(d => d.dateISO >= startISO && d.dateISO <= endISO);
+  const totals = { impressions:0, clicks:0, spend:0, leads:0, target:0, seo:0, ctr:0, cpa:null, cpl:null, convLead:0, convTarget:0 };
+  days.forEach(d => {
+    totals.impressions += d.impressions;
+    totals.clicks     += d.clicks;
+    totals.spend      += d.spend;
+    totals.leads      += d.leads;
+    totals.target     += d.target;
+    totals.seo        += d.seo;
+  });
+  totals.ctr        = totals.impressions > 0 ? (totals.clicks / totals.impressions * 100) : 0;
+  totals.cpa        = totals.leads > 0 ? totals.spend / totals.leads : null;
+  totals.cpl        = totals.target > 0 ? totals.spend / totals.target : null;
+  totals.convLead   = totals.clicks > 0 ? (totals.leads / totals.clicks * 100) : 0;
+  totals.convTarget = totals.leads > 0 ? (totals.target / totals.leads * 100) : 0;
+  return {
+    id: 'range',
+    isRange: true,
+    period: { start: startISO, end: endISO },
+    label: `${fmtRuLong(parseISO(startISO))} — ${fmtRuLong(parseISO(endISO))}`,
+    short: `${fmtRuShort(parseISO(startISO))}–${fmtRuShort(parseISO(endISO))}`,
+    daily: days,
+    totals,
+  };
+}
+
+function rebuildReport(){
+  if (!currentRange) return;
+  const agg = aggregateByRange(currentRange.start, currentRange.end);
+  const dayCount = daysBetween(parseISO(currentRange.start), parseISO(currentRange.end));
+  document.getElementById('detailTitle').innerHTML =
+    `${fmtRuLong(parseISO(currentRange.start))} — ${fmtRuLong(parseISO(currentRange.end))} ` +
+    `<span class="update-badge" style="margin-left:8px">${dayCount} ${dayDecl(dayCount)}</span>`;
+  const startD = parseISO(currentRange.start);
+  document.getElementById('heroSubtitle').textContent =
+    `Яндекс Директ · SEO · Лиды — отчёт за ${dayCount} ${dayDecl(dayCount)}`;
+  renderKPI([agg]);
+  initCharts([agg]);
+  renderDetailTable([agg]);
+  updateSEOForRange(currentRange.start, currentRange.end);
+}
+
+function updateSEOForRange(startISO, endISO){
+  const startD = parseISO(startISO);
+  const endD   = parseISO(endISO);
+  let visits = 0, users = 0, durSum = 0, depthSum = 0, bounceSum = 0, dayCount = 0;
+  weeks.forEach(w => {
+    const cfg = weeklyDailyData[w.id];
+    if (!cfg) return;
+    const [d, mo] = cfg.startDate.split('.').map(Number);
+    const wStart = new Date(2026, mo-1, d);
+    const wEnd   = addDays(wStart, cfg.pattern.length - 1);
+    if (wEnd < startD || wStart > endD) return;
+    const seo = seoWeeklyData[w.id];
+    if (!seo) return;
+    const days = daysBetween(Math.max(wStart, startD), Math.min(wEnd, endD));
+    const weight = days / cfg.pattern.length;
+    visits    += seo.stats.visits * weight;
+    users     += seo.stats.users * weight;
+    durSum    += seo.stats.avgDuration * weight;
+    depthSum  += seo.stats.pageDepth * weight;
+    bounceSum += seo.stats.bounceRate * weight;
+    dayCount  += days;
+  });
+  // Always blank out top pages + queries (we don't have per-day SEO data)
+  renderTopLandingPages(null);
+  renderSearchQueries(null);
+  // Update the visits chart draw() inline
+  if (chartInstances.seo) {
+    const avgDur = dayCount > 0 ? Math.round(durSum / dayCount) : 0;
+    const avgDepth = dayCount > 0 ? depthSum / dayCount : 0;
+    chartInstances.seo.data.datasets[0].data = [Math.round(visits), Math.round(users), Math.round(avgDepth*50), avgDur];
+    chartInstances.seo.update();
+  }
+}
 
 // ============================================================
 // HELPERS
@@ -791,18 +1099,22 @@ function destroyCharts() {
 
 function initCharts(data) {
   destroyCharts();
-  const labels = data.map(w => w.short);
 
-  // Check if this is a single-week view (show daily data)
-  const isSingleWeek = data.length === 1 && data[0].id && data[0].id.startsWith('w');
+  // Range picker (v2.0) — data is [agg] with .daily[] — drill to per-day breakdown
+  const isRange = data[0] && data[0].isRange && Array.isArray(data[0].daily);
+  const isSingleWeek = !isRange && data.length === 1 && data[0].id && data[0].id.startsWith('w');
   let dailyData = null;
   let dailyLabels = null;
-  if (isSingleWeek) {
+  if (isRange) {
+    dailyData = data[0].daily;
+    if (dailyData && dailyData.length > 0) dailyLabels = dailyData.map(d => d.date);
+  } else if (isSingleWeek) {
     dailyData = getDailyData(data[0].id);
     if (dailyData && dailyData.length > 0) {
       dailyLabels = dailyData.map(d => d.date);
     }
   }
+  const labels = data.map(w => w.short);
 
   // Labels for charts: daily labels for single week, weekly labels otherwise
   const chartLabels = dailyLabels || labels;
@@ -1333,11 +1645,50 @@ document.getElementById('tgl').addEventListener('click', () => {
 });
 
 // ============================================================
-// INIT
+// INIT v2.0 — calendar + date-range picker
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-  switchViewMode('weeks');
-  renderSummaryTable();
+  buildDailyMetrics();
+
+  // Preset chips
+  document.querySelectorAll('.chip').forEach(c => {
+    c.addEventListener('click', () => applyPreset(c.dataset.preset));
+  });
+
+  // Calendar navigation
+  document.getElementById('calPrev').addEventListener('click', () => {
+    calMonth.m--;
+    if (calMonth.m < 0) { calMonth.m = 11; calMonth.y--; }
+    renderCalendar();
+  });
+  document.getElementById('calNext').addEventListener('click', () => {
+    calMonth.m++;
+    if (calMonth.m > 11) { calMonth.m = 0; calMonth.y++; }
+    renderCalendar();
+  });
+
+  // Calendar day click (delegation)
+  document.getElementById('calGrid').addEventListener('click', (e) => {
+    const cell = e.target.closest('.cal-day[data-date]');
+    if (cell) onCalClick(cell.dataset.date);
+  });
+
+  // Date inputs sync with calendar / re-build report
+  document.getElementById('startDate').addEventListener('change', (e) => {
+    if (!e.target.value) return;
+    if (!currentRange) currentRange = { start: e.target.value, end: e.target.value };
+    else { currentRange.start = e.target.value; if (currentRange.end < currentRange.start) currentRange.end = currentRange.start; }
+    syncRangeInputs(); renderCalendar(); rebuildReport();
+  });
+  document.getElementById('endDate').addEventListener('change', (e) => {
+    if (!e.target.value) return;
+    if (!currentRange) currentRange = { start: e.target.value, end: e.target.value };
+    else { currentRange.end = e.target.value; if (currentRange.end < currentRange.start) currentRange.start = currentRange.end; }
+    syncRangeInputs(); renderCalendar(); rebuildReport();
+  });
+
+  // Default = current month (per user spec)
+  applyPreset('thisMonth');
 });
 </script>
 
