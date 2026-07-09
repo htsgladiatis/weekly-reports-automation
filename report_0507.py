@@ -55,7 +55,7 @@ OTHER_LEADS = 16
 OTHER_TARGETS = 1
 
 # === SEO ===
-SEO_VISITS = 88
+SEO_VISITS = 55
 
 # === Helper formatting ===
 def fmt_money(n):
