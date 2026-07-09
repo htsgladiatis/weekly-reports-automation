@@ -953,82 +953,123 @@ function applyPreset(name){
 function aggregateByRange(startISO, endISO){
   const startD = parseISO(startISO);
   const endD   = parseISO(endISO);
-  const days = dailyMetrics.filter(d => d.dateISO >= startISO && d.dateISO <= endISO);
-  const totals = { impressions:0, clicks:0, spend:0, leads:0, target:0, seo:0, ctr:0, cpa:null, cpl:null, convLead:0, convTarget:0,
-                   seoLeads:0, seoTarget:0, otherLeads:0, otherTarget:0, byChannel: [] };
-  const channelAggregator = { direct: {leads:0,target:0}, seo: {leads:0,target:0}, other: {leads:0,target:0} };
-  days.forEach(d => {
-    totals.impressions += d.impressions;
-    totals.clicks     += d.clicks;
-    totals.spend      += d.spend;
-    totals.leads      += d.leads;
-    totals.target     += d.target;
-    totals.seo        += d.seo;
-    // Per-channel breakdown from CRM
-    const crm = dailyCRM[d.dateFull];
-    if (crm) {
-      channelAggregator.direct.leads += crm.direct; channelAggregator.direct.target += crm.target || 0;
-      channelAggregator.seo.leads    += crm.seo;    channelAggregator.seo.target    += crm.target || 0;  // approximation: assume distributed
-      const otherSum = (crm.calls||0)+(crm.site||0)+(crm.tg||0)+(crm.realtor||0)+(crm.other||0);
-      channelAggregator.other.leads  += otherSum;
-    }
-  });
-  totals.seoLeads   = channelAggregator.seo.leads;
-  totals.otherLeads = channelAggregator.other.leads + channelAggregator.direct.leads > 0
-    ? Math.max(0, totals.leads - channelAggregator.direct.leads - channelAggregator.seo.leads)
-    : 0;
-  totals.ctr        = totals.impressions > 0 ? (totals.clicks / totals.impressions * 100) : 0;
-  totals.cpa        = totals.leads > 0 ? totals.spend / totals.leads : null;
-  totals.cpl        = totals.target > 0 ? totals.spend / totals.target : null;
-  totals.convLead   = totals.clicks > 0 ? (totals.leads / totals.clicks * 100) : 0;
-  totals.convTarget = totals.leads > 0 ? (totals.target / totals.leads * 100) : 0;
-  totals.byChannel  = [
-    { channel: 'direct', leads: channelAggregator.direct.leads, target: channelAggregator.direct.target },
-    { channel: 'seo',    leads: channelAggregator.seo.leads,    target: channelAggregator.seo.target },
-    { channel: 'other',  leads: channelAggregator.other.leads,  target: 0 },
-  ];
-  // Per-account breakdown (Яндекс.Директ РК) — пропорционально overlap-дням
-  const accounts = {};
+
+  // FULL в диапазон недели: [wStart, wEnd] ⊆ [startD, endD]. Без долей.
+  const fullWeekIds = [];
+  const partialDays = [];
   weeks.forEach(w => {
     const cfg = weeklyDailyData[w.id];
-    if (!cfg || !w.accounts) return;
-    const [d, mo] = cfg.startDate.split('.').map(Number);
-    const wStart = new Date(2026, mo-1, d);
+    if (!cfg) return;
+    const [dd, mm] = cfg.startDate.split('.').map(Number);
+    const wStart = new Date(2026, mm-1, dd);
     const wEnd   = addDays(wStart, cfg.pattern.length - 1);
-    if (wEnd < startD || wStart > endD) return;
-    const overlap = daysBetween(Math.max(wStart, startD), Math.min(wEnd, endD));
-    const weight = overlap / cfg.pattern.length;
-    Object.entries(w.accounts).forEach(([name, a]) => {
-      if (!accounts[name]) accounts[name] = { imp:0, clicks:0, spend:0, leads:0, target:0 };
-      accounts[name].imp    += Math.round((a.imp    || 0) * weight);
-      accounts[name].clicks += Math.round((a.clicks || 0) * weight);
-      accounts[name].spend  += Math.round((a.spend  || 0) * weight);
-      accounts[name].leads  += Math.round((a.leads  || 0) * weight);
-      accounts[name].target += Math.round((a.target || 0) * weight);
-    });
+    if (wStart >= startD && wEnd <= endD) {
+      fullWeekIds.push(w.id);
+    } else if (wEnd >= startD && wStart <= endD) {
+      // частично — только дни из диапазона
+      for (let i = 0; i < cfg.pattern.length; i++) {
+        const day = addDays(wStart, i);
+        if (day >= startD && day <= endD) partialDays.push(day);
+      }
+    }
   });
+
+  // Соберём множество ISO-дат, входящих в ПОЛНЫЕ недели диапазона — только они попадут в daily[]
+  // Дни из partial-week НЕ идут в daily, чтобы графики не показывали пропорциональные данные.
+  const fullWeekDateSet = new Set();
+  for (const wid of fullWeekIds) {
+    const cfg = weeklyDailyData[wid];
+    if (!cfg) continue;
+    const [dd, mm] = cfg.startDate.split('.').map(Number);
+    const wStart = new Date(2026, mm-1, dd);
+    for (let i = 0; i < cfg.pattern.length; i++) {
+      fullWeekDateSet.add(fmtISO(addDays(wStart, i)));
+    }
+  }
+  // Per-day список: для расходов/показов — только полные недели. Для leads/target — все дни с CRM.
+  const dailyForSpend = dailyMetrics.filter(d => d.dateISO >= startISO && d.dateISO <= endISO && fullWeekDateSet.has(d.dateISO));
+  const dailyForLeads = dailyMetrics.filter(d => d.dateISO >= startISO && d.dateISO <= endISO);
+
+  // Я.Директ + SEO totals: ТОЛЬКО полные недели. Никаких пропорций.
+  let impressions = 0, clicks = 0, spend = 0, seo = 0;
+  const accounts = {};
+  for (const w of weeks) {
+    if (!fullWeekIds.includes(w.id)) continue;
+    impressions += w.impressions || 0;
+    clicks     += w.clicks      || 0;
+    spend      += w.spend       || 0;
+    seo        += w.seo         || 0;
+    if (w.accounts) {
+      Object.entries(w.accounts).forEach(([name, a]) => {
+        if (!accounts[name]) accounts[name] = { imp:0, clicks:0, spend:0, leads:0, target:0 };
+        accounts[name].imp    += a.imp    || 0;
+        accounts[name].clicks += a.clicks || 0;
+        accounts[name].spend  += a.spend  || 0;
+        accounts[name].leads  += a.leads  || 0;
+        accounts[name].target += a.target || 0;
+      });
+    }
+  }
+
+  // CRM по-дневные лиды/целевые — реальные факты, не пропорции
+  let leads = 0, target = 0;
+  let directLeadsCrm = 0, seoLeadsCrm = 0, otherLeadsCrm = 0;
+  for (const d of dailyForLeads) {
+    leads  += d.leads  || 0;
+    target += d.target || 0;
+    const crm = dailyCRM[d.dateFull];
+    if (!crm) continue;
+    directLeadsCrm += crm.direct || 0;
+    seoLeadsCrm    += crm.seo    || 0;
+    otherLeadsCrm  += (crm.calls||0) + (crm.site||0) + (crm.tg||0) + (crm.realtor||0) + (crm.other||0);
+    // CRM-целевые идут в общий `target` (канал-в-целевой в выгрузке не атрибутирован)
+  }
+
   return {
     id: 'range',
     isRange: true,
     period: { start: startISO, end: endISO },
     label: `${fmtRuLong(parseISO(startISO))} — ${fmtRuLong(parseISO(endISO))}`,
     short: `${fmtRuShort(parseISO(startISO))}–${fmtRuShort(parseISO(endISO))}`,
-    daily: days,
-    totals,
+    daily: dailyForSpend,  // только дни из полных недель — никаких пропорций для partial дней
+    dailyForLeads,
+    fullWeekIds,
+    partialDays,
     accounts,
+    totals: {
+      impressions, clicks, spend, leads, target, seo,
+      ctr:        impressions > 0 ? (clicks / impressions * 100) : 0,
+      cpa:        leads > 0 ? spend / leads : null,
+      cpl:        target > 0 ? spend / target : null,
+      convLead:   clicks > 0 ? (leads / clicks * 100) : 0,
+      convTarget: leads > 0 ? (target / leads * 100) : 0,
+      directLeads: directLeadsCrm, directTarget: 0,
+      seoLeads:    seoLeadsCrm,    seoTarget: 0,
+      otherLeads:  otherLeadsCrm,  otherTarget: 0,
+      byChannel: [
+        { channel: 'direct', leads: directLeadsCrm, target: 0 },
+        { channel: 'seo',    leads: seoLeadsCrm,    target: 0 },
+        { channel: 'other',  leads: otherLeadsCrm,  target: 0 },
+      ],
+    },
   };
 }
 
 function rebuildReport(){
   if (!currentRange) return;
   const agg = aggregateByRange(currentRange.start, currentRange.end);
-  const dayCount = daysBetween(parseISO(currentRange.start), parseISO(currentRange.end));
-  document.getElementById('detailTitle').innerHTML =
-    `${fmtRuLong(parseISO(currentRange.start))} — ${fmtRuLong(parseISO(currentRange.end))} ` +
-    `<span class="update-badge" style="margin-left:8px">${dayCount} ${dayDecl(dayCount)}</span>`;
   const startD = parseISO(currentRange.start);
+  const endD   = parseISO(currentRange.end);
+  const dayCount = daysBetween(startD, endD);
+  const fullCnt  = (agg.fullWeekIds   || []).length;
+  const partCnt  = (agg.partialDays   || []).length;
+  let badge = `${dayCount} ${dayDecl(dayCount)} · ${fullCnt} полн. нед.`;
+  if (partCnt > 0) badge += ` · ${partCnt} дн. без API`;
+  document.getElementById('detailTitle').innerHTML =
+    `${fmtRuLong(startD)} — ${fmtRuLong(endD)} ` +
+    `<span class="update-badge" style="margin-left:8px">${badge}</span>`;
   document.getElementById('heroSubtitle').textContent =
-    `Яндекс Директ · SEO · Лиды — отчёт за ${dayCount} ${dayDecl(dayCount)}`;
+    `Яндекс Директ · SEO · CRM — отчёт за ${dayCount} ${dayDecl(dayCount)} · ${fullCnt} полн. нед.`;
   renderKPI([agg]);
   initCharts([agg]);
   renderDetailTable([agg]);
@@ -1038,65 +1079,86 @@ function rebuildReport(){
 function updateSEOForRange(startISO, endISO){
   const startD = parseISO(startISO);
   const endD   = parseISO(endISO);
-  let visits = 0, users = 0, durSum = 0, depthSum = 0, bounceSum = 0, dayCount = 0;
+  let totalVisits = 0, totalUsers = 0;
+  let bounceNumerator = 0, depthNumerator = 0, durationNumerator = 0;
   const topPagesMap = new Map();
   const searchQueriesMap = new Map();
+  const seoWeekIds = [];
+
   weeks.forEach(w => {
     const cfg = weeklyDailyData[w.id];
     if (!cfg) return;
     const [d, mo] = cfg.startDate.split('.').map(Number);
     const wStart = new Date(2026, mo-1, d);
     const wEnd   = addDays(wStart, cfg.pattern.length - 1);
-    if (wEnd < startD || wStart > endD) return;
+    // ТОЛЬКО полные недели — никаких долей и умножений на weight
+    if (wStart < startD || wEnd > endD) return;
     const seo = seoWeeklyData[w.id];
     if (!seo) return;
-    const overlap = daysBetween(Math.max(wStart, startD), Math.min(wEnd, endD));
-    const weight = overlap / cfg.pattern.length;
-    visits    += seo.stats.visits * weight;
-    users     += seo.stats.users * weight;
-    durSum    += seo.stats.avgDuration * weight;
-    depthSum  += seo.stats.pageDepth * weight;
-    bounceSum += seo.stats.bounceRate * weight;
-    dayCount  += overlap;
-    // Aggregate top pages (sum visits across weeks for same URL)
+
+    seoWeekIds.push(w.id);
+    const v = seo.stats.visits || 0;
+    totalVisits += v;
+    totalUsers  += seo.stats.users || 0;
+    bounceNumerator   += (seo.stats.bounceRate   || 0) * v;
+    depthNumerator    += (seo.stats.pageDepth    || 0) * v;
+    durationNumerator += (seo.stats.avgDuration || 0) * v;
+
+    // Top pages — суммируем visits по URL (без пропорций)
     if (seo.topPages) {
       seo.topPages.forEach(p => {
-        const cur = topPagesMap.get(p.url) || { url: p.url, _visits: 0, _bounceNum: 0, _bounceDen: 0 };
-        cur._visits    += p.visits * weight;
-        cur._bounceNum += (p.bounceRate || 0) * weight;
-        cur._bounceDen += weight;
+        const cur = topPagesMap.get(p.url) || { url: p.url, visits: 0, _bNum: 0, _bDen: 0 };
+        cur.visits += p.visits || 0;
+        cur._bNum += (p.bounceRate || 0) * (p.visits || 0);
+        cur._bDen += p.visits || 0;
         topPagesMap.set(p.url, cur);
       });
     }
-    // Aggregate search queries
+    // Search queries — тоже сумма visits
     if (seo.searchQueries) {
       seo.searchQueries.forEach(q => {
-        const cur = searchQueriesMap.get(q.query) || { query: q.query, _visits: 0 };
-        cur._visits += q.visits * weight;
+        const cur = searchQueriesMap.get(q.query) || { query: q.query, visits: 0 };
+        cur.visits += q.visits || 0;
         searchQueriesMap.set(q.query, cur);
       });
     }
   });
+
   const topPages = [...topPagesMap.values()]
     .map(p => ({
       url: p.url,
-      visits: Math.round(p._visits),
-      bounceRate: p._bounceDen > 0 ? p._bounceNum / p._bounceDen : 0,
+      visits: p.visits,
+      bounceRate: p._bDen > 0 ? p._bNum / p._bDen : 0,
     }))
     .sort((a,b) => b.visits - a.visits)
     .slice(0, 10);
   const searchQueries = [...searchQueriesMap.values()]
-    .map(q => ({ query: q.query, visits: Math.round(q._visits) }))
     .sort((a,b) => b.visits - a.visits)
     .slice(0, 10);
+
   renderTopLandingPages({ topPages });
   renderSearchQueries({ searchQueries });
+
   if (chartInstances.seo) {
-    const avgDur = dayCount > 0 ? Math.round(durSum / dayCount) : 0;
-    const avgDepth = dayCount > 0 ? depthSum / dayCount : 0;
-    chartInstances.seo.data.datasets[0].data = [Math.round(visits), Math.round(users), Math.round(avgDepth*50), avgDur];
+    const avgBounce   = totalVisits > 0 ? bounceNumerator   / totalVisits : 0;
+    const avgDepth    = totalVisits > 0 ? depthNumerator    / totalVisits : 0;
+    const avgDuration = totalVisits > 0 ? durationNumerator / totalVisits : 0;
+    chartInstances.seo.data.datasets[0].data = [
+      totalVisits,
+      totalUsers,
+      Math.round(avgDepth * 50),
+      Math.round(avgDuration)
+    ];
+    chartInstances.seo.options.plugins.tooltip.callbacks.label = (ctx) => {
+      const labels = ['Визиты: ', 'Пользователи: ', 'Глубина: ', 'Время (с): '];
+      let val = ctx.raw;
+      if (ctx.dataIndex === 2) val = (ctx.raw / 50).toFixed(2);
+      return labels[ctx.dataIndex] + val;
+    };
     chartInstances.seo.update();
   }
+
+  return { fullWeekCount: seoWeekIds.length, totalVisits, seoWeekIds };
 }
 
 // ============================================================
