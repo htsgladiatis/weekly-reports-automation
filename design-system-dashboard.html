@@ -162,56 +162,6 @@ td:first-child{color:var(--txt);font-weight:600}
 .update-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:var(--r-full);
   background:rgba(34,197,94,.12);color:var(--green);font-size:10px;font-weight:600;border:1px solid rgba(34,197,94,.2);
   margin-left:8px}
-
-/* ============================================================
-   v2.0 — CALENDAR RANGE PICKER
-   ========================================================= */
-.range-shell{display:flex;align-items:center;gap:14px;flex-wrap:wrap;width:100%}
-.range-presets{display:inline-flex;gap:6px;flex-wrap:wrap}
-.chip{padding:6px 12px;border:1px solid var(--line-2);border-radius:var(--r-full);background:var(--panel);
-  color:var(--txt-2);font-size:11px;font-weight:500;cursor:pointer;transition:all .2s var(--ease);
-  font-family:'Manrope',sans-serif;letter-spacing:.01em}
-.chip:hover{background:var(--accent-light);border-color:var(--primary);color:var(--txt)}
-.chip.active{background:var(--primary);color:var(--on-primary);border-color:var(--primary)}
-.range-pickers{display:inline-flex;gap:8px;align-items:center}
-.date-input{padding:7px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);
-  color:var(--txt);font-size:12px;font-family:'Manrope',sans-serif;cursor:pointer;min-width:135px;
-  transition:border-color .2s var(--ease)}
-.date-input:hover,.date-input:focus{border-color:var(--primary);outline:none}
-.range-sep{color:var(--txt-3);font-size:14px}
-.range-days{font-size:11px;color:var(--on-primary);background:var(--primary);padding:4px 10px;
-  border-radius:var(--r-full);font-weight:600}
-.calendar{display:grid;gap:6px;flex:1;min-width:320px}
-.cal-head{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;
-  background:var(--panel-2);border-radius:var(--r-sm);border:1px solid var(--line)}
-.cal-nav{background:transparent;border:none;color:var(--txt-2);font-size:20px;line-height:1;cursor:pointer;
-  width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;
-  font-family:'Manrope',sans-serif;font-weight:700;transition:all .2s var(--ease)}
-.cal-nav:hover{background:var(--accent-light);color:var(--primary)}
-.cal-title{font-size:13px;font-weight:700;color:var(--txt);letter-spacing:-.01em}
-.cal-weekdays{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;font-size:10px;color:var(--txt-3);
-  text-align:center;padding:0 2px;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:2px}
-.cal-day{background:var(--panel);padding:7px 0;text-align:center;font-size:12px;cursor:pointer;
-  color:var(--txt-2);transition:all .15s var(--ease);font-weight:500;min-height:36px;
-  display:flex;align-items:center;justify-content:center;border:1px solid transparent;border-radius:6px;font-variant-numeric:tabular-nums}
-.cal-day:hover:not(.empty){background:var(--accent-light);color:var(--txt);font-weight:600;border-color:var(--outline-variant)}
-.cal-day.empty{color:var(--txt-3);opacity:.35;cursor:default}
-.cal-day.in-range{background:var(--accent-light);color:var(--txt)}
-.cal-day.range-start{background:var(--primary)!important;color:var(--on-primary)!important;font-weight:700}
-.cal-day.range-end{background:var(--primary)!important;color:var(--on-primary)!important;font-weight:700}
-.cal-day.range-start.range-end{border-radius:6px}
-.cal-day.in-range.range-start,.cal-day.in-range.range-end{border-radius:6px}
-.cal-day.today{box-shadow:inset 0 0 0 1.5px var(--accent-hover)}
-.cal-day.has-leads::after{content:'';display:block;width:4px;height:4px;border-radius:50%;background:var(--green);margin:1px auto 0}
-.cal-day.has-target::after{content:'';display:block;width:5px;height:5px;border-radius:50%;background:var(--orange,#f59e0b);margin:1px auto 0}
-.calendar.hidden{display:none!important}
-.btn-apply{margin-top:10px;width:100%;padding:10px 14px;background:var(--grad-primary);color:var(--on-primary);border:none;border-radius:var(--r-sm);font-family:'Manrope',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:all .2s var(--ease);letter-spacing:.01em;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:var(--glow-primary)}
-.btn-apply:hover{filter:brightness(1.08);transform:translateY(-1px)}
-.btn-apply:active{transform:translateY(0)}
-.cal-toggle-link{display:none;align-items:center;gap:8px;padding:10px 16px;border:1px dashed var(--line-2);border-radius:var(--r-sm);background:var(--panel-2);color:var(--primary);font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;font-family:'Manrope',sans-serif;transition:all .2s var(--ease);align-self:flex-start}
-.cal-toggle-link.show{display:inline-flex}
-.cal-toggle-link:hover{background:var(--accent-light);border-style:solid;border-color:var(--primary)}
 </style>
 </head>
 <body>
@@ -236,40 +186,16 @@ td:first-child{color:var(--txt);font-weight:600}
   <p id="heroSubtitle">Яндекс Директ · SEO · Лиды — агрегированные показатели по всем каналам</p>
 </section>
 
-<!-- PERIOD BAR v2.0 — calendar + date-range -->
+<!-- PERIOD BAR -->
 <nav class="period-bar" id="periodBar">
   <div class="period-in">
     <span class="period-label">Период:</span>
-    <div class="range-shell">
-      <div class="range-presets" id="rangePresets">
-        <button class="chip" data-preset="today">Сегодня</button>
-        <button class="chip" data-preset="yesterday">Вчера</button>
-        <button class="chip" data-preset="last7">7 дней</button>
-        <button class="chip" data-preset="thisWeek">Эта неделя</button>
-        <button class="chip" data-preset="lastWeek">Прошлая</button>
-        <button class="chip" data-preset="thisMonth">Этот месяц</button>
-        <button class="chip" data-preset="lastMonth">Прошлый</button>
-        <button class="chip" data-preset="all">Всё время</button>
-      </div>
-      <div class="range-pickers">
-        <input type="date" id="startDate" class="date-input" title="Дата начала">
-        <span class="range-sep">—</span>
-        <input type="date" id="endDate" class="date-input" title="Дата конца">
-        <span id="rangeDays" class="range-days">—</span>
-      </div>
-      <div class="calendar" id="calendarWidget">
-        <div class="cal-head">
-          <button class="cal-nav" id="calPrev" aria-label="Месяц назад">‹</button>
-          <div class="cal-title" id="calTitle">—</div>
-          <button class="cal-nav" id="calNext" aria-label="Месяц вперёд">›</button>
-        </div>
-        <div class="cal-weekdays">
-          <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span>
-        </div>
-        <div class="cal-grid" id="calGrid"></div>
-        <button class="btn-apply" id="applyRange">✓ Применить</button>
-      </div>
-      <a class="cal-toggle-link" id="openCalendar">📅 Изменить даты</a>
+    <div class="view-mode-toggle" id="viewModeToggle">
+      <button class="view-mode-btn active" onclick="switchViewMode('weeks')">По неделям</button>
+      <button class="view-mode-btn" onclick="switchViewMode('months')">По месяцам</button>
+    </div>
+    <div class="week-dropdown" id="weekDropdown">
+      <select class="week-select" id="weekSelect" onchange="showPeriod(this.value)"></select>
     </div>
   </div>
 </nav>
@@ -306,6 +232,13 @@ td:first-child{color:var(--txt);font-weight:600}
   <div class="table-card">
     <div class="table-h"><span class="material-symbols-outlined mat" style="font-size:18px">grid_view</span> <span id="detailTitle">Все периоды</span></div>
     <div class="table-wrap" id="detailTableWrap"></div>
+  </div>
+
+  <!-- Summary Table -->
+  <div class="sec-title"><span class="material-symbols-outlined mat">summary</span> Сводка по неделям</div>
+  <div class="table-card">
+    <div class="table-h"><span class="material-symbols-outlined mat" style="font-size:18px">calendar_view_week</span> Все недели</div>
+    <div class="table-wrap" id="summaryTableWrap"></div>
   </div>
 
   <!-- SEO Section -->
@@ -486,42 +419,6 @@ const months = [
   { id: 'm1', label: 'Май 2026', short: 'Май', weeks: ['w1','w2','w3','w4'], dateRange: '04.05–31.05' },
   { id: 'm2', label: 'Июнь 2026', short: 'Июнь', weeks: ['w5','w6','w7','w8','w9'], dateRange: '01.06–30.06' }
 ];
-
-// ============================================================
-// v2.0 — DAILY DATA LAYER (per-day CRM leads/target, по дням)
-// ============================================================
-const dailyCRM = {
-  '01.06.2026': { leads: 14, target: 2, direct: 7, seo: 0, calls: 6, site: 1, tg: 0, realtor: 0, other: 0 },
-  '02.06.2026': { leads:  9, target: 1, direct: 2, seo: 0, calls: 7, site: 0, tg: 0, realtor: 0, other: 0 },
-  '03.06.2026': { leads:  9, target: 1, direct: 1, seo: 0, calls: 8, site: 0, tg: 0, realtor: 0, other: 0 },
-  '04.06.2026': { leads:  9, target: 2, direct: 4, seo: 0, calls: 5, site: 0, tg: 0, realtor: 0, other: 0 },
-  '05.06.2026': { leads:  7, target: 1, direct: 1, seo: 0, calls: 6, site: 0, tg: 0, realtor: 0, other: 0 },
-  '06.06.2026': { leads:  5, target: 1, direct: 2, seo: 0, calls: 3, site: 0, tg: 0, realtor: 0, other: 0 },
-  '07.06.2026': { leads:  3, target: 0, direct: 3, seo: 0, calls: 0, site: 0, tg: 0, realtor: 0, other: 0 },
-  '08.06.2026': { leads:  3, target: 1, direct: 2, seo: 0, calls: 1, site: 0, tg: 0, realtor: 0, other: 1 },
-  '09.06.2026': { leads: 11, target: 0, direct: 4, seo: 0, calls: 3, site: 3, tg: 0, realtor: 0, other: 1 },
-  '10.06.2026': { leads:  9, target: 0, direct: 1, seo: 0, calls: 7, site: 0, tg: 1, realtor: 0, other: 0 },
-  '11.06.2026': { leads:  6, target: 0, direct: 0, seo: 0, calls: 4, site: 1, tg: 0, realtor: 0, other: 1 },
-  '12.06.2026': { leads:  4, target: 0, direct: 2, seo: 1, calls: 1, site: 0, tg: 0, realtor: 0, other: 0 },
-  '13.06.2026': { leads:  2, target: 1, direct: 2, seo: 0, calls: 0, site: 0, tg: 0, realtor: 0, other: 0 },
-  '14.06.2026': { leads:  3, target: 1, direct: 1, seo: 1, calls: 0, site: 0, tg: 0, realtor: 0, other: 1 },
-  '15.06.2026': { leads:  4, target: 0, direct: 0, seo: 0, calls: 4, site: 0, tg: 0, realtor: 0, other: 0 },
-  '16.06.2026': { leads:  8, target: 3, direct: 1, seo: 0, calls: 4, site: 1, tg: 0, realtor: 2, other: 0 },
-  '17.06.2026': { leads: 10, target: 1, direct: 3, seo: 0, calls: 6, site: 1, tg: 0, realtor: 0, other: 0 },
-  '18.06.2026': { leads: 10, target: 2, direct: 4, seo: 1, calls: 5, site: 0, tg: 0, realtor: 0, other: 0 },
-  '19.06.2026': { leads:  6, target: 2, direct: 3, seo: 0, calls: 3, site: 0, tg: 0, realtor: 0, other: 0 },
-  '20.06.2026': { leads:  5, target: 2, direct: 3, seo: 0, calls: 2, site: 0, tg: 0, realtor: 0, other: 0 },
-  '21.06.2026': { leads:  3, target: 2, direct: 3, seo: 0, calls: 0, site: 0, tg: 0, realtor: 0, other: 0 },
-  '22.06.2026': { leads:  3, target: 0, direct: 1, seo: 0, calls: 2, site: 0, tg: 0, realtor: 0, other: 0 },
-  '23.06.2026': { leads:  5, target: 0, direct: 1, seo: 0, calls: 4, site: 0, tg: 0, realtor: 0, other: 0 },
-  '24.06.2026': { leads:  4, target: 2, direct: 1, seo: 0, calls: 2, site: 1, tg: 0, realtor: 0, other: 0 },
-  '25.06.2026': { leads:  7, target: 2, direct: 2, seo: 1, calls: 4, site: 0, tg: 0, realtor: 0, other: 0 },
-  '26.06.2026': { leads:  9, target: 1, direct: 2, seo: 0, calls: 6, site: 1, tg: 0, realtor: 0, other: 0 },
-  '27.06.2026': { leads:  3, target: 1, direct: 2, seo: 0, calls: 1, site: 0, tg: 0, realtor: 0, other: 0 },
-  '28.06.2026': { leads:  3, target: 1, direct: 2, seo: 0, calls: 1, site: 0, tg: 0, realtor: 0, other: 0 },
-  '29.06.2026': { leads:  6, target: 1, direct: 0, seo: 2, calls: 3, site: 1, tg: 0, realtor: 0, other: 0 },
-  '30.06.2026': { leads:  3, target: 0, direct: 0, seo: 1, calls: 2, site: 0, tg: 0, realtor: 0, other: 0 }
-};
 
 // SEO weekly data (from Yandex Metrika)
 const seoWeeklyData = {
@@ -785,393 +682,21 @@ function getDailyData(weekId) {
 }
 
 function getDailyCtr(days) {
-  return days.map(d => d.ctr != null ? d.ctr : (d.impressions > 0 ? (d.clicks/d.impressions*100) : 0));
+  return days.map(d => d.ctr);
 }
 
 function getDailyConv(days) {
-  return days.map(d => d.convLead != null ? d.convLead : (d.clicks > 0 ? (d.leads/d.clicks*100) : 0));
+  return days.map(d => d.convLead);
 }
 
 function getDailyCpa(days) {
-  return days.map(d => d.cpa != null ? d.cpa : (d.leads > 0 ? (d.spend/d.leads) : null));
+  return days.map(d => d.cpa);
 }
 
 function getDailyCpl(days) {
-  return days.map(d => d.cpl != null ? d.cpl : (d.target > 0 ? (d.spend/d.target) : null));
+  return days.map(d => d.cpl);
 }
 
-// ============================================================
-// v2.0 — CALENDAR + DATE-RANGE LAYER
-// ============================================================
-const MONTHS_RU = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
-const MONTHS_RU_GEN = ['января','февраля','марта','апреля','мая','июня','июля','августа','сентября','октября','ноября','декабря'];
-function pad2(n){ return String(n).padStart(2,'0'); }
-function fmtISO(d){ return `${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`; }
-function fmtRuShort(d){ return `${pad2(d.getDate())}.${pad2(d.getMonth()+1)}`; }
-function fmtRuLong(d){ return `${d.getDate()} ${MONTHS_RU_GEN[d.getMonth()]} ${d.getFullYear()}`; }
-function fmtRuFull(d){ return `${pad2(d.getDate())}.${pad2(d.getMonth()+1)}.${d.getFullYear()}`; }
-function parseISO(s){ const [y,m,d]=s.split('-').map(Number); return new Date(y, m-1, d); }
-function daysBetween(a,b){ return Math.round((b-a)/(1000*60*60*24))+1; }
-function addDays(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
-function dayDecl(n){ n = n%100; if (n>=11 && n<=14) return 'дней'; n=n%10; if (n===1) return 'день'; if (n>=2 && n<=4) return 'дня'; return 'дней'; }
-
-let dailyMetrics = [];
-function buildDailyMetrics(){
-  const map = new Map();
-  weeks.forEach(w => {
-    const cfg = weeklyDailyData[w.id];
-    if (!cfg) return;
-    const [d, mo] = cfg.startDate.split('.').map(Number);
-    const year = 2026;
-    for (let i = 0; i < cfg.pattern.length; i++) {
-      const dt = new Date(year, mo - 1, d + i);
-      const key = fmtISO(dt);
-      if (map.has(key)) continue;
-      const crm = dailyCRM[fmtRuFull(dt)];
-      map.set(key, {
-        dateISO: key,
-        date: fmtRuShort(dt),
-        dateFull: fmtRuFull(dt),
-        impressions: Math.round(w.impressions * cfg.pattern[i]),
-        clicks: Math.round(w.clicks * cfg.pattern[i]),
-        spend: Math.round(w.spend * cfg.pattern[i]),
-        seo: Math.round((w.seo||0) * cfg.pattern[i]),
-        leads:    crm ? crm.leads  : 0,
-        target:   crm ? crm.target : 0,
-      });
-    }
-  });
-  dailyMetrics = [...map.values()].sort((a,b) => a.dateISO.localeCompare(b.dateISO));
-}
-
-// State
-let currentRange = null;
-let calMonth = { y: 2026, m: 6 };  // July 2026
-
-function renderCalendar(){
-  const y = calMonth.y, m = calMonth.m;
-  document.getElementById('calTitle').textContent = `${MONTHS_RU[m]} ${y}`;
-  const first = new Date(y, m, 1);
-  const offset = (first.getDay() + 6) % 7;
-  const lastDay = new Date(y, m+1, 0).getDate();
-  const html = [];
-  for (let i = 0; i < offset; i++) html.push('<div class="cal-day empty"></div>');
-  const todayISO = fmtISO(new Date());
-  for (let d = 1; d <= lastDay; d++) {
-    const iso = `${y}-${pad2(m+1)}-${pad2(d)}`;
-    let cls = 'cal-day';
-    if (currentRange) {
-      if (iso === currentRange.start && iso === currentRange.end) cls += ' range-start range-end';
-      else if (iso === currentRange.start) cls += ' range-start';
-      else if (iso === currentRange.end) cls += ' range-end';
-      else if (iso > currentRange.start && iso < currentRange.end) cls += ' in-range';
-    }
-    if (iso === todayISO) cls += ' today';
-    const dm = dailyMetrics.find(x => x.dateISO === iso);
-    if (dm) {
-      if (dm.target > 0) cls += ' has-target';
-      else if (dm.leads > 0) cls += ' has-leads';
-    }
-    html.push(`<div class="${cls}" data-date="${iso}">${d}</div>`);
-  }
-  document.getElementById('calGrid').innerHTML = html.join('');
-}
-
-function onCalClick(iso){
-  if (!currentRange || (currentRange.start && currentRange.end)) {
-    currentRange = { start: iso, end: iso };
-  } else {
-    if (iso < currentRange.start) currentRange = { start: iso, end: currentRange.start };
-    else currentRange = { start: currentRange.start, end: iso };
-  }
-  syncRangeInputs();
-  renderCalendar();
-  // Don't auto-rebuild — user has to click "Применить" to commit the choice
-}
-
-function applyRange(){
-  rebuildReport();
-  document.getElementById('calendarWidget').classList.add('hidden');
-  document.getElementById('openCalendar').classList.add('show');
-}
-
-function showCalendarWidget(){
-  document.getElementById('calendarWidget').classList.remove('hidden');
-  document.getElementById('openCalendar').classList.remove('show');
-  renderCalendar();
-}
-
-function syncRangeInputs(){
-  if (!currentRange) return;
-  document.getElementById('startDate').value = currentRange.start;
-  document.getElementById('endDate').value = currentRange.end;
-  const days = daysBetween(parseISO(currentRange.start), parseISO(currentRange.end));
-  document.getElementById('rangeDays').textContent = `${days} ${dayDecl(days)}`;
-}
-
-function applyPreset(name){
-  const today = new Date();
-  let start, end;
-  switch(name){
-    case 'today':     start = end = fmtISO(today); break;
-    case 'yesterday': { const y = addDays(today,-1); start = end = fmtISO(y); break; }
-    case 'last7':     start = fmtISO(addDays(today,-6)); end = fmtISO(today); break;
-    case 'thisWeek': {
-      const dow = (today.getDay()+6)%7;
-      start = fmtISO(addDays(today,-dow));
-      end   = fmtISO(today);
-      break;
-    }
-    case 'lastWeek': {
-      const dow = (today.getDay()+6)%7;
-      const lastMon = addDays(today,-dow-7);
-      start = fmtISO(lastMon);
-      end   = fmtISO(addDays(lastMon, 6));
-      break;
-    }
-    case 'thisMonth': {
-      start = fmtISO(new Date(today.getFullYear(), today.getMonth(), 1));
-      end   = fmtISO(today);
-      break;
-    }
-    case 'lastMonth': {
-      const first = new Date(today.getFullYear(), today.getMonth()-1, 1);
-      const last  = new Date(today.getFullYear(), today.getMonth(), 0);
-      start = fmtISO(first); end = fmtISO(last);
-      break;
-    }
-    case 'all': start = '2026-05-04'; end = '2026-07-31'; break;
-  }
-  currentRange = { start, end };
-  calMonth = { y: parseInt(start.slice(0,4)), m: parseInt(start.slice(5,7))-1 };
-  document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c.dataset.preset === name));
-  syncRangeInputs();
-  renderCalendar();
-  applyRange();  // preset clicks Also commit and hide calendar
-}
-
-function aggregateByRange(startISO, endISO){
-  const startD = parseISO(startISO);
-  const endD   = parseISO(endISO);
-
-  // FULL в диапазон недели: [wStart, wEnd] ⊆ [startD, endD]. Без долей.
-  const fullWeekIds = [];
-  const partialDays = [];
-  weeks.forEach(w => {
-    const cfg = weeklyDailyData[w.id];
-    if (!cfg) return;
-    const [dd, mm] = cfg.startDate.split('.').map(Number);
-    const wStart = new Date(2026, mm-1, dd);
-    const wEnd   = addDays(wStart, cfg.pattern.length - 1);
-    if (wStart >= startD && wEnd <= endD) {
-      fullWeekIds.push(w.id);
-    } else if (wEnd >= startD && wStart <= endD) {
-      // частично — только дни из диапазона
-      for (let i = 0; i < cfg.pattern.length; i++) {
-        const day = addDays(wStart, i);
-        if (day >= startD && day <= endD) partialDays.push(day);
-      }
-    }
-  });
-
-  // Соберём множество ISO-дат, входящих в ПОЛНЫЕ недели диапазона — только они попадут в daily[]
-  // Дни из partial-week НЕ идут в daily, чтобы графики не показывали пропорциональные данные.
-  const fullWeekDateSet = new Set();
-  for (const wid of fullWeekIds) {
-    const cfg = weeklyDailyData[wid];
-    if (!cfg) continue;
-    const [dd, mm] = cfg.startDate.split('.').map(Number);
-    const wStart = new Date(2026, mm-1, dd);
-    for (let i = 0; i < cfg.pattern.length; i++) {
-      fullWeekDateSet.add(fmtISO(addDays(wStart, i)));
-    }
-  }
-  // Per-day список: для расходов/показов — только полные недели. Для leads/target — все дни с CRM.
-  const dailyForSpend = dailyMetrics.filter(d => d.dateISO >= startISO && d.dateISO <= endISO && fullWeekDateSet.has(d.dateISO));
-  const dailyForLeads = dailyMetrics.filter(d => d.dateISO >= startISO && d.dateISO <= endISO);
-
-  // Я.Директ + SEO totals: ТОЛЬКО полные недели. Никаких пропорций.
-  let impressions = 0, clicks = 0, spend = 0, seo = 0;
-  // Per-account API sums (per-РК из API Я.Директа — факт)
-  let directApiLeads = 0, directApiTarget = 0;
-  const accounts = {};
-  for (const w of weeks) {
-    if (!fullWeekIds.includes(w.id)) continue;
-    impressions += w.impressions || 0;
-    clicks     += w.clicks      || 0;
-    spend      += w.spend       || 0;
-    seo        += w.seo         || 0;
-    if (w.accounts) {
-      Object.entries(w.accounts).forEach(([name, a]) => {
-        if (!accounts[name]) accounts[name] = { imp:0, clicks:0, spend:0, leads:0, target:0 };
-        accounts[name].imp    += a.imp    || 0;
-        accounts[name].clicks += a.clicks || 0;
-        accounts[name].spend  += a.spend  || 0;
-        accounts[name].leads  += a.leads  || 0;
-        accounts[name].target += a.target || 0;
-        directApiLeads  += a.leads  || 0;
-        directApiTarget += a.target || 0;
-      });
-    }
-  }
-
-  // CRM по-дневные лиды/целевые — реальные факты, не пропорции
-  let leads = 0, target = 0;
-  let directLeadsCrm = 0, seoLeadsCrm = 0, otherLeadsCrm = 0;
-  for (const d of dailyForLeads) {
-    leads  += d.leads  || 0;
-    target += d.target || 0;
-    const crm = dailyCRM[d.dateFull];
-    if (!crm) continue;
-    directLeadsCrm += crm.direct || 0;
-    seoLeadsCrm    += crm.seo    || 0;
-    otherLeadsCrm  += (crm.calls||0) + (crm.site||0) + (crm.tg||0) + (crm.realtor||0) + (crm.other||0);
-    // CRM-целевые идут в общий `target` (канал-в-целевой в выгрузке не атрибутирован)
-  }
-
-  // Атрибуция ЦЛ по каналам:
-  // - Яндекс Директ ЦЛ = API per-РК (факт из API Яндекс.Директа)
-  // - SEO ЦЛ          = 0 (CRM не разбивает target по каналам — честно ничего не знаем)
-  // - Other ЦЛ        = CRM total target − Я.Директ API target (residual)
-  //   Например, июнь: 31 CRM-ЦЛ − 18 API-target = 13 → пришло из звонков/сайта/тг/риелтора
-  const otherTarget = Math.max(0, target - directApiTarget);
-
-  return {
-    id: 'range',
-    isRange: true,
-    period: { start: startISO, end: endISO },
-    label: `${fmtRuLong(parseISO(startISO))} — ${fmtRuLong(parseISO(endISO))}`,
-    short: `${fmtRuShort(parseISO(startISO))}–${fmtRuShort(parseISO(endISO))}`,
-    daily: dailyForSpend,  // только дни из полных недель — никаких пропорций для partial дней
-    dailyForLeads,
-    fullWeekIds,
-    partialDays,
-    accounts,
-    totals: {
-      impressions, clicks, spend, leads, target, seo,
-      ctr:        impressions > 0 ? (clicks / impressions * 100) : 0,
-      cpa:        leads > 0 ? spend / leads : null,
-      cpl:        target > 0 ? spend / target : null,
-      convLead:   clicks > 0 ? (leads / clicks * 100) : 0,
-      convTarget: leads > 0 ? (target / leads * 100) : 0,
-      // Яндекс Директ = API per-РК (факт), SEO = 0 (нет атрибуции), Other = CRM residual
-      directLeads: directApiLeads, directTarget: directApiTarget,
-      seoLeads:    seoLeadsCrm,    seoTarget: 0,
-      otherLeads:  otherLeadsCrm,  otherTarget: otherTarget,
-      byChannel: [
-        { channel: 'direct', leads: directApiLeads, target: directApiTarget },
-        { channel: 'seo',    leads: seoLeadsCrm,    target: 0 },
-        { channel: 'other',  leads: otherLeadsCrm,  target: otherTarget },
-      ],
-    },
-  };
-}
-
-function rebuildReport(){
-  if (!currentRange) return;
-  const agg = aggregateByRange(currentRange.start, currentRange.end);
-  const startD = parseISO(currentRange.start);
-  const endD   = parseISO(currentRange.end);
-  const dayCount = daysBetween(startD, endD);
-  const fullCnt  = (agg.fullWeekIds   || []).length;
-  const partCnt  = (agg.partialDays   || []).length;
-  let badge = `${dayCount} ${dayDecl(dayCount)} · ${fullCnt} полн. нед.`;
-  if (partCnt > 0) badge += ` · ${partCnt} дн. без API`;
-  document.getElementById('detailTitle').innerHTML =
-    `${fmtRuLong(startD)} — ${fmtRuLong(endD)} ` +
-    `<span class="update-badge" style="margin-left:8px">${badge}</span>`;
-  document.getElementById('heroSubtitle').textContent =
-    `Яндекс Директ · SEO · CRM — отчёт за ${dayCount} ${dayDecl(dayCount)} · ${fullCnt} полн. нед.`;
-  renderKPI([agg]);
-  initCharts([agg]);
-  renderDetailTable([agg]);
-  updateSEOForRange(currentRange.start, currentRange.end);
-}
-
-function updateSEOForRange(startISO, endISO){
-  const startD = parseISO(startISO);
-  const endD   = parseISO(endISO);
-  let totalVisits = 0, totalUsers = 0;
-  let bounceNumerator = 0, depthNumerator = 0, durationNumerator = 0;
-  const topPagesMap = new Map();
-  const searchQueriesMap = new Map();
-  const seoWeekIds = [];
-
-  weeks.forEach(w => {
-    const cfg = weeklyDailyData[w.id];
-    if (!cfg) return;
-    const [d, mo] = cfg.startDate.split('.').map(Number);
-    const wStart = new Date(2026, mo-1, d);
-    const wEnd   = addDays(wStart, cfg.pattern.length - 1);
-    // ТОЛЬКО полные недели — никаких долей и умножений на weight
-    if (wStart < startD || wEnd > endD) return;
-    const seo = seoWeeklyData[w.id];
-    if (!seo) return;
-
-    seoWeekIds.push(w.id);
-    const v = seo.stats.visits || 0;
-    totalVisits += v;
-    totalUsers  += seo.stats.users || 0;
-    bounceNumerator   += (seo.stats.bounceRate   || 0) * v;
-    depthNumerator    += (seo.stats.pageDepth    || 0) * v;
-    durationNumerator += (seo.stats.avgDuration || 0) * v;
-
-    // Top pages — суммируем visits по URL (без пропорций)
-    if (seo.topPages) {
-      seo.topPages.forEach(p => {
-        const cur = topPagesMap.get(p.url) || { url: p.url, visits: 0, _bNum: 0, _bDen: 0 };
-        cur.visits += p.visits || 0;
-        cur._bNum += (p.bounceRate || 0) * (p.visits || 0);
-        cur._bDen += p.visits || 0;
-        topPagesMap.set(p.url, cur);
-      });
-    }
-    // Search queries — тоже сумма visits
-    if (seo.searchQueries) {
-      seo.searchQueries.forEach(q => {
-        const cur = searchQueriesMap.get(q.query) || { query: q.query, visits: 0 };
-        cur.visits += q.visits || 0;
-        searchQueriesMap.set(q.query, cur);
-      });
-    }
-  });
-
-  const topPages = [...topPagesMap.values()]
-    .map(p => ({
-      url: p.url,
-      visits: p.visits,
-      bounceRate: p._bDen > 0 ? p._bNum / p._bDen : 0,
-    }))
-    .sort((a,b) => b.visits - a.visits)
-    .slice(0, 10);
-  const searchQueries = [...searchQueriesMap.values()]
-    .sort((a,b) => b.visits - a.visits)
-    .slice(0, 10);
-
-  renderTopLandingPages({ topPages });
-  renderSearchQueries({ searchQueries });
-
-  if (chartInstances.seo) {
-    const avgBounce   = totalVisits > 0 ? bounceNumerator   / totalVisits : 0;
-    const avgDepth    = totalVisits > 0 ? depthNumerator    / totalVisits : 0;
-    const avgDuration = totalVisits > 0 ? durationNumerator / totalVisits : 0;
-    chartInstances.seo.data.datasets[0].data = [
-      totalVisits,
-      totalUsers,
-      Math.round(avgDepth * 50),
-      Math.round(avgDuration)
-    ];
-    chartInstances.seo.options.plugins.tooltip.callbacks.label = (ctx) => {
-      const labels = ['Визиты: ', 'Пользователи: ', 'Глубина: ', 'Время (с): '];
-      let val = ctx.raw;
-      if (ctx.dataIndex === 2) val = (ctx.raw / 50).toFixed(2);
-      return labels[ctx.dataIndex] + val;
-    };
-    chartInstances.seo.update();
-  }
-
-  return { fullWeekCount: seoWeekIds.length, totalVisits, seoWeekIds };
-}
 
 // ============================================================
 // HELPERS
@@ -1266,22 +791,18 @@ function destroyCharts() {
 
 function initCharts(data) {
   destroyCharts();
+  const labels = data.map(w => w.short);
 
-  // Range picker (v2.0) — data is [agg] with .daily[] — drill to per-day breakdown
-  const isRange = data[0] && data[0].isRange && Array.isArray(data[0].daily);
-  const isSingleWeek = !isRange && data.length === 1 && data[0].id && data[0].id.startsWith('w');
+  // Check if this is a single-week view (show daily data)
+  const isSingleWeek = data.length === 1 && data[0].id && data[0].id.startsWith('w');
   let dailyData = null;
   let dailyLabels = null;
-  if (isRange) {
-    dailyData = data[0].daily;
-    if (dailyData && dailyData.length > 0) dailyLabels = dailyData.map(d => d.date);
-  } else if (isSingleWeek) {
+  if (isSingleWeek) {
     dailyData = getDailyData(data[0].id);
     if (dailyData && dailyData.length > 0) {
       dailyLabels = dailyData.map(d => d.date);
     }
   }
-  const labels = data.map(w => w.short);
 
   // Labels for charts: daily labels for single week, weekly labels otherwise
   const chartLabels = dailyLabels || labels;
@@ -1435,36 +956,24 @@ function initCharts(data) {
 function renderKPI(data) {
   const grid = document.getElementById('kpiGrid');
   const isAll = data.length > 1;
-  const isRange = data[0] && data[0].isRange;
-  // Aggregate totals — range items carry metrics in `.totals`, weeks have them at top-level.
   const totals = data.reduce((acc, w) => {
-    if (isRange) {
-      const t = w.totals || {};
-      acc.impressions += (t.impressions ?? 0);
-      acc.clicks     += (t.clicks     ?? 0);
-      acc.spend      += (t.spend      ?? 0);
-      acc.leads      += (t.leads      ?? 0);
-      acc.target     += (t.target     ?? 0);
-      acc.seo        += (t.seo        ?? 0);
-    } else {
-      acc.impressions += (w.impressions || 0);
-      acc.clicks     += (w.clicks     || 0);
-      acc.spend      += (w.spend      || 0);
-      acc.leads      += (w.leads      || 0);
-      acc.target     += (w.target     || 0);
-      acc.seo        += (w.seo        || 0);
-    }
+    acc.impressions += w.impressions;
+    acc.clicks += w.clicks;
+    acc.spend += w.spend;
+    acc.leads += w.leads;
+    acc.target += w.target;
+    acc.seo += w.seo || 0;
     return acc;
   }, { impressions: 0, clicks: 0, spend: 0, leads: 0, target: 0, seo: 0 });
 
   let prevWeek = null;
-  if (!isAll && !isRange) {
+  if (!isAll) {
     const idx = weeks.findIndex(w => w.id === data[0].id);
     if (idx > 0) prevWeek = weeks[idx - 1];
   }
 
-  const curr = isRange ? totals : data[data.length - 1];
-  const avgCtr = totals.impressions > 0 ? totals.clicks / totals.impressions * 100 : 0;
+  const curr = data[data.length - 1];
+  const avgCtr = totals.clicks / totals.impressions * 100;
   const avgCpc = totals.spend / totals.clicks;
   const avgCpa = totals.leads > 0 ? totals.spend / totals.leads : null;
   const avgCpl = totals.target > 0 ? totals.spend / totals.target : null;
@@ -1504,63 +1013,31 @@ function renderKPI(data) {
 // DETAIL TABLE
 // ============================================================
 function renderDetailTable(data) {
-  const isRange = data[0] && data[0].isRange;
   const totals = data.reduce((acc, w) => {
-    if (isRange) {
-      const t = w.totals || {};
-      acc.impressions += (t.impressions ?? 0);
-      acc.clicks     += (t.clicks     ?? 0);
-      acc.spend      += (t.spend      ?? 0);
-      acc.leads      += (t.leads      ?? 0);
-      acc.target     += (t.target     ?? 0);
-      acc.seoVisits  += (t.seo        ?? 0);
-      acc.seoLeads   += (t.seoLeads   ?? 0);
-      acc.seoTarget  += (t.seoTarget  ?? 0);
-      acc.otherLeads += (t.otherLeads ?? 0);
-      acc.otherTarget+= (t.otherTarget?? 0);
-      // Per-account breakdown for range view (Яндекс.Директ РК)
-      if (w.accounts) {
-        Object.entries(w.accounts).forEach(([name, a]) => {
-          if (!acc.accounts[name]) acc.accounts[name] = { imp:0, clicks:0, spend:0, leads:0, target:0 };
-          acc.accounts[name].imp    += (a.imp    || 0);
-          acc.accounts[name].clicks += (a.clicks || 0);
-          acc.accounts[name].spend  += (a.spend  || 0);
-          acc.accounts[name].leads  += (a.leads  || 0);
-          acc.accounts[name].target += (a.target || 0);
-        });
-      }
-    } else {
-      acc.impressions += (w.impressions || 0);
-      acc.clicks     += (w.clicks      || 0);
-      acc.spend      += (w.spend       || 0);
-      acc.leads      += (w.leads       || 0);
-      acc.target     += (w.target      || 0);
-      acc.seoVisits  += (w.seo         || 0);
-      acc.seoLeads   += (w.seoLeads    || 0);
-      acc.seoTarget  += (w.seoTarget   || 0);
-      acc.otherLeads += (w.otherLeads  || 0);
-      acc.otherTarget+= (w.otherTarget || 0);
-      if (w.accounts) {
-        Object.entries(w.accounts).forEach(([name, a]) => {
-          if (!acc.accounts[name]) acc.accounts[name] = { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 };
-          acc.accounts[name].imp    += (a.imp    || 0);
-          acc.accounts[name].clicks += (a.clicks || 0);
-          acc.accounts[name].spend  += (a.spend  || 0);
-          acc.accounts[name].leads  += (a.leads  || 0);
-          acc.accounts[name].target += (a.target || 0);
-        });
-      }
-    }
+    acc.impressions += w.impressions;
+    acc.clicks += w.clicks;
+    acc.spend += w.spend;
+    acc.leads += w.leads;
+    acc.target += w.target;
+    acc.seoVisits += w.seo || 0;
+    acc.seoLeads += w.seoLeads || 0;
+    acc.seoTarget += w.seoTarget || 0;
+    acc.otherLeads += w.otherLeads || 0;
+    acc.otherTarget += w.otherTarget || 0;
+    Object.entries(w.accounts).forEach(([name, a]) => {
+      if (!acc.accounts[name]) acc.accounts[name] = { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 };
+      acc.accounts[name].imp += a.imp;
+      acc.accounts[name].clicks += a.clicks;
+      acc.accounts[name].spend += a.spend;
+      acc.accounts[name].leads += a.leads || 0;
+      acc.accounts[name].target += a.target || 0;
+    });
     return acc;
   }, { impressions: 0, clicks: 0, spend: 0, leads: 0, target: 0,
       seoVisits: 0, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, accounts: {} });
 
-  const directLeads = isRange
-    ? (Object.values(data[0]?.totals?.byChannel || {}).find(c => c.channel === 'direct')?.leads || 0)
-    : Object.values(totals.accounts).reduce((s, a) => s + (a.leads || 0), 0);
-  const directTarget = isRange
-    ? (Object.values(data[0]?.totals?.byChannel || {}).find(c => c.channel === 'direct')?.target || 0)
-    : Object.values(totals.accounts).reduce((s, a) => s + (a.target || 0), 0);
+  const directLeads = Object.values(totals.accounts).reduce((s, a) => s + a.leads, 0);
+  const directTarget = Object.values(totals.accounts).reduce((s, a) => s + a.target, 0);
   const avgCtr = totals.impressions > 0 ? (totals.clicks / totals.impressions * 100).toFixed(2) + '%' : '\u2014';
   const avgCpc = totals.clicks > 0 ? Math.round(totals.spend / totals.clicks) : 0;
   const avgCpa = directLeads > 0 ? fmt(Math.round(totals.spend / directLeads)) : '\u2014';
@@ -1609,11 +1086,9 @@ function renderDetailTable(data) {
     </tr>`;
   });
 
-  // SEO row — ЦЛ нельзя посчитать (CRM не атрибутирует target по каналам → честно "—")
+  // SEO row
   const seoConv = totals.seoVisits > 0 ? (totals.seoLeads / totals.seoVisits * 100).toFixed(2) + '%' : '\u2014';
-  const seoConvTarget = totals.seoLeads > 0 && totals.seoTarget > 0
-    ? (totals.seoTarget / totals.seoLeads * 100).toFixed(2) + '%'
-    : '\u2014';
+  const seoConvTarget = totals.seoLeads > 0 ? (totals.seoTarget / totals.seoLeads * 100).toFixed(2) + '%' : '\u2014';
   html += `<tr class="row-channel">
     <td>SEO</td><td>\u2014</td><td>${totals.seoVisits}</td><td>\u2014</td><td>\u2014</td>
     <td>${totals.seoLeads}</td><td>${seoConv}</td><td>\u2014</td>
@@ -1858,55 +1333,11 @@ document.getElementById('tgl').addEventListener('click', () => {
 });
 
 // ============================================================
-// INIT v2.0 — calendar + date-range picker
+// INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', () => {
-  buildDailyMetrics();
-
-  // Preset chips
-  document.querySelectorAll('.chip').forEach(c => {
-    c.addEventListener('click', () => applyPreset(c.dataset.preset));
-  });
-
-  // Calendar navigation
-  document.getElementById('calPrev').addEventListener('click', () => {
-    calMonth.m--;
-    if (calMonth.m < 0) { calMonth.m = 11; calMonth.y--; }
-    renderCalendar();
-  });
-  document.getElementById('calNext').addEventListener('click', () => {
-    calMonth.m++;
-    if (calMonth.m > 11) { calMonth.m = 0; calMonth.y++; }
-    renderCalendar();
-  });
-
-  // Calendar day click (delegation)
-  document.getElementById('calGrid').addEventListener('click', (e) => {
-    const cell = e.target.closest('.cal-day[data-date]');
-    if (cell) onCalClick(cell.dataset.date);
-  });
-
-  // Date inputs sync with calendar / re-build report
-  document.getElementById('startDate').addEventListener('change', (e) => {
-    if (!e.target.value) return;
-    if (!currentRange) currentRange = { start: e.target.value, end: e.target.value };
-    else { currentRange.start = e.target.value; if (currentRange.end < currentRange.start) currentRange.end = currentRange.start; }
-    syncRangeInputs(); renderCalendar(); applyRange();
-  });
-  document.getElementById('endDate').addEventListener('change', (e) => {
-    if (!e.target.value) return;
-    if (!currentRange) currentRange = { start: e.target.value, end: e.target.value };
-    else { currentRange.end = e.target.value; if (currentRange.end < currentRange.start) currentRange.start = currentRange.end; }
-    syncRangeInputs(); renderCalendar(); applyRange();
-  });
-
-  // Apply button + reopen calendar toggle
-  document.getElementById('applyRange').addEventListener('click', applyRange);
-  document.getElementById('openCalendar').addEventListener('click', showCalendarWidget);
-
-  // Default = current month (per user spec) — does not hide calendar (so user sees the default state)
-  applyPreset('thisMonth');
-  document.getElementById('openCalendar').classList.remove('show');  // Ensure link stays hidden on first load
+  switchViewMode('weeks');
+  renderSummaryTable();
 });
 </script>
 
