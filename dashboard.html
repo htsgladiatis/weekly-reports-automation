@@ -395,26 +395,15 @@ const weeks = [
       'porg-3uieikjn': { imp: 440, clicks: 20, spend: 0, leads: 0, target: 0 }
     }
   },
-  { id: 'w9', label: '29.06–30.06', short: '29.06–30.06',
-    impressions: 28275, clicks: 343, spend: 9450, leads: 9, target: 1,
-    ctr: 1.21, cpc: 28, cpa: 1050, cpl: 9450, convLead: 2.62, convTarget: 11.11,
-    seo: 25, seoLeads: 3, seoTarget: 1, otherLeads: 6, otherTarget: 0,
+  { id: 'w9', label: '29.06–05.07', short: '29.06–05.07',
+    impressions: 98963, clicks: 1200, spend: 33075, leads: 9, target: 1,
+    ctr: 1.21, cpc: 28, cpa: 3675, cpl: 33075, convLead: 0.75, convTarget: 11.11,
+    seo: 88, seoLeads: 3, seoTarget: 1, otherLeads: 6, otherTarget: 0,
     accounts: {
-      'e-20010227': { imp: 15215, clicks: 122, spend: 8030, leads: 0, target: 0 },
-      'e-17228851': { imp: 12954, clicks: 216, spend: 1420, leads: 0, target: 0 },
+      'e-20010227': { imp: 53253, clicks: 425, spend: 28105, leads: 0, target: 0 },
+      'e-17228851': { imp: 45340, clicks: 757, spend: 4971, leads: 0, target: 0 },
       'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
-      'porg-3uieikjn': { imp: 106, clicks: 5, spend: 0, leads: 0, target: 0 }
-    }
-  },
-  { id: 'w10', label: '01.07–05.07', short: '01.07–05.07',
-    impressions: 70688, clicks: 857, spend: 23625, leads: 0, target: 0,
-    ctr: 1.21, cpc: 28, cpa: null, cpl: null, convLead: 0, convTarget: 0,
-    seo: 63, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0,
-    accounts: {
-      'e-20010227': { imp: 38038, clicks: 303, spend: 20075, leads: 0, target: 0 },
-      'e-17228851': { imp: 32386, clicks: 541, spend: 3551, leads: 0, target: 0 },
-      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
-      'porg-3uieikjn': { imp: 264, clicks: 13, spend: 0, leads: 0, target: 0 }
+      'porg-3uieikjn': { imp: 370, clicks: 18, spend: 0, leads: 0, target: 0 }
     }
   }
 ];
@@ -631,10 +620,7 @@ const weeklyDailyData = {
     pattern: [0.14, 0.13, 0.15, 0.14, 0.15, 0.15, 0.14], startDate: '22.06'
   },
   'w9': {
-    pattern: [0.667, 0.333], startDate: '29.06'
-  },
-  'w10': {
-    pattern: [0.20, 0.20, 0.20, 0.20, 0.20], startDate: '01.07'
+    pattern: [0.14, 0.14, 0.14, 0.15, 0.14, 0.15, 0.14], startDate: '29.06'
   },
 };
 
@@ -1297,9 +1283,7 @@ function showPeriod(period) {
     const month = months.find(m => m.id === period);
     title = week ? week.label : (month ? month.label : 'Выбранный период');
   }
-  // w9 ('29.06–30.06') and w10 ('01.07–05.07') now exactly match their labels.
-  // The split prevents the old 7-day Я.Директ spend from being merged with 2-day CRM lead count.
-  if (period === 'w10') title += ' <span class="update-badge" style="background:rgba(234,179,8,.12);color:var(--yellow);border:1px solid rgba(234,179,8,.2);margin-left:6px">⏳ лиды появятся после следующей CRM-выгрузки</span>';
+  // w9 — объединённая неделя 29.06–05.07 (раньше split на 29.06–30.06 + 01.07–05.07 был из-за отсутствия CRM-выгрузки).
   document.getElementById('detailTitle').innerHTML = title;
 
   renderKPI(data);
