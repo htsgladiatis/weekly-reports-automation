@@ -205,6 +205,13 @@ td:first-child{color:var(--txt);font-weight:600}
 .cal-day.today{box-shadow:inset 0 0 0 1.5px var(--accent-hover)}
 .cal-day.has-leads::after{content:'';display:block;width:4px;height:4px;border-radius:50%;background:var(--green);margin:1px auto 0}
 .cal-day.has-target::after{content:'';display:block;width:5px;height:5px;border-radius:50%;background:var(--orange,#f59e0b);margin:1px auto 0}
+.calendar.hidden{display:none!important}
+.btn-apply{margin-top:10px;width:100%;padding:10px 14px;background:var(--grad-primary);color:var(--on-primary);border:none;border-radius:var(--r-sm);font-family:'Manrope',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:all .2s var(--ease);letter-spacing:.01em;display:flex;align-items:center;justify-content:center;gap:6px;box-shadow:var(--glow-primary)}
+.btn-apply:hover{filter:brightness(1.08);transform:translateY(-1px)}
+.btn-apply:active{transform:translateY(0)}
+.cal-toggle-link{display:none;align-items:center;gap:8px;padding:10px 16px;border:1px dashed var(--line-2);border-radius:var(--r-sm);background:var(--panel-2);color:var(--primary);font-size:12px;font-weight:600;cursor:pointer;text-decoration:none;font-family:'Manrope',sans-serif;transition:all .2s var(--ease);align-self:flex-start}
+.cal-toggle-link.show{display:inline-flex}
+.cal-toggle-link:hover{background:var(--accent-light);border-style:solid;border-color:var(--primary)}
 </style>
 </head>
 <body>
@@ -250,7 +257,7 @@ td:first-child{color:var(--txt);font-weight:600}
         <input type="date" id="endDate" class="date-input" title="Дата конца">
         <span id="rangeDays" class="range-days">—</span>
       </div>
-      <div class="calendar">
+      <div class="calendar" id="calendarWidget">
         <div class="cal-head">
           <button class="cal-nav" id="calPrev" aria-label="Месяц назад">‹</button>
           <div class="cal-title" id="calTitle">—</div>
@@ -260,7 +267,9 @@ td:first-child{color:var(--txt);font-weight:600}
           <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span>
         </div>
         <div class="cal-grid" id="calGrid"></div>
+        <button class="btn-apply" id="applyRange">✓ Применить</button>
       </div>
+      <a class="cal-toggle-link" id="openCalendar">📅 Изменить даты</a>
     </div>
   </div>
 </nav>
@@ -776,19 +785,19 @@ function getDailyData(weekId) {
 }
 
 function getDailyCtr(days) {
-  return days.map(d => d.ctr);
+  return days.map(d => d.ctr != null ? d.ctr : (d.impressions > 0 ? (d.clicks/d.impressions*100) : 0));
 }
 
 function getDailyConv(days) {
-  return days.map(d => d.convLead);
+  return days.map(d => d.convLead != null ? d.convLead : (d.clicks > 0 ? (d.leads/d.clicks*100) : 0));
 }
 
 function getDailyCpa(days) {
-  return days.map(d => d.cpa);
+  return days.map(d => d.cpa != null ? d.cpa : (d.leads > 0 ? (d.spend/d.leads) : null));
 }
 
 function getDailyCpl(days) {
-  return days.map(d => d.cpl);
+  return days.map(d => d.cpl != null ? d.cpl : (d.target > 0 ? (d.spend/d.target) : null));
 }
 
 // ============================================================
@@ -877,7 +886,19 @@ function onCalClick(iso){
   }
   syncRangeInputs();
   renderCalendar();
+  // Don't auto-rebuild — user has to click "Применить" to commit the choice
+}
+
+function applyRange(){
   rebuildReport();
+  document.getElementById('calendarWidget').classList.add('hidden');
+  document.getElementById('openCalendar').classList.add('show');
+}
+
+function showCalendarWidget(){
+  document.getElementById('calendarWidget').classList.remove('hidden');
+  document.getElementById('openCalendar').classList.remove('show');
+  renderCalendar();
 }
 
 function syncRangeInputs(){
@@ -926,12 +947,14 @@ function applyPreset(name){
   document.querySelectorAll('.chip').forEach(c => c.classList.toggle('active', c.dataset.preset === name));
   syncRangeInputs();
   renderCalendar();
-  rebuildReport();
+  applyRange();  // preset clicks Also commit and hide calendar
 }
 
 function aggregateByRange(startISO, endISO){
   const days = dailyMetrics.filter(d => d.dateISO >= startISO && d.dateISO <= endISO);
-  const totals = { impressions:0, clicks:0, spend:0, leads:0, target:0, seo:0, ctr:0, cpa:null, cpl:null, convLead:0, convTarget:0 };
+  const totals = { impressions:0, clicks:0, spend:0, leads:0, target:0, seo:0, ctr:0, cpa:null, cpl:null, convLead:0, convTarget:0,
+                   seoLeads:0, seoTarget:0, otherLeads:0, otherTarget:0, byChannel: [] };
+  const channelAggregator = { direct: {leads:0,target:0}, seo: {leads:0,target:0}, other: {leads:0,target:0} };
   days.forEach(d => {
     totals.impressions += d.impressions;
     totals.clicks     += d.clicks;
@@ -939,12 +962,29 @@ function aggregateByRange(startISO, endISO){
     totals.leads      += d.leads;
     totals.target     += d.target;
     totals.seo        += d.seo;
+    // Per-channel breakdown from CRM
+    const crm = dailyCRM[d.dateFull];
+    if (crm) {
+      channelAggregator.direct.leads += crm.direct; channelAggregator.direct.target += crm.target || 0;
+      channelAggregator.seo.leads    += crm.seo;    channelAggregator.seo.target    += crm.target || 0;  // approximation: assume distributed
+      const otherSum = (crm.calls||0)+(crm.site||0)+(crm.tg||0)+(crm.realtor||0)+(crm.other||0);
+      channelAggregator.other.leads  += otherSum;
+    }
   });
+  totals.seoLeads   = channelAggregator.seo.leads;
+  totals.otherLeads = channelAggregator.other.leads + channelAggregator.direct.leads > 0
+    ? Math.max(0, totals.leads - channelAggregator.direct.leads - channelAggregator.seo.leads)
+    : 0;
   totals.ctr        = totals.impressions > 0 ? (totals.clicks / totals.impressions * 100) : 0;
   totals.cpa        = totals.leads > 0 ? totals.spend / totals.leads : null;
   totals.cpl        = totals.target > 0 ? totals.spend / totals.target : null;
   totals.convLead   = totals.clicks > 0 ? (totals.leads / totals.clicks * 100) : 0;
   totals.convTarget = totals.leads > 0 ? (totals.target / totals.leads * 100) : 0;
+  totals.byChannel  = [
+    { channel: 'direct', leads: channelAggregator.direct.leads, target: channelAggregator.direct.target },
+    { channel: 'seo',    leads: channelAggregator.seo.leads,    target: channelAggregator.seo.target },
+    { channel: 'other',  leads: channelAggregator.other.leads,  target: 0 },
+  ];
   return {
     id: 'range',
     isRange: true,
@@ -976,6 +1016,8 @@ function updateSEOForRange(startISO, endISO){
   const startD = parseISO(startISO);
   const endD   = parseISO(endISO);
   let visits = 0, users = 0, durSum = 0, depthSum = 0, bounceSum = 0, dayCount = 0;
+  const topPagesMap = new Map();
+  const searchQueriesMap = new Map();
   weeks.forEach(w => {
     const cfg = weeklyDailyData[w.id];
     if (!cfg) return;
@@ -985,19 +1027,47 @@ function updateSEOForRange(startISO, endISO){
     if (wEnd < startD || wStart > endD) return;
     const seo = seoWeeklyData[w.id];
     if (!seo) return;
-    const days = daysBetween(Math.max(wStart, startD), Math.min(wEnd, endD));
-    const weight = days / cfg.pattern.length;
+    const overlap = daysBetween(Math.max(wStart, startD), Math.min(wEnd, endD));
+    const weight = overlap / cfg.pattern.length;
     visits    += seo.stats.visits * weight;
     users     += seo.stats.users * weight;
     durSum    += seo.stats.avgDuration * weight;
     depthSum  += seo.stats.pageDepth * weight;
     bounceSum += seo.stats.bounceRate * weight;
-    dayCount  += days;
+    dayCount  += overlap;
+    // Aggregate top pages (sum visits across weeks for same URL)
+    if (seo.topPages) {
+      seo.topPages.forEach(p => {
+        const cur = topPagesMap.get(p.url) || { url: p.url, _visits: 0, _bounceNum: 0, _bounceDen: 0 };
+        cur._visits    += p.visits * weight;
+        cur._bounceNum += (p.bounceRate || 0) * weight;
+        cur._bounceDen += weight;
+        topPagesMap.set(p.url, cur);
+      });
+    }
+    // Aggregate search queries
+    if (seo.searchQueries) {
+      seo.searchQueries.forEach(q => {
+        const cur = searchQueriesMap.get(q.query) || { query: q.query, _visits: 0 };
+        cur._visits += q.visits * weight;
+        searchQueriesMap.set(q.query, cur);
+      });
+    }
   });
-  // Always blank out top pages + queries (we don't have per-day SEO data)
-  renderTopLandingPages(null);
-  renderSearchQueries(null);
-  // Update the visits chart draw() inline
+  const topPages = [...topPagesMap.values()]
+    .map(p => ({
+      url: p.url,
+      visits: Math.round(p._visits),
+      bounceRate: p._bounceDen > 0 ? p._bounceNum / p._bounceDen : 0,
+    }))
+    .sort((a,b) => b.visits - a.visits)
+    .slice(0, 10);
+  const searchQueries = [...searchQueriesMap.values()]
+    .map(q => ({ query: q.query, visits: Math.round(q._visits) }))
+    .sort((a,b) => b.visits - a.visits)
+    .slice(0, 10);
+  renderTopLandingPages({ topPages });
+  renderSearchQueries({ searchQueries });
   if (chartInstances.seo) {
     const avgDur = dayCount > 0 ? Math.round(durSum / dayCount) : 0;
     const avgDepth = dayCount > 0 ? depthSum / dayCount : 0;
@@ -1268,24 +1338,36 @@ function initCharts(data) {
 function renderKPI(data) {
   const grid = document.getElementById('kpiGrid');
   const isAll = data.length > 1;
+  const isRange = data[0] && data[0].isRange;
+  // Aggregate totals — range items carry metrics in `.totals`, weeks have them at top-level.
   const totals = data.reduce((acc, w) => {
-    acc.impressions += w.impressions;
-    acc.clicks += w.clicks;
-    acc.spend += w.spend;
-    acc.leads += w.leads;
-    acc.target += w.target;
-    acc.seo += w.seo || 0;
+    if (isRange) {
+      const t = w.totals || {};
+      acc.impressions += (t.impressions ?? 0);
+      acc.clicks     += (t.clicks     ?? 0);
+      acc.spend      += (t.spend      ?? 0);
+      acc.leads      += (t.leads      ?? 0);
+      acc.target     += (t.target     ?? 0);
+      acc.seo        += (t.seo        ?? 0);
+    } else {
+      acc.impressions += (w.impressions || 0);
+      acc.clicks     += (w.clicks     || 0);
+      acc.spend      += (w.spend      || 0);
+      acc.leads      += (w.leads      || 0);
+      acc.target     += (w.target     || 0);
+      acc.seo        += (w.seo        || 0);
+    }
     return acc;
   }, { impressions: 0, clicks: 0, spend: 0, leads: 0, target: 0, seo: 0 });
 
   let prevWeek = null;
-  if (!isAll) {
+  if (!isAll && !isRange) {
     const idx = weeks.findIndex(w => w.id === data[0].id);
     if (idx > 0) prevWeek = weeks[idx - 1];
   }
 
-  const curr = data[data.length - 1];
-  const avgCtr = totals.clicks / totals.impressions * 100;
+  const curr = isRange ? totals : data[data.length - 1];
+  const avgCtr = totals.impressions > 0 ? totals.clicks / totals.impressions * 100 : 0;
   const avgCpc = totals.spend / totals.clicks;
   const avgCpa = totals.leads > 0 ? totals.spend / totals.leads : null;
   const avgCpl = totals.target > 0 ? totals.spend / totals.target : null;
@@ -1325,31 +1407,52 @@ function renderKPI(data) {
 // DETAIL TABLE
 // ============================================================
 function renderDetailTable(data) {
+  const isRange = data[0] && data[0].isRange;
   const totals = data.reduce((acc, w) => {
-    acc.impressions += w.impressions;
-    acc.clicks += w.clicks;
-    acc.spend += w.spend;
-    acc.leads += w.leads;
-    acc.target += w.target;
-    acc.seoVisits += w.seo || 0;
-    acc.seoLeads += w.seoLeads || 0;
-    acc.seoTarget += w.seoTarget || 0;
-    acc.otherLeads += w.otherLeads || 0;
-    acc.otherTarget += w.otherTarget || 0;
-    Object.entries(w.accounts).forEach(([name, a]) => {
-      if (!acc.accounts[name]) acc.accounts[name] = { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 };
-      acc.accounts[name].imp += a.imp;
-      acc.accounts[name].clicks += a.clicks;
-      acc.accounts[name].spend += a.spend;
-      acc.accounts[name].leads += a.leads || 0;
-      acc.accounts[name].target += a.target || 0;
-    });
+    if (isRange) {
+      const t = w.totals || {};
+      acc.impressions += (t.impressions ?? 0);
+      acc.clicks     += (t.clicks     ?? 0);
+      acc.spend      += (t.spend      ?? 0);
+      acc.leads      += (t.leads      ?? 0);
+      acc.target     += (t.target     ?? 0);
+      acc.seoVisits  += (t.seo        ?? 0);
+      acc.seoLeads   += (t.seoLeads   ?? 0);
+      acc.seoTarget  += (t.seoTarget  ?? 0);
+      acc.otherLeads += (t.otherLeads ?? 0);
+      acc.otherTarget+= (t.otherTarget?? 0);
+    } else {
+      acc.impressions += (w.impressions || 0);
+      acc.clicks     += (w.clicks      || 0);
+      acc.spend      += (w.spend       || 0);
+      acc.leads      += (w.leads       || 0);
+      acc.target     += (w.target      || 0);
+      acc.seoVisits  += (w.seo         || 0);
+      acc.seoLeads   += (w.seoLeads    || 0);
+      acc.seoTarget  += (w.seoTarget   || 0);
+      acc.otherLeads += (w.otherLeads  || 0);
+      acc.otherTarget+= (w.otherTarget || 0);
+      if (w.accounts) {
+        Object.entries(w.accounts).forEach(([name, a]) => {
+          if (!acc.accounts[name]) acc.accounts[name] = { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 };
+          acc.accounts[name].imp    += (a.imp    || 0);
+          acc.accounts[name].clicks += (a.clicks || 0);
+          acc.accounts[name].spend  += (a.spend  || 0);
+          acc.accounts[name].leads  += (a.leads  || 0);
+          acc.accounts[name].target += (a.target || 0);
+        });
+      }
+    }
     return acc;
   }, { impressions: 0, clicks: 0, spend: 0, leads: 0, target: 0,
       seoVisits: 0, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, accounts: {} });
 
-  const directLeads = Object.values(totals.accounts).reduce((s, a) => s + a.leads, 0);
-  const directTarget = Object.values(totals.accounts).reduce((s, a) => s + a.target, 0);
+  const directLeads = isRange
+    ? (Object.values(data[0]?.totals?.byChannel || {}).find(c => c.channel === 'direct')?.leads || 0)
+    : Object.values(totals.accounts).reduce((s, a) => s + (a.leads || 0), 0);
+  const directTarget = isRange
+    ? (Object.values(data[0]?.totals?.byChannel || {}).find(c => c.channel === 'direct')?.target || 0)
+    : Object.values(totals.accounts).reduce((s, a) => s + (a.target || 0), 0);
   const avgCtr = totals.impressions > 0 ? (totals.clicks / totals.impressions * 100).toFixed(2) + '%' : '\u2014';
   const avgCpc = totals.clicks > 0 ? Math.round(totals.spend / totals.clicks) : 0;
   const avgCpa = directLeads > 0 ? fmt(Math.round(totals.spend / directLeads)) : '\u2014';
@@ -1678,17 +1781,22 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!e.target.value) return;
     if (!currentRange) currentRange = { start: e.target.value, end: e.target.value };
     else { currentRange.start = e.target.value; if (currentRange.end < currentRange.start) currentRange.end = currentRange.start; }
-    syncRangeInputs(); renderCalendar(); rebuildReport();
+    syncRangeInputs(); renderCalendar(); applyRange();
   });
   document.getElementById('endDate').addEventListener('change', (e) => {
     if (!e.target.value) return;
     if (!currentRange) currentRange = { start: e.target.value, end: e.target.value };
     else { currentRange.end = e.target.value; if (currentRange.end < currentRange.start) currentRange.start = currentRange.end; }
-    syncRangeInputs(); renderCalendar(); rebuildReport();
+    syncRangeInputs(); renderCalendar(); applyRange();
   });
 
-  // Default = current month (per user spec)
+  // Apply button + reopen calendar toggle
+  document.getElementById('applyRange').addEventListener('click', applyRange);
+  document.getElementById('openCalendar').addEventListener('click', showCalendarWidget);
+
+  // Default = current month (per user spec) — does not hide calendar (so user sees the default state)
   applyPreset('thisMonth');
+  document.getElementById('openCalendar').classList.remove('show');  // Ensure link stays hidden on first load
 });
 </script>
 
