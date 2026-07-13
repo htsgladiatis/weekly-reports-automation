@@ -19,11 +19,11 @@ TAB_NAME = "06.07-12.07"
 # Totals Direct: imp=59882, clicks=839, spend=35775.81
 
 # CRM (Bitrix24): leads=35, target=5
-# Direct: 12 leads (5 target) — e-20010227=11, e-17228851=1 (Алена, denis-brend)
+# Direct: 12 leads (5 target) — e-20010227=11, e-17228851=1 (Алена, denis-brend, remont-denis.ru)
 # SEO: 1 lead (0 target)
 # Other: 22 leads (0 target)
 
-# SEO (Yandex Webmaster): visits=31
+# SEO (Yandex Metrika): visits=53
 
 # Calculations:
 # CTR = 839/59882 = 1.40%
@@ -53,7 +53,7 @@ ROWS = [
     ["e-20010227",37219,454,"1,22%","р.57",11,"2,42%","р.2 334",5,"45,45%","р.5 136","р.25 679"],
     # Campaigns e-20010227
     ["МК ТК // Ремонт // remont.dune-group.ru",37219,454,"1,22%","р.57",11,"2,42%","р.2 334",5,"45,45%","р.5 136","р.25 679"],
-    # e-17228851: imp=22375, clicks=371, spend=10097, leads=1, target=0
+    # e-17228851: imp=22375, clicks=371, spend=10097, leads=1 (Алена, remont-denis.ru), target=0
     # CTR=371/22375=1.66%, CPC=10097/371=27
     # Conv→Lead=1/371=0.27%, CPA=10097/1=10097
     ["e-17228851",22375,371,"1,66%","р.27",1,"0,27%","р.10 097",0,"-","-","р.10 097"],
@@ -70,9 +70,9 @@ ROWS = [
     ["МК // Строительство // СРА (Ф)",1,0,"0,00%","р.0",0,"-","-",0,"-","-","р.0"],
     [],
     [],
-    # SEO: 31 visits, 1 lead, 0 target
-    # Conv→Lead=1/31=3.23%
-    ["SEO","",31,"","",1,"3,23%","",0,"-","",""],
+    # SEO: 53 visits, 1 lead, 0 target
+    # Conv→Lead=1/53=1.89%
+    ["SEO","",53,"","",1,"1,89%","",0,"-","",""],
     # Рекомендации/Звонки: 22 leads, 0 target
     ["Рекомендации","","","","",22,"","",0,"","",""],
 ]
