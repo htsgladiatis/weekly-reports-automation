@@ -2,19 +2,19 @@
 Weekly report for 13.07-19.07.2026 — Week 11.
 
 Data sources:
-  Direct (from 0. reports/13-19.07/*.xlsx):
-    e-20010227:     26303 imp /  280 clicks / 57406.19 ₽
-    e-17228851:     29456 imp /  233 clicks / 13849.69 ₽
+  Direct (re-extracted от источника parse_w11.py на 0. reports/13-19.07/*.xlsx):
+    e-20010227:     26303 imp /  280 clicks / 57406.19 ₽ (1 кампания)
+    e-17228851:     29456 imp /  233 clicks / 13849.69 ₽ (2 кампании: 28706+750 imp, 217+16 clicks, 12200.01+1649.68 ₽)
     dune-group:        0 imp /    0 clicks /     0.00 ₽
-    porg-3uieikjn:   227 imp /    7 clicks /     0.00 ₽
+    porg-3uieikjn:   227 imp /    7 clicks /     0.00 ₽ (1 кампания)
     TOTAL:         55986 imp /  520 clicks / 71255.88 ₽
 
   Bitrix24 (from LEAD_20260721_...xls HTML):
     Total: 36 leads
-    Целевых: 2
+    Целевых: 3
     All Direct: 11 leads (e-20010227) | target = 2
     SEO: 2 leads, 0 target
-    Other (Звонки/Веб-сайт): 23 leads, 0 target
+    Other (Звонки/Веб-сайт): 23 leads, 1 target
 
   SEO (Метрика/Вебмастер, from dune-group.ru_*xlsx):
     Поисковый трафик (клики) = 59 визитов
@@ -160,13 +160,14 @@ ROWS = [
 
     # ── e-17228851 ────────────────────────────────
     row_account(DIRECT_E17228851),
-    ["    МК // Ремонт Денис Бренд//", 19879, 692,
-     fmt_pct(safe_div(692, 19879) * 100),
-     fmt_money(safe_div(13849.69, 692)),
-     0, "—", "—", 0, "—", "—", fmt_money(13849.69)],
-    ["    РСЯ // типовой ремонт // Синяя кухня", 8234, 8,
-     fmt_pct(safe_div(8, 8234) * 100), "—",
-     0, "—", "—", 0, "—", "—", "—"],
+    ["    МК // Ремонт Денис Бренд//", 28706, 217,
+     fmt_pct(safe_div(217, 28706) * 100),
+     fmt_money(safe_div(12200.01, 217)),
+     0, "—", "—", 0, "—", "—", fmt_money(12200.01)],
+    ["    МК // Строительство // СРА->в платку", 750, 16,
+     fmt_pct(safe_div(16, 750) * 100),
+     fmt_money(safe_div(1649.68, 16)),
+     0, "—", "—", 0, "—", "—", fmt_money(1649.68)],
 
     # ── dune-group: пусто ─────────────────────────
     row_account(DIRECT_DUNE),
