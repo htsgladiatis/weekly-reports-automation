@@ -417,13 +417,25 @@ const weeks = [
       'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
       'porg-3uieikjn': { imp: 288, clicks: 14, spend: 0, leads: 0, target: 0 }
     }
+  },
+  { id: 'w11', label: '13.07–19.07', short: '13.07–19.07',
+    impressions: 55986, clicks: 520, spend: 71256, leads: 36, target: 2,
+    ctr: 0.93, cpc: 137, cpa: 1979, cpl: 35628, convLead: 6.92, convTarget: 5.56,
+    seo: 59, seoLeads: 2, seoTarget: 0,
+    otherLeads: 23, otherTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 26303, clicks: 280, spend: 57406, leads: 11, target: 2 },
+      'e-17228851': { imp: 29456, clicks: 233, spend: 13850, leads: 0, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 227, clicks: 7, spend: 0, leads: 0, target: 0 }
+    }
   }
 ];
 
 const months = [
   { id: 'm1', label: 'Май 2026', short: 'Май', weeks: ['w1','w2','w3','w4'], dateRange: '04.05–31.05' },
   { id: 'm2', label: 'Июнь 2026', short: 'Июнь', weeks: ['w5','w6','w7','w8','w9'], dateRange: '01.06–30.06' },
-  { id: 'm3', label: 'Июль 2026', short: 'Июль', weeks: ['w10'], dateRange: '06.07–12.07' }
+  { id: 'm3', label: 'Июль 2026', short: 'Июль', weeks: ['w10', 'w11'], dateRange: '06.07–19.07' }
 ];
 
 // SEO weekly data (from Yandex Metrika)
@@ -617,6 +629,33 @@ const seoWeeklyData = {
       { query: 'прайс-лист на отделочные работы в ростове на дону 2026', visits: 1 },
     ],
   },
+  'w11': {
+    stats: { visits: 59, users: 55, bounceRate: 8.47, pageDepth: 3.15, avgDuration: 160 },
+    topPages: [
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 18, bounceRate: 5.56 },
+      { url: 'https://dune-group.ru/prices', visits: 15, bounceRate: 6.67 },
+      { url: 'https://dune-group.ru/', visits: 10, bounceRate: 10.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 5, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-kuhni', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-v-novostroike', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dom', visits: 2, bounceRate: 50.0 },
+      { url: 'https://dune-group.ru/remont-odnokomnatnoi-kvartiri', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/doma-iz-blokov', visits: 1, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'ремонт кухни цена', visits: 3 },
+      { query: 'дюна строительная компания', visits: 2 },
+      { query: 'дюна групп ростов на дону', visits: 2 },
+      { query: 'прайс лист на отделочные работы по ремонту квартир в ро', visits: 2 },
+      { query: 'дюна ростов', visits: 2 },
+      { query: 'dune group, ростов-на-дону отзывы', visits: 2 },
+      { query: 'сколько стоит ремонт квартиры под ключ в ростове на дон', visits: 2 },
+      { query: 'прайс-лист на строительные работы в ростовской области', visits: 2 },
+      { query: 'ремонт под ключ', visits: 1 },
+      { query: 'дома из блоков под ключ', visits: 1 },
+    ],
+  },
   'all': {
     stats: { visits: 282, users: 264, bounceRate: 5.67, pageDepth: 3.4, avgDuration: 167 },
     topPages: [
@@ -661,6 +700,9 @@ const weeklyDailyData = {
   },
   'w9': {
     pattern: [0.14, 0.14, 0.14, 0.15, 0.14, 0.15, 0.14], startDate: '29.06'
+  },
+  'w11': {
+    pattern: [0.14, 0.14, 0.14, 0.14, 0.15, 0.14, 0.15], startDate: '13.07'
   },
 };
 
