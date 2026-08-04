@@ -11,9 +11,11 @@ assert.match(html, /class="pop-mode"[^>]*aria-pressed="false"[^>]*data-mode="mon
 assert.match(html, /function renderPeriodList\(/);
 assert.match(html, /function updatePeriodTrigger\(/);
 assert.match(html, /function selectPeriodItem\(/);
-assert.match(html, /function summarizeWeeks\(/);
 assert.match(html, /return \[aggregateWeeks\(month\.weeks, month\.label, month\.id\)\]/);
-assert.match(html, /data-preset="last4"/);
+assert.match(html, /currentPeriod = weeks\[weeks\.length - 1\]\.id/);
+assert.doesNotMatch(html, /period-preset/);
+assert.doesNotMatch(html, /periodPresetItems/);
+assert.doesNotMatch(html, /Общий период/);
 assert.match(html, /Escape/);
 
 console.log('period popover structure: ok');

@@ -83,10 +83,6 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--txt);line
 .hero p{font-size:14px;color:var(--txt-2);max-width:600px;margin:0 auto 20px;line-height:1.6}
 
 /* PERIOD SELECTOR */
-.period-bar{position:sticky;top:59px;z-index:90;background:var(--glass);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.period-in{max-width:var(--maxw);margin:0 auto;padding:10px 24px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.period-label{font-size:11px;color:var(--txt-3);letter-spacing:.06em;text-transform:uppercase;flex-shrink:0}
-
 /* PERIOD POPOVER */
 .period-wrap{position:relative;display:inline-block;max-width:100%}
 .period-trigger{display:inline-flex;align-items:center;gap:8px;min-height:36px;max-width:100%;padding:7px 11px 7px 13px;
@@ -123,12 +119,8 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--txt);line
 .period-item-meta{grid-column:1/-1;color:var(--txt-3);font-size:10px}
 .period-item-stat{color:var(--txt-2);font-size:10px;white-space:nowrap}
 .period-empty{padding:20px 10px;color:var(--txt-3);font-size:12px;text-align:center}
-.period-presets{display:flex;gap:6px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
-.period-preset{flex:1;padding:7px 5px;border:1px solid var(--line);border-radius:7px;background:transparent;color:var(--txt-2);cursor:pointer;font:600 10px 'Manrope',sans-serif;transition:all .15s var(--ease)}
-.period-preset:hover,.period-preset.active{border-color:var(--primary);color:var(--primary);background:var(--accent-light)}
-.week-dropdown{display:none}.week-select{display:none}
 @media(max-width:560px){
-  .period-in{padding:9px 12px}.period-label{display:none}.period-wrap{width:100%}.period-trigger{width:100%;justify-content:flex-start}
+  .period-wrap{width:100%}.period-trigger{width:100%;justify-content:flex-start}
   .period-popover{position:fixed;top:auto;right:12px;bottom:12px;left:12px;width:auto;max-height:calc(100vh - 90px);overflow:auto}
   .period-list{max-height:42vh}
 }
@@ -188,7 +180,7 @@ td:first-child{color:var(--txt);font-weight:600}
   .hdr .period-trigger{max-width:100%;padding-left:9px;padding-right:9px;gap:5px}.hdr .pt-label{max-width:135px}
   .hdr .period-popover{position:fixed;top:auto;right:12px;bottom:12px;left:12px;width:auto;max-height:calc(100vh - 90px);overflow:auto}
 }
-@media print{.period-bar,.tgl{display:none}}
+@media print{.tgl{display:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 /* ANIMATIONS */
@@ -218,8 +210,8 @@ td:first-child{color:var(--txt);font-weight:600}
     <div class="period-wrap">
       <button id="periodTrigger" class="period-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="periodPopover" aria-label="Выбрать период">
         <span class="pt-mode" id="ptMode">Недели</span>
-        <span class="pt-ix" id="ptIx">all</span>
-        <span class="pt-label" id="ptLabel">Все недели</span>
+        <span class="pt-ix" id="ptIx">w13</span>
+        <span class="pt-label" id="ptLabel">27.07–02.08</span>
         <span class="pt-arrow" id="ptArrow" aria-hidden="true">▾</span>
       </button>
       <div id="periodPopover" class="period-popover" role="dialog" aria-modal="true" aria-label="Выбор периода" hidden>
@@ -230,12 +222,7 @@ td:first-child{color:var(--txt);font-weight:600}
           <button class="pop-mode active" type="button" aria-pressed="true" data-mode="weeks">Недели</button>
           <button class="pop-mode" type="button" aria-pressed="false" data-mode="months">Месяцы</button>
         </div>
-        <div id="periodList" class="period-list" role="listbox" aria-label="Доступные периоды"></div>
-        <div class="period-presets" aria-label="Быстрый выбор">
-          <button class="period-preset" type="button" data-preset="last4" aria-pressed="false">Последние 4</button>
-          <button class="period-preset" type="button" data-preset="quarter" aria-pressed="false">Квартал</button>
-          <button class="period-preset" type="button" data-preset="all" aria-pressed="true">Все</button>
-        </div>
+        <div id="periodList" class="period-list" role="group" aria-label="Доступные периоды"></div>
       </div>
     </div>
     <span class="status"><span class="led"></span>Ремонт под ключ · Ростов-на-Дону</span>
@@ -923,11 +910,6 @@ function rub(n) {
 }
 
 function getDataForPeriod(periodId) {
-  if (periodId === 'all') {
-    return currentViewMode === 'months' ? getMonthsData() : weeks;
-  }
-  if (periodId === 'last4') return weeks.slice(-4);
-  if (periodId === 'quarter') return weeks.slice(-13);
   const month = months.find(m => m.id === periodId);
   if (month) return [aggregateWeeks(month.weeks, month.label, month.id)];
   return weeks.filter(w => w.id === periodId);
@@ -1329,7 +1311,7 @@ function renderSummaryTable() {
 function updateSEOWidgets(period) {
   // Find matching SEO data
   let seoData = null;
-  if (period === 'all' || period === 'last4' || period === 'quarter' || currentViewMode === 'months') {
+  if (currentViewMode === 'months') {
     // Use aggregate SEO data
     seoData = seoWeeklyData['all'] || null;
   } else if (seoWeeklyData[period]) {
@@ -1389,7 +1371,7 @@ function renderSearchQueries(seoData) {
 // PERIOD POPOVER
 // ============================================================
 let currentViewMode = 'weeks';
-let currentPeriod = 'all';
+let currentPeriod = weeks[weeks.length - 1].id;
 let periodQuery = '';
 
 function periodYear(item) {
@@ -1407,21 +1389,6 @@ function periodItems(mode) {
   return weeks.slice().reverse();
 }
 
-function periodPresetItems(mode) {
-  if (mode !== 'weeks') return [];
-  return [
-    { id: 'last4', label: 'Последние 4 недели', dateRange: '4 последние недели', ...summarizeWeeks(weeks.slice(-4)) },
-    { id: 'quarter', label: 'Квартал', dateRange: '13 последних недель', ...summarizeWeeks(weeks.slice(-13)) }
-  ];
-}
-
-function summarizeWeeks(items) {
-  return items.reduce((summary, week) => ({
-    leads: summary.leads + week.leads,
-    target: summary.target + week.target
-  }), { leads: 0, target: 0 });
-}
-
 function escapeHtml(value) {
   return String(value == null ? '' : value)
     .replace(/&/g, '&amp;')
@@ -1432,21 +1399,14 @@ function escapeHtml(value) {
 }
 
 function periodLabel(item, mode) {
-  if (item.id === 'all') return mode === 'months' ? 'Все месяцы' : 'Все недели';
-  if (item.id === 'last4') return 'Последние 4 недели';
-  if (item.id === 'quarter') return 'Квартал';
   return mode === 'months' ? `${item.label} (${item.dateRange})` : item.label;
 }
 
 function periodStats(item) {
-  if (item.id === 'all') return '';
   return `${fmt(item.leads)} лидов · ${fmt(item.target)} целевых`;
 }
 
 function getCurrentPeriodItem() {
-  if (currentPeriod === 'all') return { id: 'all' };
-  if (currentPeriod === 'last4') return { id: 'last4', leads: getDataForPeriod('last4').reduce((sum, week) => sum + week.leads, 0), target: getDataForPeriod('last4').reduce((sum, week) => sum + week.target, 0) };
-  if (currentPeriod === 'quarter') return { id: 'quarter', leads: getDataForPeriod('quarter').reduce((sum, week) => sum + week.leads, 0), target: getDataForPeriod('quarter').reduce((sum, week) => sum + week.target, 0) };
   if (currentViewMode === 'months') {
     const month = months.find(item => item.id === currentPeriod);
     if (month) return { ...month, ...aggregateWeeks(month.weeks, month.label, month.id) };
@@ -1477,8 +1437,7 @@ function renderPeriodList() {
   if (!list) return;
   const mode = currentViewMode;
   const query = periodQuery.trim().toLocaleLowerCase('ru');
-  const allItem = { id: 'all', label: mode === 'months' ? 'Все месяцы' : 'Все недели', dateRange: '' };
-  const items = [allItem].concat(periodPresetItems(mode), periodItems(mode)).filter(item => {
+  const items = periodItems(mode).filter(item => {
     if (!query) return true;
     return `${periodLabel(item, mode)} ${periodStats(item)}`.toLocaleLowerCase('ru').includes(query);
   });
@@ -1490,17 +1449,17 @@ function renderPeriodList() {
 
   let year = null;
   list.innerHTML = items.map(item => {
-    const itemYear = item.id === 'all' ? 'all' : periodYear(item);
+    const itemYear = periodYear(item);
     const heading = itemYear !== year
-      ? `<div class="period-year">${escapeHtml(item.id === 'all' ? 'Общий период' : itemYear)}</div>`
+      ? `<div class="period-year">${escapeHtml(itemYear)}</div>`
       : '';
     year = itemYear;
     const active = item.id === currentPeriod;
     return `${heading}
-      <button class="period-item${active ? ' active' : ''}" type="button" role="option" data-period-id="${escapeHtml(item.id)}" aria-selected="${active}">
+      <button class="period-item${active ? ' active' : ''}" type="button" data-period-id="${escapeHtml(item.id)}" aria-pressed="${active}">
         <span class="period-item-main">${escapeHtml(periodLabel(item, mode))}</span>
-        ${item.id === 'all' ? '' : `<span class="period-item-stat">${escapeHtml(periodStats(item))}</span>`}
-        ${item.id === 'all' ? '<span class="period-item-meta">Агрегированные данные</span>' : `<span class="period-item-meta">${escapeHtml(mode === 'weeks' ? item.id : 'Сводка по неделям')}</span>`}
+        <span class="period-item-stat">${escapeHtml(periodStats(item))}</span>
+        <span class="period-item-meta">${escapeHtml(mode === 'weeks' ? item.id : 'Сводка по неделям')}</span>
       </button>`;
   }).join('');
 
@@ -1550,54 +1509,15 @@ function syncPeriodModeTabs() {
   });
 }
 
-function syncPeriodPresetButtons() {
-  document.querySelectorAll('.period-preset').forEach(button => {
-    const active = button.dataset.preset === currentPeriod || (button.dataset.preset === 'all' && currentPeriod === 'all');
-    button.classList.toggle('active', active);
-    button.setAttribute('aria-pressed', String(active));
-  });
-}
-
 function switchViewMode(mode) {
   currentViewMode = mode === 'months' ? 'months' : 'weeks';
+  currentPeriod = currentViewMode === 'months'
+    ? months[months.length - 1].id
+    : weeks[weeks.length - 1].id;
   syncPeriodModeTabs();
-  updateWeekSelector();
-  showPeriod('all');
+  showPeriod(currentPeriod);
   updatePeriodTrigger();
   renderPeriodList();
-}
-
-function updateMonthSelector() {
-  const dropdown = document.getElementById('weekSelect');
-  if (!dropdown) return;
-  dropdown.innerHTML = '';
-  const allOpt = document.createElement('option');
-  allOpt.value = 'all';
-  allOpt.textContent = 'Все месяцы';
-  dropdown.appendChild(allOpt);
-  months.forEach(m => {
-    const opt = document.createElement('option');
-    opt.value = m.id;
-    opt.textContent = `${m.label} (${m.dateRange})`;
-    dropdown.appendChild(opt);
-  });
-}
-
-function updateWeekSelector() {
-  const dropdown = document.getElementById('weekSelect');
-  if (!dropdown) return;
-  dropdown.innerHTML = '';
-  const allOpt = document.createElement('option');
-  allOpt.value = 'all';
-  allOpt.textContent = 'Все недели';
-  dropdown.appendChild(allOpt);
-  weeks.forEach(w => {
-    const opt = document.createElement('option');
-    opt.value = w.id;
-    opt.textContent = w.label;
-    dropdown.appendChild(opt);
-  });
-  if (currentViewMode === 'months') updateMonthSelector();
 }
 
 function showPeriod(period) {
@@ -1605,21 +1525,9 @@ function showPeriod(period) {
   if (!data || data.length === 0) return;
   currentPeriod = period;
 
-  const dropdown = document.getElementById('weekSelect');
-  if (dropdown) dropdown.value = period;
-
-  let title;
-  if (period === 'all') {
-    title = currentViewMode === 'months' ? 'Все месяцы' : 'Все периоды';
-  } else if (period === 'last4') {
-    title = 'Последние 4 недели';
-  } else if (period === 'quarter') {
-    title = 'Квартал';
-  } else {
-    const week = weeks.find(w => w.id === period);
-    const month = months.find(m => m.id === period);
-    title = week ? week.label : (month ? month.label : 'Выбранный период');
-  }
+  const week = weeks.find(w => w.id === period);
+  const month = months.find(m => m.id === period);
+  const title = week ? week.label : (month ? month.label : 'Выбранный период');
   document.getElementById('detailTitle').textContent = title;
 
   renderKPI(data);
@@ -1627,17 +1535,7 @@ function showPeriod(period) {
   renderDetailTable(data);
   updateSEOWidgets(period);
   updatePeriodTrigger();
-  syncPeriodPresetButtons();
   renderPeriodList();
-}
-
-function applyPeriodPreset(preset) {
-  if (preset === 'all') {
-    selectPeriodItem('all');
-    return;
-  }
-  if (currentViewMode !== 'weeks') switchViewMode('weeks');
-  selectPeriodItem(preset === 'quarter' ? 'quarter' : 'last4');
 }
 
 const periodTrigger = document.getElementById('periodTrigger');
@@ -1658,15 +1556,7 @@ if (periodTrigger && periodPopover) {
     renderPeriodList();
   });
   document.querySelectorAll('.pop-mode').forEach(button => {
-    button.addEventListener('click', () => {
-      currentViewMode = button.dataset.mode === 'months' ? 'months' : 'weeks';
-      syncPeriodModeTabs();
-      updateWeekSelector();
-      showPeriod('all');
-    });
-  });
-  document.querySelectorAll('.period-preset').forEach(button => {
-    button.addEventListener('click', () => applyPeriodPreset(button.dataset.preset));
+    button.addEventListener('click', () => switchViewMode(button.dataset.mode));
   });
 }
 
