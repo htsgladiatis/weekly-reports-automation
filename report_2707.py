@@ -2,7 +2,7 @@
 Data manually extracted from CSV exports dated 03.08.2026.
 
 Direct: 27,851 impressions / 2,585 clicks / 9,898.92 ₽.
-CRM: 47 records with IDs / 0 target; 5 Direct, 42 other.
+CRM: 47 records with IDs / 0 target; 5 Direct, 2 SEO, 40 other.
 SEO exports: 44 organic clicks/visits, coverage 27.07-01.08 (incomplete week).
 """
 
@@ -17,16 +17,22 @@ CREDENTIALS_FILE = "credentials.json"
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
 TAB_NAME = "27.07-02.08"
 
-DIRECT_E20010227 = {"imp": 3449, "clicks": 51, "spend": 1220.00, "leads": 5, "target": 0}
-DIRECT_E17228851 = {"imp": 22320, "clicks": 2481, "spend": 8678.92, "leads": 0, "target": 0}
+DIRECT_E20010227 = {"imp": 3449, "clicks": 51, "spend": 1220.00, "leads": 4, "target": 0}
+DIRECT_E17228851 = {"imp": 22320, "clicks": 2481, "spend": 8678.92, "leads": 1, "target": 0}
 DIRECT_DUNE = {"imp": 0, "clicks": 0, "spend": 0.00, "leads": 0, "target": 0}
 DIRECT_PORG = {"imp": 2082, "clicks": 53, "spend": 0.00, "leads": 0, "target": 0}
 DIRECT_ACCOUNTS = [DIRECT_E20010227, DIRECT_E17228851, DIRECT_DUNE, DIRECT_PORG]
 DIRECT_TOTALS = {key: sum(account[key] for account in DIRECT_ACCOUNTS) for key in ("imp", "clicks", "spend", "leads", "target")}
 
 ALL_LEADS, ALL_TARGETS = 47, 0
-SEO_LEADS, SEO_TARGETS, SEO_VISITS = 0, 0, 44
-OTHER_LEADS, OTHER_TARGETS = 42, 0
+# Manual CRM attribution confirmed from Bitrix24 lead cards.
+MANUAL_CRM_ATTRIBUTION = {
+    "24390": "e-17228851",
+    "24424": "seo",
+    "24410": "seo",
+}
+SEO_LEADS, SEO_TARGETS, SEO_VISITS = 2, 0, 44
+OTHER_LEADS, OTHER_TARGETS = 40, 0
 
 def fmt_money(value):
     if value is None or value == 0 or value == "—":
@@ -59,6 +65,7 @@ ROWS = [
     metric_row("  e-20010227", DIRECT_E20010227),
     campaign_row("    МК ТК // Ремонт // remont.dune-group.ru", 3449, 51, 1220, 5),
     metric_row("  e-17228851", DIRECT_E17228851),
+    # CRM ID 24390 confirms the account e-17228851, but not a specific campaign.
     campaign_row("    МК // Строительство // СРА->в платку", 20393, 2416, 6596.49),
     campaign_row("    МК // Ремонт Денис Бренд//", 1443, 18, 1455.44),
     campaign_row("    Стройка / Поиск / Ростов", 484, 47, 626.99),
