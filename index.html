@@ -66,10 +66,12 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--txt);line
 .brand b{font-size:15px;font-weight:700;letter-spacing:.02em}
 .brand span{display:block;font-size:10px;color:var(--txt-3);letter-spacing:.12em;text-transform:uppercase}
 .hdr-sp{flex:1}
-.status{display:inline-flex;align-items:center;gap:7px;font-size:11px;color:var(--txt-2);padding:5px 11px;border:1px solid var(--line-2);border-radius:20px;background:var(--panel)}
+.hdr .period-wrap{width:auto;flex-shrink:0;order:2}
+.hdr .period-popover{left:auto;right:0}
+.status{display:inline-flex;align-items:center;gap:7px;font-size:11px;color:var(--txt-2);padding:5px 11px;border:1px solid var(--line-2);border-radius:20px;background:var(--panel);order:1}
 .status .led{width:7px;height:7px;border-radius:50%;background:#7a9a6b;box-shadow:0 0 8px #7a9a6b;animation:pulse 2.2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.tgl{width:54px;height:28px;border-radius:16px;border:1px solid var(--line-2);background:var(--panel-2);position:relative;cursor:pointer;flex-shrink:0}
+.tgl{width:54px;height:28px;border-radius:16px;border:1px solid var(--line-2);background:var(--panel-2);position:relative;cursor:pointer;flex-shrink:0;order:3}
 .tgl-k{position:absolute;top:2px;left:2px;width:22px;height:22px;border-radius:50%;background:var(--panel);box-shadow:var(--elev-1);display:flex;align-items:center;justify-content:center;font-size:12px;transition:transform .4s var(--ease)}
 [data-theme="dark"] .tgl-k{transform:translateX(26px)}
 
@@ -180,7 +182,12 @@ td:first-child{color:var(--txt);font-weight:600}
 
 /* RESPONSIVE */
 @media(max-width:860px){.hero{padding-top:24px}.charts-grid{grid-template-columns:1fr}}
-@media(max-width:560px){.hero h1{font-size:26px}.wrap{padding:16px 12px 40px}.kpi-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){
+  .hero h1{font-size:26px}.wrap{padding:16px 12px 40px}.kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .hdr-in{padding:10px 12px;gap:8px}.hdr .status{display:none}.hdr .brand{min-width:0;flex:1}.hdr .brand > div:last-child{min-width:0}.hdr .brand b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hdr .period-wrap{width:auto;max-width:42vw}
+  .hdr .period-trigger{max-width:100%;padding-left:9px;padding-right:9px;gap:5px}.hdr .pt-label{max-width:135px}
+  .hdr .period-popover{position:fixed;top:auto;right:12px;bottom:12px;left:12px;width:auto;max-height:calc(100vh - 90px);overflow:auto}
+}
 @media print{.period-bar,.tgl{display:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
@@ -208,22 +215,6 @@ td:first-child{color:var(--txt);font-weight:600}
       <div><b>DUNE GROUP</b><span>Рекламный дашборд</span></div>
     </div>
     <div class="hdr-sp"></div>
-    <span class="status"><span class="led"></span>Ремонт под ключ · Ростов-на-Дону</span>
-    <button class="tgl" id="tgl" role="switch" aria-checked="false" aria-label="Тема"><span class="tgl-k" id="tglK">☀️</span></button>
-  </div>
-</header>
-
-<!-- HERO -->
-<section class="hero">
-  <span class="hero-tag">◈ ЕЖЕНЕДЕЛЬНАЯ АНАЛИТИКА · 2026</span>
-  <h1>Дашборд рекламных кампаний</h1>
-  <p id="heroSubtitle">Яндекс Директ · SEO · Лиды — агрегированные показатели по всем каналам</p>
-</section>
-
-<!-- PERIOD BAR -->
-<nav class="period-bar" id="periodBar" aria-label="Выбор периода">
-  <div class="period-in">
-    <span class="period-label">Период:</span>
     <div class="period-wrap">
       <button id="periodTrigger" class="period-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="periodPopover" aria-label="Выбрать период">
         <span class="pt-mode" id="ptMode">Недели</span>
@@ -247,11 +238,18 @@ td:first-child{color:var(--txt);font-weight:600}
         </div>
       </div>
     </div>
-    <div class="week-dropdown" id="weekDropdown" aria-hidden="true">
-      <select class="week-select" id="weekSelect" tabindex="-1" aria-hidden="true" onchange="showPeriod(this.value)"></select>
-    </div>
+    <span class="status"><span class="led"></span>Ремонт под ключ · Ростов-на-Дону</span>
+    <button class="tgl" id="tgl" role="switch" aria-checked="false" aria-label="Тема"><span class="tgl-k" id="tglK">☀️</span></button>
   </div>
-</nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="hero-tag">◈ ЕЖЕНЕДЕЛЬНАЯ АНАЛИТИКА · 2026</span>
+  <h1>Дашборд рекламных кампаний</h1>
+  <p id="heroSubtitle">Яндекс Директ · SEO · Лиды — агрегированные показатели по всем каналам</p>
+</section>
+
 
 <!-- MAIN CONTENT -->
 <main class="wrap" id="mainContent">
