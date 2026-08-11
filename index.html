@@ -1077,6 +1077,7 @@ function destroyCharts() {
 function initCharts(data) {
   destroyCharts();
   const labels = data.map(w => w.short);
+  const singlePeriod = data.length === 1;
 
   // Spend & Leads
   chartInstances.spendLeads = new Chart(document.getElementById('spendLeadsChart'), {
@@ -1131,40 +1132,68 @@ function initCharts(data) {
 
   // Efficiency: CTR & Conv
   chartInstances.efficiency = new Chart(document.getElementById('efficiencyChart'), {
-    type: 'line',
+    type: singlePeriod ? 'bar' : 'line',
     data: {
       labels,
       datasets: [
         { label: 'CTR %', data: data.map(w => w.ctr),
-          borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,.1)',
-          borderWidth: 2.5,
-          tension: .4, pointRadius: 6, pointBackgroundColor: '#6366f1', fill: true },
+          borderColor: '#6366f1',
+          backgroundColor: singlePeriod ? '#6366f1' : 'rgba(99,102,241,.1)',
+          borderWidth: 2.5, borderRadius: singlePeriod ? 6 : 0,
+          barPercentage: singlePeriod ? .42 : undefined,
+          categoryPercentage: singlePeriod ? .7 : undefined,
+          tension: .4, pointRadius: singlePeriod ? 0 : 6,
+          pointBackgroundColor: '#6366f1', fill: !singlePeriod },
         { label: 'Конверсия в Лид %', data: data.map(w => w.convLead),
-          borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,.1)',
-          borderWidth: 2.5,
-          tension: .4, pointRadius: 6, pointBackgroundColor: '#22c55e', fill: true }
+          borderColor: '#22c55e',
+          backgroundColor: singlePeriod ? '#22c55e' : 'rgba(34,197,94,.1)',
+          borderWidth: 2.5, borderRadius: singlePeriod ? 6 : 0,
+          barPercentage: singlePeriod ? .42 : undefined,
+          categoryPercentage: singlePeriod ? .7 : undefined,
+          tension: .4, pointRadius: singlePeriod ? 0 : 6,
+          pointBackgroundColor: '#22c55e', fill: !singlePeriod }
       ]
     },
-    options: { ...chartDefaults }
+    options: {
+      ...chartDefaults,
+      scales: {
+        ...chartDefaults.scales,
+        y: { ...chartDefaults.scales.y, beginAtZero: singlePeriod }
+      }
+    }
   });
 
   // Cost: CPA & CPL
   chartInstances.cost = new Chart(document.getElementById('costChart'), {
-    type: 'line',
+    type: singlePeriod ? 'bar' : 'line',
     data: {
       labels,
       datasets: [
         { label: 'CPA (р.)', data: data.map(w => w.cpa),
-          borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,.1)',
-          borderWidth: 2.5,
-          tension: .4, pointRadius: 6, pointBackgroundColor: '#ef4444', fill: true },
+          borderColor: '#ef4444',
+          backgroundColor: singlePeriod ? '#ef4444' : 'rgba(239,68,68,.1)',
+          borderWidth: 2.5, borderRadius: singlePeriod ? 6 : 0,
+          barPercentage: singlePeriod ? .42 : undefined,
+          categoryPercentage: singlePeriod ? .7 : undefined,
+          tension: .4, pointRadius: singlePeriod ? 0 : 6,
+          pointBackgroundColor: '#ef4444', fill: !singlePeriod },
         { label: 'CPL (р.)', data: data.map(w => w.cpl),
-          borderColor: '#a855f7', backgroundColor: 'rgba(168,85,247,.1)',
-          borderWidth: 2.5,
-          tension: .4, pointRadius: 6, pointBackgroundColor: '#a855f7', fill: true }
+          borderColor: '#a855f7',
+          backgroundColor: singlePeriod ? '#a855f7' : 'rgba(168,85,247,.1)',
+          borderWidth: 2.5, borderRadius: singlePeriod ? 6 : 0,
+          barPercentage: singlePeriod ? .42 : undefined,
+          categoryPercentage: singlePeriod ? .7 : undefined,
+          tension: .4, pointRadius: singlePeriod ? 0 : 6,
+          pointBackgroundColor: '#a855f7', fill: !singlePeriod }
       ]
     },
-    options: { ...chartDefaults }
+    options: {
+      ...chartDefaults,
+      scales: {
+        ...chartDefaults.scales,
+        y: { ...chartDefaults.scales.y, beginAtZero: singlePeriod }
+      }
+    }
   });
   // SEO Performance
   const seoData = data.reduce((s, w) => s + (w.seo || 0), 0);
