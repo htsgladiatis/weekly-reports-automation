@@ -210,8 +210,8 @@ td:first-child{color:var(--txt);font-weight:600}
     <div class="period-wrap">
       <button id="periodTrigger" class="period-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="periodPopover" aria-label="Выбрать период">
         <span class="pt-mode" id="ptMode">Недели</span>
-        <span class="pt-ix" id="ptIx">w13</span>
-        <span class="pt-label" id="ptLabel">27.07–02.08</span>
+        <span class="pt-ix" id="ptIx">w14</span>
+        <span class="pt-label" id="ptLabel">03.08–09.08</span>
         <span class="pt-arrow" id="ptArrow" aria-hidden="true">▾</span>
       </button>
       <div id="periodPopover" class="period-popover" role="dialog" aria-modal="true" aria-label="Выбор периода" hidden>
@@ -280,7 +280,7 @@ td:first-child{color:var(--txt);font-weight:600}
   </div>
 
   <!-- SEO Section -->
-  <div class="sec-title" style="margin-top:8px"><span class="material-symbols-outlined mat">search</span> SEO Аналитика <span class="update-badge">SEO · выгрузка 27.07–01.08</span></div>
+  <div class="sec-title" style="margin-top:8px"><span class="material-symbols-outlined mat">search</span> SEO Аналитика <span class="update-badge">SEO · выгрузка 03.08–09.08</span></div>
   <div class="charts-grid" id="seoWidgets">
     <div class="chart-card">
       <div class="chart-h"><span class="material-symbols-outlined mat">trending_up</span> SEO Performance</div>
@@ -487,6 +487,18 @@ const weeks = [
       'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
       'porg-3uieikjn': { imp: 2082, clicks: 53, spend: 0, leads: 0, target: 0 }
     }
+  },
+  { id: 'w14', label: '03.08–09.08', short: '03.08–09.08',
+    impressions: 5279, clicks: 223, spend: 5440, leads: 43, target: 2,
+    ctr: 4.22, cpc: 24, cpa: 127, cpl: 2720, convLead: 19.28, convTarget: 4.65,
+    seo: 26, seoLeads: 1, seoTarget: 1,
+    otherLeads: 37, otherTarget: 1,
+    accounts: {
+      'e-20010227': { imp: 1414, clicks: 29, spend: 0, leads: 5, target: 0 },
+      'e-17228851': { imp: 2620, clicks: 158, spend: 5440, leads: 0, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 1245, clicks: 36, spend: 0, leads: 0, target: 0 }
+    }
   }
 ];
 
@@ -495,7 +507,7 @@ const months = [
   { id: 'm1', label: 'Май 2026', short: 'Май', weeks: ['w1','w2','w3','w4'], dateRange: '04.05–31.05' },
   { id: 'm2', label: 'Июнь 2026', short: 'Июнь', weeks: ['w5','w6','w7','w8','w9'], dateRange: '01.06–30.06' },
   { id: 'm3', label: 'Июль 2026', short: 'Июль', weeks: ['w10', 'w11', 'w12'], dateRange: '06.07–26.07' },
-  { id: 'm4', label: 'Август 2026', short: 'Август', weeks: ['w13'], dateRange: '27.07–02.08' }
+  { id: 'm4', label: 'Август 2026', short: 'Август', weeks: ['w13','w14'], dateRange: '27.07–09.08' }
 ];
 
 // SEO weekly data (from Yandex Metrika)
@@ -771,6 +783,33 @@ const seoWeeklyData = {
       { query: 'кирпичные дома под ключ', visits: 0 },
     ],
   },
+  'w14': {
+    stats: { visits: 26, users: null, bounceRate: null, pageDepth: null, avgDuration: null },
+    topPages: [
+      { url: 'https://dune-group.ru/', visits: 8, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 6, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/prices', visits: 5, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dom', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/cvdesignerepairdune', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-kvartiri-studii', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-ofisov', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dizain-ofisa', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-salona-krasoti', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/kirpichnii-dom', visits: 0, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'ремонт под ключ', visits: 3 },
+      { query: 'калькулятор дюна групп', visits: 3 },
+      { query: 'дюна строительная компания', visits: 2 },
+      { query: 'стоимость ремонта под ключ с материалами за м2 в ростове на дону', visits: 1 },
+      { query: 'ремонт под ключ ростов-на-дону цена за м2 в новостройке', visits: 1 },
+      { query: 'dune group', visits: 1 },
+      { query: 'ремонт 1 квартиры стоимость', visits: 1 },
+      { query: 'выполним ремонт офиса', visits: 1 },
+      { query: 'стоимость ремонта под ключ', visits: 0 },
+      { query: 'ремонт квартир под ключ в ростове', visits: 0 },
+    ],
+  },
   'all': {
     stats: { visits: 491, users: 457, bounceRate: 6.93, pageDepth: 3.29, avgDuration: 159 },
     topPages: [
@@ -824,6 +863,9 @@ const weeklyDailyData = {
   },
   'w13': {
     pattern: [0.14, 0.14, 0.14, 0.14, 0.15, 0.14, 0.15], startDate: '27.07'
+  },
+  'w14': {
+    pattern: [0.14, 0.14, 0.14, 0.14, 0.15, 0.14, 0.15], startDate: '03.08'
   },
 };
 
