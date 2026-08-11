@@ -506,9 +506,29 @@ const weeks = [
 const months = [
   { id: 'm1', label: 'Май 2026', short: 'Май', weeks: ['w1','w2','w3','w4'], dateRange: '04.05–31.05' },
   { id: 'm2', label: 'Июнь 2026', short: 'Июнь', weeks: ['w5','w6','w7','w8','w9'], dateRange: '01.06–30.06' },
-  { id: 'm3', label: 'Июль 2026', short: 'Июль', weeks: ['w10', 'w11', 'w12'], dateRange: '06.07–26.07' },
+  { id: 'm3', label: 'Июль 2026', short: 'Июль', weeks: ['w10', 'w11', 'w12'], dateRange: '01.07–31.07' },
   { id: 'm4', label: 'Август 2026', short: 'Август', weeks: ['w13','w14'], dateRange: '27.07–09.08' }
 ];
+
+// Exact month snapshot from the full 01.07–31.07 export.
+// Kept separate from weekly data so cross-month weeks are not double-counted.
+const monthDataOverrides = {
+  'm3': {
+    id: 'm3', label: 'Июль 2026', short: 'Июль',
+    impressions: 285251, clicks: 10284, spend: 172645.87,
+    leads: 169, target: 17,
+    ctr: 3.61, cpc: 16.79, cpa: 1021.57, cpl: 10155.64,
+    convLead: 1.64, convTarget: 10.06,
+    seo: 216, seoLeads: 8, seoTarget: 3,
+    otherLeads: 120, otherTarget: 2,
+    accounts: {
+      'e-20010227': { imp: 103924, clicks: 1128, spend: 108221.25, leads: 35, target: 10 },
+      'e-17228851': { imp: 178473, clicks: 9061, spend: 64424.62, leads: 6, target: 2 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 2854, clicks: 95, spend: 0, leads: 0, target: 0 }
+    }
+  }
+};
 
 // SEO weekly data (from Yandex Metrika)
 const seoWeeklyData = {
@@ -839,6 +859,37 @@ const seoWeeklyData = {
   },
 };
 
+// Full-July SEO exports from Yandex Webmaster (01.07–31.07.2026).
+const seoMonthlyData = {
+  'm3': {
+    stats: { visits: 216, users: null, bounceRate: null, pageDepth: null, avgDuration: null },
+    topPages: [
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 66, bounceRate: null },
+      { url: 'https://dune-group.ru/', visits: 40, bounceRate: null },
+      { url: 'https://dune-group.ru/prices', visits: 39, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 17, bounceRate: null },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 9, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-kuhni', visits: 6, bounceRate: null },
+      { url: 'https://dune-group.ru/dom', visits: 6, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-v-novostroike', visits: 4, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-magazina', visits: 4, bounceRate: null },
+      { url: 'https://dune-group.ru/designapartments', visits: 3, bounceRate: null }
+    ],
+    searchQueries: [
+      { query: 'прайс-лист на отделочные работы в ростове на дону 2026', visits: 8 },
+      { query: 'сколько стоит ремонт квартиры в 2026 в ростове на дону', visits: 5 },
+      { query: 'dune group', visits: 4 },
+      { query: 'ремонт под ключ', visits: 3 },
+      { query: 'стоимость ремонта под ключ с материалами за м2 в ростове на дону', visits: 3 },
+      { query: 'дюна ростов', visits: 3 },
+      { query: 'цены на ремонтные и отделочные работы в ростове на дону', visits: 3 },
+      { query: 'ремонт кухни цена', visits: 3 },
+      { query: 'сайт дюна групп ростов', visits: 3 },
+      { query: 'ремонт квартир под ключ', visits: 2 }
+    ]
+  }
+};
+
 const weeklyDailyData = {
   'w5': {
     pattern: [0.19, 0.116, 0.082, 0.138, 0.087, 0.078, 0.078], startDate: '01.06'
@@ -958,6 +1009,8 @@ function getDataForPeriod(periodId) {
 }
 
 function aggregateWeeks(weekIds, label, monthId) {
+  if (monthDataOverrides[monthId]) return monthDataOverrides[monthId];
+
   const weeksData = weeks.filter(w => weekIds.includes(w.id));
   const agg = weeksData.reduce((acc, w) => {
     acc.impressions += w.impressions;
@@ -1355,7 +1408,7 @@ function updateSEOWidgets(period) {
   let seoData = null;
   if (currentViewMode === 'months') {
     // Use aggregate SEO data
-    seoData = seoWeeklyData['all'] || null;
+    seoData = seoMonthlyData[period] || seoWeeklyData['all'] || null;
   } else if (seoWeeklyData[period]) {
     seoData = seoWeeklyData[period];
   }
