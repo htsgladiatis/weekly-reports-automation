@@ -2,7 +2,7 @@
 Data manually extracted from CSV exports dated 18.08.2026.
 
 Direct: 2,610 impressions / 74 clicks / 1,586.00 ₽.
-CRM: 35 records → 24 valid leads (excl. Дубль 6, Подрядчики реклама 5); 2 target.
+CRM: 35 records → all 35 counted as leads (per W13/W14 convention); 2 target.
 SEO exports (Webmaster): 65 organic clicks/visits, 10.08-16.08.
 """
 
@@ -24,9 +24,9 @@ DIRECT_PORG = {"imp": 1337, "clicks": 44, "spend": 0.00, "leads": 0, "target": 0
 DIRECT_ACCOUNTS = [DIRECT_E20010227, DIRECT_E17228851, DIRECT_DUNE, DIRECT_PORG]
 DIRECT_TOTALS = {key: sum(account[key] for account in DIRECT_ACCOUNTS) for key in ("imp", "clicks", "spend", "leads", "target")}
 
-ALL_LEADS, ALL_TARGETS = 24, 2
+ALL_LEADS, ALL_TARGETS = 35, 2
 SEO_LEADS, SEO_TARGETS, SEO_VISITS = 1, 1, 65
-OTHER_LEADS, OTHER_TARGETS = 22, 1
+OTHER_LEADS, OTHER_TARGETS = 33, 1
 
 def fmt_money(value):
     if value is None or value == 0 or value == "—":
