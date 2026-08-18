@@ -66,10 +66,12 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--txt);line
 .brand b{font-size:15px;font-weight:700;letter-spacing:.02em}
 .brand span{display:block;font-size:10px;color:var(--txt-3);letter-spacing:.12em;text-transform:uppercase}
 .hdr-sp{flex:1}
-.status{display:inline-flex;align-items:center;gap:7px;font-size:11px;color:var(--txt-2);padding:5px 11px;border:1px solid var(--line-2);border-radius:20px;background:var(--panel)}
+.hdr .period-wrap{width:auto;flex-shrink:0;order:2}
+.hdr .period-popover{left:auto;right:0}
+.status{display:inline-flex;align-items:center;gap:7px;font-size:11px;color:var(--txt-2);padding:5px 11px;border:1px solid var(--line-2);border-radius:20px;background:var(--panel);order:1}
 .status .led{width:7px;height:7px;border-radius:50%;background:#7a9a6b;box-shadow:0 0 8px #7a9a6b;animation:pulse 2.2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.tgl{width:54px;height:28px;border-radius:16px;border:1px solid var(--line-2);background:var(--panel-2);position:relative;cursor:pointer;flex-shrink:0}
+.tgl{width:54px;height:28px;border-radius:16px;border:1px solid var(--line-2);background:var(--panel-2);position:relative;cursor:pointer;flex-shrink:0;order:3}
 .tgl-k{position:absolute;top:2px;left:2px;width:22px;height:22px;border-radius:50%;background:var(--panel);box-shadow:var(--elev-1);display:flex;align-items:center;justify-content:center;font-size:12px;transition:transform .4s var(--ease)}
 [data-theme="dark"] .tgl-k{transform:translateX(26px)}
 
@@ -81,25 +83,47 @@ body{font-family:'Manrope',sans-serif;background:var(--bg);color:var(--txt);line
 .hero p{font-size:14px;color:var(--txt-2);max-width:600px;margin:0 auto 20px;line-height:1.6}
 
 /* PERIOD SELECTOR */
-.period-bar{position:sticky;top:59px;z-index:90;background:var(--glass);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
-.period-in{max-width:var(--maxw);margin:0 auto;padding:10px 24px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.period-label{font-size:11px;color:var(--txt-3);letter-spacing:.06em;text-transform:uppercase;flex-shrink:0}
-
-/* View Mode Toggle */
-.view-mode-toggle{display:flex;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel)}
-.view-mode-btn{padding:7px 16px;border:none;background:transparent;color:var(--txt);cursor:pointer;font-size:12px;font-weight:500;
-  transition:all .2s var(--ease);white-space:nowrap;font-family:'Manrope',sans-serif;position:relative}
-.view-mode-btn:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;height:60%;width:1px;background:var(--line)}
-.view-mode-btn:hover{background:var(--accent-light)}
-.view-mode-btn.active{background:var(--primary);color:var(--on-primary)}
-
-/* Week/Month Dropdown */
-.week-dropdown{display:inline-block;position:relative}
-.week-select{padding:7px 32px 7px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--txt);
-  cursor:pointer;font-size:12px;font-family:'Manrope',sans-serif;min-width:160px;
-  appearance:none;-webkit-appearance:none;transition:all .2s var(--ease)}
-.week-select:hover{border-color:var(--primary)}.week-select:focus{outline:none;border-color:var(--primary)}
-.week-dropdown::after{content:'\u25BC';position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:8px;color:var(--txt-3);pointer-events:none}
+/* PERIOD POPOVER */
+.period-wrap{position:relative;display:inline-block;max-width:100%}
+.period-trigger{display:inline-flex;align-items:center;gap:8px;min-height:36px;max-width:100%;padding:7px 11px 7px 13px;
+  border:1px solid var(--line-2);border-radius:10px;background:var(--panel);color:var(--txt);cursor:pointer;
+  font:600 12px 'Manrope',sans-serif;transition:border-color .2s var(--ease),box-shadow .2s var(--ease),transform .2s var(--ease)}
+.period-trigger:hover{border-color:var(--primary);transform:translateY(-1px)}
+.period-trigger:focus-visible{outline:3px solid color-mix(in srgb,var(--primary) 28%,transparent);outline-offset:2px}
+.period-trigger[aria-expanded="true"]{border-color:var(--primary);box-shadow:var(--glow-primary)}
+.pt-mode{color:var(--primary);font-size:10px;letter-spacing:.08em;text-transform:uppercase}
+.pt-ix{padding:2px 5px;border-radius:5px;background:var(--accent-light);color:var(--primary);font-size:10px;font-weight:800}
+.pt-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pt-arrow{color:var(--txt-3);font-size:13px;line-height:1;transition:transform .2s var(--ease)}
+.period-trigger[aria-expanded="true"] .pt-arrow{transform:rotate(180deg)}
+.period-popover{position:absolute;top:calc(100% + 10px);left:0;width:min(390px,calc(100vw - 32px));padding:12px;
+  border:1px solid var(--line-2);border-radius:14px;background:var(--panel);box-shadow:var(--elev-2);z-index:120;
+  animation:periodPopIn .2s var(--ease-out) both}
+.period-popover[hidden]{display:none}
+@keyframes periodPopIn{from{opacity:0;transform:translateY(-6px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.period-popover-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.period-search{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;background:var(--bg-2);color:var(--txt);
+  font:500 12px 'Manrope',sans-serif;outline:none;transition:border-color .2s var(--ease),box-shadow .2s var(--ease)}
+.period-search::placeholder{color:var(--txt-3)}
+.period-search:focus{border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 14%,transparent)}
+.period-modes{display:flex;gap:4px;padding:3px;margin-bottom:10px;border:1px solid var(--line);border-radius:9px;background:var(--bg-2)}
+.pop-mode{flex:1;padding:7px 8px;border:0;border-radius:6px;background:transparent;color:var(--txt-2);cursor:pointer;font:600 11px 'Manrope',sans-serif;transition:all .2s var(--ease)}
+.pop-mode:hover{color:var(--txt);background:var(--accent-light)}
+.pop-mode.active{background:var(--primary);color:var(--on-primary);box-shadow:0 2px 8px rgba(122,88,47,.18)}
+.period-list{max-height:310px;overflow-y:auto;padding:2px 1px}
+.period-year{padding:8px 9px 5px;color:var(--txt-3);font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.period-item{width:100%;display:grid;grid-template-columns:1fr auto;gap:4px 10px;padding:9px;border:1px solid transparent;border-radius:9px;background:transparent;color:var(--txt);cursor:pointer;text-align:left;font:500 12px 'Manrope',sans-serif;transition:background .15s var(--ease),border-color .15s var(--ease)}
+.period-item:hover{background:var(--bg-2);border-color:var(--line)}
+.period-item.active{background:var(--accent-light);border-color:var(--primary)}
+.period-item-main{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.period-item-meta{grid-column:1/-1;color:var(--txt-3);font-size:10px}
+.period-item-stat{color:var(--txt-2);font-size:10px;white-space:nowrap}
+.period-empty{padding:20px 10px;color:var(--txt-3);font-size:12px;text-align:center}
+@media(max-width:560px){
+  .period-wrap{width:100%}.period-trigger{width:100%;justify-content:flex-start}
+  .period-popover{position:fixed;top:auto;right:12px;bottom:12px;left:12px;width:auto;max-height:calc(100vh - 90px);overflow:auto}
+  .period-list{max-height:42vh}
+}
 
 /* CONTENT */
 .wrap{max-width:var(--maxw);margin:0 auto;padding:24px 24px 60px;display:flex;flex-direction:column;gap:20px}
@@ -150,8 +174,13 @@ td:first-child{color:var(--txt);font-weight:600}
 
 /* RESPONSIVE */
 @media(max-width:860px){.hero{padding-top:24px}.charts-grid{grid-template-columns:1fr}}
-@media(max-width:560px){.hero h1{font-size:26px}.wrap{padding:16px 12px 40px}.kpi-grid{grid-template-columns:repeat(2,1fr)}}
-@media print{.period-bar,.tgl{display:none}}
+@media(max-width:560px){
+  .hero h1{font-size:26px}.wrap{padding:16px 12px 40px}.kpi-grid{grid-template-columns:repeat(2,1fr)}
+  .hdr-in{padding:10px 12px;gap:8px}.hdr .status{display:none}.hdr .brand{min-width:0;flex:1}.hdr .brand > div:last-child{min-width:0}.hdr .brand b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hdr .period-wrap{width:auto;max-width:42vw}
+  .hdr .period-trigger{max-width:100%;padding-left:9px;padding-right:9px;gap:5px}.hdr .pt-label{max-width:135px}
+  .hdr .period-popover{position:fixed;top:auto;right:12px;bottom:12px;left:12px;width:auto;max-height:calc(100vh - 90px);overflow:auto}
+}
+@media print{.tgl{display:none}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 /* ANIMATIONS */
@@ -178,6 +207,24 @@ td:first-child{color:var(--txt);font-weight:600}
       <div><b>DUNE GROUP</b><span>Рекламный дашборд</span></div>
     </div>
     <div class="hdr-sp"></div>
+    <div class="period-wrap">
+      <button id="periodTrigger" class="period-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="periodPopover" aria-label="Выбрать период">
+        <span class="pt-mode" id="ptMode">Недели</span>
+        <span class="pt-ix" id="ptIx">w15</span>
+        <span class="pt-label" id="ptLabel">10.08–16.08</span>
+        <span class="pt-arrow" id="ptArrow" aria-hidden="true">▾</span>
+      </button>
+      <div id="periodPopover" class="period-popover" role="dialog" aria-modal="true" aria-label="Выбор периода" hidden>
+        <div class="period-popover-head">
+          <input id="periodSearch" class="period-search" type="search" placeholder="Найти неделю или месяц…" autocomplete="off" aria-label="Поиск периода">
+        </div>
+        <div class="period-modes" role="group" aria-label="Тип периода">
+          <button class="pop-mode active" type="button" aria-pressed="true" data-mode="weeks">Недели</button>
+          <button class="pop-mode" type="button" aria-pressed="false" data-mode="months">Месяцы</button>
+        </div>
+        <div id="periodList" class="period-list" role="group" aria-label="Доступные периоды"></div>
+      </div>
+    </div>
     <span class="status"><span class="led"></span>Ремонт под ключ · Ростов-на-Дону</span>
     <button class="tgl" id="tgl" role="switch" aria-checked="false" aria-label="Тема"><span class="tgl-k" id="tglK">☀️</span></button>
   </div>
@@ -190,19 +237,6 @@ td:first-child{color:var(--txt);font-weight:600}
   <p id="heroSubtitle">Яндекс Директ · SEO · Лиды — агрегированные показатели по всем каналам</p>
 </section>
 
-<!-- PERIOD BAR -->
-<nav class="period-bar" id="periodBar">
-  <div class="period-in">
-    <span class="period-label">Период:</span>
-    <div class="view-mode-toggle" id="viewModeToggle">
-      <button class="view-mode-btn active" onclick="switchViewMode('weeks')">📅 По неделям</button>
-      <button class="view-mode-btn" onclick="switchViewMode('months')">📆 По месяцам</button>
-    </div>
-    <div class="week-dropdown" id="weekDropdown">
-      <select class="week-select" id="weekSelect" onchange="showPeriod(this.value)"></select>
-    </div>
-  </div>
-</nav>
 
 <!-- MAIN CONTENT -->
 <main class="wrap" id="mainContent">
@@ -246,7 +280,7 @@ td:first-child{color:var(--txt);font-weight:600}
   </div>
 
   <!-- SEO Section -->
-  <div class="sec-title" style="margin-top:8px"><span class="material-symbols-outlined mat">search</span> SEO Аналитика <span class="update-badge">Яндекс.Метрика</span></div>
+  <div class="sec-title" style="margin-top:8px"><span class="material-symbols-outlined mat">search</span> SEO Аналитика <span class="update-badge">SEO · выгрузка 10.08–16.08</span></div>
   <div class="charts-grid" id="seoWidgets">
     <div class="chart-card">
       <div class="chart-h"><span class="material-symbols-outlined mat">trending_up</span> SEO Performance</div>
@@ -405,13 +439,108 @@ const weeks = [
       'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
       'porg-3uieikjn': { imp: 370, clicks: 18, spend: 0, leads: 0, target: 0 }
     }
+  },
+  { id: 'w10', label: '06.07–12.07', short: '06.07–12.07',
+    impressions: 59882, clicks: 839, spend: 35776, leads: 35, target: 5,
+    ctr: 1.40, cpc: 43, cpa: 1022, cpl: 7155, convLead: 4.17, convTarget: 14.29,
+    seo: 53, seoLeads: 1, seoTarget: 0,
+    otherLeads: 22, otherTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 37219, clicks: 454, spend: 25679, leads: 11, target: 5 },
+      'e-17228851': { imp: 22375, clicks: 371, spend: 10097, leads: 1, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 288, clicks: 14, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w11', label: '13.07–19.07', short: '13.07–19.07',
+    impressions: 55986, clicks: 520, spend: 71256, leads: 36, target: 3,
+    ctr: 0.93, cpc: 137, cpa: 1979, cpl: 23752, convLead: 6.92, convTarget: 8.33,
+    seo: 59, seoLeads: 2, seoTarget: 0,
+    otherLeads: 23, otherTarget: 1,
+    accounts: {
+      'e-20010227': { imp: 26303, clicks: 280, spend: 57406, leads: 11, target: 2 },
+      'e-17228851': { imp: 29456, clicks: 233, spend: 13850, leads: 0, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 227, clicks: 7, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w12', label: '20.07–26.07', short: '20.07–26.07',
+    impressions: 73983, clicks: 5277, spend: 29917, leads: 36, target: 0,
+    ctr: 7.13, cpc: 6, cpa: 831, cpl: null, convLead: 0.68, convTarget: 0,
+    seo: 47, seoLeads: 0, seoTarget: 0,
+    otherLeads: 32, otherTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 1503, clicks: 35, spend: 3089, leads: 4, target: 0 },
+      'e-17228851': { imp: 72271, clicks: 5231, spend: 26828, leads: 0, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 209, clicks: 11, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w13', label: '27.07–02.08', short: '27.07–02.08',
+    impressions: 27851, clicks: 2585, spend: 9899, leads: 47, target: 0,
+    ctr: 9.28, cpc: 4, cpa: 210, cpl: null, convLead: 1.82, convTarget: 0,
+    seo: 44, seoLeads: 2, seoTarget: 0,
+    otherLeads: 40, otherTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 3449, clicks: 51, spend: 1220, leads: 4, target: 0 },
+      'e-17228851': { imp: 22320, clicks: 2481, spend: 8679, leads: 1, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 2082, clicks: 53, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w14', label: '03.08–09.08', short: '03.08–09.08',
+    impressions: 5279, clicks: 223, spend: 5440, leads: 43, target: 2,
+    ctr: 4.22, cpc: 24, cpa: 127, cpl: 2720, convLead: 19.28, convTarget: 4.65,
+    seo: 26, seoLeads: 1, seoTarget: 1,
+    otherLeads: 37, otherTarget: 1,
+    accounts: {
+      'e-20010227': { imp: 1414, clicks: 29, spend: 0, leads: 5, target: 0 },
+      'e-17228851': { imp: 2620, clicks: 158, spend: 5440, leads: 0, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 1245, clicks: 36, spend: 0, leads: 0, target: 0 }
+    }
+  },
+  { id: 'w15', label: '10.08–16.08', short: '10.08–16.08',
+    impressions: 2610, clicks: 74, spend: 1586, leads: 24, target: 2,
+    ctr: 2.84, cpc: 21, cpa: 66, cpl: 793, convLead: 32.43, convTarget: 8.33,
+    seo: 65, seoLeads: 1, seoTarget: 1,
+    otherLeads: 22, otherTarget: 1,
+    accounts: {
+      'e-20010227': { imp: 954, clicks: 19, spend: 1586, leads: 1, target: 0 },
+      'e-17228851': { imp: 319, clicks: 11, spend: 0, leads: 0, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 1337, clicks: 44, spend: 0, leads: 0, target: 0 }
+    }
   }
 ];
 
+// Месяц недели определяется по дате её окончания; переходящие недели не дробятся.
 const months = [
   { id: 'm1', label: 'Май 2026', short: 'Май', weeks: ['w1','w2','w3','w4'], dateRange: '04.05–31.05' },
-  { id: 'm2', label: 'Июнь 2026', short: 'Июнь', weeks: ['w5','w6','w7','w8','w9'], dateRange: '01.06–30.06' }
+  { id: 'm2', label: 'Июнь 2026', short: 'Июнь', weeks: ['w5','w6','w7','w8','w9'], dateRange: '01.06–30.06' },
+  { id: 'm3', label: 'Июль 2026', short: 'Июль', weeks: ['w10', 'w11', 'w12'], dateRange: '01.07–31.07' },
+  { id: 'm4', label: 'Август 2026', short: 'Август', weeks: ['w13','w14','w15'], dateRange: '27.07–16.08' }
 ];
+
+// Exact month snapshot from the full 01.07–31.07 export.
+// Kept separate from weekly data so cross-month weeks are not double-counted.
+const monthDataOverrides = {
+  'm3': {
+    id: 'm3', label: 'Июль 2026', short: 'Июль',
+    impressions: 285251, clicks: 10284, spend: 172645.87,
+    leads: 169, target: 17,
+    ctr: 3.61, cpc: 16.79, cpa: 1021.57, cpl: 10155.64,
+    convLead: 1.64, convTarget: 10.06,
+    seo: 216, seoLeads: 8, seoTarget: 3,
+    otherLeads: 120, otherTarget: 2,
+    accounts: {
+      'e-20010227': { imp: 103924, clicks: 1128, spend: 108221.25, leads: 35, target: 10 },
+      'e-17228851': { imp: 178473, clicks: 9061, spend: 64424.62, leads: 6, target: 2 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 2854, clicks: 95, spend: 0, leads: 0, target: 0 }
+    }
+  }
+};
 
 // SEO weekly data (from Yandex Metrika)
 const seoWeeklyData = {
@@ -577,33 +706,227 @@ const seoWeeklyData = {
       { query: 'дюн групп ростов', visits: 1 },
     ],
   },
-  'all': {
-    stats: { visits: 282, users: 264, bounceRate: 5.67, pageDepth: 3.4, avgDuration: 167 },
+  'w10': {
+    stats: { visits: 53, users: 47, bounceRate: 9.43, pageDepth: 3.08, avgDuration: 156 },
     topPages: [
-      { url: 'https://dune-group.ru/', visits: 57, bounceRate: 1.75 },
-      { url: 'https://dune-group.ru/prices', visits: 38, bounceRate: 2.63 },
-      { url: 'https://dune-group.ru/designapartments', visits: 23, bounceRate: 13.04 },
-      { url: 'https://dune-group.ru/designerepairdune', visits: 20, bounceRate: 5.0 },
-      { url: 'https://dune-group.ru/designhouses', visits: 13, bounceRate: 7.69 },
-      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 7, bounceRate: 14.29 },
-      { url: 'https://dune-group.ru/dom', visits: 6, bounceRate: 50.0 },
-      { url: 'https://remont.dune-group.ru/', visits: 3, bounceRate: 0.0 },
-      { url: 'https://dune-group.ru/kladochnie-raboti', visits: 2, bounceRate: 0.0 },
-      { url: 'https://dune-group.ru/remont-balkona', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/', visits: 18, bounceRate: 5.56 },
+      { url: 'https://dune-group.ru/prices', visits: 9, bounceRate: 22.22 },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 6, bounceRate: 16.67 },
+      { url: 'https://dune-group.ru/designapartments', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dizain-restorana', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 2, bounceRate: 0.0 },
+      { url: 'https://remont.dune-group.ru/?etext=', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designhouses', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dizain-ofisa', visits: 1, bounceRate: 0.0 },
     ],
     searchQueries: [
-      { query: 'dune group, ростов-на-дону', visits: 4 },
-      { query: 'дун груп', visits: 3 },
-      { query: 'дизайн проект в жк донская слобода ростов на дону', visits: 3 },
-      { query: 'dune group', visits: 3 },
-      { query: 'прайс лист на ремонтно строительные работы в ростове на дону', visits: 2 },
-      { query: 'строительная компания done group ростов-на-дону', visits: 2 },
-      { query: 'цены на ремонтные и отделочные работы в ростове на дону', visits: 2 },
-      { query: 'дюна групп ростов на дону', visits: 2 },
-      { query: 'category_id:(184107431)', visits: 1 },
-      { query: 'dune group строительство домов ростов на дону', visits: 1 },
+      { query: 'dune group, ростов-на-дону', visits: 3 },
+      { query: 'dune group', visits: 1 },
+      { query: 'dune grup', visits: 1 },
+      { query: 'dune.group@yandex.ru', visits: 1 },
+      { query: 'дизайн проект квартиры ростов на дону', visits: 1 },
+      { query: 'ип евченко юрий валерьевич', visits: 1 },
+      { query: 'компании дизайн интерьера офисов в ростове', visits: 1 },
+      { query: 'отзывы о ремонтах и работе dune group ростов-на-дону', visits: 1 },
+      { query: 'прайс лист на ремонт квартиры 2026 цены', visits: 1 },
+      { query: 'прайс-лист на отделочные работы в ростове на дону 2026', visits: 1 },
     ],
   },
+  'w11': {
+    stats: { visits: 59, users: 55, bounceRate: 8.47, pageDepth: 3.15, avgDuration: 160 },
+    topPages: [
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 18, bounceRate: 5.56 },
+      { url: 'https://dune-group.ru/prices', visits: 15, bounceRate: 6.67 },
+      { url: 'https://dune-group.ru/', visits: 10, bounceRate: 10.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 5, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-kuhni', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-v-novostroike', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dom', visits: 2, bounceRate: 50.0 },
+      { url: 'https://dune-group.ru/remont-odnokomnatnoi-kvartiri', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/doma-iz-blokov', visits: 1, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'ремонт кухни цена', visits: 3 },
+      { query: 'дюна строительная компания', visits: 2 },
+      { query: 'дюна групп ростов на дону', visits: 2 },
+      { query: 'прайс лист на отделочные работы по ремонту квартир в ро', visits: 2 },
+      { query: 'дюна ростов', visits: 2 },
+      { query: 'dune group, ростов-на-дону отзывы', visits: 2 },
+      { query: 'сколько стоит ремонт квартиры под ключ в ростове на дон', visits: 2 },
+      { query: 'прайс-лист на строительные работы в ростовской области', visits: 2 },
+      { query: 'ремонт под ключ', visits: 1 },
+      { query: 'дома из блоков под ключ', visits: 1 },
+    ],
+  },
+  'w12': {
+    stats: { visits: 53, users: 50, bounceRate: 9.43, pageDepth: 3.1, avgDuration: 140 },
+    topPages: [
+      { url: 'https://dune-group.ru/prices', visits: 13, bounceRate: 7.69 },
+      { url: 'https://dune-group.ru/', visits: 12, bounceRate: 8.33 },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 10, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 4, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-kuhni', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designapartments', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dom', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-v-novostroike', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/betonnie-raboti', visits: 1, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'прайс-лист на отделочные работы в ростове на дону 2026', visits: 2 },
+      { query: 'ремонт кухни под ключ', visits: 2 },
+      { query: 'ремонт домов цена прайс ростов-на-дону', visits: 2 },
+      { query: 'цена на покраску стен в ростове на дону в 2026', visits: 2 },
+      { query: 'ремонт квартир под ключ', visits: 1 },
+      { query: 'стоимость ремонта под ключ с материалами за м2 в ростове на дону', visits: 1 },
+      { query: 'ремонт квартир под ключ в ростове на дону', visits: 1 },
+      { query: 'санузел под ключ ростов-на-дону', visits: 1 },
+      { query: 'ремонт квартир в ростове', visits: 1 },
+      { query: 'строительство дома ростов дюна групп', visits: 1 },
+    ],
+  },
+  'w13': {
+    // В исходных SEO-выгрузках нет 02.08; визиты и топы покрывают 27.07–01.08.
+    stats: { visits: 44, users: null, bounceRate: null, pageDepth: null, avgDuration: null },
+    topPages: [
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 22, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 7, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/', visits: 6, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/prices', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/kirpichnii-dom', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-ofisov', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dom', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-magazina', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/kommercheskii-remont', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dom?utm_source=yandex&utm_medium=cpa&utm_campaign={campaign_id}&utm_content={ad_id}&utm_term={PHRASE}&roistat=direct3_{source_type}_{campaign_id}_rsMasterGroup_rsMasterBanner_{PHRASE}', visits: 1, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'прайс-лист на отделочные работы в ростове на дону 2026', visits: 2 },
+      { query: 'ремонт квартир под ключ в ростове', visits: 1 },
+      { query: 'расценки на строительные работы в ростове на дону прайс-лист 2026', visits: 1 },
+      { query: 'прайс-лист на строительные работы в ростовской области на 2026 год', visits: 1 },
+      { query: 'расценки на отделочные работы в ростове на дону 2026', visits: 1 },
+      { query: 'ремонт под ключ', visits: 0 },
+      { query: 'строительство кирпичных домов под ключ', visits: 0 },
+      { query: 'кирпичный дом под ключ проекты', visits: 0 },
+      { query: 'дом из кирпича под ключ цена', visits: 0 },
+      { query: 'кирпичные дома под ключ', visits: 0 },
+    ],
+  },
+  'w14': {
+    stats: { visits: 26, users: null, bounceRate: null, pageDepth: null, avgDuration: null },
+    topPages: [
+      { url: 'https://dune-group.ru/', visits: 8, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 6, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/prices', visits: 5, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dom', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/cvdesignerepairdune', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-kvartiri-studii', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-ofisov', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/dizain-ofisa', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-salona-krasoti', visits: 1, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/kirpichnii-dom', visits: 0, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'ремонт под ключ', visits: 3 },
+      { query: 'калькулятор дюна групп', visits: 3 },
+      { query: 'дюна строительная компания', visits: 2 },
+      { query: 'стоимость ремонта под ключ с материалами за м2 в ростове на дону', visits: 1 },
+      { query: 'ремонт под ключ ростов-на-дону цена за м2 в новостройке', visits: 1 },
+      { query: 'dune group', visits: 1 },
+      { query: 'ремонт 1 квартиры стоимость', visits: 1 },
+      { query: 'выполним ремонт офиса', visits: 1 },
+      { query: 'стоимость ремонта под ключ', visits: 0 },
+      { query: 'ремонт квартир под ключ в ростове', visits: 0 },
+    ],
+  },
+  'w15': {
+    stats: { visits: 65, users: null, bounceRate: null, pageDepth: null, avgDuration: null },
+    topPages: [
+      { url: 'https://dune-group.ru/prices', visits: 19, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 13, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/', visits: 10, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-ofisov', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-magazina', visits: 3, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/remont-dvuhkomnatnoi-kvartiri', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/betonnie-raboti', visits: 2, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designapartments', visits: 1, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'стоимость ремонта под ключ с материалами за м2 в ростове на дону', visits: 3 },
+      { query: 'прайс цен на отделочные работы в ростове на дону', visits: 2 },
+      { query: 'ремонт под ключ', visits: 1 },
+      { query: 'дизайн проект квартиры ростов на дону', visits: 1 },
+      { query: 'расценки на строительные работы в ростове на дону прайс-лист 2026', visits: 1 },
+      { query: 'построить кирпичный дом под ключ', visits: 1 },
+      { query: 'ремонт квартиры под ключ цена за м2', visits: 1 },
+      { query: 'строительство двухэтажных домов под ключ', visits: 1 },
+      { query: 'ремонт под ключ в ростове на дону', visits: 1 },
+      { query: 'ремонт квартир под ключ в ростове на дону', visits: 1 },
+    ],
+  },
+  'all': {
+    stats: { visits: 582, users: 542, bounceRate: 6.93, pageDepth: 3.29, avgDuration: 159 },
+    topPages: [
+      { url: 'https://dune-group.ru/', visits: 133, bounceRate: 3.76 },
+      { url: 'https://dune-group.ru/prices', visits: 117, bounceRate: 4.27 },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 86, bounceRate: 3.49 },
+      { url: 'https://dune-group.ru/designapartments', visits: 39, bounceRate: 5.13 },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 39, bounceRate: 2.56 },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 21, bounceRate: 0.0 },
+      { url: 'https://dune-group.ru/designhouses', visits: 17, bounceRate: 5.88 },
+      { url: 'https://dune-group.ru/dom', visits: 14, bounceRate: 28.57 },
+      { url: 'https://dune-group.ru/kommercheskii-remont', visits: 6, bounceRate: 16.67 },
+      { url: 'https://remont.dune-group.ru/', visits: 6, bounceRate: 0.0 },
+    ],
+    searchQueries: [
+      { query: 'dune group, ростов-на-дону', visits: 7 },
+      { query: 'dune group', visits: 5 },
+      { query: 'прайс-лист на отделочные работы в ростове на дону 2026', visits: 5 },
+      { query: 'ремонт под ключ', visits: 5 },
+      { query: 'стоимость ремонта под ключ с материалами за м2 в ростове на дону', visits: 5 },
+      { query: 'дюна групп ростов на дону', visits: 4 },
+      { query: 'дюна строительная компания', visits: 4 },
+      { query: 'дизайн проект в жк донская слобода ростов на дону', visits: 3 },
+      { query: 'дун груп', visits: 3 },
+      { query: 'средняя стоимость ремонта квартиры за квадратный метр в ростове на дону', visits: 3 },
+    ],
+  },
+};
+
+// Full-July SEO exports from Yandex Webmaster (01.07–31.07.2026).
+const seoMonthlyData = {
+  'm3': {
+    stats: { visits: 216, users: null, bounceRate: null, pageDepth: null, avgDuration: null },
+    topPages: [
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 66, bounceRate: null },
+      { url: 'https://dune-group.ru/', visits: 40, bounceRate: null },
+      { url: 'https://dune-group.ru/prices', visits: 39, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 17, bounceRate: null },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 9, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-kuhni', visits: 6, bounceRate: null },
+      { url: 'https://dune-group.ru/dom', visits: 6, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-v-novostroike', visits: 4, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-magazina', visits: 4, bounceRate: null },
+      { url: 'https://dune-group.ru/designapartments', visits: 3, bounceRate: null }
+    ],
+    searchQueries: [
+      { query: 'прайс-лист на отделочные работы в ростове на дону 2026', visits: 8 },
+      { query: 'сколько стоит ремонт квартиры в 2026 в ростове на дону', visits: 5 },
+      { query: 'dune group', visits: 4 },
+      { query: 'ремонт под ключ', visits: 3 },
+      { query: 'стоимость ремонта под ключ с материалами за м2 в ростове на дону', visits: 3 },
+      { query: 'дюна ростов', visits: 3 },
+      { query: 'цены на ремонтные и отделочные работы в ростове на дону', visits: 3 },
+      { query: 'ремонт кухни цена', visits: 3 },
+      { query: 'сайт дюна групп ростов', visits: 3 },
+      { query: 'ремонт квартир под ключ', visits: 2 }
+    ]
+  }
 };
 
 const weeklyDailyData = {
@@ -621,6 +944,21 @@ const weeklyDailyData = {
   },
   'w9': {
     pattern: [0.14, 0.14, 0.14, 0.15, 0.14, 0.15, 0.14], startDate: '29.06'
+  },
+  'w11': {
+    pattern: [0.14, 0.14, 0.14, 0.14, 0.15, 0.14, 0.15], startDate: '13.07'
+  },
+  'w12': {
+    pattern: [0.013, 0.134, 0.229, 0.236, 0.115, 0.154, 0.12], startDate: '20.07'
+  },
+  'w13': {
+    pattern: [0.14, 0.14, 0.14, 0.14, 0.15, 0.14, 0.15], startDate: '27.07'
+  },
+  'w14': {
+    pattern: [0.14, 0.14, 0.14, 0.14, 0.15, 0.14, 0.15], startDate: '03.08'
+  },
+  'w15': {
+    pattern: [0.14, 0.14, 0.14, 0.14, 0.15, 0.14, 0.15], startDate: '10.08'
   },
 };
 
@@ -707,15 +1045,14 @@ function rub(n) {
 }
 
 function getDataForPeriod(periodId) {
-  if (periodId === 'all') {
-    return currentViewMode === 'months' ? getMonthsData() : weeks;
-  }
   const month = months.find(m => m.id === periodId);
-  if (month) return weeks.filter(w => month.weeks.includes(w.id));
+  if (month) return [aggregateWeeks(month.weeks, month.label, month.id)];
   return weeks.filter(w => w.id === periodId);
 }
 
 function aggregateWeeks(weekIds, label, monthId) {
+  if (monthDataOverrides[monthId]) return monthDataOverrides[monthId];
+
   const weeksData = weeks.filter(w => weekIds.includes(w.id));
   const agg = weeksData.reduce((acc, w) => {
     acc.impressions += w.impressions;
@@ -782,43 +1119,26 @@ function destroyCharts() {
 function initCharts(data) {
   destroyCharts();
   const labels = data.map(w => w.short);
+  const singlePeriod = data.length === 1;
 
-  // Check if this is a single-week view (show daily data)
-  const isSingleWeek = data.length === 1 && data[0].id && data[0].id.startsWith('w');
-  let dailyData = null;
-  let dailyLabels = null;
-  if (isSingleWeek) {
-    dailyData = getDailyData(data[0].id);
-    if (dailyData && dailyData.length > 0) {
-      dailyLabels = dailyData.map(d => d.date);
-    }
-  }
-
-  // Labels for charts: daily labels for single week, weekly labels otherwise
-  const chartLabels = dailyLabels || labels;
-
-  // Spend & Leads (show daily when single week)
+  // Spend & Leads
   chartInstances.spendLeads = new Chart(document.getElementById('spendLeadsChart'), {
     type: 'bar',
     data: {
-      labels: chartLabels,
+      labels,
       datasets: [
-        { label: 'Расход (р.)', data: dailyData ? dailyData.map(d => d.spend) : data.map(w => w.spend),
+        { label: 'Расход (р.)', data: data.map(w => w.spend),
           backgroundColor: 'rgba(99,102,241,.7)', borderRadius: 6, yAxisID: 'y' },
-        { label: 'Лиды', data: dailyData ? dailyData.map(d => d.leads) : data.map(w => w.leads), type: 'line',
+        { label: 'Лиды', data: data.map(w => w.leads), type: 'line',
           borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,.1)',
-          tension: .3, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#22c55e', yAxisID: 'y1' },
-        { label: 'Ц. Лиды', data: dailyData ? dailyData.map(d => d.target) : data.map(w => w.target), type: 'line',
+          tension: .3, pointRadius: 6, pointBackgroundColor: '#22c55e', yAxisID: 'y1' },
+        { label: 'Ц. Лиды', data: data.map(w => w.target), type: 'line',
           borderColor: '#eab308', backgroundColor: 'rgba(234,179,8,.1)',
-          tension: .3, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#eab308', yAxisID: 'y1' }
+          tension: .3, pointRadius: 6, pointBackgroundColor: '#eab308', yAxisID: 'y1' }
       ]
     },
     options: {
       ...chartDefaults,
-      plugins: {
-        ...chartDefaults.plugins,
-        title: dailyData ? { display: true, text: 'По дням', color: '#71717a', font: { size: 11 } } : undefined
-      },
       scales: {
         ...chartDefaults.scales,
         y: { ...chartDefaults.scales.y, position: 'left', title: { display: true, text: 'Расход (р.)', color: '#71717a' } },
@@ -828,25 +1148,21 @@ function initCharts(data) {
     }
   });
 
-  // Impressions & Clicks (show daily when single week)
+  // Impressions & Clicks
   chartInstances.impressionsClicks = new Chart(document.getElementById('impressionsClicksChart'), {
     type: 'bar',
     data: {
-      labels: chartLabels,
+      labels,
       datasets: [
-        { label: 'Показы', data: dailyData ? dailyData.map(d => d.impressions) : data.map(w => w.impressions),
+        { label: 'Показы', data: data.map(w => w.impressions),
           backgroundColor: 'rgba(59,130,246,.7)', borderRadius: 6, yAxisID: 'y' },
-        { label: 'Клики', data: dailyData ? dailyData.map(d => d.clicks) : data.map(w => w.clicks), type: 'line',
+        { label: 'Клики', data: data.map(w => w.clicks), type: 'line',
           borderColor: '#f97316', backgroundColor: 'rgba(249,115,22,.1)',
-          tension: .3, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#f97316', yAxisID: 'y1' }
+          tension: .3, pointRadius: 6, pointBackgroundColor: '#f97316', yAxisID: 'y1' }
       ]
     },
     options: {
       ...chartDefaults,
-      plugins: {
-        ...chartDefaults.plugins,
-        title: dailyData ? { display: true, text: 'По дням', color: '#71717a', font: { size: 11 } } : undefined
-      },
       scales: {
         ...chartDefaults.scales,
         y: { ...chartDefaults.scales.y, position: 'left', title: { display: true, text: 'Показы', color: '#71717a' } },
@@ -856,57 +1172,71 @@ function initCharts(data) {
     }
   });
 
-  // Efficiency: CTR & Conv (show daily or weekly)
-  const effLabels = chartLabels;
+  // Efficiency: CTR & Conv
   chartInstances.efficiency = new Chart(document.getElementById('efficiencyChart'), {
-    type: 'line',
+    type: singlePeriod ? 'bar' : 'line',
     data: {
-      labels: effLabels,
+      labels,
       datasets: [
-        { label: 'CTR %', data: dailyData ? getDailyCtr(dailyData) : data.map(w => w.ctr),
-          borderColor: '#6366f1', backgroundColor: 'rgba(99,102,241,.1)',
-          borderWidth: 2.5,
-          tension: .4, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#6366f1', fill: true },
-        { label: 'Конверсия в Лид %', data: dailyData ? getDailyConv(dailyData) : data.map(w => w.convLead),
-          borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,.1)',
-          borderWidth: 2.5,
-          tension: .4, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#22c55e', fill: true }
+        { label: 'CTR %', data: data.map(w => w.ctr),
+          borderColor: '#6366f1',
+          backgroundColor: singlePeriod ? '#6366f1' : 'rgba(99,102,241,.1)',
+          borderWidth: 2.5, borderRadius: singlePeriod ? 6 : 0,
+          barPercentage: singlePeriod ? .42 : undefined,
+          categoryPercentage: singlePeriod ? .7 : undefined,
+          tension: .4, pointRadius: singlePeriod ? 0 : 6,
+          pointBackgroundColor: '#6366f1', fill: !singlePeriod },
+        { label: 'Конверсия в Лид %', data: data.map(w => w.convLead),
+          borderColor: '#22c55e',
+          backgroundColor: singlePeriod ? '#22c55e' : 'rgba(34,197,94,.1)',
+          borderWidth: 2.5, borderRadius: singlePeriod ? 6 : 0,
+          barPercentage: singlePeriod ? .42 : undefined,
+          categoryPercentage: singlePeriod ? .7 : undefined,
+          tension: .4, pointRadius: singlePeriod ? 0 : 6,
+          pointBackgroundColor: '#22c55e', fill: !singlePeriod }
       ]
     },
     options: {
       ...chartDefaults,
-      plugins: {
-        ...chartDefaults.plugins,
-        title: dailyData ? { display: true, text: 'По дням', color: '#71717a', font: { size: 11 } } : undefined
+      scales: {
+        ...chartDefaults.scales,
+        y: { ...chartDefaults.scales.y, beginAtZero: singlePeriod }
       }
     }
   });
 
-  // Cost: CPA & CPL (show daily or weekly)
+  // Cost: CPA & CPL
   chartInstances.cost = new Chart(document.getElementById('costChart'), {
-    type: 'line',
+    type: singlePeriod ? 'bar' : 'line',
     data: {
-      labels: effLabels,
+      labels,
       datasets: [
-        { label: 'CPA (р.)', data: dailyData ? getDailyCpa(dailyData) : data.map(w => w.cpa),
-          borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,.1)',
-          borderWidth: 2.5,
-          tension: .4, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#ef4444', fill: true },
-        { label: 'CPL (р.)', data: dailyData ? getDailyCpl(dailyData) : data.map(w => w.cpl),
-          borderColor: '#a855f7', backgroundColor: 'rgba(168,85,247,.1)',
-          borderWidth: 2.5,
-          tension: .4, pointRadius: dailyData ? 5 : 6, pointBackgroundColor: '#a855f7', fill: true }
+        { label: 'CPA (р.)', data: data.map(w => w.cpa),
+          borderColor: '#ef4444',
+          backgroundColor: singlePeriod ? '#ef4444' : 'rgba(239,68,68,.1)',
+          borderWidth: 2.5, borderRadius: singlePeriod ? 6 : 0,
+          barPercentage: singlePeriod ? .42 : undefined,
+          categoryPercentage: singlePeriod ? .7 : undefined,
+          tension: .4, pointRadius: singlePeriod ? 0 : 6,
+          pointBackgroundColor: '#ef4444', fill: !singlePeriod },
+        { label: 'CPL (р.)', data: data.map(w => w.cpl),
+          borderColor: '#a855f7',
+          backgroundColor: singlePeriod ? '#a855f7' : 'rgba(168,85,247,.1)',
+          borderWidth: 2.5, borderRadius: singlePeriod ? 6 : 0,
+          barPercentage: singlePeriod ? .42 : undefined,
+          categoryPercentage: singlePeriod ? .7 : undefined,
+          tension: .4, pointRadius: singlePeriod ? 0 : 6,
+          pointBackgroundColor: '#a855f7', fill: !singlePeriod }
       ]
     },
     options: {
       ...chartDefaults,
-      plugins: {
-        ...chartDefaults.plugins,
-        title: dailyData ? { display: true, text: 'По дням', color: '#71717a', font: { size: 11 } } : undefined
+      scales: {
+        ...chartDefaults.scales,
+        y: { ...chartDefaults.scales.y, beginAtZero: singlePeriod }
       }
     }
   });
-
   // SEO Performance
   const seoData = data.reduce((s, w) => s + (w.seo || 0), 0);
   const seoUsers = Math.round(seoData * 0.72);
@@ -1147,9 +1477,9 @@ function renderSummaryTable() {
 function updateSEOWidgets(period) {
   // Find matching SEO data
   let seoData = null;
-  if (period === 'all' || currentViewMode === 'months') {
+  if (currentViewMode === 'months') {
     // Use aggregate SEO data
-    seoData = seoWeeklyData['all'] || null;
+    seoData = seoMonthlyData[period] || seoWeeklyData['all'] || null;
   } else if (seoWeeklyData[period]) {
     seoData = seoWeeklyData[period];
   }
@@ -1204,92 +1534,196 @@ function renderSearchQueries(seoData) {
 }
 
 // ============================================================
-// VIEW MODE TOGGLE
+// PERIOD POPOVER
 // ============================================================
 let currentViewMode = 'weeks';
+let currentPeriod = weeks[weeks.length - 1].id;
+let periodQuery = '';
+
+function periodYear(item) {
+  const match = String(item.label || item.dateRange || '').match(/20\d{2}/);
+  return match ? match[0] : '2026';
+}
+
+function periodItems(mode) {
+  if (mode === 'months') {
+    return months.slice().reverse().map(month => ({
+      ...aggregateWeeks(month.weeks, month.label, month.id),
+      dateRange: month.dateRange
+    }));
+  }
+  return weeks.slice().reverse();
+}
+
+function escapeHtml(value) {
+  return String(value == null ? '' : value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function periodLabel(item, mode) {
+  return mode === 'months' ? `${item.label} (${item.dateRange})` : item.label;
+}
+
+function periodStats(item) {
+  return `${fmt(item.leads)} лидов · ${fmt(item.target)} целевых`;
+}
+
+function getCurrentPeriodItem() {
+  if (currentViewMode === 'months') {
+    const month = months.find(item => item.id === currentPeriod);
+    if (month) return { ...month, ...aggregateWeeks(month.weeks, month.label, month.id) };
+  }
+  return weeks.find(w => w.id === currentPeriod) || months.find(m => m.id === currentPeriod);
+}
+
+function updatePeriodTrigger() {
+  const modeEl = document.getElementById('ptMode');
+  const ixEl = document.getElementById('ptIx');
+  const labelEl = document.getElementById('ptLabel');
+  const trigger = document.getElementById('periodTrigger');
+  if (!modeEl || !ixEl || !labelEl || !trigger) return;
+
+  const item = getCurrentPeriodItem();
+  const mode = currentViewMode;
+  modeEl.textContent = mode === 'months' ? 'Месяцы' : 'Недели';
+  ixEl.textContent = item && item.id !== 'all'
+    ? (mode === 'weeks' ? item.id : '')
+    : 'all';
+  ixEl.hidden = !ixEl.textContent;
+  labelEl.textContent = periodLabel(item || { id: 'all' }, mode);
+  trigger.setAttribute('aria-label', `Выбрать период: ${labelEl.textContent}`);
+}
+
+function renderPeriodList() {
+  const list = document.getElementById('periodList');
+  if (!list) return;
+  const mode = currentViewMode;
+  const query = periodQuery.trim().toLocaleLowerCase('ru');
+  const items = periodItems(mode).filter(item => {
+    if (!query) return true;
+    return `${periodLabel(item, mode)} ${periodStats(item)}`.toLocaleLowerCase('ru').includes(query);
+  });
+
+  if (items.length === 0) {
+    list.innerHTML = '<div class="period-empty">Ничего не найдено</div>';
+    return;
+  }
+
+  let year = null;
+  list.innerHTML = items.map(item => {
+    const itemYear = periodYear(item);
+    const heading = itemYear !== year
+      ? `<div class="period-year">${escapeHtml(itemYear)}</div>`
+      : '';
+    year = itemYear;
+    const active = item.id === currentPeriod;
+    return `${heading}
+      <button class="period-item${active ? ' active' : ''}" type="button" data-period-id="${escapeHtml(item.id)}" aria-pressed="${active}">
+        <span class="period-item-main">${escapeHtml(periodLabel(item, mode))}</span>
+        <span class="period-item-stat">${escapeHtml(periodStats(item))}</span>
+        <span class="period-item-meta">${escapeHtml(mode === 'weeks' ? item.id : 'Сводка по неделям')}</span>
+      </button>`;
+  }).join('');
+
+  list.querySelectorAll('.period-item').forEach(button => {
+    button.addEventListener('click', () => selectPeriodItem(button.dataset.periodId));
+  });
+}
+
+function openPeriodPopover() {
+  const popover = document.getElementById('periodPopover');
+  const trigger = document.getElementById('periodTrigger');
+  if (!popover || !trigger) return;
+  popover.hidden = false;
+  trigger.setAttribute('aria-expanded', 'true');
+  renderPeriodList();
+  const search = document.getElementById('periodSearch');
+  if (search) {
+    search.value = periodQuery;
+    window.setTimeout(() => { search.focus(); search.select(); }, 0);
+  }
+}
+
+function closePeriodPopover(returnFocus = false) {
+  const popover = document.getElementById('periodPopover');
+  const trigger = document.getElementById('periodTrigger');
+  if (popover) popover.hidden = true;
+  if (trigger) {
+    trigger.setAttribute('aria-expanded', 'false');
+    if (returnFocus) trigger.focus();
+  }
+  periodQuery = '';
+  const search = document.getElementById('periodSearch');
+  if (search) search.value = '';
+}
+
+function selectPeriodItem(period) {
+  if (!period) return;
+  showPeriod(period);
+  closePeriodPopover();
+}
+
+function syncPeriodModeTabs() {
+  document.querySelectorAll('.pop-mode').forEach(tab => {
+    const active = tab.dataset.mode === currentViewMode;
+    tab.classList.toggle('active', active);
+    tab.setAttribute('aria-pressed', String(active));
+  });
+}
 
 function switchViewMode(mode) {
-  currentViewMode = mode;
-
-  // Update view-mode buttons (textContent matching — robust like the old, без использования устаревшего window.event)
-  document.querySelectorAll('.view-mode-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.view-mode-btn').forEach(b => {
-    if ((mode === 'weeks' && b.textContent.includes('недел')) ||
-        (mode === 'months' && b.textContent.includes('месяц'))) {
-      b.classList.add('active');
-    }
-  });
-
-  // Обновить dropdown через отдельные хелперы (как в старом дашборде: updateMonthSelector / updateWeekSelector)
-  if (mode === 'months') {
-    updateMonthSelector();
-  } else {
-    updateWeekSelector();
-  }
-
-  showPeriod('all');
+  currentViewMode = mode === 'months' ? 'months' : 'weeks';
+  currentPeriod = currentViewMode === 'months'
+    ? months[months.length - 1].id
+    : weeks[weeks.length - 1].id;
+  syncPeriodModeTabs();
+  showPeriod(currentPeriod);
+  updatePeriodTrigger();
+  renderPeriodList();
 }
-
-function updateMonthSelector() {
-  const dropdown = document.getElementById('weekSelect');
-  dropdown.innerHTML = '';
-  const allOpt = document.createElement('option');
-  allOpt.value = 'all';
-  allOpt.textContent = 'Все месяцы';
-  dropdown.appendChild(allOpt);
-  months.forEach(m => {
-    const opt = document.createElement('option');
-    opt.value = m.id;
-    opt.textContent = `${m.label} (${m.dateRange})`;
-    dropdown.appendChild(opt);
-  });
-}
-
-function updateWeekSelector() {
-  const dropdown = document.getElementById('weekSelect');
-  dropdown.innerHTML = '';
-  const allOpt = document.createElement('option');
-  allOpt.value = 'all';
-  allOpt.textContent = 'Все недели';
-  dropdown.appendChild(allOpt);
-  weeks.forEach(w => {
-    const opt = document.createElement('option');
-    opt.value = w.id;
-    opt.textContent = w.label;
-    dropdown.appendChild(opt);
-  });
-}
-
-// ============================================================
-// PERIOD SELECTION
-// ============================================================
-let currentPeriod = 'all';
 
 function showPeriod(period) {
-  currentPeriod = period;
-
-  // Синхронизировать dropdown с периодом (как в старом дашборде)
-  const dropdown = document.getElementById('weekSelect');
-  if (dropdown) dropdown.value = period;
-
   const data = getDataForPeriod(period);
   if (!data || data.length === 0) return;
+  currentPeriod = period;
 
-  let title;
-  if (period === 'all') {
-    title = currentViewMode === 'months' ? 'Все месяцы' : 'Все периоды';
-  } else {
-    const week = weeks.find(w => w.id === period);
-    const month = months.find(m => m.id === period);
-    title = week ? week.label : (month ? month.label : 'Выбранный период');
-  }
-  // w9 — объединённая неделя 29.06–05.07 (раньше split на 29.06–30.06 + 01.07–05.07 был из-за отсутствия CRM-выгрузки).
-  document.getElementById('detailTitle').innerHTML = title;
+  const week = weeks.find(w => w.id === period);
+  const month = months.find(m => m.id === period);
+  const title = week ? week.label : (month ? month.label : 'Выбранный период');
+  document.getElementById('detailTitle').textContent = title;
 
   renderKPI(data);
   initCharts(data);
   renderDetailTable(data);
   updateSEOWidgets(period);
+  updatePeriodTrigger();
+  renderPeriodList();
+}
+
+const periodTrigger = document.getElementById('periodTrigger');
+const periodPopover = document.getElementById('periodPopover');
+if (periodTrigger && periodPopover) {
+  periodTrigger.addEventListener('click', event => {
+    event.stopPropagation();
+    periodPopover.hidden ? openPeriodPopover() : closePeriodPopover();
+  });
+  document.addEventListener('click', event => {
+    if (!periodPopover.hidden && !periodPopover.contains(event.target) && !periodTrigger.contains(event.target)) closePeriodPopover();
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && !periodPopover.hidden) closePeriodPopover(true);
+  });
+  document.getElementById('periodSearch').addEventListener('input', event => {
+    periodQuery = event.target.value;
+    renderPeriodList();
+  });
+  document.querySelectorAll('.pop-mode').forEach(button => {
+    button.addEventListener('click', () => switchViewMode(button.dataset.mode));
+  });
 }
 
 // ============================================================
