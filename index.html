@@ -526,15 +526,16 @@ const weeks = [
     }
   },
   { id: 'w17', label: '24.08–31.08', short: '24.08–31.08',
-    impressions: 990, clicks: 32, spend: 3440.97, leads: 40, target: 6,
-    ctr: 3.23, cpc: 108, cpa: 86, cpl: 574, convLead: 125.00, convTarget: 15.0,
-    seo: 63, seoLeads: 1, seoTarget: 0,
-    otherLeads: 27, otherTarget: 2,
+    impressions: 30503, clicks: 405, spend: 28154.46, leads: 40, target: 6,
+    ctr: 1.33, cpc: 70, cpa: 704, cpl: 4692, convLead: 9.88, convTarget: 15.00,
+    seo: 63, seoLeads: 0, seoTarget: 0,
+    otherLeads: 28, otherTarget: 3,
     accounts: {
       'e-20010227': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
-      'e-17228851': { imp: 343, clicks: 16, spend: 3440.97, leads: 12, target: 4 },
+      'e-17228851': { imp: 343, clicks: 16, spend: 3440.97, leads: 4, target: 2 },
       'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
-      'porg-3uieikjn': { imp: 647, clicks: 16, spend: 0, leads: 0, target: 0 }
+      'porg-3uieikjn': { imp: 647, clicks: 16, spend: 0, leads: 0, target: 0 },
+      'porg-l2oigjze': { imp: 29513, clicks: 373, spend: 24713.49, leads: 8, target: 1 }
     }
   }
 ];
@@ -940,13 +941,32 @@ const seoWeeklyData = {
     ],
   },
   'w17': {
-    // Вебмастер за 24.08–31.08: известно только число кликов и топ-2 страницы (report_3108.py).
+    // Вебмастер за 24.08–31.08: 63 клика/визита из поиска (файл страниц).
     stats: { visits: 63, users: null, bounceRate: null, pageDepth: null, avgDuration: null },
     topPages: [
       { url: 'https://dune-group.ru/prices', visits: 18, bounceRate: null },
       { url: 'https://dune-group.ru/', visits: 15, bounceRate: null },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 14, bounceRate: null },
+      { url: 'https://dune-group.ru/dvuhetazhnii-dom', visits: 3, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-v-novostroike', visits: 2, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-kuhni', visits: 2, bounceRate: null },
+      { url: 'https://dune-group.ru/interier', visits: 2, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 1, bounceRate: null },
+      { url: 'https://dune-group.ru/doma-iz-blokov', visits: 1, bounceRate: null },
+      { url: 'https://dune-group.ru/evroremont-kvartiri', visits: 1, bounceRate: null },
     ],
-    searchQueries: [],
+    searchQueries: [
+      { query: 'построить двухэтажный дом цена', visits: 3 },
+      { query: 'прайс на работы дюна групп', visits: 2 },
+      { query: 'дюна групп ростов', visits: 2 },
+      { query: 'dune group', visits: 2 },
+      { query: 'дома из блоков под ключ', visits: 1 },
+      { query: 'сколько стоит ремонт квартиры', visits: 1 },
+      { query: 'ремонт квартир под ключ', visits: 1 },
+      { query: 'ремонт под ключ ростов на дону цена за м2 в новостройке', visits: 1 },
+      { query: 'прайс-лист на отделочные работы в ростове на дону 2026', visits: 1 },
+      { query: 'ремонт под ключ ростов на дону', visits: 1 },
+    ],
   },
   'all': {
     stats: { visits: 724, users: 542, bounceRate: 6.93, pageDepth: 3.29, avgDuration: 159 },
@@ -1069,6 +1089,10 @@ const weeklyDailyData = {
   },
   'w16': {
     pattern: [0.14, 0.14, 0.14, 0.14, 0.15, 0.14, 0.15], startDate: '17.08'
+  },
+  'w17': {
+    // 8 дней: 24.08–31.08 (намеренно +1 день, 31-е число)
+    pattern: [0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125], startDate: '24.08'
   },
 };
 

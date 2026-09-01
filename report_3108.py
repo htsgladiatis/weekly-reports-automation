@@ -1,0 +1,141 @@
+"""Weekly report for 24.08-31.08.2026 — Week 17.
+Data manually extracted from CSV exports dated 01.09.2026.
+
+Direct: 30,503 impressions / 405 clicks / 28,154.46 ₽ (5 cabinets, +porg-l2oigjze).
+CRM: 40 records → all 40 counted as leads (per W13/W14/W15 convention); 6 target.
+SEO exports (Webmaster): 63 organic clicks/visits, 24.08-31.08.
+
+Примечание: неделя 8 дней (24.08–31.08) — намеренно включено 31-е число.
+"""
+
+import sys
+sys.stdout.reconfigure(encoding="utf-8")
+
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
+
+SPREADSHEET_ID = "1TMa7NMknshntaQE-Dgmr-Trjk3pQxvY_K1IyAYfjZ4A"
+CREDENTIALS_FILE = "credentials.json"
+SCOPES = ["https://www.googleapis.com/auth/spreadsheets"]
+TAB_NAME = "24.08-31.08"
+
+DIRECT_E20010227 = {"imp": 0, "clicks": 0, "spend": 0.00, "leads": 0, "target": 0}
+DIRECT_E17228851 = {"imp": 343, "clicks": 16, "spend": 3440.97, "leads": 4, "target": 2}
+DIRECT_DUNE = {"imp": 0, "clicks": 0, "spend": 0.00, "leads": 0, "target": 0}
+DIRECT_PORG = {"imp": 647, "clicks": 16, "spend": 0.00, "leads": 0, "target": 0}
+DIRECT_L2OIGJZE = {"imp": 29513, "clicks": 373, "spend": 24713.49, "leads": 8, "target": 1}
+DIRECT_ACCOUNTS = [DIRECT_E20010227, DIRECT_E17228851, DIRECT_DUNE, DIRECT_PORG, DIRECT_L2OIGJZE]
+DIRECT_TOTALS = {key: sum(account[key] for account in DIRECT_ACCOUNTS) for key in ("imp", "clicks", "spend", "leads", "target")}
+
+ALL_LEADS, ALL_TARGETS = 40, 6
+SEO_LEADS, SEO_TARGETS, SEO_VISITS = 0, 0, 63
+OTHER_LEADS, OTHER_TARGETS = 28, 3
+
+
+def fmt_money(value):
+    if value is None or value == 0 or value == "—":
+        return "—"
+    return f"р.{int(round(value)):,}".replace(",", " ")
+
+
+def fmt_pct(value):
+    if value is None or value == 0 or value == "—":
+        return "—"
+    return f"{value:.2f}%".replace(".", ",")
+
+
+def safe_div(a, b):
+    return 0 if not b else a / b
+
+
+def metric_row(label, data):
+    imp, clicks, spend, leads, target = (data[key] for key in ("imp", "clicks", "spend", "leads", "target"))
+    return [label, imp, clicks, fmt_pct(safe_div(clicks, imp) * 100), fmt_money(safe_div(spend, clicks)), leads,
+            fmt_pct(safe_div(leads, clicks) * 100), fmt_money(safe_div(spend, leads)), target,
+            fmt_pct(safe_div(target, leads) * 100), fmt_money(safe_div(spend, target)), fmt_money(spend)]
+
+
+def campaign_row(label, imp, clicks, spend, leads=0, target=0):
+    return metric_row(label, {"imp": imp, "clicks": clicks, "spend": spend, "leads": leads, "target": target})
+
+
+ROWS = [
+    ["24.08.2026–31.08.2026"],
+    [],
+    ["Канал", "Показы", "Визиты", "CTR", "CPC", "Лиды", "Конверсия в Лид", "CPA", "Ц. Лиды", "Конверсия в Ц. Лид", "CPL", "Расход"],
+    metric_row("", {**DIRECT_TOTALS, "leads": ALL_LEADS, "target": ALL_TARGETS}),
+    metric_row("Яндекс Директ", DIRECT_TOTALS),
+    metric_row("  e-20010227", DIRECT_E20010227),
+    metric_row("  e-17228851", DIRECT_E17228851),
+    campaign_row("    Стройка / Поиск / Ростов", 343, 16, 3440.97),
+    metric_row("  dune-group", DIRECT_DUNE),
+    metric_row("  porg-3uieikjn", DIRECT_PORG),
+    campaign_row("    МК // Строительство // СРА (Ф)", 505, 6, 0),
+    campaign_row("    МК // Строительство // СРА (Ф+ТГ)", 142, 10, 0),
+    metric_row("  porg-l2oigjze", DIRECT_L2OIGJZE),
+    campaign_row("    Товарная кампания remont.dune-group.ru (713690254)", 29513, 373, 24713.49),
+    [],
+    [],
+    ["SEO", "—", SEO_VISITS, "—", "—", SEO_LEADS, "—", "—", SEO_TARGETS, "—", "—", "—"],
+    ["Рекомендации", "—", "—", "—", "—", OTHER_LEADS, "—", "—", OTHER_TARGETS, "—", "—", "—"],
+]
+
+BOLD_ROWS = [0, 2, 3, 4, 5, 6, 8, 9, 12, 16, 17]
+
+
+def get_service():
+    creds = service_account.Credentials.from_service_account_file(CREDENTIALS_FILE, scopes=SCOPES)
+    return build("sheets", "v4", credentials=creds)
+
+
+def get_or_create_sheet(service, tab_name):
+    spreadsheet = service.spreadsheets().get(spreadsheetId=SPREADSHEET_ID).execute()
+    requests = [{"deleteSheet": {"sheetId": sheet["properties"]["sheetId"]}}
+                for sheet in spreadsheet.get("sheets", [])
+                if sheet["properties"]["title"] == tab_name]
+    requests.append({"addSheet": {"properties": {"title": tab_name, "index": 0}}})
+    response = service.spreadsheets().batchUpdate(spreadsheetId=SPREADSHEET_ID, body={"requests": requests}).execute()
+    for reply in response.get("replies", []):
+        if "addSheet" in reply:
+            return reply["addSheet"]["properties"]["sheetId"]
+    raise RuntimeError("Failed to create sheet")
+
+
+def write_data(service, tab_name):
+    values = [[str(cell) if cell != "" else "" for cell in row] for row in ROWS]
+    service.spreadsheets().values().update(
+        spreadsheetId=SPREADSHEET_ID, range=f"'{tab_name}'!A1",
+        valueInputOption="USER_ENTERED", body={"values": values}
+    ).execute()
+
+
+def apply_formatting(service, sheet_id):
+    requests = []
+    for row_idx in BOLD_ROWS:
+        requests.append({"repeatCell": {
+            "range": {"sheetId": sheet_id, "startRowIndex": row_idx, "endRowIndex": row_idx + 1, "startColumnIndex": 0, "endColumnIndex": 12},
+            "cell": {"userEnteredFormat": {"textFormat": {"bold": True}}},
+            "fields": "userEnteredFormat.textFormat.bold"
+        }})
+    requests.append({"repeatCell": {
+        "range": {"sheetId": sheet_id, "startRowIndex": 3, "endRowIndex": 4, "startColumnIndex": 0, "endColumnIndex": 12},
+        "cell": {"userEnteredFormat": {"textFormat": {"bold": True}, "backgroundColor": {"red": 0.9, "green": 0.95, "blue": 0.9}}},
+        "fields": "userEnteredFormat.textFormat.bold,userEnteredFormat.backgroundColor"
+    }})
+    requests.append({"updateDimensionProperties": {
+        "range": {"sheetId": sheet_id, "dimension": "COLUMNS", "startIndex": 0, "endIndex": 1},
+        "properties": {"pixelSize": 380}, "fields": "pixelSize"
+    }})
+    service.spreadsheets().batchUpdate(spreadsheetId=SPREADSHEET_ID, body={"requests": requests}).execute()
+
+
+def main():
+    service = get_service()
+    sheet_id = get_or_create_sheet(service, TAB_NAME)
+    write_data(service, TAB_NAME)
+    apply_formatting(service, sheet_id)
+    print(f"Done: {TAB_NAME}; Direct {DIRECT_TOTALS['imp']:,} imp / {DIRECT_TOTALS['clicks']:,} clicks / ₽{DIRECT_TOTALS['spend']:,.2f}; leads {ALL_LEADS}; SEO {SEO_VISITS}")
+
+
+if __name__ == "__main__":
+    main()
