@@ -6,9 +6,9 @@ Direct: 20,255 impressions / 282 clicks / 22,734.25 ₽ (5 cabinets, porg-l2oigj
   - porg-3uieikjn: 407 / 12 / 0.00 (СРА Ф/Ф+ТГ)
   - e-20010227, e-17228851, dune-group: пустые выгрузки → 0
 CRM: 35 records → all 35 counted as leads (per W13-W15 convention); 3 target.
-  - Директ 9 (8 Не обработан/Нецелевой + 1 целевой, все UTM 713690254 → porg-l2oigjze)
+  - Директ 11 (9 по UTM 713690254 + 2 целевых по ручной атрибуции РК porg-l2oigjze: 24776 Роман ЖК Эстет 38м2 вайт бокс 1200, 24774 Андрей Левобережная 54м2 типовой 1700)
   - SEO 1 (Ждут сдачу дома, Запросы по СЕО) → 0 целей
-  - Другие 25 (2 цели)
+  - Другие 23 (0 целей)
 SEO Webmaster (31.08-05.09): 56 visits (Clicks по страницам), топ /prices 21, / 10.
 """
 
@@ -27,13 +27,13 @@ DIRECT_E20010227 = {"imp": 0, "clicks": 0, "spend": 0.00, "leads": 0, "target": 
 DIRECT_E17228851 = {"imp": 0, "clicks": 0, "spend": 0.00, "leads": 0, "target": 0}
 DIRECT_DUNE = {"imp": 0, "clicks": 0, "spend": 0.00, "leads": 0, "target": 0}
 DIRECT_PORG = {"imp": 407, "clicks": 12, "spend": 0.00, "leads": 0, "target": 0}
-DIRECT_L2OIGJZE = {"imp": 19848, "clicks": 270, "spend": 22734.25, "leads": 9, "target": 1}
+DIRECT_L2OIGJZE = {"imp": 19848, "clicks": 270, "spend": 22734.25, "leads": 11, "target": 3}  # 9 по UTM 713690254 + 24776 (Роман Эстет 38/1200) + 24774 (Андрей Левобережная 54/1700)
 DIRECT_ACCOUNTS = [DIRECT_E20010227, DIRECT_E17228851, DIRECT_DUNE, DIRECT_PORG, DIRECT_L2OIGJZE]
 DIRECT_TOTALS = {key: sum(account[key] for account in DIRECT_ACCOUNTS) for key in ("imp", "clicks", "spend", "leads", "target")}
 
 ALL_LEADS, ALL_TARGETS = 35, 3
 SEO_LEADS, SEO_TARGETS, SEO_VISITS = 1, 0, 56
-OTHER_LEADS, OTHER_TARGETS = 25, 2
+OTHER_LEADS, OTHER_TARGETS = 23, 0
 
 
 def fmt_money(value):
@@ -76,7 +76,7 @@ ROWS = [
     campaign_row("    МК // Строительство // СРА (Ф)", 302, 5, 0),
     campaign_row("    МК // Строительство // СРА (Ф+ТГ)", 105, 7, 0),
     metric_row("  porg-l2oigjze", DIRECT_L2OIGJZE),
-    campaign_row("    Товарная кампания remont.dune-group.ru (713690254)", 19848, 270, 22734.25, 9, 1),
+    campaign_row("    Товарная кампания remont.dune-group.ru (713690254)", 19848, 270, 22734.25, 11, 3),
     [],
     [],
     ["SEO", "—", SEO_VISITS, "—", "—", SEO_LEADS, "—", "—", SEO_TARGETS, "—", "—", "—"],
