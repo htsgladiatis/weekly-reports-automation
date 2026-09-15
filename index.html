@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<!-- build: 2026-09-15 correct w19 values + Сентябрь dateRange 31.08–13.09 -->
+<!-- build: 2026-09-15 correct w19 values, add Instagram channel, September dateRange 31.08–13.09 -->
 <title>DUNE GROUP — Дашборд рекламы</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -344,7 +344,7 @@ const weeks = [
   { id: 'w1', label: '04.05–10.05', short: '04.05–10.05',
     impressions: 130701, clicks: 922, spend: 12486, leads: 5, target: 0,
     ctr: 0.71, cpc: 14, cpa: 2497, cpl: null, convLead: 0.54, convTarget: 0,
-    seo: 39, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0,
+    seo: 39, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 48704, clicks: 475, spend: 12242, leads: 5, target: 0 },
       'e-17228851': { imp: 68377, clicks: 110, spend: 0, leads: 0, target: 0 },
@@ -355,7 +355,7 @@ const weeks = [
   { id: 'w2', label: '11.05–17.05', short: '11.05–17.05',
     impressions: 160986, clicks: 1531, spend: 20204, leads: 10, target: 6,
     ctr: 0.95, cpc: 13, cpa: 2020, cpl: 3367, convLead: 0.65, convTarget: 60.0,
-    seo: 35, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0,
+    seo: 35, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 68900, clicks: 1230, spend: 20204, leads: 9, target: 5 },
       'e-17228851': { imp: 84570, clicks: 120, spend: 0, leads: 1, target: 1 },
@@ -366,7 +366,7 @@ const weeks = [
   { id: 'w3', label: '18.05–24.05', short: '18.05–24.05',
     impressions: 163328, clicks: 5927, spend: 35844, leads: 10, target: 10,
     ctr: 3.63, cpc: 6, cpa: 3584, cpl: 3584, convLead: 0.17, convTarget: 100.0,
-    seo: 50, seoLeads: 1, seoTarget: 1, otherLeads: 6, otherTarget: 6,
+    seo: 50, seoLeads: 1, seoTarget: 1, otherLeads: 6, otherTarget: 6, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 55587, clicks: 1568, spend: 19179, leads: 3, target: 3 },
       'e-17228851': { imp: 97059, clicks: 4032, spend: 16665, leads: 0, target: 0 },
@@ -377,7 +377,7 @@ const weeks = [
   { id: 'w4', label: '25.05–31.05', short: '25.05–31.05',
     impressions: 150146, clicks: 4465, spend: 28757, leads: 5, target: 2,
     ctr: 2.97, cpc: 6, cpa: 5751, cpl: 14379, convLead: 0.11, convTarget: 40.0,
-    seo: 44, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0,
+    seo: 44, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 67151, clicks: 2654, spend: 23022, leads: 5, target: 2 },
       'e-17228851': { imp: 72942, clicks: 1463, spend: 5735, leads: 0, target: 0 },
@@ -388,7 +388,7 @@ const weeks = [
   { id: 'w5', label: '01.06–07.06', short: '01.06–07.06',
     impressions: 118346, clicks: 1541, spend: 27564, leads: 56, target: 8,
     ctr: 1.30, cpc: 18, cpa: 492, cpl: 3446, convLead: 3.63, convTarget: 14.29,
-    seo: 80, seoLeads: 0, seoTarget: 0, otherLeads: 36, otherTarget: 2,
+    seo: 80, seoLeads: 0, seoTarget: 0, otherLeads: 36, otherTarget: 2, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 49416, clicks: 805, spend: 27564, leads: 20, target: 6 },
       'e-17228851': { imp: 58292, clicks: 405, spend: 0, leads: 0, target: 0 },
@@ -399,7 +399,7 @@ const weeks = [
   { id: 'w6', label: '08.06–14.06', short: '08.06–14.06',
     impressions: 121040, clicks: 630, spend: 29894, leads: 38, target: 3,
     ctr: 0.52, cpc: 47, cpa: 787, cpl: 9965, convLead: 6.03, convTarget: 7.89,
-    seo: 72, seoLeads: 5, seoTarget: 1, otherLeads: 21, otherTarget: 0,
+    seo: 72, seoLeads: 5, seoTarget: 1, otherLeads: 21, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 53240, clicks: 542, spend: 27820, leads: 12, target: 2 },
       'e-17228851': { imp: 67615, clicks: 81, spend: 2074, leads: 0, target: 0 },
@@ -410,7 +410,7 @@ const weeks = [
   { id: 'w7', label: '15.06–21.06', short: '15.06–21.06',
     impressions: 133855, clicks: 627, spend: 29954, leads: 46, target: 12,
     ctr: 0.47, cpc: 48, cpa: 651, cpl: 2496, convLead: 7.34, convTarget: 26.09,
-    seo: 58, seoLeads: 1, seoTarget: 1, otherLeads: 28, otherTarget: 5,
+    seo: 58, seoLeads: 1, seoTarget: 1, otherLeads: 28, otherTarget: 5, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 73423, clicks: 572, spend: 29954, leads: 17, target: 6 },
       'e-17228851': { imp: 60211, clicks: 44, spend: 0, leads: 0, target: 0 },
@@ -421,7 +421,7 @@ const weeks = [
   { id: 'w8', label: '22.06–28.06', short: '22.06–28.06',
     impressions: 152560, clicks: 653, spend: 29683, leads: 34, target: 7,
     ctr: 0.43, cpc: 45, cpa: 873, cpl: 4240, convLead: 5.21, convTarget: 20.59,
-    seo: 22, seoLeads: 1, seoTarget: 1, otherLeads: 22, otherTarget: 2,
+    seo: 22, seoLeads: 1, seoTarget: 1, otherLeads: 22, otherTarget: 2, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 91107, clicks: 593, spend: 29683, leads: 11, target: 4 },
       'e-17228851': { imp: 61013, clicks: 40, spend: 0, leads: 0, target: 0 },
@@ -432,7 +432,7 @@ const weeks = [
   { id: 'w9', label: '29.06–05.07', short: '29.06–05.07',
     impressions: 98963, clicks: 1200, spend: 33075, leads: 35, target: 10,
     ctr: 1.21, cpc: 28, cpa: 945, cpl: 3308, convLead: 2.92, convTarget: 28.57,
-    seo: 55, seoLeads: 8, seoTarget: 4, otherLeads: 16, otherTarget: 1,
+    seo: 55, seoLeads: 8, seoTarget: 4, otherLeads: 16, otherTarget: 1, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 53253, clicks: 425, spend: 28105, leads: 11, target: 5 },
       'e-17228851': { imp: 45340, clicks: 757, spend: 4971, leads: 0, target: 0 },
@@ -444,7 +444,7 @@ const weeks = [
     impressions: 59882, clicks: 839, spend: 35776, leads: 35, target: 5,
     ctr: 1.40, cpc: 43, cpa: 1022, cpl: 7155, convLead: 4.17, convTarget: 14.29,
     seo: 53, seoLeads: 1, seoTarget: 0,
-    otherLeads: 22, otherTarget: 0,
+    otherLeads: 22, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 37219, clicks: 454, spend: 25679, leads: 11, target: 5 },
       'e-17228851': { imp: 22375, clicks: 371, spend: 10097, leads: 1, target: 0 },
@@ -456,7 +456,7 @@ const weeks = [
     impressions: 55986, clicks: 520, spend: 71256, leads: 36, target: 3,
     ctr: 0.93, cpc: 137, cpa: 1979, cpl: 23752, convLead: 6.92, convTarget: 8.33,
     seo: 59, seoLeads: 2, seoTarget: 0,
-    otherLeads: 23, otherTarget: 1,
+    otherLeads: 23, otherTarget: 1, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 26303, clicks: 280, spend: 57406, leads: 11, target: 2 },
       'e-17228851': { imp: 29456, clicks: 233, spend: 13850, leads: 0, target: 0 },
@@ -468,7 +468,7 @@ const weeks = [
     impressions: 73983, clicks: 5277, spend: 29917, leads: 36, target: 0,
     ctr: 7.13, cpc: 6, cpa: 831, cpl: null, convLead: 0.68, convTarget: 0,
     seo: 47, seoLeads: 0, seoTarget: 0,
-    otherLeads: 32, otherTarget: 0,
+    otherLeads: 32, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 1503, clicks: 35, spend: 3089, leads: 4, target: 0 },
       'e-17228851': { imp: 72271, clicks: 5231, spend: 26828, leads: 0, target: 0 },
@@ -480,7 +480,7 @@ const weeks = [
     impressions: 27851, clicks: 2585, spend: 9899, leads: 47, target: 0,
     ctr: 9.28, cpc: 4, cpa: 210, cpl: null, convLead: 1.82, convTarget: 0,
     seo: 44, seoLeads: 2, seoTarget: 0,
-    otherLeads: 40, otherTarget: 0,
+    otherLeads: 40, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 3449, clicks: 51, spend: 1220, leads: 4, target: 0 },
       'e-17228851': { imp: 22320, clicks: 2481, spend: 8679, leads: 1, target: 0 },
@@ -492,7 +492,7 @@ const weeks = [
     impressions: 5279, clicks: 223, spend: 5440, leads: 43, target: 2,
     ctr: 4.22, cpc: 24, cpa: 127, cpl: 2720, convLead: 19.28, convTarget: 4.65,
     seo: 26, seoLeads: 1, seoTarget: 1,
-    otherLeads: 37, otherTarget: 1,
+    otherLeads: 37, otherTarget: 1, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 1414, clicks: 29, spend: 0, leads: 5, target: 0 },
       'e-17228851': { imp: 2620, clicks: 158, spend: 5440, leads: 0, target: 0 },
@@ -504,7 +504,7 @@ const weeks = [
     impressions: 2610, clicks: 74, spend: 1586, leads: 35, target: 2,
     ctr: 2.84, cpc: 21, cpa: 45, cpl: 793, convLead: 47.30, convTarget: 5.71,
     seo: 65, seoLeads: 1, seoTarget: 1,
-    otherLeads: 33, otherTarget: 1,
+    otherLeads: 33, otherTarget: 1, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 954, clicks: 19, spend: 1586, leads: 1, target: 0 },
       'e-17228851': { imp: 319, clicks: 11, spend: 0, leads: 0, target: 0 },
@@ -516,7 +516,7 @@ const weeks = [
     impressions: 34032, clicks: 1022, spend: 27298.78, leads: 39, target: 7,
     ctr: 3.00, cpc: 27, cpa: 700, cpl: 3900, convLead: 3.82, convTarget: 17.95,
     seo: 79, seoLeads: 0, seoTarget: 0,
-    otherLeads: 29, otherTarget: 2,
+    otherLeads: 29, otherTarget: 2, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 406, clicks: 8, spend: 0, leads: 0, target: 0 },
       'e-17228851': { imp: 1047, clicks: 86, spend: 11670.63, leads: 1, target: 0 },
@@ -529,7 +529,7 @@ const weeks = [
     impressions: 30503, clicks: 405, spend: 28154.46, leads: 40, target: 6,
     ctr: 1.33, cpc: 70, cpa: 704, cpl: 4692, convLead: 9.88, convTarget: 15.00,
     seo: 63, seoLeads: 0, seoTarget: 0,
-    otherLeads: 28, otherTarget: 3,
+    otherLeads: 28, otherTarget: 3, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
       'e-17228851': { imp: 343, clicks: 16, spend: 3440.97, leads: 4, target: 2 },
@@ -542,7 +542,7 @@ const weeks = [
     impressions: 20255, clicks: 282, spend: 22734.25, leads: 35, target: 3,
     ctr: 1.39, cpc: 81, cpa: 650, cpl: 7578, convLead: 12.41, convTarget: 8.57,
     seo: 56, seoLeads: 1, seoTarget: 0,
-    otherLeads: 23, otherTarget: 0,
+    otherLeads: 23, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
       'e-17228851': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
@@ -555,7 +555,8 @@ const weeks = [
     impressions: 33434, clicks: 2187, spend: 35136.15, leads: 41, target: 3,
     ctr: 6.54, cpc: 16, cpa: 11712, cpl: 857, convLead: 1.87, convTarget: 7.32,
     seo: 59, seoLeads: 0, seoTarget: 0,
-    otherLeads: 31, otherTarget: 2,
+    otherLeads: 30, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
+    instagramLeads: 1, instagramTarget: 1,
     accounts: {
       'e-20010227': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
       'e-17228851': { imp: 27539, clicks: 1920, spend: 16980.89, leads: 4, target: 1 },
@@ -563,7 +564,7 @@ const weeks = [
       'porg-3uieikjn': { imp: 724, clicks: 37, spend: 0, leads: 0, target: 0 },
       'porg-l2oigjze': { imp: 5171, clicks: 230, spend: 18155.26, leads: 6, target: 0 }
     }
-  }
+  },
 
 ];
 
@@ -586,7 +587,7 @@ const monthDataOverrides = {
     ctr: 3.61, cpc: 16.79, cpa: 1021.57, cpl: 10155.64,
     convLead: 1.64, convTarget: 10.06,
     seo: 216, seoLeads: 8, seoTarget: 3,
-    otherLeads: 120, otherTarget: 2,
+    otherLeads: 120, otherTarget: 2, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 103924, clicks: 1128, spend: 108221.25, leads: 35, target: 10 },
       'e-17228851': { imp: 178473, clicks: 9061, spend: 64424.62, leads: 6, target: 2 },
@@ -603,7 +604,7 @@ const monthDataOverrides = {
     ctr: 2.39, cpc: 35.76, cpa: 380.97, cpl: 3123.97,
     convLead: 9.39, convTarget: 12.20,
     seo: 246, seoLeads: 4, seoTarget: 2,
-    otherLeads: 131, otherTarget: 8,
+    otherLeads: 131, otherTarget: 8, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 3255, clicks: 68, spend: 1586, leads: 25, target: 10 },
       'e-17228851': { imp: 4329, clicks: 271, spend: 20551.80, leads: 1, target: 0 },
@@ -1258,6 +1259,8 @@ function aggregateWeeks(weekIds, label, monthId) {
     acc.seoTarget += w.seoTarget || 0;
     acc.otherLeads += w.otherLeads || 0;
     acc.otherTarget += w.otherTarget || 0;
+    acc.instagramLeads += w.instagramLeads || 0;
+    acc.instagramTarget += w.instagramTarget || 0;
 
     Object.entries(w.accounts).forEach(([name, a]) => {
       if (!acc.accounts[name]) acc.accounts[name] = { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 };
@@ -1269,7 +1272,7 @@ function aggregateWeeks(weekIds, label, monthId) {
     });
     return acc;
   }, { id: monthId, impressions: 0, clicks: 0, spend: 0, leads: 0, target: 0,
-      seo: 0, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, accounts: {} });
+      seo: 0, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, instagramLeads: 0, instagramTarget: 0, accounts: {} });
 
   agg.ctr = agg.impressions > 0 ? (agg.clicks / agg.impressions * 100) : 0;
   agg.cpc = agg.clicks > 0 ? (agg.spend / agg.clicks) : 0;
@@ -1537,6 +1540,8 @@ function renderDetailTable(data) {
     acc.seoTarget += w.seoTarget || 0;
     acc.otherLeads += w.otherLeads || 0;
     acc.otherTarget += w.otherTarget || 0;
+    acc.instagramLeads += w.instagramLeads || 0;
+    acc.instagramTarget += w.instagramTarget || 0;
     Object.entries(w.accounts).forEach(([name, a]) => {
       if (!acc.accounts[name]) acc.accounts[name] = { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 };
       acc.accounts[name].imp += a.imp;
@@ -1547,7 +1552,7 @@ function renderDetailTable(data) {
     });
     return acc;
   }, { impressions: 0, clicks: 0, spend: 0, leads: 0, target: 0,
-      seoVisits: 0, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, accounts: {} });
+      seoVisits: 0, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, instagramLeads: 0, instagramTarget: 0, accounts: {} });
 
   const directLeads = Object.values(totals.accounts).reduce((s, a) => s + a.leads, 0);
   const directTarget = Object.values(totals.accounts).reduce((s, a) => s + a.target, 0);
@@ -1608,6 +1613,14 @@ function renderDetailTable(data) {
     <td>${totals.seoTarget}</td><td>${seoConvTarget}</td><td>\u2014</td><td>\u2014</td>
   </tr>`;
 
+  // Instagram row
+  const instaConv = totals.instagramLeads > 0 ? (totals.instagramTarget / totals.instagramLeads * 100).toFixed(2) + '%' : '\u2014';
+  html += `<tr class="row-channel">
+    <td>Instagram</td><td>\u2014</td><td>\u2014</td><td>\u2014</td><td>\u2014</td>
+    <td>${totals.instagramLeads}</td><td>\u2014</td><td>\u2014</td>
+    <td>${totals.instagramTarget}</td><td>${instaConv}</td><td>\u2014</td><td>\u2014</td>
+  </tr>`;
+
   // Other row
   const otherConvTarget = totals.otherLeads > 0 ? (totals.otherTarget / totals.otherLeads * 100).toFixed(2) + '%' : '\u2014';
   html += `<tr class="row-channel">
@@ -1626,7 +1639,7 @@ function renderDetailTable(data) {
 function renderSummaryTable() {
   let html = `<table><thead><tr>
     <th>Неделя</th><th>Показы</th><th>Клики</th><th>CTR</th><th>CPC</th>
-    <th>Лиды</th><th>Ц. Лиды</th><th>CPA</th><th>CPL</th><th>Расход</th><th>SEO</th>
+    <th>Лиды</th><th>Ц. Лиды</th><th>CPA</th><th>CPL</th><th>Расход</th><th>SEO</th><th>Instagram</th>
   </tr></thead><tbody>`;
 
   weeks.forEach(w => {
@@ -1642,14 +1655,16 @@ function renderSummaryTable() {
       <td>${w.cpl ? rub(w.cpl) : '\u2014'}</td>
       <td>${rub(w.spend)}</td>
       <td>${w.seo || 0}</td>
+      <td>${w.instagramLeads || 0}</td>
     </tr>`;
   });
 
   const t = weeks.reduce((a, w) => {
     a.imp += w.impressions; a.clk += w.clicks; a.spd += w.spend;
     a.lds += w.leads; a.tgt += w.target; a.seo += w.seo || 0;
+    a.instagram += w.instagramLeads || 0;
     return a;
-  }, { imp: 0, clk: 0, spd: 0, lds: 0, tgt: 0, seo: 0 });
+  }, { imp: 0, clk: 0, spd: 0, lds: 0, tgt: 0, seo: 0, instagram: 0 });
 
   html += `<tr class="row-total">
     <td>ВСЕГО</td><td>${fmt(t.imp)}</td><td>${fmt(t.clk)}</td>
@@ -1657,7 +1672,7 @@ function renderSummaryTable() {
     <td>${t.lds}</td><td>${t.tgt}</td>
     <td>${t.lds > 0 ? rub(t.spd / t.lds) : '\u2014'}</td>
     <td>${t.tgt > 0 ? rub(t.spd / t.tgt) : '\u2014'}</td>
-    <td>${rub(t.spd)}</td><td>${t.seo}</td>
+    <td>${rub(t.spd)}</td><td>${t.seo}</td><td>${t.instagram}</td>
   </tr>`;
 
   html += '</tbody></table>';
