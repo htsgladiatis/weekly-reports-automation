@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<!-- build: 2026-09-15 correct w19 values, add Instagram channel, move Иван to porg-l2oigjze, September dateRange 31.08–13.09 -->
+<!-- build: 2026-10-05 add w20 (14.09-20.09) + w21 (21.09-30.09), September month snapshot, refresh w19 -->
 <title>DUNE GROUP — Дашборд рекламы</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -210,8 +210,8 @@ td:first-child{color:var(--txt);font-weight:600}
     <div class="period-wrap">
       <button id="periodTrigger" class="period-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="periodPopover" aria-label="Выбрать период">
         <span class="pt-mode" id="ptMode">Недели</span>
-        <span class="pt-ix" id="ptIx">w17</span>
-        <span class="pt-label" id="ptLabel">24.08–31.08</span>
+        <span class="pt-ix" id="ptIx">w21</span>
+        <span class="pt-label" id="ptLabel">21.09–30.09</span>
         <span class="pt-arrow" id="ptArrow" aria-hidden="true">▾</span>
       </button>
       <div id="periodPopover" class="period-popover" role="dialog" aria-modal="true" aria-label="Выбор периода" hidden>
@@ -280,7 +280,7 @@ td:first-child{color:var(--txt);font-weight:600}
   </div>
 
   <!-- SEO Section -->
-  <div class="sec-title" style="margin-top:8px"><span class="material-symbols-outlined mat">search</span> SEO Аналитика <span class="update-badge">SEO · выгрузка 01.08–31.08</span></div>
+  <div class="sec-title" style="margin-top:8px"><span class="material-symbols-outlined mat">search</span> SEO Аналитика <span class="update-badge">SEO · выгрузка 01.09–30.09</span></div>
   <div class="charts-grid" id="seoWidgets">
     <div class="chart-card">
       <div class="chart-h"><span class="material-symbols-outlined mat">trending_up</span> SEO Performance</div>
@@ -430,7 +430,7 @@ const weeks = [
     }
   },
   { id: 'w9', label: '29.06–05.07', short: '29.06–05.07',
-    impressions: 98963, clicks: 1200, spend: 33075, leads: 35, target: 10,
+    impressions: 98963, clicks: 1200, spend: 33076, leads: 35, target: 10,
     ctr: 1.21, cpc: 28, cpa: 945, cpl: 3308, convLead: 2.92, convTarget: 28.57,
     seo: 55, seoLeads: 8, seoTarget: 4, otherLeads: 16, otherTarget: 1, instagramLeads: 0, instagramTarget: 0,
     accounts: {
@@ -478,7 +478,7 @@ const weeks = [
   },
   { id: 'w13', label: '27.07–02.08', short: '27.07–02.08',
     impressions: 27851, clicks: 2585, spend: 9899, leads: 47, target: 0,
-    ctr: 9.28, cpc: 4, cpa: 210, cpl: null, convLead: 1.82, convTarget: 0,
+    ctr: 9.28, cpc: 4, cpa: 211, cpl: null, convLead: 1.82, convTarget: 0,
     seo: 44, seoLeads: 2, seoTarget: 0,
     otherLeads: 40, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
@@ -552,19 +552,46 @@ const weeks = [
     }
   },
   { id: 'w19', label: '07.09–13.09', short: '07.09–13.09',
-    impressions: 33434, clicks: 2187, spend: 35136.15, leads: 41, target: 3,
-    ctr: 6.54, cpc: 16, cpa: 11712, cpl: 857, convLead: 1.87, convTarget: 7.32,
+    impressions: 33426, clicks: 2187, spend: 35136.15, leads: 41, target: 4,
+    ctr: 6.54, cpc: 16, cpa: 857, cpl: 8784, convLead: 1.87, convTarget: 9.76,
     seo: 59, seoLeads: 0, seoTarget: 0,
     otherLeads: 30, otherTarget: 0, instagramLeads: 1, instagramTarget: 1,
     accounts: {
-      'e-20010227': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
-      'e-17228851': { imp: 27539, clicks: 1920, spend: 16980.89, leads: 4, target: 1 },
-      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
-      'porg-3uieikjn': { imp: 724, clicks: 37, spend: 0, leads: 0, target: 0 },
-      'porg-l2oigjze': { imp: 5171, clicks: 230, spend: 18155.26, leads: 6, target: 1 }
+      'e-20010227': { imp: 0, clicks: 0, spend: 0.0, leads: 0, target: 0 },
+      'e-17228851': { imp: 27531, clicks: 1920, spend: 16980.9, leads: 5, target: 3 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0.0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 724, clicks: 37, spend: 0.0, leads: 0, target: 0 },
+      'porg-l2oigjze': { imp: 5171, clicks: 230, spend: 18155.25, leads: 5, target: 0 }
     }
   },
-
+  { id: 'w20', label: '14.09–20.09', short: '14.09–20.09',
+    impressions: 44445, clicks: 1769, spend: 37509.58, leads: 37, target: 3,
+    ctr: 3.98, cpc: 21, cpa: 1014, cpl: 12503, convLead: 2.09, convTarget: 8.11,
+    // Недельной SEO-выгрузки за 14.09–20.09 нет: месячный экспорт Вебмастера не режется по неделям.
+    seo: 0, seoLeads: 0, seoTarget: 0,
+    otherLeads: 29, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 0, clicks: 0, spend: 0.0, leads: 0, target: 0 },
+      'e-17228851': { imp: 37463, clicks: 1474, spend: 18300.01, leads: 4, target: 2 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0.0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 446, clicks: 28, spend: 0.0, leads: 0, target: 0 },
+      'porg-l2oigjze': { imp: 6536, clicks: 267, spend: 19209.57, leads: 4, target: 1 }
+    }
+  },
+  { id: 'w21', label: '21.09–30.09', short: '21.09–30.09',
+    impressions: 13923, clicks: 535, spend: 33377.81, leads: 66, target: 3,
+    ctr: 3.84, cpc: 62, cpa: 506, cpl: 11126, convLead: 12.34, convTarget: 4.55,
+    // Недельной SEO-выгрузки за 21.09–30.09 нет (см. w20).
+    seo: 0, seoLeads: 1, seoTarget: 1,
+    otherLeads: 55, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 0, clicks: 0, spend: 0.0, leads: 0, target: 0 },
+      'e-17228851': { imp: 4422, clicks: 134, spend: 1898.4, leads: 0, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0.0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 698, clicks: 29, spend: 0.0, leads: 0, target: 0 },
+      'porg-l2oigjze': { imp: 8803, clicks: 372, spend: 31479.41, leads: 10, target: 2 }
+    }
+  }
 ];
 
 // Месяц недели определяется по дате её окончания; переходящие недели не дробятся.
@@ -573,7 +600,7 @@ const months = [
   { id: 'm2', label: 'Июнь 2026', short: 'Июнь', weeks: ['w5','w6','w7','w8','w9'], dateRange: '01.06–30.06' },
   { id: 'm3', label: 'Июль 2026', short: 'Июль', weeks: ['w10', 'w11', 'w12'], dateRange: '01.07–31.07' },
   { id: 'm4', label: 'Август 2026', short: 'Август', weeks: ['w14','w15','w16','w17'], dateRange: '01.08–31.08' },
-  { id: 'm5', label: 'Сентябрь 2026', short: 'Сентябрь', weeks: ['w18','w19'], dateRange: '31.08–13.09' }
+  { id: 'm5', label: 'Сентябрь 2026', short: 'Сентябрь', weeks: ['w18','w19','w20','w21'], dateRange: '31.08–30.09' }
 ];
 
 // Exact month snapshot from the full 01.07–31.07 export.
@@ -611,11 +638,58 @@ const monthDataOverrides = {
       'porg-3uieikjn': { imp: 4036, clicks: 140, spend: 0, leads: 0, target: 0 },
       'porg-l2oigjze': { imp: 61557, clicks: 1268, spend: 40341.57, leads: 3, target: 0 }
     }
+  },
+  // Exact September export from Yandex Direct + CRM + Webmaster (01.09-30.09.2026).
+  // 5 кабинетов (e-20010227 и dune-group без расхода) · лиды = все записи CRM · SEO = клики Вебмастера.
+  'm5': {
+    id: 'm5', label: 'Сентябрь 2026', short: 'Сентябрь',
+    impressions: 108872, clicks: 4741, spend: 126153.36,
+    leads: 175, target: 13,
+    ctr: 4.35, cpc: 26.61, cpa: 720.88, cpl: 9704.1,
+    convLead: 3.69, convTarget: 7.43,
+    seo: 236, seoLeads: 2, seoTarget: 1,
+    otherLeads: 134, otherTarget: 0, instagramLeads: 1, instagramTarget: 1,
+    accounts: {
+      'e-20010227': { imp: 0, clicks: 0, spend: 0.0, leads: 0, target: 0 },
+      'e-17228851': { imp: 69416, clicks: 3528, spend: 37179.31, leads: 11, target: 7 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0.0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 2238, clicks: 105, spend: 0.0, leads: 0, target: 0 },
+      'porg-l2oigjze': { imp: 37218, clicks: 1108, spend: 88974.05, leads: 27, target: 4 }
+    }
   }
+
 };
 
 // SEO weekly data (from Yandex Metrika)
 const seoWeeklyData = {
+  'w19': {
+    // Вебмастер за 07.09–13.09: 59 кликов/визитов (файл страниц).
+    stats: { visits: 59, users: null, bounceRate: null, pageDepth: null, avgDuration: null },
+    topPages: [
+      { url: 'https://dune-group.ru/prices', visits: 31, bounceRate: null },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 15, bounceRate: null },
+      { url: 'https://dune-group.ru/', visits: 3, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 3, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-dvuhkomnatnoi-kvartiri', visits: 2, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-v-novostroike', visits: 1, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-ofisov', visits: 1, bounceRate: null },
+      { url: 'https://dune-group.ru/stroika', visits: 1, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-gostinici', visits: 1, bounceRate: null },
+      { url: 'https://dune-group.ru/requisites', visits: 1, bounceRate: null }
+    ],
+    searchQueries: [
+      { query: 'расценки на строительные работы в ростове на дону прайс-лист 2026', visits: 3 },
+      { query: 'прайс-лист на строительные работы в ростовской области на 2026 год', visits: 2 },
+      { query: 'расценки на внутренние отделочные работы в ростове на дону', visits: 2 },
+      { query: 'ремонт квартир в ростове на дону расценки', visits: 1 },
+      { query: 'ремонт под ключ ростов на дону цена за м2 в новостройке', visits: 1 },
+      { query: 'стоимость ремонта квартиры под ключ за квадратный метр ростов на дону', visits: 1 },
+      { query: 'ремонт под ключ ростов на дону', visits: 1 },
+      { query: 'прайс-лист на отделочные работы в ростове на дону 2026', visits: 1 },
+      { query: 'стоимость ремонта квартиры за 1 кв.м в ростове на дону', visits: 1 },
+      { query: 'стоимость ремонта квартиры 1 м', visits: 1 }
+    ],
+  },
   'w1': {
     stats: { visits: 34, users: 31, bounceRate: 2.94, pageDepth: 3.29, avgDuration: 159 },
     topPages: [
@@ -1025,32 +1099,32 @@ const seoWeeklyData = {
     ],
   },
   'all': {
-    stats: { visits: 780, users: 542, bounceRate: 6.93, pageDepth: 3.29, avgDuration: 159 },
+    stats: { visits: 1006, users: 542, bounceRate: 6.93, pageDepth: 3.29, avgDuration: 159 },
     topPages: [
-      { url: 'https://dune-group.ru/', visits: 162, bounceRate: 3.76 },
-      { url: 'https://dune-group.ru/prices', visits: 157, bounceRate: 4.27 },
-      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 109, bounceRate: 3.49 },
-      { url: 'https://dune-group.ru/designapartments', visits: 41, bounceRate: 5.13 },
-      { url: 'https://dune-group.ru/designerepairdune', visits: 39, bounceRate: 2.56 },
-      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 22, bounceRate: 0.0 },
-      { url: 'https://dune-group.ru/designhouses', visits: 19, bounceRate: 5.88 },
-      { url: 'https://dune-group.ru/dom', visits: 14, bounceRate: 28.57 },
-      { url: 'https://dune-group.ru/remont-kuhni', visits: 8, bounceRate: 0.0 },
-      { url: 'https://dune-group.ru/kommercheskii-remont', visits: 6, bounceRate: 16.67 },
+      { url: 'https://dune-group.ru/prices', visits: 269, bounceRate: null },
+      { url: 'https://dune-group.ru/', visits: 198, bounceRate: null },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 177, bounceRate: null },
+      { url: 'https://dune-group.ru/designapartments', visits: 41, bounceRate: null },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 39, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 28, bounceRate: null },
+      { url: 'https://dune-group.ru/dom', visits: 21, bounceRate: null },
+      { url: 'https://dune-group.ru/designhouses', visits: 19, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-dvuhkomnatnoi-kvartiri', visits: 18, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-kuhni', visits: 15, bounceRate: null }
     ],
     searchQueries: [
+      { query: 'расценки на внутренние отделочные работы в ростове на дону', visits: 8 },
+      { query: 'ремонт под ключ ростов на дону цена за м2 в новостройке', visits: 8 },
+      { query: 'dune group', visits: 7 },
       { query: 'dune group, ростов-на-дону', visits: 7 },
-      { query: 'dune group', visits: 5 },
-      { query: 'прайс-лист на отделочные работы в ростове на дону 2026', visits: 5 },
+      { query: 'прайс лист на ремонтно строительные работы в ростове на дону', visits: 7 },
+      { query: 'прайс-лист на отделочные работы в ростове на дону 2026', visits: 6 },
+      { query: 'стоимость ремонта под ключ с материалами за м2 в ростове на дону', visits: 6 },
+      { query: 'расценки на строительные работы в ростове на дону прайс-лист 2026', visits: 5 },
       { query: 'ремонт под ключ', visits: 5 },
-      { query: 'стоимость ремонта под ключ с материалами за м2 в ростове на дону', visits: 5 },
-      { query: 'дюна групп ростов на дону', visits: 4 },
-      { query: 'дюна строительная компания', visits: 4 },
-      { query: 'расценки на внутренние отделочные работы в ростове на дону', visits: 4 },
-      { query: 'дизайн проект в жк донская слобода ростов на дону', visits: 3 },
-      { query: 'дун груп', visits: 3 },
+      { query: 'дюна групп ростов на дону', visits: 4 }
     ],
-  },
+  }
 };
 
 // Full-July SEO exports from Yandex Webmaster (01.07–31.07.2026).
@@ -1109,7 +1183,36 @@ const seoMonthlyData = {
       { query: 'прайс-лист на строительные работы в ростовской области 2026', visits: 3 },
       { query: 'прайс-лист на строительные работы в ростовской области на 2026 год', visits: 3 }
     ]
+  },
+  // Exact September export from Yandex Webmaster (01.09-30.09.2026): клики Вебмастера по страницам/запросам.
+  'm5': {
+    stats: { visits: 236, users: null, bounceRate: null, pageDepth: null, avgDuration: null },
+    topPages: [
+      { url: 'https://dune-group.ru/prices', visits: 91, bounceRate: null },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 46, bounceRate: null },
+      { url: 'https://dune-group.ru/', visits: 26, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-dvuhkomnatnoi-kvartiri', visits: 11, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-ofisov', visits: 7, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-v-novostroike', visits: 6, bounceRate: null },
+      { url: 'https://dune-group.ru/offers', visits: 5, bounceRate: null },
+      { url: 'https://dune-group.ru/dom', visits: 5, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 4, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-kuhni', visits: 4, bounceRate: null }
+    ],
+    searchQueries: [
+      { query: 'ремонт под ключ ростов на дону цена за м2 в новостройке', visits: 5 },
+      { query: 'ремонт 2 комнатной квартиры', visits: 4 },
+      { query: 'расценки на внутренние отделочные работы в ростове на дону', visits: 4 },
+      { query: 'расценки на строительные работы в ростове на дону прайс-лист 2026', visits: 3 },
+      { query: 'цены на ремонт квартир в ростове', visits: 3 },
+      { query: 'прайс-лист на строительные работы в ростовской области на 2026 год', visits: 3 },
+      { query: 'прайс лист на ремонтно строительные работы в ростове на дону', visits: 3 },
+      { query: 'ремонт квартиры с материалами цена', visits: 3 },
+      { query: 'ремонт квартиры 2 комнатной', visits: 3 },
+      { query: 'цены на ремонт в ростове', visits: 2 }
+    ]
   }
+
 };
 
 const weeklyDailyData = {
@@ -1153,6 +1256,10 @@ const weeklyDailyData = {
   'w18': {
     pattern: [0.14, 0.14, 0.14, 0.15, 0.14, 0.15, 0.14], startDate: '31.08'
   },
+  'w19': { pattern: [0.1429, 0.1429, 0.1429, 0.1429, 0.1429, 0.1429, 0.1422], startDate: '07.09' },
+  'w20': { pattern: [0.1429, 0.1429, 0.1429, 0.1429, 0.1429, 0.1429, 0.1426], startDate: '14.09' },
+  'w21': { pattern: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1], startDate: '21.09' }
+
 };
 
 function getDailyData(weekId) {

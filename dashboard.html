@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<!-- build: 2026-09-15 add w19 (07.09-13.09) (31.08–06.09) + Сентябрь -->
+<!-- build: 2026-10-05 add w20 (14.09-20.09) + w21 (21.09-30.09), September month snapshot, refresh w19 -->
 <title>DUNE GROUP — Дашборд рекламы</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -210,8 +210,8 @@ td:first-child{color:var(--txt);font-weight:600}
     <div class="period-wrap">
       <button id="periodTrigger" class="period-trigger" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="periodPopover" aria-label="Выбрать период">
         <span class="pt-mode" id="ptMode">Недели</span>
-        <span class="pt-ix" id="ptIx">w17</span>
-        <span class="pt-label" id="ptLabel">24.08–31.08</span>
+        <span class="pt-ix" id="ptIx">w21</span>
+        <span class="pt-label" id="ptLabel">21.09–30.09</span>
         <span class="pt-arrow" id="ptArrow" aria-hidden="true">▾</span>
       </button>
       <div id="periodPopover" class="period-popover" role="dialog" aria-modal="true" aria-label="Выбор периода" hidden>
@@ -280,7 +280,7 @@ td:first-child{color:var(--txt);font-weight:600}
   </div>
 
   <!-- SEO Section -->
-  <div class="sec-title" style="margin-top:8px"><span class="material-symbols-outlined mat">search</span> SEO Аналитика <span class="update-badge">SEO · выгрузка 01.08–31.08</span></div>
+  <div class="sec-title" style="margin-top:8px"><span class="material-symbols-outlined mat">search</span> SEO Аналитика <span class="update-badge">SEO · выгрузка 01.09–30.09</span></div>
   <div class="charts-grid" id="seoWidgets">
     <div class="chart-card">
       <div class="chart-h"><span class="material-symbols-outlined mat">trending_up</span> SEO Performance</div>
@@ -344,7 +344,7 @@ const weeks = [
   { id: 'w1', label: '04.05–10.05', short: '04.05–10.05',
     impressions: 130701, clicks: 922, spend: 12486, leads: 5, target: 0,
     ctr: 0.71, cpc: 14, cpa: 2497, cpl: null, convLead: 0.54, convTarget: 0,
-    seo: 39, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0,
+    seo: 39, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 48704, clicks: 475, spend: 12242, leads: 5, target: 0 },
       'e-17228851': { imp: 68377, clicks: 110, spend: 0, leads: 0, target: 0 },
@@ -355,7 +355,7 @@ const weeks = [
   { id: 'w2', label: '11.05–17.05', short: '11.05–17.05',
     impressions: 160986, clicks: 1531, spend: 20204, leads: 10, target: 6,
     ctr: 0.95, cpc: 13, cpa: 2020, cpl: 3367, convLead: 0.65, convTarget: 60.0,
-    seo: 35, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0,
+    seo: 35, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 68900, clicks: 1230, spend: 20204, leads: 9, target: 5 },
       'e-17228851': { imp: 84570, clicks: 120, spend: 0, leads: 1, target: 1 },
@@ -366,7 +366,7 @@ const weeks = [
   { id: 'w3', label: '18.05–24.05', short: '18.05–24.05',
     impressions: 163328, clicks: 5927, spend: 35844, leads: 10, target: 10,
     ctr: 3.63, cpc: 6, cpa: 3584, cpl: 3584, convLead: 0.17, convTarget: 100.0,
-    seo: 50, seoLeads: 1, seoTarget: 1, otherLeads: 6, otherTarget: 6,
+    seo: 50, seoLeads: 1, seoTarget: 1, otherLeads: 6, otherTarget: 6, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 55587, clicks: 1568, spend: 19179, leads: 3, target: 3 },
       'e-17228851': { imp: 97059, clicks: 4032, spend: 16665, leads: 0, target: 0 },
@@ -377,7 +377,7 @@ const weeks = [
   { id: 'w4', label: '25.05–31.05', short: '25.05–31.05',
     impressions: 150146, clicks: 4465, spend: 28757, leads: 5, target: 2,
     ctr: 2.97, cpc: 6, cpa: 5751, cpl: 14379, convLead: 0.11, convTarget: 40.0,
-    seo: 44, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0,
+    seo: 44, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 67151, clicks: 2654, spend: 23022, leads: 5, target: 2 },
       'e-17228851': { imp: 72942, clicks: 1463, spend: 5735, leads: 0, target: 0 },
@@ -388,7 +388,7 @@ const weeks = [
   { id: 'w5', label: '01.06–07.06', short: '01.06–07.06',
     impressions: 118346, clicks: 1541, spend: 27564, leads: 56, target: 8,
     ctr: 1.30, cpc: 18, cpa: 492, cpl: 3446, convLead: 3.63, convTarget: 14.29,
-    seo: 80, seoLeads: 0, seoTarget: 0, otherLeads: 36, otherTarget: 2,
+    seo: 80, seoLeads: 0, seoTarget: 0, otherLeads: 36, otherTarget: 2, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 49416, clicks: 805, spend: 27564, leads: 20, target: 6 },
       'e-17228851': { imp: 58292, clicks: 405, spend: 0, leads: 0, target: 0 },
@@ -399,7 +399,7 @@ const weeks = [
   { id: 'w6', label: '08.06–14.06', short: '08.06–14.06',
     impressions: 121040, clicks: 630, spend: 29894, leads: 38, target: 3,
     ctr: 0.52, cpc: 47, cpa: 787, cpl: 9965, convLead: 6.03, convTarget: 7.89,
-    seo: 72, seoLeads: 5, seoTarget: 1, otherLeads: 21, otherTarget: 0,
+    seo: 72, seoLeads: 5, seoTarget: 1, otherLeads: 21, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 53240, clicks: 542, spend: 27820, leads: 12, target: 2 },
       'e-17228851': { imp: 67615, clicks: 81, spend: 2074, leads: 0, target: 0 },
@@ -410,7 +410,7 @@ const weeks = [
   { id: 'w7', label: '15.06–21.06', short: '15.06–21.06',
     impressions: 133855, clicks: 627, spend: 29954, leads: 46, target: 12,
     ctr: 0.47, cpc: 48, cpa: 651, cpl: 2496, convLead: 7.34, convTarget: 26.09,
-    seo: 58, seoLeads: 1, seoTarget: 1, otherLeads: 28, otherTarget: 5,
+    seo: 58, seoLeads: 1, seoTarget: 1, otherLeads: 28, otherTarget: 5, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 73423, clicks: 572, spend: 29954, leads: 17, target: 6 },
       'e-17228851': { imp: 60211, clicks: 44, spend: 0, leads: 0, target: 0 },
@@ -421,7 +421,7 @@ const weeks = [
   { id: 'w8', label: '22.06–28.06', short: '22.06–28.06',
     impressions: 152560, clicks: 653, spend: 29683, leads: 34, target: 7,
     ctr: 0.43, cpc: 45, cpa: 873, cpl: 4240, convLead: 5.21, convTarget: 20.59,
-    seo: 22, seoLeads: 1, seoTarget: 1, otherLeads: 22, otherTarget: 2,
+    seo: 22, seoLeads: 1, seoTarget: 1, otherLeads: 22, otherTarget: 2, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 91107, clicks: 593, spend: 29683, leads: 11, target: 4 },
       'e-17228851': { imp: 61013, clicks: 40, spend: 0, leads: 0, target: 0 },
@@ -430,9 +430,9 @@ const weeks = [
     }
   },
   { id: 'w9', label: '29.06–05.07', short: '29.06–05.07',
-    impressions: 98963, clicks: 1200, spend: 33075, leads: 35, target: 10,
+    impressions: 98963, clicks: 1200, spend: 33076, leads: 35, target: 10,
     ctr: 1.21, cpc: 28, cpa: 945, cpl: 3308, convLead: 2.92, convTarget: 28.57,
-    seo: 55, seoLeads: 8, seoTarget: 4, otherLeads: 16, otherTarget: 1,
+    seo: 55, seoLeads: 8, seoTarget: 4, otherLeads: 16, otherTarget: 1, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 53253, clicks: 425, spend: 28105, leads: 11, target: 5 },
       'e-17228851': { imp: 45340, clicks: 757, spend: 4971, leads: 0, target: 0 },
@@ -444,7 +444,7 @@ const weeks = [
     impressions: 59882, clicks: 839, spend: 35776, leads: 35, target: 5,
     ctr: 1.40, cpc: 43, cpa: 1022, cpl: 7155, convLead: 4.17, convTarget: 14.29,
     seo: 53, seoLeads: 1, seoTarget: 0,
-    otherLeads: 22, otherTarget: 0,
+    otherLeads: 22, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 37219, clicks: 454, spend: 25679, leads: 11, target: 5 },
       'e-17228851': { imp: 22375, clicks: 371, spend: 10097, leads: 1, target: 0 },
@@ -456,7 +456,7 @@ const weeks = [
     impressions: 55986, clicks: 520, spend: 71256, leads: 36, target: 3,
     ctr: 0.93, cpc: 137, cpa: 1979, cpl: 23752, convLead: 6.92, convTarget: 8.33,
     seo: 59, seoLeads: 2, seoTarget: 0,
-    otherLeads: 23, otherTarget: 1,
+    otherLeads: 23, otherTarget: 1, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 26303, clicks: 280, spend: 57406, leads: 11, target: 2 },
       'e-17228851': { imp: 29456, clicks: 233, spend: 13850, leads: 0, target: 0 },
@@ -468,7 +468,7 @@ const weeks = [
     impressions: 73983, clicks: 5277, spend: 29917, leads: 36, target: 0,
     ctr: 7.13, cpc: 6, cpa: 831, cpl: null, convLead: 0.68, convTarget: 0,
     seo: 47, seoLeads: 0, seoTarget: 0,
-    otherLeads: 32, otherTarget: 0,
+    otherLeads: 32, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 1503, clicks: 35, spend: 3089, leads: 4, target: 0 },
       'e-17228851': { imp: 72271, clicks: 5231, spend: 26828, leads: 0, target: 0 },
@@ -478,9 +478,9 @@ const weeks = [
   },
   { id: 'w13', label: '27.07–02.08', short: '27.07–02.08',
     impressions: 27851, clicks: 2585, spend: 9899, leads: 47, target: 0,
-    ctr: 9.28, cpc: 4, cpa: 210, cpl: null, convLead: 1.82, convTarget: 0,
+    ctr: 9.28, cpc: 4, cpa: 211, cpl: null, convLead: 1.82, convTarget: 0,
     seo: 44, seoLeads: 2, seoTarget: 0,
-    otherLeads: 40, otherTarget: 0,
+    otherLeads: 40, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 3449, clicks: 51, spend: 1220, leads: 4, target: 0 },
       'e-17228851': { imp: 22320, clicks: 2481, spend: 8679, leads: 1, target: 0 },
@@ -492,7 +492,7 @@ const weeks = [
     impressions: 5279, clicks: 223, spend: 5440, leads: 43, target: 2,
     ctr: 4.22, cpc: 24, cpa: 127, cpl: 2720, convLead: 19.28, convTarget: 4.65,
     seo: 26, seoLeads: 1, seoTarget: 1,
-    otherLeads: 37, otherTarget: 1,
+    otherLeads: 37, otherTarget: 1, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 1414, clicks: 29, spend: 0, leads: 5, target: 0 },
       'e-17228851': { imp: 2620, clicks: 158, spend: 5440, leads: 0, target: 0 },
@@ -504,7 +504,7 @@ const weeks = [
     impressions: 2610, clicks: 74, spend: 1586, leads: 35, target: 2,
     ctr: 2.84, cpc: 21, cpa: 45, cpl: 793, convLead: 47.30, convTarget: 5.71,
     seo: 65, seoLeads: 1, seoTarget: 1,
-    otherLeads: 33, otherTarget: 1,
+    otherLeads: 33, otherTarget: 1, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 954, clicks: 19, spend: 1586, leads: 1, target: 0 },
       'e-17228851': { imp: 319, clicks: 11, spend: 0, leads: 0, target: 0 },
@@ -516,7 +516,7 @@ const weeks = [
     impressions: 34032, clicks: 1022, spend: 27298.78, leads: 39, target: 7,
     ctr: 3.00, cpc: 27, cpa: 700, cpl: 3900, convLead: 3.82, convTarget: 17.95,
     seo: 79, seoLeads: 0, seoTarget: 0,
-    otherLeads: 29, otherTarget: 2,
+    otherLeads: 29, otherTarget: 2, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 406, clicks: 8, spend: 0, leads: 0, target: 0 },
       'e-17228851': { imp: 1047, clicks: 86, spend: 11670.63, leads: 1, target: 0 },
@@ -529,7 +529,7 @@ const weeks = [
     impressions: 30503, clicks: 405, spend: 28154.46, leads: 40, target: 6,
     ctr: 1.33, cpc: 70, cpa: 704, cpl: 4692, convLead: 9.88, convTarget: 15.00,
     seo: 63, seoLeads: 0, seoTarget: 0,
-    otherLeads: 28, otherTarget: 3,
+    otherLeads: 28, otherTarget: 3, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
       'e-17228851': { imp: 343, clicks: 16, spend: 3440.97, leads: 4, target: 2 },
@@ -542,7 +542,7 @@ const weeks = [
     impressions: 20255, clicks: 282, spend: 22734.25, leads: 35, target: 3,
     ctr: 1.39, cpc: 81, cpa: 650, cpl: 7578, convLead: 12.41, convTarget: 8.57,
     seo: 56, seoLeads: 1, seoTarget: 0,
-    otherLeads: 23, otherTarget: 0,
+    otherLeads: 23, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
       'e-17228851': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
@@ -552,19 +552,46 @@ const weeks = [
     }
   },
   { id: 'w19', label: '07.09–13.09', short: '07.09–13.09',
-    impressions: 33434, clicks: 2187, spend: 35136.15, leads: 41, target: 3,
-    ctr: 6.54, cpc: 16, cpa: 11712, cpl: 857, convLead: 1.87, convTarget: 7.32,
+    impressions: 33426, clicks: 2187, spend: 35136.15, leads: 41, target: 4,
+    ctr: 6.54, cpc: 16, cpa: 857, cpl: 8784, convLead: 1.87, convTarget: 9.76,
     seo: 59, seoLeads: 0, seoTarget: 0,
-    otherLeads: 31, otherTarget: 1,
+    otherLeads: 30, otherTarget: 0, instagramLeads: 1, instagramTarget: 1,
     accounts: {
-      'e-20010227': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
-      'e-17228851': { imp: 27539, clicks: 1920, spend: 16980.90, leads: 4, target: 1 },
-      'dune-group': { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 },
-      'porg-3uieikjn': { imp: 724, clicks: 37, spend: 0, leads: 0, target: 0 },
-      'porg-l2oigjze': { imp: 5171, clicks: 230, spend: 18155.25, leads: 6, target: 1 }
+      'e-20010227': { imp: 0, clicks: 0, spend: 0.0, leads: 0, target: 0 },
+      'e-17228851': { imp: 27531, clicks: 1920, spend: 16980.9, leads: 5, target: 3 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0.0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 724, clicks: 37, spend: 0.0, leads: 0, target: 0 },
+      'porg-l2oigjze': { imp: 5171, clicks: 230, spend: 18155.25, leads: 5, target: 0 }
+    }
+  },
+  { id: 'w20', label: '14.09–20.09', short: '14.09–20.09',
+    impressions: 44445, clicks: 1769, spend: 37509.58, leads: 37, target: 3,
+    ctr: 3.98, cpc: 21, cpa: 1014, cpl: 12503, convLead: 2.09, convTarget: 8.11,
+    // Недельной SEO-выгрузки за 14.09–20.09 нет: месячный экспорт Вебмастера не режется по неделям.
+    seo: 0, seoLeads: 0, seoTarget: 0,
+    otherLeads: 29, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 0, clicks: 0, spend: 0.0, leads: 0, target: 0 },
+      'e-17228851': { imp: 37463, clicks: 1474, spend: 18300.01, leads: 4, target: 2 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0.0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 446, clicks: 28, spend: 0.0, leads: 0, target: 0 },
+      'porg-l2oigjze': { imp: 6536, clicks: 267, spend: 19209.57, leads: 4, target: 1 }
+    }
+  },
+  { id: 'w21', label: '21.09–30.09', short: '21.09–30.09',
+    impressions: 13923, clicks: 535, spend: 33377.81, leads: 66, target: 3,
+    ctr: 3.84, cpc: 62, cpa: 506, cpl: 11126, convLead: 12.34, convTarget: 4.55,
+    // Недельной SEO-выгрузки за 21.09–30.09 нет (см. w20).
+    seo: 0, seoLeads: 1, seoTarget: 1,
+    otherLeads: 55, otherTarget: 0, instagramLeads: 0, instagramTarget: 0,
+    accounts: {
+      'e-20010227': { imp: 0, clicks: 0, spend: 0.0, leads: 0, target: 0 },
+      'e-17228851': { imp: 4422, clicks: 134, spend: 1898.4, leads: 0, target: 0 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0.0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 698, clicks: 29, spend: 0.0, leads: 0, target: 0 },
+      'porg-l2oigjze': { imp: 8803, clicks: 372, spend: 31479.41, leads: 10, target: 2 }
     }
   }
-
 ];
 
 // Месяц недели определяется по дате её окончания; переходящие недели не дробятся.
@@ -573,7 +600,7 @@ const months = [
   { id: 'm2', label: 'Июнь 2026', short: 'Июнь', weeks: ['w5','w6','w7','w8','w9'], dateRange: '01.06–30.06' },
   { id: 'm3', label: 'Июль 2026', short: 'Июль', weeks: ['w10', 'w11', 'w12'], dateRange: '01.07–31.07' },
   { id: 'm4', label: 'Август 2026', short: 'Август', weeks: ['w14','w15','w16','w17'], dateRange: '01.08–31.08' },
-  { id: 'm5', label: 'Сентябрь 2026', short: 'Сентябрь', weeks: ['w18','w19'], dateRange: '31.08–06.09' }
+  { id: 'm5', label: 'Сентябрь 2026', short: 'Сентябрь', weeks: ['w18','w19','w20','w21'], dateRange: '31.08–30.09' }
 ];
 
 // Exact month snapshot from the full 01.07–31.07 export.
@@ -586,7 +613,7 @@ const monthDataOverrides = {
     ctr: 3.61, cpc: 16.79, cpa: 1021.57, cpl: 10155.64,
     convLead: 1.64, convTarget: 10.06,
     seo: 216, seoLeads: 8, seoTarget: 3,
-    otherLeads: 120, otherTarget: 2,
+    otherLeads: 120, otherTarget: 2, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 103924, clicks: 1128, spend: 108221.25, leads: 35, target: 10 },
       'e-17228851': { imp: 178473, clicks: 9061, spend: 64424.62, leads: 6, target: 2 },
@@ -603,7 +630,7 @@ const monthDataOverrides = {
     ctr: 2.39, cpc: 35.76, cpa: 380.97, cpl: 3123.97,
     convLead: 9.39, convTarget: 12.20,
     seo: 246, seoLeads: 4, seoTarget: 2,
-    otherLeads: 131, otherTarget: 8,
+    otherLeads: 131, otherTarget: 8, instagramLeads: 0, instagramTarget: 0,
     accounts: {
       'e-20010227': { imp: 3255, clicks: 68, spend: 1586, leads: 25, target: 10 },
       'e-17228851': { imp: 4329, clicks: 271, spend: 20551.80, leads: 1, target: 0 },
@@ -611,11 +638,58 @@ const monthDataOverrides = {
       'porg-3uieikjn': { imp: 4036, clicks: 140, spend: 0, leads: 0, target: 0 },
       'porg-l2oigjze': { imp: 61557, clicks: 1268, spend: 40341.57, leads: 3, target: 0 }
     }
+  },
+  // Exact September export from Yandex Direct + CRM + Webmaster (01.09-30.09.2026).
+  // 5 кабинетов (e-20010227 и dune-group без расхода) · лиды = все записи CRM · SEO = клики Вебмастера.
+  'm5': {
+    id: 'm5', label: 'Сентябрь 2026', short: 'Сентябрь',
+    impressions: 108872, clicks: 4741, spend: 126153.36,
+    leads: 175, target: 13,
+    ctr: 4.35, cpc: 26.61, cpa: 720.88, cpl: 9704.1,
+    convLead: 3.69, convTarget: 7.43,
+    seo: 236, seoLeads: 2, seoTarget: 1,
+    otherLeads: 134, otherTarget: 0, instagramLeads: 1, instagramTarget: 1,
+    accounts: {
+      'e-20010227': { imp: 0, clicks: 0, spend: 0.0, leads: 0, target: 0 },
+      'e-17228851': { imp: 69416, clicks: 3528, spend: 37179.31, leads: 11, target: 7 },
+      'dune-group': { imp: 0, clicks: 0, spend: 0.0, leads: 0, target: 0 },
+      'porg-3uieikjn': { imp: 2238, clicks: 105, spend: 0.0, leads: 0, target: 0 },
+      'porg-l2oigjze': { imp: 37218, clicks: 1108, spend: 88974.05, leads: 27, target: 4 }
+    }
   }
+
 };
 
 // SEO weekly data (from Yandex Metrika)
 const seoWeeklyData = {
+  'w19': {
+    // Вебмастер за 07.09–13.09: 59 кликов/визитов (файл страниц).
+    stats: { visits: 59, users: null, bounceRate: null, pageDepth: null, avgDuration: null },
+    topPages: [
+      { url: 'https://dune-group.ru/prices', visits: 31, bounceRate: null },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 15, bounceRate: null },
+      { url: 'https://dune-group.ru/', visits: 3, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 3, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-dvuhkomnatnoi-kvartiri', visits: 2, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-v-novostroike', visits: 1, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-ofisov', visits: 1, bounceRate: null },
+      { url: 'https://dune-group.ru/stroika', visits: 1, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-gostinici', visits: 1, bounceRate: null },
+      { url: 'https://dune-group.ru/requisites', visits: 1, bounceRate: null }
+    ],
+    searchQueries: [
+      { query: 'расценки на строительные работы в ростове на дону прайс-лист 2026', visits: 3 },
+      { query: 'прайс-лист на строительные работы в ростовской области на 2026 год', visits: 2 },
+      { query: 'расценки на внутренние отделочные работы в ростове на дону', visits: 2 },
+      { query: 'ремонт квартир в ростове на дону расценки', visits: 1 },
+      { query: 'ремонт под ключ ростов на дону цена за м2 в новостройке', visits: 1 },
+      { query: 'стоимость ремонта квартиры под ключ за квадратный метр ростов на дону', visits: 1 },
+      { query: 'ремонт под ключ ростов на дону', visits: 1 },
+      { query: 'прайс-лист на отделочные работы в ростове на дону 2026', visits: 1 },
+      { query: 'стоимость ремонта квартиры за 1 кв.м в ростове на дону', visits: 1 },
+      { query: 'стоимость ремонта квартиры 1 м', visits: 1 }
+    ],
+  },
   'w1': {
     stats: { visits: 34, users: 31, bounceRate: 2.94, pageDepth: 3.29, avgDuration: 159 },
     topPages: [
@@ -1025,32 +1099,32 @@ const seoWeeklyData = {
     ],
   },
   'all': {
-    stats: { visits: 780, users: 542, bounceRate: 6.93, pageDepth: 3.29, avgDuration: 159 },
+    stats: { visits: 1006, users: 542, bounceRate: 6.93, pageDepth: 3.29, avgDuration: 159 },
     topPages: [
-      { url: 'https://dune-group.ru/', visits: 162, bounceRate: 3.76 },
-      { url: 'https://dune-group.ru/prices', visits: 157, bounceRate: 4.27 },
-      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 109, bounceRate: 3.49 },
-      { url: 'https://dune-group.ru/designapartments', visits: 41, bounceRate: 5.13 },
-      { url: 'https://dune-group.ru/designerepairdune', visits: 39, bounceRate: 2.56 },
-      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 22, bounceRate: 0.0 },
-      { url: 'https://dune-group.ru/designhouses', visits: 19, bounceRate: 5.88 },
-      { url: 'https://dune-group.ru/dom', visits: 14, bounceRate: 28.57 },
-      { url: 'https://dune-group.ru/remont-kuhni', visits: 8, bounceRate: 0.0 },
-      { url: 'https://dune-group.ru/kommercheskii-remont', visits: 6, bounceRate: 16.67 },
+      { url: 'https://dune-group.ru/prices', visits: 269, bounceRate: null },
+      { url: 'https://dune-group.ru/', visits: 198, bounceRate: null },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 177, bounceRate: null },
+      { url: 'https://dune-group.ru/designapartments', visits: 41, bounceRate: null },
+      { url: 'https://dune-group.ru/designerepairdune', visits: 39, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 28, bounceRate: null },
+      { url: 'https://dune-group.ru/dom', visits: 21, bounceRate: null },
+      { url: 'https://dune-group.ru/designhouses', visits: 19, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-dvuhkomnatnoi-kvartiri', visits: 18, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-kuhni', visits: 15, bounceRate: null }
     ],
     searchQueries: [
+      { query: 'расценки на внутренние отделочные работы в ростове на дону', visits: 8 },
+      { query: 'ремонт под ключ ростов на дону цена за м2 в новостройке', visits: 8 },
+      { query: 'dune group', visits: 7 },
       { query: 'dune group, ростов-на-дону', visits: 7 },
-      { query: 'dune group', visits: 5 },
-      { query: 'прайс-лист на отделочные работы в ростове на дону 2026', visits: 5 },
+      { query: 'прайс лист на ремонтно строительные работы в ростове на дону', visits: 7 },
+      { query: 'прайс-лист на отделочные работы в ростове на дону 2026', visits: 6 },
+      { query: 'стоимость ремонта под ключ с материалами за м2 в ростове на дону', visits: 6 },
+      { query: 'расценки на строительные работы в ростове на дону прайс-лист 2026', visits: 5 },
       { query: 'ремонт под ключ', visits: 5 },
-      { query: 'стоимость ремонта под ключ с материалами за м2 в ростове на дону', visits: 5 },
-      { query: 'дюна групп ростов на дону', visits: 4 },
-      { query: 'дюна строительная компания', visits: 4 },
-      { query: 'расценки на внутренние отделочные работы в ростове на дону', visits: 4 },
-      { query: 'дизайн проект в жк донская слобода ростов на дону', visits: 3 },
-      { query: 'дун груп', visits: 3 },
+      { query: 'дюна групп ростов на дону', visits: 4 }
     ],
-  },
+  }
 };
 
 // Full-July SEO exports from Yandex Webmaster (01.07–31.07.2026).
@@ -1109,7 +1183,36 @@ const seoMonthlyData = {
       { query: 'прайс-лист на строительные работы в ростовской области 2026', visits: 3 },
       { query: 'прайс-лист на строительные работы в ростовской области на 2026 год', visits: 3 }
     ]
+  },
+  // Exact September export from Yandex Webmaster (01.09-30.09.2026): клики Вебмастера по страницам/запросам.
+  'm5': {
+    stats: { visits: 236, users: null, bounceRate: null, pageDepth: null, avgDuration: null },
+    topPages: [
+      { url: 'https://dune-group.ru/prices', visits: 91, bounceRate: null },
+      { url: 'https://dune-group.ru/skolko-stoit-remont-kvartiry-rostov-2026', visits: 46, bounceRate: null },
+      { url: 'https://dune-group.ru/', visits: 26, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-dvuhkomnatnoi-kvartiri', visits: 11, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-ofisov', visits: 7, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-v-novostroike', visits: 6, bounceRate: null },
+      { url: 'https://dune-group.ru/offers', visits: 5, bounceRate: null },
+      { url: 'https://dune-group.ru/dom', visits: 5, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-vannoy-i-tualeta', visits: 4, bounceRate: null },
+      { url: 'https://dune-group.ru/remont-kuhni', visits: 4, bounceRate: null }
+    ],
+    searchQueries: [
+      { query: 'ремонт под ключ ростов на дону цена за м2 в новостройке', visits: 5 },
+      { query: 'ремонт 2 комнатной квартиры', visits: 4 },
+      { query: 'расценки на внутренние отделочные работы в ростове на дону', visits: 4 },
+      { query: 'расценки на строительные работы в ростове на дону прайс-лист 2026', visits: 3 },
+      { query: 'цены на ремонт квартир в ростове', visits: 3 },
+      { query: 'прайс-лист на строительные работы в ростовской области на 2026 год', visits: 3 },
+      { query: 'прайс лист на ремонтно строительные работы в ростове на дону', visits: 3 },
+      { query: 'ремонт квартиры с материалами цена', visits: 3 },
+      { query: 'ремонт квартиры 2 комнатной', visits: 3 },
+      { query: 'цены на ремонт в ростове', visits: 2 }
+    ]
   }
+
 };
 
 const weeklyDailyData = {
@@ -1153,6 +1256,10 @@ const weeklyDailyData = {
   'w18': {
     pattern: [0.14, 0.14, 0.14, 0.15, 0.14, 0.15, 0.14], startDate: '31.08'
   },
+  'w19': { pattern: [0.1429, 0.1429, 0.1429, 0.1429, 0.1429, 0.1429, 0.1422], startDate: '07.09' },
+  'w20': { pattern: [0.1429, 0.1429, 0.1429, 0.1429, 0.1429, 0.1429, 0.1426], startDate: '14.09' },
+  'w21': { pattern: [0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1], startDate: '21.09' }
+
 };
 
 function getDailyData(weekId) {
@@ -1258,6 +1365,8 @@ function aggregateWeeks(weekIds, label, monthId) {
     acc.seoTarget += w.seoTarget || 0;
     acc.otherLeads += w.otherLeads || 0;
     acc.otherTarget += w.otherTarget || 0;
+    acc.instagramLeads += w.instagramLeads || 0;
+    acc.instagramTarget += w.instagramTarget || 0;
 
     Object.entries(w.accounts).forEach(([name, a]) => {
       if (!acc.accounts[name]) acc.accounts[name] = { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 };
@@ -1269,7 +1378,7 @@ function aggregateWeeks(weekIds, label, monthId) {
     });
     return acc;
   }, { id: monthId, impressions: 0, clicks: 0, spend: 0, leads: 0, target: 0,
-      seo: 0, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, accounts: {} });
+      seo: 0, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, instagramLeads: 0, instagramTarget: 0, accounts: {} });
 
   agg.ctr = agg.impressions > 0 ? (agg.clicks / agg.impressions * 100) : 0;
   agg.cpc = agg.clicks > 0 ? (agg.spend / agg.clicks) : 0;
@@ -1537,6 +1646,8 @@ function renderDetailTable(data) {
     acc.seoTarget += w.seoTarget || 0;
     acc.otherLeads += w.otherLeads || 0;
     acc.otherTarget += w.otherTarget || 0;
+    acc.instagramLeads += w.instagramLeads || 0;
+    acc.instagramTarget += w.instagramTarget || 0;
     Object.entries(w.accounts).forEach(([name, a]) => {
       if (!acc.accounts[name]) acc.accounts[name] = { imp: 0, clicks: 0, spend: 0, leads: 0, target: 0 };
       acc.accounts[name].imp += a.imp;
@@ -1547,7 +1658,7 @@ function renderDetailTable(data) {
     });
     return acc;
   }, { impressions: 0, clicks: 0, spend: 0, leads: 0, target: 0,
-      seoVisits: 0, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, accounts: {} });
+      seoVisits: 0, seoLeads: 0, seoTarget: 0, otherLeads: 0, otherTarget: 0, instagramLeads: 0, instagramTarget: 0, accounts: {} });
 
   const directLeads = Object.values(totals.accounts).reduce((s, a) => s + a.leads, 0);
   const directTarget = Object.values(totals.accounts).reduce((s, a) => s + a.target, 0);
@@ -1608,6 +1719,14 @@ function renderDetailTable(data) {
     <td>${totals.seoTarget}</td><td>${seoConvTarget}</td><td>\u2014</td><td>\u2014</td>
   </tr>`;
 
+  // Instagram row
+  const instaConv = totals.instagramLeads > 0 ? (totals.instagramTarget / totals.instagramLeads * 100).toFixed(2) + '%' : '\u2014';
+  html += `<tr class="row-channel">
+    <td>Instagram</td><td>\u2014</td><td>\u2014</td><td>\u2014</td><td>\u2014</td>
+    <td>${totals.instagramLeads}</td><td>\u2014</td><td>\u2014</td>
+    <td>${totals.instagramTarget}</td><td>${instaConv}</td><td>\u2014</td><td>\u2014</td>
+  </tr>`;
+
   // Other row
   const otherConvTarget = totals.otherLeads > 0 ? (totals.otherTarget / totals.otherLeads * 100).toFixed(2) + '%' : '\u2014';
   html += `<tr class="row-channel">
@@ -1626,7 +1745,7 @@ function renderDetailTable(data) {
 function renderSummaryTable() {
   let html = `<table><thead><tr>
     <th>Неделя</th><th>Показы</th><th>Клики</th><th>CTR</th><th>CPC</th>
-    <th>Лиды</th><th>Ц. Лиды</th><th>CPA</th><th>CPL</th><th>Расход</th><th>SEO</th>
+    <th>Лиды</th><th>Ц. Лиды</th><th>CPA</th><th>CPL</th><th>Расход</th><th>SEO</th><th>Instagram</th>
   </tr></thead><tbody>`;
 
   weeks.forEach(w => {
@@ -1642,14 +1761,16 @@ function renderSummaryTable() {
       <td>${w.cpl ? rub(w.cpl) : '\u2014'}</td>
       <td>${rub(w.spend)}</td>
       <td>${w.seo || 0}</td>
+      <td>${w.instagramLeads || 0}</td>
     </tr>`;
   });
 
   const t = weeks.reduce((a, w) => {
     a.imp += w.impressions; a.clk += w.clicks; a.spd += w.spend;
     a.lds += w.leads; a.tgt += w.target; a.seo += w.seo || 0;
+    a.instagram += w.instagramLeads || 0;
     return a;
-  }, { imp: 0, clk: 0, spd: 0, lds: 0, tgt: 0, seo: 0 });
+  }, { imp: 0, clk: 0, spd: 0, lds: 0, tgt: 0, seo: 0, instagram: 0 });
 
   html += `<tr class="row-total">
     <td>ВСЕГО</td><td>${fmt(t.imp)}</td><td>${fmt(t.clk)}</td>
@@ -1657,7 +1778,7 @@ function renderSummaryTable() {
     <td>${t.lds}</td><td>${t.tgt}</td>
     <td>${t.lds > 0 ? rub(t.spd / t.lds) : '\u2014'}</td>
     <td>${t.tgt > 0 ? rub(t.spd / t.tgt) : '\u2014'}</td>
-    <td>${rub(t.spd)}</td><td>${t.seo}</td>
+    <td>${rub(t.spd)}</td><td>${t.seo}</td><td>${t.instagram}</td>
   </tr>`;
 
   html += '</tbody></table>';
